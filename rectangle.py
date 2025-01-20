@@ -173,14 +173,15 @@ class Rectangle:
         same_upper = np.array_equal(self.upper, other.upper)
         return same_lower and same_upper
     
-    def draw_2D(self, ax, dimx=0, dimy=1,boundary_color = "r-", fill_color = "red", min = None, max = None):
+    def draw_2D(self, ax, dimx=0, dimy=1,boundary_color = None, fill_color = "red", min = None, max = None):
         x_min, x_max = self.lower[dimx], self.upper[dimx]
         y_min, y_max = self.lower[dimy], self.upper[dimy]
 
         # Outline the rectangle
         x_coords = [x_min, x_max, x_max, x_min, x_min]
         y_coords = [y_min, y_min, y_max, y_max, y_min]
-        ax.plot(x_coords, y_coords, boundary_color, alpha = 0.1)
+        if boundary_color:
+            ax.plot(x_coords, y_coords, boundary_color, alpha = 0.1)
         ax.fill(x_coords, y_coords, color=fill_color, alpha=0.1)
 
         if min is not None and max is not None:

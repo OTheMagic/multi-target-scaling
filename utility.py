@@ -140,137 +140,234 @@ def make_score_plot(scores, dimx = None, dimy = None, figsize = (12, 12)):
 
 def scale_with_sampling(scores, rectangle, exclusion_rectangle=None, random_state=42):
     """
-    Perform a scaling operation on the input scores by appending a randomly sampled point 
-    from a specified rectangle region, optionally accounting for an exclusion rectangle.
+    Scales scores by appending a randomly sampled point from a rectangle region.
 
     Parameters
     ----------
     scores : numpy.ndarray
-        A 2D array of shape (n_samples, n_features) containing the original scores.
+        2D array of shape (n_samples, n_features) containing the original scores.
     rectangle : Rectangle
-        A hyper-rectangle object with `lower` and `upper` attributes used to determine
-        the sampling range.
+        Defines the sampling range with `lower` and `upper` bounds.
     exclusion_rectangle : Rectangle, optional
-        Another hyper-rectangle that, if it intersects with `rectangle`, will alter the 
-        lower boundary of the sampling region. Defaults to None.
+        Alters the lower boundary of the sampling region if it intersects `rectangle`.
     random_state : int, optional
-        Seed for the random number generator. Defaults to 42.
+        Seed for the random number generator.
 
     Returns
     -------
-    numpy.ndarray
-        A 2D array of the same shape as `scores` where each value is scaled by the 
-        standard deviation of the augmented data after sampling.
+    tuple
+        - Scaled scores as a 2D numpy array.
+        - Standard deviation of the scaled data along each feature.
     """
-    
-    
-    if (exclusion_rectangle is not None) and (rectangle.intersects(exclusion_rectangle)):
-        lower = exclusion_rectangle.upper
-        upper = rectangle.upper
-    else:
-        lower = rectangle.lower
-        upper = rectangle.upper
-
     np.random.seed(random_state)
-    point = np.array([np.random.uniform(lower, upper)])
-    scores_new = np.append(scores, point, axis=0)
-    scores_transpose = np.transpose(scores_new)
-    return np.transpose(np.transpose(scores) / np.transpose(np.array([np.std(scores_transpose, axis = 1)]))), np.std(scores_transpose, axis = 1)
+    
+    if exclusion_rectangle and rectangle.intersects(exclusion_rectangle):
+        lower, upper = exclusion_rectangle.upper, rectangle.upper
+    else:
+        lower, upper = rectangle.lower, rectangle.upper
+
+    sampled_point = np.random.uniform(lower, upper, size=(1, scores.shape[1]))
+    scores_new = np.append(scores, sampled_point, axis=0)
+    
+    std_dev = np.std(scores_new, axis=0)
+    scaled_scores = scores / std_dev
+    
+    return scaled_scores, std_dev
+
 
 def compute_prediction_region(scores, alpha, rect_to_scale, rect_exclusion=None):
     """
-    Helper function to:
-      1) Scale 'scores' by sampling from 'rect_to_scale', optionally excluding 'rect_exclusion'.
-      2) Compute the sup norm of the scaled data.
-      3) Determine the quantile threshold and create a Rectangle(quantile * scale).
-    """
-    # Scale the scores
-    scores_scaled, scale = scale_with_sampling(scores, rect_to_scale, rect_exclusion)
+    Scales scores and computes a prediction region using the quantile threshold.
+    
+    Parameters
+    ----------
+    scores : numpy.ndarray
+        Array of input scores.
+    alpha : float
+        Significance level for quantile computation.
+    rect_to_scale : Rectangle
+        Rectangle for scaling operations.
+    rect_exclusion : Rectangle, optional
+        Exclusion rectangle.
 
-    # Compute the sup norm (max along each row)
+    Returns
+    -------
+    Rectangle
+        A rectangle representing the prediction region.
+    """
+    scores_scaled, scale = scale_with_sampling(scores, rect_to_scale, rect_exclusion)
     max_norm_scaled = np.max(scores_scaled, axis=1)
 
-    # Determine the quantile level
     n = len(scores)
-    level = math.ceil((1 - alpha) * (n + 1)) / n
-    quantile_val = np.quantile(max_norm_scaled, level)
+    quantile_level = math.ceil((1 - alpha) * (n + 1)) / n
+    quantile_val = np.quantile(max_norm_scaled, quantile_level)
 
-    # Return the newly created Rectangle
     return Rectangle(quantile_val * scale)
 
-# Functions for the point method
-def full_prediction_regions_2D(scores, alpha, drawings = True, short_cut = True):
-    '''
-    Computes the full prediction regions in 2-dim
-    '''
-    regions = []
-    temp = np.append(scores, np.array([np.max(scores, axis=0)*1.2]), axis = 0)
-    scores_modified = np.append(temp, np.array([np.zeros(2)]), axis = 0)
-    scores_sorted = np.sort(np.transpose(scores_modified), axis = 1, kind = "mergesort") #O(nlogn)
-    n = len(scores_modified)
-    level = math.ceil((1-alpha)*(n-1))
 
-    if short_cut == True:
+def reorder_dimensions_by_variance(scores_transpose):
+    """
+    Reorders scores by decreasing variance along each dimension.
+    
+    Parameters
+    ----------
+    scores_transpose : numpy.ndarray
+        Transposed scores array (features as rows).
+    
+    Returns
+    -------
+    numpy.ndarray
+        Reordered scores.
+    """
+    variances = np.var(scores_transpose, axis=1)
+    sorted_indices = np.argsort(variances)[::-1]
+    return scores_transpose[sorted_indices, :]
 
-        # Helper function to perform binary-sort like searching in each row
-        def binary_sort_row(idy, start, end):
-            '''Time complexity: O(logn)'''
-            height = scores_sorted[1][idy]
-            height_prev = scores_sorted[1][idy-1]
-            if end == start+1:
-                upper = (scores_sorted[0][start], height)
-                lower = (scores_sorted[0][start-1], height_prev)
-                rectangle = Rectangle(upper, lower)
-                region = compute_prediction_region(scores, alpha, rectangle)
-                if region.intersection(rectangle) is not None:
-                   regions.append(region.intersection(rectangle))
-            else: 
-                mid = (end+start)//2
-                upper = (scores_sorted[0][mid], height)
-                lower = (scores_sorted[0][mid-1], height_prev)
-                rectangle = Rectangle(upper, lower)
-                region = compute_prediction_region(scores, alpha, rectangle)
 
-                # Case 1: no intersection found
-                if region.intersection(rectangle) is None:
-                    binary_sort_row(idy, start, mid)
-                # Case 2: full intersection
-                elif region.intersection(rectangle).same_as(rectangle):
-                    binary_sort_row(idy, mid, end)
-                # Case 3: this is exactly the edge
-                else:
-                    if idy <= level:
-                        new_lower = (scores_sorted[0][level], height_prev)
-                    else:
-                        new_lower = (0, height_prev)
-                    rectangle_new = Rectangle(upper, new_lower)
-                    regions.append(region.intersection(rectangle_new))
+def scores_completion_sorted(scores):
+    """
+    Completes scores with additional points for prediction region computations.
+    
+    Parameters
+    ----------
+    scores : numpy.ndarray
+        Original scores array.
+    
+    Returns
+    -------
+    numpy.ndarray
+        Sorted and augmented scores.
+    """
+    unique_scores = np.unique(scores, axis=0)
+    max_point = np.max(scores, axis=0) * 1.2
+    augmented_scores = np.append(unique_scores, [max_point, np.zeros_like(max_point)], axis=0)
+    return np.sort(augmented_scores, axis=0)
 
-        # O(nlogn)
-        for idy in range(1,n):
-            if idy <= level:
-                binary_sort_row(idy, level+1, n-1)
-            else:
-                binary_sort_row(idy, 1, n-1)
+def full_prediction_regions_2D(scores, alpha, one_rect=True, short_cut=True):
+    """
+    Computes the full prediction regions in 2D.
+    
+    Parameters
+    ----------
+    scores : numpy.ndarray
+        2D array of scores.
+    alpha : float
+        Significance level for region computation.
+    one_rect : bool, optional
+        Whether to compute a single rectangle or multiple regions. Defaults to True.
+    short_cut : bool, optional
+        Whether to use the shortcut optimization. Defaults to True.
+    
+    Returns
+    -------
+    Rectangle or list of Rectangles
+        Prediction region(s) based on the input parameters.
+    """
+    scores_modified = scores_completion_sorted(scores)
+    scores_sorted = reorder_dimensions_by_variance(np.transpose(scores_modified))
+    
+    n = len(scores)
+    level = math.ceil((1 - alpha) * (n + 1))
+
+    def create_rectangle(idx, idy):
+        """Helper to create a Rectangle based on index ranges."""
+        height, height_prev = scores_sorted[1][idy], scores_sorted[1][idy - 1]
+        upper = (scores_sorted[0][idx], height)
+        lower = (scores_sorted[0][idx - 1], height_prev)
+        return Rectangle(upper, lower)
+
+    def row_binary_search(idy, regions, start, end):
+        """Performs binary search to compute intersecting regions."""
+        if start == end:
+            rectangle = create_rectangle(start, idy)
+            region = compute_prediction_region(scores, alpha, rectangle)
+            if region.intersection(rectangle):
+                regions.append(region.intersection(rectangle))
+            return
+
+        mid = (start + end) // 2
+        rectangle = create_rectangle(mid, idy)
+        region = compute_prediction_region(scores, alpha, rectangle)
+        intersection = region.intersection(rectangle)
+
+        if not intersection:
+            row_binary_search(idy, regions, start, mid)
+        elif intersection.same_as(rectangle):
+            row_binary_search(idy, regions, mid, end)
+        else:
+            new_lower = (scores_sorted[0][level], scores_sorted[1][idy - 1]) if idy <= level else (0, scores_sorted[1][idy - 1])
+            regions.append(region.intersection(Rectangle(rectangle.upper, new_lower)))
+
+    def col_binary_search(idx, regions, start, end):
+        """Performs binary search to compute intersecting regions."""
+        if start == end:
+            rectangle = create_rectangle(idx, start)
+            region = compute_prediction_region(scores, alpha, rectangle)
+            if region.intersection(rectangle):
+                regions.append(region.intersection(rectangle))
+            return
+
+        mid = (start + end) // 2
+        rectangle = create_rectangle(idx, mid)
+        region = compute_prediction_region(scores, alpha, rectangle)
+        intersection = region.intersection(rectangle)
+
+        if not intersection:
+            col_binary_search(idx, regions, start, mid)
+        elif intersection.same_as(rectangle):
+            col_binary_search(idx, regions, mid, end)
+        else:
+            new_lower = (scores_sorted[0][idx - 1], scores_sorted[1][level]) if idx <= level else (scores_sorted[0][idx - 1], 0)
+            regions.append(region.intersection(Rectangle(rectangle.upper, new_lower)))
+
+    if short_cut:
+        regions = []
+        max_right, max_top = 0, 0
+        for idy in range(1, n + 2):
+            row_binary_search(idy, regions, level, n+1)
+            last_region = regions[-1]
+            max_right = max(max_right, last_region.upper[0])
         
+        for idx in range(1, n+2):
+            col_binary_search(idx, regions, level, n+1)
+            last_region = regions[-1]
+            max_top = max(max_top, last_region.upper[1])
+
         Inclusion = Rectangle((scores_sorted[0][level], scores_sorted[1][level]))
         regions.append(Inclusion)     
+        if one_rect:
+            return Rectangle(upper=(max_right, max_top))
+        return regions
     else:
-        for idy in range(1,n):
-            fix = scores_sorted[1][idy]
-            fix_prev = scores_sorted[1][idy-1]
-            for idx in range(1, n):
-                upper = (scores_sorted[0][idx],fix)
-                lower = (scores_sorted[0][idx-1],fix_prev)
-                rectangle = Rectangle(upper, lower)
+        if one_rect:
+            max_right, max_top = 0, 0
+            for idy in range(1,n+2):
+                max_idx = 1
+                for idx in range(max_idx, n+2):
+                    rectangle = create_rectangle(idx, idy)
+                    region = compute_prediction_region(scores, alpha, rectangle)
+                    intersection = region.intersection(rectangle)
+                    if intersection:
+                            max_right = max(max_right, intersection.upper[0])
+                            max_top = max(max_top, intersection.upper[1])
+            return Rectangle(upper=(max_right, max_top))
+        
+        regions = []
+        for idy in range(1,n+2):
+            for idx in range(1, n+2):
+                rectangle = create_rectangle(idx, idy)
                 region = compute_prediction_region(scores, alpha, rectangle)
-                if region.intersection(rectangle) is not None:
-                        regions.append(region.intersection(rectangle))
+                intersection = region.intersection(rectangle)
+                if intersection:
+                        regions.append(intersection)
+        return regions
 
-    return regions
 
-def check_coverage_rate(scores, regions):
+def check_coverage_rate(scores, regions, one_rect = True):
     evaluation = np.zeros(len(scores))
-    for region in regions:
-        evaluation += region.contain_points(scores).astype(int)
-    return np.sum(evaluation)/(len(scores))
+    if one_rect == True:
+        evaluation += regions.contain_points(scores).astype(int)
+    else:
+        for region in regions:
+            evaluation += region.contain_points(scores).astype(int)
+    return np.sum(evaluation > 0)/(len(scores))
