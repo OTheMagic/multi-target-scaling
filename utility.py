@@ -6,139 +6,139 @@ from itertools import combinations
 from sklearn.model_selection import train_test_split
 from rectangle import Rectangle
 
-def calibration_split(X, y, test_cal_size = 0.2, cal_size = 0.5, random_state = 42):
+def calibration_split(X, y, test_cal_size=0.2, cal_size=0.5, random_state=42):
     """
-    Split the dataset into training, testing, and calibration sets in given proportions.
+    Split the dataset into training, testing, and calibration sets in specified proportions.
 
     Parameters
     ----------
     X : numpy.ndarray
         Feature matrix of shape (n_samples, n_features).
     y : numpy.ndarray
-        Target matrix of shape (n_samples, n_targets).
+        Target matrix of shape (n_samples,).
     test_cal_size : float, optional
-        The fraction of the dataset to include in the combined (test+calibration) subset.
-        Default: 0.2
+        Fraction of the dataset to include in the combined (test + calibration) subset. Default: 0.2.
     cal_size : float, optional
-        The fraction of the combined (test+calibration) subset to allocate for calibration.
-        Default: 0.5
+        Fraction of the combined (test + calibration) subset to allocate for calibration. Default: 0.5.
     random_state : int, optional
-        Controls the shuffling applied to the data before splitting. Pass an int for
-        reproducible output. Default: 42
+        Seed for random number generation to ensure reproducible results. Default: 42.
 
     Returns
     -------
-    X_train : numpy.ndarray
-        Training feature matrix.
-    X_test : numpy.ndarray
-        Test feature matrix.
-    X_cal : numpy.ndarray
-        Calibration feature matrix.
-    y_train : numpy.ndarray
-        Training target array.
-    y_test : numpy.ndarray
-        Test target array.
-    y_cal : numpy.ndarray
-        Calibration target array.
+    tuple
+        X_train, X_test, X_cal, y_train, y_test, y_cal : numpy.ndarray
+        Training, test, and calibration splits of the features and targets.
     """
-
+    # Split into training and combined test/calibration set
     X_train, X_test_cal, y_train, y_test_cal = train_test_split(X, y, test_size=test_cal_size, random_state=random_state)
+    
+    # Further split the test/calibration set into test and calibration subsets
     X_test, X_cal, y_test, y_cal = train_test_split(X_test_cal, y_test_cal, test_size=cal_size, random_state=random_state)
 
     return X_train, X_test, X_cal, y_train, y_test, y_cal
 
-def make_score_plot(scores, dimx = None, dimy = None, figsize = (12, 12)):
-    '''
-    Create subplots of pairwise dimensions of the vectorized scores.
+def make_2D_score_plot(scores, dimx, dimy, ax = None, figsize=(12, 12), limits = None):
+    """
+    Create a 2D scatter plot for a specific pair of dimensions.
 
     Parameters
     ----------
-    scores: numpy.ndarray
-        Matrix of shape (n_samples, n_features)
-    dimx : int, optional
-        Dimension index for the horizontal axis. Default: None
-    dimy : int, optional
-        Dimension index for the vertical axis. Default: None
-    
+    scores : numpy.ndarray
+        Matrix of shape (n_samples, n_features) representing the data to plot.
+    dimx : int
+        Index of the dimension for the x-axis.
+    dimy : int
+        Index of the dimension for the y-axis.
+    figsize : tuple, optional
+        Size of the figure in inches. Default: (12, 12).
+
     Returns
     -------
-    fig, axes : matplotlib Figure and Axes object(s)
-        The figure and array of axes used for plotting.
-    '''
+    tuple
+        fig, ax : matplotlib Figure and Axes object.
+    """
 
     n = scores.shape[1]
+    if not (0 <= dimx < n and 0 <= dimy < n):
+        raise ValueError(f"dimx={dimx} or dimy={dimy} out of range for {n}-dimensional data.")
+    if dimx == dimy:
+        raise ValueError("dimx and dimy must be different to form a valid 2D projection.")
+
     scores_transpose = np.transpose(scores)
+    if limits is None:
+        limits = [0, np.max(scores[:, [dimx, dimy]]) * 1.1]
 
-    # Case 1: A single pair (dimx, dimy) 
-    if dimx is not None and dimy is not None:
-
-        dimension_slice = scores_transpose[[dimx, dimy],:]
-        local_min = 0
-        local_max = np.max(dimension_slice, axis=1)*1.1
-
-        if not (0 <= dimx < n and 0 <= dimy < n):
-            raise ValueError(f"dimx={dimx} or dimy={dimy} out of range for {n}-dimensional rectangle.")
-        if dimx == dimy:
-            raise ValueError("dimx and dimy must be different to form a valid 2D projection.")
-        
-        fig, ax = plt.subplots(1, 1, figsize=figsize)
-        ax.scatter(scores_transpose[dimx], scores_transpose[dimy], s = 1)
-        ax.set_xlim(local_min, local_max[0])
-        ax.set_ylim(local_min, local_max[1])
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
+        ax.scatter(scores_transpose[dimx], scores_transpose[dimy], s=1)
+        ax.set_xlim(limits[0], limits[1])
+        ax.set_ylim(limits[0], limits[1])
         ax.set_aspect('equal', adjustable='box')
         ax.set_xlabel(f"Dimension {dimx}")
         ax.set_ylabel(f"Dimension {dimy}")
         ax.set_title(f"Projection on dims ({dimx}, {dimy})")
         plt.tight_layout()
-        #plt.show()
         return fig, ax
-
-    # Case 2: All pairwise projections 
-    elif dimx is None and dimy is None:
-
-        global_min = 0
-        global_max = np.max(scores)*1.1
-
-        # Helper function to draw 2D plot
-        def draw_2D(ax, dx, dy):
-            ax.scatter(scores_transpose[dx], scores_transpose[dy], s = 1)
-            ax.set_xlim(global_min, global_max)
-            ax.set_ylim(global_min, global_max)
-            ax.set_aspect('equal', adjustable='box')
-            ax.set_xlabel(f"Dimension {dx}")
-            ax.set_ylabel(f"Dimension {dy}")
-            ax.set_title(f"Projection on dims ({dx}, {dy})")
-
-        dim_pairs = list(combinations(range(n), 2))  # all unique pairs
-        num_plots = len(dim_pairs)
-
-        # Decide on a subplot grid layout
-        cols = min(num_plots, 3)
-        rows = math.ceil(num_plots / cols)
-
-        fig, axes = plt.subplots(rows, cols, figsize=(5*cols, 5*rows), squeeze=False)
-        axes = axes.flatten()  # Flatten for easy indexing
-
-        for idx, (dx, dy) in enumerate(dim_pairs):
-            ax = axes[idx]
-            draw_2D(ax, dx, dy)
-
-        # Hide any unused axes (if num_plots < rows*cols)
-        for j in range(num_plots, rows*cols):
-            fig.delaxes(axes[j])
-
-        plt.tight_layout()
-        #plt.show()
-        return fig, axes
     
-     # If only one of dimx or dimy is specified, raise an error
-    else:
-        raise ValueError(
-            "You must either provide both dimx and dimy for a single plot "
-            "or leave both as None to plot all dimension pairs."
-        )
+    ax.scatter(scores_transpose[dimx], scores_transpose[dimy], s=1)
+    ax.set_xlim(limits[0], limits[1])
+    ax.set_ylim(limits[0], limits[1])
+    ax.set_aspect('equal', adjustable='box')
+    ax.set_xlabel(f"Dimension {dimx}")
+    ax.set_ylabel(f"Dimension {dimy}")
+    ax.set_title(f"Projection on dims ({dimx}, {dimy})")
+    plt.tight_layout()
 
-def scale_with_sampling(scores, rectangle, exclusion_rectangle=None, random_state=42):
+
+def make_score_plot(scores, global_limit = True):
+    """
+    Create scatter plots of pairwise dimensions of vectorized scores.
+
+    Parameters
+    ----------
+    scores : numpy.ndarray
+        Matrix of shape (n_samples, n_features) representing the data to plot.
+    dimx : int, optional
+        Index of the dimension for the x-axis. Default: None (all pairs).
+    dimy : int, optional
+        Index of the dimension for the y-axis. Default: None (all pairs).
+    figsize : tuple, optional
+        Size of the figure in inches. Default: (12, 12).
+
+    Returns
+    -------
+    tuple
+        fig, axes : matplotlib Figure and Axes object(s).
+    """
+
+    n = scores.shape[1]
+    scores_transpose = np.transpose(scores)
+    # All pairwise projections
+    dim_pairs = list(combinations(range(n), 2))  # Unique pairs of dimensions
+    num_pairs = len(dim_pairs)
+
+    # Determine grid layout
+    cols = min(3, num_pairs)
+    rows = math.ceil(num_pairs / cols)
+
+    fig, axes = plt.subplots(rows, cols, figsize=(5 * cols, 5 * rows), squeeze=False)
+    axes = axes.flatten()  # Flatten for easy iteration
+
+    for idx, (dx, dy) in enumerate(dim_pairs):
+        if global_limit:
+            global_limits = [0, np.max(scores) * 1.1]
+            make_2D_score_plot(scores, dx, dy, axes[idx], global_limits)
+        else:
+            make_2D_score_plot(scores, dx, dy, axes[idx])
+
+    # Hide unused subplots
+    for idx in range(num_pairs, len(axes)):
+        fig.delaxes(axes[idx])
+
+    plt.tight_layout()
+    return fig, axes
+
+def scale_with_sampling(scores, rectangle, random_state=42):
     """
     Scales scores by appending a randomly sampled point from a rectangle region.
 
@@ -148,8 +148,6 @@ def scale_with_sampling(scores, rectangle, exclusion_rectangle=None, random_stat
         2D array of shape (n_samples, n_features) containing the original scores.
     rectangle : Rectangle
         Defines the sampling range with `lower` and `upper` bounds.
-    exclusion_rectangle : Rectangle, optional
-        Alters the lower boundary of the sampling region if it intersects `rectangle`.
     random_state : int, optional
         Seed for the random number generator.
 
@@ -160,11 +158,8 @@ def scale_with_sampling(scores, rectangle, exclusion_rectangle=None, random_stat
         - Standard deviation of the scaled data along each feature.
     """
     np.random.seed(random_state)
-    
-    if exclusion_rectangle and rectangle.intersects(exclusion_rectangle):
-        lower, upper = exclusion_rectangle.upper, rectangle.upper
-    else:
-        lower, upper = rectangle.lower, rectangle.upper
+
+    lower, upper = rectangle.lower, rectangle.upper
 
     sampled_point = np.random.uniform(lower, upper, size=(1, scores.shape[1]))
     scores_new = np.append(scores, sampled_point, axis=0)
@@ -174,8 +169,7 @@ def scale_with_sampling(scores, rectangle, exclusion_rectangle=None, random_stat
     
     return scaled_scores, std_dev
 
-
-def compute_prediction_region(scores, alpha, rect_to_scale, rect_exclusion=None):
+def compute_prediction_region(scores, alpha, rect_to_scale):
     """
     Scales scores and computes a prediction region using the quantile threshold.
     
@@ -187,15 +181,13 @@ def compute_prediction_region(scores, alpha, rect_to_scale, rect_exclusion=None)
         Significance level for quantile computation.
     rect_to_scale : Rectangle
         Rectangle for scaling operations.
-    rect_exclusion : Rectangle, optional
-        Exclusion rectangle.
 
     Returns
     -------
     Rectangle
         A rectangle representing the prediction region.
     """
-    scores_scaled, scale = scale_with_sampling(scores, rect_to_scale, rect_exclusion)
+    scores_scaled, scale = scale_with_sampling(scores, rect_to_scale)
     max_norm_scaled = np.max(scores_scaled, axis=1)
 
     n = len(scores)
@@ -224,7 +216,7 @@ def reorder_dimensions_by_variance(scores_transpose):
     return scores_transpose[sorted_indices, :]
 
 
-def scores_completion_sorted(scores):
+def scores_completion_sorted(scores, descending = True):
     """
     Completes scores with additional points for prediction region computations.
     
@@ -241,7 +233,10 @@ def scores_completion_sorted(scores):
     unique_scores = np.unique(scores, axis=0)
     max_point = np.max(scores, axis=0) * 1.2
     augmented_scores = np.append(unique_scores, [max_point, np.zeros_like(max_point)], axis=0)
-    return np.sort(augmented_scores, axis=0)
+    if descending:
+        return -np.sort(-augmented_scores, axis=0, kind="mergesort")
+    return np.sort(augmented_scores, axis=0, kind="mergesort")
+
 
 def full_prediction_regions_2D(scores, alpha, one_rect=True, short_cut=True):
     """
@@ -263,7 +258,7 @@ def full_prediction_regions_2D(scores, alpha, one_rect=True, short_cut=True):
     Rectangle or list of Rectangles
         Prediction region(s) based on the input parameters.
     """
-    scores_modified = scores_completion_sorted(scores)
+    scores_modified = scores_completion_sorted(scores, False)
     scores_sorted = reorder_dimensions_by_variance(np.transpose(scores_modified))
     
     n = len(scores)
@@ -339,20 +334,8 @@ def full_prediction_regions_2D(scores, alpha, one_rect=True, short_cut=True):
             return Rectangle(upper=(max_right, max_top))
         return regions
     else:
-        if one_rect:
-            max_right, max_top = 0, 0
-            for idy in range(1,n+2):
-                max_idx = 1
-                for idx in range(max_idx, n+2):
-                    rectangle = create_rectangle(idx, idy)
-                    region = compute_prediction_region(scores, alpha, rectangle)
-                    intersection = region.intersection(rectangle)
-                    if intersection:
-                            max_right = max(max_right, intersection.upper[0])
-                            max_top = max(max_top, intersection.upper[1])
-            return Rectangle(upper=(max_right, max_top))
-        
         regions = []
+        max_right, max_top = 0, 0
         for idy in range(1,n+2):
             for idx in range(1, n+2):
                 rectangle = create_rectangle(idx, idy)
@@ -360,10 +343,36 @@ def full_prediction_regions_2D(scores, alpha, one_rect=True, short_cut=True):
                 intersection = region.intersection(rectangle)
                 if intersection:
                         regions.append(intersection)
+                        max_right = max(max_right, intersection.upper[0])
+                        max_top = max(max_top, intersection.upper[1])
+        if one_rect:
+            return Rectangle(upper=(max_right, max_top))
         return regions
+    
 
 
-def check_coverage_rate(scores, regions, one_rect = True):
+def check_coverage_rate(scores, regions, one_rect=True):
+    """
+    Computes the coverage rate of a set of scores within given regions.
+
+    Parameters
+    ----------
+    scores : numpy.ndarray
+        A 2D array of shape (n_samples, n_features) representing the points to evaluate.
+    regions : Rectangle or list of Rectangle
+        The region(s) to check for point containment. If `one_rect` is True, this is a 
+        single `Rectangle` object. Otherwise, it is a list of `Rectangle` objects.
+    one_rect : bool, optional
+        If True, `regions` is treated as a single rectangle. If False, `regions` is
+        treated as a list of rectangles. Defaults to True.
+
+    Returns
+    -------
+    float
+        The coverage rate, defined as the proportion of `scores` that are contained in 
+        at least one region. The value ranges from 0 to 1.
+    """
+
     evaluation = np.zeros(len(scores))
     if one_rect == True:
         evaluation += regions.contain_points(scores).astype(int)
