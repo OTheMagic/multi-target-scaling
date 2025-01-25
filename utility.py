@@ -1,8 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 import math
-from itertools import combinations
+from itertools import combinations, product
 from sklearn.model_selection import train_test_split
 from rectangle import Rectangle
 
@@ -37,7 +36,7 @@ def calibration_split(X, y, test_cal_size=0.2, cal_size=0.5, random_state=42):
 
     return X_train, X_test, X_cal, y_train, y_test, y_cal
 
-def make_2D_score_plot(scores, dimx, dimy, ax = None, figsize=(12, 12), limits = None):
+def make_2D_score_plot(scores, dimx, dimy, ax = None, figsize=(8, 8), limits = None):
     """
     Create a 2D scatter plot for a specific pair of dimensions.
 
@@ -50,7 +49,7 @@ def make_2D_score_plot(scores, dimx, dimy, ax = None, figsize=(12, 12), limits =
     dimy : int
         Index of the dimension for the y-axis.
     figsize : tuple, optional
-        Size of the figure in inches. Default: (12, 12).
+        Size of the figure in inches. Default: (8, 8).
 
     Returns
     -------
@@ -66,14 +65,14 @@ def make_2D_score_plot(scores, dimx, dimy, ax = None, figsize=(12, 12), limits =
 
     scores_transpose = np.transpose(scores)
     if limits is None:
-        limits = [0, np.max(scores[:, [dimx, dimy]]) * 1.1]
+        limits = np.max(scores[:, [dimx, dimy]], axis = 0)*1.1
 
     if ax is None:
-        fig, ax = plt.subplots(figsize=figsize)
+        fig, ax = plt.subplots(1, 1, figsize=figsize)
         ax.scatter(scores_transpose[dimx], scores_transpose[dimy], s=1)
-        ax.set_xlim(limits[0], limits[1])
-        ax.set_ylim(limits[0], limits[1])
-        ax.set_aspect('equal', adjustable='box')
+        ax.set_xlim(0, limits[0])
+        ax.set_ylim(0, limits[1])
+        ax.set_aspect('equal', adjustable = "box")
         ax.set_xlabel(f"Dimension {dimx}")
         ax.set_ylabel(f"Dimension {dimy}")
         ax.set_title(f"Projection on dims ({dimx}, {dimy})")
@@ -81,14 +80,13 @@ def make_2D_score_plot(scores, dimx, dimy, ax = None, figsize=(12, 12), limits =
         return fig, ax
     
     ax.scatter(scores_transpose[dimx], scores_transpose[dimy], s=1)
-    ax.set_xlim(limits[0], limits[1])
-    ax.set_ylim(limits[0], limits[1])
-    ax.set_aspect('equal', adjustable='box')
+    ax.set_xlim(0, limits[0])
+    ax.set_ylim(0, limits[1])
+    ax.set_aspect('equal')
     ax.set_xlabel(f"Dimension {dimx}")
     ax.set_ylabel(f"Dimension {dimy}")
     ax.set_title(f"Projection on dims ({dimx}, {dimy})")
     plt.tight_layout()
-
 
 def make_score_plot(scores, global_limit = True):
     """
@@ -112,7 +110,6 @@ def make_score_plot(scores, global_limit = True):
     """
 
     n = scores.shape[1]
-    scores_transpose = np.transpose(scores)
     # All pairwise projections
     dim_pairs = list(combinations(range(n), 2))  # Unique pairs of dimensions
     num_pairs = len(dim_pairs)
@@ -126,8 +123,8 @@ def make_score_plot(scores, global_limit = True):
 
     for idx, (dx, dy) in enumerate(dim_pairs):
         if global_limit:
-            global_limits = [0, np.max(scores) * 1.1]
-            make_2D_score_plot(scores, dx, dy, axes[idx], global_limits)
+            global_limits = [np.max(scores) * 1.1, np.max(scores) * 1.1]
+            make_2D_score_plot(scores, dx, dy, axes[idx], limits = global_limits)
         else:
             make_2D_score_plot(scores, dx, dy, axes[idx])
 
@@ -138,7 +135,7 @@ def make_score_plot(scores, global_limit = True):
     plt.tight_layout()
     return fig, axes
 
-def scale_with_sampling(scores, rectangle, random_state=42):
+def scale_with_sampling(scores, rectangle, point = None):
     """
     Scales scores by appending a randomly sampled point from a rectangle region.
 
@@ -157,19 +154,15 @@ def scale_with_sampling(scores, rectangle, random_state=42):
         - Scaled scores as a 2D numpy array.
         - Standard deviation of the scaled data along each feature.
     """
-    np.random.seed(random_state)
-
-    lower, upper = rectangle.lower, rectangle.upper
-
-    sampled_point = np.random.uniform(lower, upper, size=(1, scores.shape[1]))
+    sampled_point = np.array([point]) if point is not None else np.array([rectangle.lower])
     scores_new = np.append(scores, sampled_point, axis=0)
-    
     std_dev = np.std(scores_new, axis=0)
+    
     scaled_scores = scores / std_dev
     
     return scaled_scores, std_dev
 
-def compute_prediction_region(scores, alpha, rect_to_scale):
+def compute_prediction_region(scores, alpha, rect_to_scale, point = None):
     """
     Scales scores and computes a prediction region using the quantile threshold.
     
@@ -187,7 +180,7 @@ def compute_prediction_region(scores, alpha, rect_to_scale):
     Rectangle
         A rectangle representing the prediction region.
     """
-    scores_scaled, scale = scale_with_sampling(scores, rect_to_scale)
+    scores_scaled, scale = scale_with_sampling(scores, rect_to_scale, point)
     max_norm_scaled = np.max(scores_scaled, axis=1)
 
     n = len(scores)
@@ -231,12 +224,11 @@ def scores_completion_sorted(scores, descending = True):
         Sorted and augmented scores.
     """
     unique_scores = np.unique(scores, axis=0)
-    max_point = np.max(scores, axis=0) * 1.2
+    max_point = np.max(scores, axis=0) * 10
     augmented_scores = np.append(unique_scores, [max_point, np.zeros_like(max_point)], axis=0)
     if descending:
         return -np.sort(-augmented_scores, axis=0, kind="mergesort")
     return np.sort(augmented_scores, axis=0, kind="mergesort")
-
 
 def full_prediction_regions_2D(scores, alpha, one_rect=True, short_cut=True):
     """
@@ -349,7 +341,93 @@ def full_prediction_regions_2D(scores, alpha, one_rect=True, short_cut=True):
             return Rectangle(upper=(max_right, max_top))
         return regions
     
+def one_rect_prediction_regions_nD(scores, alpha = 0.2, short_cut = True):
 
+    # Sort the transposed scores from smallest to largest coordinate-wise 
+    scores_sorted = np.transpose(scores_completion_sorted(scores, False))
+    
+    # Number of samples, number of dimensions, conformal index
+    n = scores.shape[0]
+    d = scores.shape[1]
+
+    # Grab the rectangle that contains the mean
+    scores_mean = np.mean(np.transpose(scores), axis=1)
+    abs_diff = np.abs(np.transpose(np.array([scores_mean])) - np.sort(np.transpose(scores), axis=1, kind="mergesort"))
+    mask = (np.transpose(np.array([scores_mean])) - np.sort(np.transpose(scores), axis=1, kind="mergesort")) > 0
+    abs_diff[mask] = np.inf 
+    mean_index = np.argmin(abs_diff, axis=1)+1
+
+    def create_hyper_rectangle(indices):
+
+        upper = [scores_sorted[dim][indices[dim]] for dim in range(d)]
+        lower = [scores_sorted[dim][indices[dim]-1] for dim in range(d)]
+
+        return Rectangle(upper, lower)
+    
+    def binary_search_dimension(scores_sorted, fixed_indices, point, dim_along, regions, start, end):
+
+        fix_point = np.copy(point)
+        if start >= end-1:
+            indices = np.copy(fixed_indices)
+            indices[dim_along] = end
+            rectangle = create_hyper_rectangle(indices)
+            fix_point[dim_along] = rectangle.lower[dim_along]
+            region = compute_prediction_region(scores, alpha, rectangle, fix_point)
+            if region.intersection(rectangle):
+                regions.append(region.intersection(rectangle))
+            return
+
+        mid = (start + end) // 2
+        indices = np.copy(fixed_indices)
+        indices[dim_along] = mid
+        rectangle = create_hyper_rectangle(indices)
+        fix_point[dim_along] = rectangle.lower[dim_along]
+        region = compute_prediction_region(scores, alpha, rectangle, fix_point)
+        intersection = region.intersection(rectangle)
+
+        if not intersection:
+            binary_search_dimension(scores_sorted, fixed_indices, point, dim_along, regions, start, mid)
+        elif intersection.same_as(rectangle):
+            binary_search_dimension(scores_sorted, fixed_indices, point, dim_along, regions, mid, end)
+        else:
+            #new_lower = [scores_sorted[dim][level] if dim == dim_along else scores_sorted[dim][fixed_indices[dim] - 1] for dim in range(d)]
+            regions.append(intersection)
+
+    if short_cut:
+        regions = []
+        max_bounds = np.zeros(d)
+        for idx in range(d):
+            fix_indices = np.copy(mean_index)
+            fix_indices[idx] = 1
+            binary_search_dimension(scores_sorted, fix_indices, scores_mean, idx, regions, 1, n+1)
+            max_bounds = np.maximum(max_bounds, regions[-1].upper)
+
+        return Rectangle(upper=max_bounds)
+    else:   
+
+        regions = []
+        max_bounds = np.zeros(d, dtype=float)
+        for indices in product(range(1, n+2), repeat=d):
+
+            indices = np.copy(indices)
+            rectangle = create_hyper_rectangle(indices)
+
+            point = np.zeros(d)
+            for i in range(d):
+                point[i] = scores_mean[i] if indices[i] == mean_index[i] else rectangle.lower[i]
+                    
+
+            region = compute_prediction_region(scores, alpha, rectangle, point)
+
+
+            intersection = region.intersection(rectangle)
+            if intersection:
+
+                regions.append(intersection)
+
+                max_bounds = np.maximum(max_bounds, intersection.upper)
+
+        return regions, Rectangle(upper=max_bounds)
 
 def check_coverage_rate(scores, regions, one_rect=True):
     """

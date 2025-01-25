@@ -92,7 +92,7 @@ class Rectangle:
         if np.any(new_lower >= new_upper):
             return None
 
-        return Rectangle(new_upper, lower = new_lower)
+        return Rectangle(new_upper, new_lower)
     
     def contain(self, point):
         """
@@ -169,8 +169,8 @@ class Rectangle:
             return False
 
         # Exact element-wise comparison
-        same_lower = np.array_equal(self.lower, other.lower)
-        same_upper = np.array_equal(self.upper, other.upper)
+        same_lower = np.all(np.isclose(self.lower, other.lower, rtol=0, atol=1e-8))
+        same_upper = np.all(np.isclose(self.upper, other.upper, rtol=0, atol=1e-8))
         return same_lower and same_upper
     
     def draw_2D(self, ax, dimx=0, dimy=1,boundary_color = None, fill_color = "red", min = None, max = None):
