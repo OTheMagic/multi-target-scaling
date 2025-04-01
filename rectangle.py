@@ -19,10 +19,10 @@ class Rectangle:
         """
         Parameters
         ----------
-        lower : array-like, optional
-            The lower (min) corner for each dimension. Default: the origin
         upper : array-like
             The upper (max) corner for each dimension.
+        lower : array-like, optional
+            The lower (min) corner for each dimension. Default: the origin
         """
         self.upper = np.array(upper, dtype=float)
 
@@ -35,10 +35,25 @@ class Rectangle:
         if (self.lower > self.upper).any():
             raise ValueError("Each dimension of 'lower' must be less than corresponding dimension of 'upper'.")
 
+    def update_upper(self, new_upper, index = None):
+
+        if index:    
+            self.upper[index] = new_upper
+        else:
+            self.upper = new_upper
+    
+    def update_lower(self, new_lower, index = None):
+
+        if index:    
+            self.lower[index] = new_lower
+        else:
+            self.lower = new_lower
+
+    # Basic information retrivers
     def info(self):
-        '''
+        """
         Return the lower and upper information of this hyper-rectangle.
-        '''
+        """
         return np.array([self.lower, self.upper])
     
     def dimensions(self):
@@ -47,12 +62,30 @@ class Rectangle:
         """
         return len(self.lower)
 
-    def length_along_dimension(self, d):
+    def length_along_dimensions(self):
         """
-        Return the length of the dth dimensional side of hyper-rectangle.
+        Return the side-lengths of hyper-rectangle.
         """
-        return self.upper[d] - self.lower[d]
+        d = self.dimensions()
+        lengths = np.zeros(d)
+        for i in range(d):
+            lengths[i] = self.upper[i] - self.lower[i]
+        
+        return lengths
+    
+    def volume(self):
+        """
+        Return the volume of the hyper-rectangle
+        """
+        lengths = self.length_along_dimensions()
+        volume = 1
+        for length in lengths:
+            volume = volume*length
+        
+        return volume
 
+
+    # Intersection configurators
     def intersects(self, other):
         """
         Check whether this hyper-rectangle intersects with another.
@@ -94,6 +127,32 @@ class Rectangle:
 
         return Rectangle(new_upper, new_lower)
     
+    def same_as(self, other):
+        """
+        Check if this rectangle is exactly the same as another rectangle.
+
+        Parameters
+        ----------
+        other : Rectangle
+            Another Rectangle instance.
+
+        Returns
+        -------
+        bool
+            True if both rectangles are identical in terms of 
+            their lower and upper coordinates; False otherwise.
+        """
+
+        # Optional: check if dimensionalities match
+        if self.lower.shape != other.lower.shape:
+            return False
+
+        # Exact element-wise comparison
+        same_lower = np.all(np.isclose(self.lower, other.lower, rtol=0, atol=1e-8))
+        same_upper = np.all(np.isclose(self.upper, other.upper, rtol=0, atol=1e-8))
+        return same_lower and same_upper
+    
+    # Coverage checkers
     def contain(self, point):
         """
         Check if a single point is contained in this rectangle.
@@ -141,39 +200,15 @@ class Rectangle:
             )
 
         # For each row in points, check lower[d] <= points[i, d] <= upper[d]
-        cond_lower = points > self.lower  # broadcasts lower across rows
-        cond_upper = points <= self.upper  # broadcasts upper across rows
-        # Combine and check across each dimension (axis=1)
+        cond_lower = (points >= self.lower) 
+        cond_upper = (points <= self.upper) 
         inside = np.all(cond_lower & cond_upper, axis=1)
 
         return inside
     
-    def same_as(self, other):
-        """
-        Check if this rectangle is exactly the same as another rectangle.
 
-        Parameters
-        ----------
-        other : Rectangle
-            Another Rectangle instance.
-
-        Returns
-        -------
-        bool
-            True if both rectangles are identical in terms of 
-            their lower and upper coordinates; False otherwise.
-        """
-
-        # Optional: check if dimensionalities match
-        if self.lower.shape != other.lower.shape:
-            return False
-
-        # Exact element-wise comparison
-        same_lower = np.all(np.isclose(self.lower, other.lower, rtol=0, atol=1e-8))
-        same_upper = np.all(np.isclose(self.upper, other.upper, rtol=0, atol=1e-8))
-        return same_lower and same_upper
-    
-    def draw_2D(self, ax, dimx=0, dimy=1,boundary_color = None, fill_color = "red", min = None, max = None):
+    # Graphing helpers
+    def draw_2D(self, ax, dimx=0, dimy=1,boundary_color = None, fill_color = "red", transparancy = 0.5, min = None, max = None):
         x_min, x_max = self.lower[dimx], self.upper[dimx]
         y_min, y_max = self.lower[dimy], self.upper[dimy]
 
@@ -181,8 +216,9 @@ class Rectangle:
         x_coords = [x_min, x_max, x_max, x_min, x_min]
         y_coords = [y_min, y_min, y_max, y_max, y_min]
         if boundary_color:
-            ax.plot(x_coords, y_coords, boundary_color, alpha = 0.1)
-        ax.fill(x_coords, y_coords, color=fill_color, alpha=0.1)
+            ax.plot(x_coords, y_coords, boundary_color, alpha = transparancy)
+        if fill_color:
+            ax.fill(x_coords, y_coords, color=fill_color, alpha=transparancy)
 
         if min is not None and max is not None:
             ax.set_xlim(min, max)
@@ -191,7 +227,6 @@ class Rectangle:
         ax.set_aspect('equal', adjustable='box')
         ax.set_xlabel(f"Dimension {dimx}")
         ax.set_ylabel(f"Dimension {dimy}")
-        ax.set_title(f"Projection on dims ({dimx}, {dimy})")
 
 
     
