@@ -1,43 +1,10 @@
 # Import necessary packages
 import numpy as np
-import matplotlib.pyplot as plt
 import math
 from itertools import combinations, product
-from sklearn.model_selection import train_test_split
 from rectangle import Rectangle
 
 # Basic handling tools
-def calibration_split(X, y, test_cal_size=0.2, cal_size=0.5, random_state1=42, random_state2 = 42):
-    """
-    Split the dataset into training, testing, and calibration sets in specified proportions.
-
-    Parameters
-    ----------
-    X : numpy.ndarray
-        Feature matrix of shape (n_samples, n_features).
-    y : numpy.ndarray
-        Target matrix of shape (n_samples,).
-    test_cal_size : float, optional
-        Fraction of the dataset to include in the combined (test + calibration) subset. Default: 0.2.
-    cal_size : float, optional
-        Fraction of the combined (test + calibration) subset to allocate for calibration. Default: 0.5.
-    random_state : int, optional
-        Seed for random number generation to ensure reproducible results. Default: 42.
-
-    Returns
-    -------
-    tuple
-        X_train, X_test, X_cal, y_train, y_test, y_cal : numpy.ndarray
-        Training, test, and calibration splits of the features and targets.
-    """
-    # Split into training and combined test/calibration set
-    X_train, X_test_cal, y_train, y_test_cal = train_test_split(X, y, test_size=test_cal_size, random_state=random_state1)
-    
-    # Further split the test/calibration set into test and calibration subsets
-    X_test, X_cal, y_test, y_cal = train_test_split(X_test_cal, y_test_cal, test_size=cal_size, random_state=random_state2)
-
-    return X_train, X_test, X_cal, y_train, y_test, y_cal
-
 def mean_index_solver(scores):
         
     scores_mean = np.transpose(np.array([np.mean(scores, axis=0)]))
@@ -240,6 +207,3 @@ def one_rect_prediction_regions_nD(scores, alpha = 0.2, short_cut = True):
                 max_bounds = np.maximum(max_bounds, region.upper)
 
         return regions, Rectangle(upper=max_bounds)
-
-
-# Graphing tools
