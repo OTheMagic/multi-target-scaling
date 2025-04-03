@@ -37,14 +37,14 @@ class Rectangle:
 
     def update_upper(self, new_upper, index = None):
 
-        if index:    
+        if index is not None:    
             self.upper[index] = new_upper
         else:
             self.upper = new_upper
     
     def update_lower(self, new_lower, index = None):
 
-        if index:    
+        if index is not None:    
             self.lower[index] = new_lower
         else:
             self.lower = new_lower

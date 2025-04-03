@@ -21,16 +21,15 @@ def run_synthetic_experiment(
     dim_list,
     sample_list,
     alpha_list,
-    trials: int = 500,
+    trials: int = 100,
     method: str = "lpr"
 ) -> pd.DataFrame:
 
     outputs = []
-
+   
     for alpha in alpha_list:
         for index_dim, dim in enumerate(dim_list):
             for index_sample, sample in enumerate(sample_list):
-
                 # Initialize accumulators
                 runtime_lpr = runtime_lpr_o = runtime_npr = runtime_ds = 0
                 c_cal_lpr = c_cal_lpr_o = c_cal_npr = c_cal_ds = 0
@@ -70,16 +69,10 @@ def run_synthetic_experiment(
                         regions_lpr, region = one_rect_prediction_regions_nD(scores=scores_cal, alpha=alpha, short_cut=False)
                         runtime_lpr += time.time() - start
 
-                        start = time.time()
-                        region_lpr_o = one_rect_prediction_regions_nD(scores=scores_cal, alpha=alpha, short_cut=True)
-                        runtime_lpr_o += time.time() - start
-
                         c_cal_lpr += check_coverage_rate(scores_cal, regions_lpr, one_rect=False)
-                        c_cal_lpr_o += check_coverage_rate(scores_cal, region_lpr_o, one_rect=True)
                         c_test_lpr += check_coverage_rate(scores_test, regions_lpr, one_rect=False)
-                        c_test_lpr_o += check_coverage_rate(scores_test, region_lpr_o, one_rect=True)
-                        c_vol_lpr += regions_lpr.volume()
-                        c_vol_lpr_o += region_lpr_o.volume()
+                        for reg in regions_lpr:
+                            c_vol_lpr += reg.volume()
 
                     elif method == "lpr_o":
                         start = time.time()

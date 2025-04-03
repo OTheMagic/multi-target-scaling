@@ -127,7 +127,7 @@ def compute_prediction_region(scores, rectangle, alpha, scores_mean):
         inf_indices = np.where(np.isinf(rectangle.upper))[0]
         for index in inf_indices:
             B = scores_mean[index]*ratio*(quantile_threshold**2)
-            K = (quantile_threshold**2)*(1/(n+1)*np.sum((scores[index]-scores_mean[index])**2)+ratio*scores_mean[index]**2)
+            K = (quantile_threshold**2)*(1/(n+1)*np.sum((np.transpose(scores)[index]-scores_mean[index])**2)+ratio*scores_mean[index]**2)
             C = upper_quadratic_solver(A, B, -K)
             if C <= rectangle.lower[index]:
                 return None
@@ -182,7 +182,7 @@ def one_rect_prediction_regions_nD(scores, alpha = 0.2, short_cut = True):
         region = compute_prediction_region(scores, rectangle, alpha, scores_mean)
 
         # If prediction region is not none, record the maximum and continue searching
-        if region:
+        if region is not None:
             np.maximum(max_bounds, region.upper, out=max_bounds)
             binary_search_dimension(fixed_indices, dim_along, max_bounds, mid, end)
         else:
