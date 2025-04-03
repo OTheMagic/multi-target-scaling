@@ -10,7 +10,7 @@ def make_multitarget_regression(
     n_informative: int = 10,
     noise_list: Optional[List[float]] = None,
     coef: bool = False,
-    random_state: Optional[int] = None
+    random_state: Optional[int] = 42
 ) -> Union[Tuple[np.ndarray, np.ndarray], Tuple[np.ndarray, np.ndarray, List[np.ndarray]]]:
     """
     Generate a regression problem with multiple targets and separate noise for each target.

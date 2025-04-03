@@ -1,4 +1,4 @@
-from rectangle import Rectangle
+from utility.rectangle import Rectangle
 import matplotlib.pyplot as plt
 import numpy as np
 

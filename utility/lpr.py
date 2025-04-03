@@ -2,7 +2,7 @@
 import numpy as np
 import math
 from itertools import combinations, product
-from rectangle import Rectangle
+from utility.rectangle import Rectangle
 
 # Basic handling tools
 def mean_index_solver(scores):
