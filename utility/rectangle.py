@@ -225,8 +225,6 @@ class Rectangle:
             ax.set_ylim(min, max)
 
         ax.set_aspect('equal', adjustable='box')
-        ax.set_xlabel(f"Dimension {dimx}")
-        ax.set_ylabel(f"Dimension {dimy}")
 
 
     
