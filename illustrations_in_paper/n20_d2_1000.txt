@@ -1,0 +1,30 @@
+Method: DS-S
+ alpha  n_dim  n_cals  n_trials  test_coverage_avg  test_coverage_1std  coverage_vol_avg  coverage_vol_1std  coverage_max_length_median  runtime_avg  runtime_1std
+   0.2      2      20       100            0.82168            0.108672         15.230818           8.054993                     7.45742      0.00031      0.000465
+
+------------------------------------------------------------
+
+Method: DS-CHR
+ alpha  n_dim  n_cals  n_trials  test_coverage_avg  test_coverage_1std  coverage_vol_avg  coverage_vol_1std  coverage_max_length_median  runtime_avg  runtime_1std
+   0.2      2      20       100             0.8237            0.103912         15.345572           8.639693                    7.451375     0.000281      0.000453
+
+------------------------------------------------------------
+
+Method: LPR-O
+ alpha  n_dim  n_cals  n_trials  test_coverage_avg  test_coverage_1std  coverage_vol_avg  coverage_vol_1std  coverage_max_length_median  runtime_avg  runtime_1std
+   0.2      2      20       100            0.84286            0.078223         13.883072           3.727909                    7.557167     0.000831      0.000404
+
+------------------------------------------------------------
+
+Method: LPR
+ alpha  n_dim  n_cals  n_trials  test_coverage_avg  test_coverage_1std  coverage_vol_avg  coverage_vol_1std  coverage_max_length_median  runtime_avg  runtime_1std
+   0.2      2      20       100            0.83546            0.081019         13.540218           3.751075                  145.775415     0.025733      0.001525
+
+------------------------------------------------------------
+
+Method: NPR
+ alpha  n_dim  n_cals  n_trials  test_coverage_avg  test_coverage_1std  coverage_vol_avg  coverage_vol_1std  coverage_max_length_median  runtime_avg  runtime_1std
+   0.2      2      20       100            0.82662            0.070423         32.429148           11.48193                    5.549777      0.00004      0.000197
+
+------------------------------------------------------------
+

@@ -1,11 +1,11 @@
 import numpy as np
 import math
 from utility.rectangle import Rectangle
-from sklearn.model_selection import train_test_split
 
-def no_scaling_prediction_region(scores, alpha = 0.2, random_state = 42):
+def no_scaling_prediction_region(scores, alpha = 0.2):
 
-    max_norm = np.max(scores, axis = 1)
+    np.random.seed(42)
+    max_norm = np.max(scores, axis = 1) + 1e-10*np.random.randint(0, 1)
     max_norm_sorted = np.sort(max_norm, axis=0, kind="mergesort")
 
     n = len(scores)
