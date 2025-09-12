@@ -2,6 +2,7 @@ import numpy as np
 from itertools import combinations
 import math
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 
 class Rectangle:
     """
@@ -217,43 +218,46 @@ class Rectangle:
         return inside
 
     def draw_2D(self, ax, dimx=0, dimy=1, 
-                boundary_color=None, 
-                fill_color="red", 
-                transparency=0.5, 
-                linewidth = 0.5):
+                boundary_color=None,
+                fill_color="red",
+                transparency=0.5,
+                linewidth=0.5):
         """
-        Draw a 2D projection of the rectangle onto a given axis.
+        Draw a 2D projection of the rectangle onto a given axis using patches.Rectangle.
 
         Parameters
         ----------
         ax : matplotlib.axes.Axes
-            The axis on which to draw.
+        The axis on which to draw.
         dimx : int
-            Dimension index for x-axis.
+        Dimension index for x-axis.
         dimy : int
-            Dimension index for y-axis.
+        Dimension index for y-axis.
         boundary_color : str, optional
-            Color of the rectangle boundary.
+        Color of the rectangle boundary.
         fill_color : str, optional
-            Fill color.
+        Fill color.
         transparency : float, optional
-            Transparency level of the fill.
-        min : float, optional
-            Minimum value for axis limits.
-        max : float, optional
-            Maximum value for axis limits.
+        Transparency level of the fill.
+        linewidth : float, optional
+        Line width of the boundary.
         """
         x_min, x_max = self.lower[dimx], self.upper[dimx]
         y_min, y_max = self.lower[dimy], self.upper[dimy]
 
-        x_coords = [x_min, x_max, x_max, x_min, x_min]
-        y_coords = [y_min, y_min, y_max, y_max, y_min]
 
-        if boundary_color:
-            ax.plot(x_coords, y_coords, boundary_color, alpha=transparency, linewidth = 0.5)
-        if fill_color:
-            ax.fill(x_coords, y_coords, color=fill_color, alpha=transparency, linewidth = 0.5)
+        width = x_max - x_min
+        height = y_max - y_min
 
+
+        rect = patches.Rectangle(
+        (x_min, y_min), width, height,
+        linewidth=linewidth,
+        edgecolor=boundary_color,
+        facecolor=fill_color,
+        alpha=transparency
+        )
+        ax.add_patch(rect)
         ax.set_aspect('equal', adjustable='box')
 
     def plot(self, dimx=None, dimy=None):
@@ -276,8 +280,7 @@ class Rectangle:
         if n < 2:
             raise ValueError("Plotting requires at least 2 dimensions.")
 
-        global_min = 0
-        global_max = self.upper.max() * 1.1
+        coor_max = np.max(self.upper, axis=0)*1.5
 
         if dimx is not None and dimy is not None:
             if not (0 <= dimx < n and 0 <= dimy < n):
@@ -286,7 +289,8 @@ class Rectangle:
                 raise ValueError("dimx and dimy must be different to form a valid 2D projection.")
 
             fig, ax = plt.subplots(1, 1, figsize=(6, 6))
-            self.draw_2D(ax, dimx, dimy, min=global_min, max=global_max)
+            self.draw_2D(ax, dimx, dimy)
+            ax.set(xlim = (0, coor_max[dimx]), ylim = (0, coor_max[dimy]))
             plt.tight_layout()
             return fig, ax
 
@@ -302,7 +306,8 @@ class Rectangle:
 
             for idx, (dx, dy) in enumerate(dim_pairs):
                 ax = axes[idx]
-                self.draw_2D(ax, dx, dy, min=global_min, max=global_max)
+                self.draw_2D(ax, dx, dy)
+                ax.set(xlim = (0, coor_max[dimx]), ylim = (0, coor_max[dimy]))
 
             for j in range(num_plots, rows*cols):
                 fig.delaxes(axes[j])
