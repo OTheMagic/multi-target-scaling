@@ -4,15 +4,20 @@ import numpy as np
 import pandas as pd
 import time
 from typing import List, Optional
-from sklearn.linear_model import LinearRegression
+
+# Import training packages
+from sklearn.linear_model import LinearRegression, MultiTaskLasso
 from sklearn.model_selection import train_test_split
-from ucimlrepo import fetch_ucirepo 
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
+
+# Dataset loader
+from ucimlrepo import fetch_ucirepo 
+from kagglehub import dataset_download
+from scipy.io import arff
 
 # Import utility packages
 from utility.data_generator import make_multitarget_regression
@@ -57,24 +62,34 @@ def function_choice(scores, alpha, method):
     depends on method
         Either a single region (Rectangle) or list of regions.
     """
-    if method == "Scaled":
+
+    # Scaled methods
+    if method == "Scaled (Full)":
         return scaled_prediction(scores=scores, alpha=alpha, short_cut=False)
-    elif method == "Scaled Shortcut":
+    elif method == "Scaled (Shortcut)":
         return scaled_prediction(scores=scores, alpha=alpha, short_cut=True)
-    elif method == "Standardized":
-        return standardized_prediction(scores=scores, alpha=alpha, short_cut=False)
-    elif method == "Standardized Shortcut":
-        return standardized_prediction(scores=scores, alpha=alpha, short_cut=True)
-    elif method == "Scaled baseline":
+    elif method == "Scaled (Data Splitting)":
         return data_splitting_scaled_prediction(scores=scores, alpha=alpha)
-    elif method == "Standardized baseline":
+
+    # Standardized methods
+    elif method == "Standardized (Full)":
+        return standardized_prediction(scores=scores, alpha=alpha, short_cut=False)
+    elif method == "Standardized (Shortcut)":
+        return standardized_prediction(scores=scores, alpha=alpha, short_cut=True)
+    elif method == "Standardized (Data Splitting)":
         return data_splitting_standardized_prediction(scores=scores, alpha=alpha)
+    
+    # Point CHR
     elif method == "Point CHR":
         return data_spliting_CHR_prediction(scores=scores, alpha=alpha)
-    elif method == "Unscaled":
-        return unscaled_prediction(scores=scores, alpha=alpha)
+    
+    # Empirical copuls
     elif method == "Empirical copula":
         return empirical_copula_prediction(scores=scores, alpha=alpha)
+
+    # No scaling methods
+    elif method == "Unscaled":
+        return unscaled_prediction(scores=scores, alpha=alpha)
     elif method == "Bonferroni":
         return bonferroni_prediction(scores=scores, alpha=alpha)
 
@@ -142,7 +157,7 @@ def run_synthetic_experiment(
                     scores_cal = np.abs(prediction_cal - y_cal)
 
                     # Run prediction region method and record performance
-                    if method == "Scaled" or method == "Standardized":
+                    if method == "Scaled (Full)" or method == "Standardized (Full)":
                         start = time.time()
                         regions, region = function_choice(scores=scores_cal, alpha=alpha, method=method)
                         collection[3][i] = time.time() - start
@@ -265,6 +280,20 @@ def run_real_experiments(data, num_splits, alpha = 0.1, cal_size = 0.2, test_siz
                 random_state=77,
                 n_jobs=-1
             )
+    if data == "stock_portfolio":
+        stock_portfolio_performance = fetch_ucirepo(id=390) 
+        X = stock_portfolio_performance.data.features 
+        y = stock_portfolio_performance.data.targets 
+        model= RandomForestRegressor(
+                n_estimators=300,          
+                max_depth=None,            
+                min_samples_split=2,       
+                min_samples_leaf=1,        
+                max_features=1.0,          # Use all features at each split
+                bootstrap=True,            
+                random_state=77,
+                n_jobs=-1
+            )
 
     output = {
         "Scaled Shortcut": np.zeros((3, num_splits)),
@@ -299,7 +328,7 @@ def run_real_experiments(data, num_splits, alpha = 0.1, cal_size = 0.2, test_siz
         output["Standardized Shortcut"][1][i] = lpr.volume()
 
         start = time.time()
-        ds = data_splitting_scaling_prediction_region(scores_cal, alpha=alpha)
+        ds = data_splitting_scaled_prediction(scores_cal, alpha=alpha)
         output["Splitting baseline"][2][i] = time.time()-start
         output["Splitting baseline"][0][i] = check_coverage_rate(scores_test, ds)
         output["Splitting baseline"][1][i] = ds.volume()

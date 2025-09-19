@@ -469,7 +469,25 @@ def standardized_prediction(scores, alpha=0.2, short_cut=True) -> Union[Rectangl
                 max_bounds[idx] = min(global_threshold[idx], mean_rectangle.upper[idx])
                 binary_search_dimension(mean_index, idx, max_bounds, mean_index[idx], n + 1)
             else:
-                max_bounds[idx] = global_threshold[idx]
+                current =  mean_index[idx]
+                while current >= 2:
+                    current = current - 1
+                    indices = np.copy(mean_index)
+                    indices[idx] = current
+                    rectangle = create_hyper_rectangle(scores_sorted, indices)
+                    clipped_mean = mean_clip(rectangle, scores_mean)
+                    upperbound = scaled_upperbound(scores, alpha,
+                                                scores_mean,
+                                                scores_std,
+                                                clipped_mean)
+                    threshold = scaled_threshold(upperbound,
+                                                scores_mean,
+                                                scores_std, n)
+                    region = Rectangle(upper=threshold)
+                    intersection = region.intersection(rectangle)
+                    if intersection is not None:
+                        max_bounds = np.maximum(max_bounds, intersection.upper)
+                        current = 0
         return Rectangle(upper=max_bounds)
     else:
 

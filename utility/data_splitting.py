@@ -64,7 +64,7 @@ def data_spliting_CHR_prediction(scores,
 
     # Compute the base rectangle
     scores_sorted = np.sort(scores1, axis=0, kind="mergesort")
-    base_upper = scores_sorted[quantile_level-1] if quantile_level <= n else np.inf
+    base_upper = scores_sorted[quantile_level-1] if quantile_level <= n else np.repeat(np.inf, d)
 
     # Compute the excess length and excess scores
     excess = scores2 - base_upper
