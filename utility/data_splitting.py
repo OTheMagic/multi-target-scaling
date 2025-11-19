@@ -27,6 +27,28 @@ def data_splitting_scaled_prediction(scores,
 
     return Rectangle(upper=upper)
 
+def data_splitting_oracle_prediction(scores, mu, std,
+                                             alpha = 0.2, 
+                                             random_state = 42):
+
+
+    scores_standardized = (scores-mu)/std
+    n, d = scores.shape
+
+    np.random.seed(random_state)
+    max_norm_standardized = np.max(scores_standardized, axis = 1)+ 1e-10*np.random.randint(n)
+    max_norm_standardized_sorted = np.sort(max_norm_standardized, axis=0, kind="mergesort")
+
+    quantile_level = math.ceil((1 - alpha) * (n + 1))
+    if quantile_level <= n:
+        quantile_threshold = max_norm_standardized_sorted[quantile_level-1]
+    else:
+        quantile_threshold = np.inf
+
+    upper = quantile_threshold*std + mu
+
+    return Rectangle(upper=upper)
+
 def data_splitting_standardized_prediction(scores, 
                                              alpha = 0.2, 
                                              random_state = 42):
@@ -64,7 +86,12 @@ def data_spliting_CHR_prediction(scores,
 
     # Compute the base rectangle
     scores_sorted = np.sort(scores1, axis=0, kind="mergesort")
-    base_upper = scores_sorted[quantile_level-1] if quantile_level <= n else np.repeat(np.inf, d)
+
+    if quantile_level <= n:
+        base_upper = scores_sorted[quantile_level-1] 
+    else:
+        base_upper = np.repeat(np.inf, d)
+        return Rectangle(upper=base_upper)
 
     # Compute the excess length and excess scores
     excess = scores2 - base_upper

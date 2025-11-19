@@ -2,36 +2,57 @@ from utility.rectangle import Rectangle
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from collections import OrderedDict
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 
 ## Color choices
 colors = {
-        'Unscaled': '#1f77b4',  
+        'Unscaled Max': '#1f77b4',  
         'Bonferroni': '#17becf',
         'Point CHR': '#2ca02c',
-        'Standardized-Splitting': '#9467bd', 
-        'Scaled-Splitting': '#e377c2',
-        'OTCP': '#000000',
-        'Empirical Copula': '#8c564b',
-        'Standardized-Full': '#7f7f7f',
-        'Standardized-Shortcut': '#d62728', 
-        'Scaled-Full': '#bcbd22',
-        'Scaled-Shortcut': '#ff7f0e' 
+        'TSCP-S': '#9467bd', 
+        'TSCP-GWC': '#e377c2',
+        'Emp. Copula': '#8c564b',
+        'TSCP-LWC': '#7f7f7f',
+        'TSCP-R': '#d62728', 
+        'Pop. Oracle': '#bcbd22'
     }
 markers = {
-        'Unscaled': 'o',  
+        'Unscaled Max': 'o',  
         'Bonferroni': 's',
         'Point CHR': '^',
-        'Standardized-Splitting': 'v', 
-        'Scaled-Splitting': 'D',
-        'OTCP': 'P',
-        'Empirical Copula': 'X',
-        'Standardized-Full': '*',
-        'Standardized-Shortcut': '<', 
-        'Scaled-Full': '>',
-        'Scaled-Shortcut': 'h' 
+        'TSCP-S': 'v', 
+        'TSCP-GWC': 'D',
+        'Emp. Copula': 'X',
+        'TSCP-LWC': '*',
+        'TSCP-R': '<', 
+        'Pop. Oracle': '>'
     }
+
+def method_name_coverter(method_list):
+    method_name_list = {}
+    for method in method_list:
+        if method == "Point_CHR":
+            method_name = "Point CHR"
+        elif method == "TSCP_R":
+            method_name = "TSCP-R"
+        elif method == "TSCP_S":
+            method_name = "TSCP-S"
+        elif method == "Unscaled":
+            method_name = "Unscaled Max"
+        elif method == "Empirical_copula":
+            method_name = "Emp. Copula"
+        elif method == "TSCP_LWC":
+            method_name = "TSCP-LWC"
+        elif method == "Population_oracle":
+            method_name = "Pop. Oracle"
+        elif method == "Bonferroni":
+            method_name = "Bonferroni"
+        elif method == "TSCP_GWC":
+            method_name = "TSCP-GWC"
+        method_name_list[method] = method_name
+    return method_name_list
 
 
 def graphing_tools_2D(ax, scores = None, scores_color = "#1f77b4", scores_size = 1,
@@ -57,10 +78,10 @@ def graphing_tools_2D(ax, scores = None, scores_color = "#1f77b4", scores_size =
     plt.tight_layout()
 
 def short_cut_illustration(scores, alpha, bbox_to_anchor=(0.5, 1.05), include_legend = False):
-    from utility.res_rescaled import scaled_prediction, mean_index_solver
+    from utility.res_rescaled import standardized_prediction, mean_index_solver
     # Get prediction regions
-    LPRO = scaled_prediction(scores, alpha)
-    LPR = scaled_prediction(scores, alpha, False)[0]
+    LPRO = standardized_prediction(scores, alpha)
+    LPR = standardized_prediction(scores, alpha, False)[0]
     mean_index = mean_index_solver(scores)
     col_base = [np.sort(scores, axis = 0)[mean_index[0]-1][0], np.sort(scores, axis = 0)[mean_index[0]][0]]
     row_base = [np.sort(scores, axis = 0)[mean_index[1]-1][1], np.sort(scores, axis = 0)[mean_index[1]][1]]
@@ -168,6 +189,9 @@ def single_dim_comparison(
     include_runtime = True, 
     include_legend=True, 
     n_cols=2,
+    loc = "center left",
+    bbox_to_anchor=(1.02, 0.5),
+    figsize = (11, 3),
     error_bar = True,
     error_bar_capsize=4
 ):
@@ -185,9 +209,9 @@ def single_dim_comparison(
                      for method, df in df_dict.items()}
 
     if include_runtime:
-        fig, axes = plt.subplots(1, 3, figsize=(12, 4.5), sharex=True)
+        fig, axes = plt.subplots(1, 3, figsize=figsize, sharex=True)
     else:
-        fig, axes = plt.subplots(1, 2, figsize=(12, 4.5), sharex=True)
+        fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True)
     axes = axes.flatten()
 
     for index, ax in enumerate(axes):
@@ -260,8 +284,8 @@ def single_dim_comparison(
 
     handles, labels = axes[0].get_legend_handles_labels()
     if include_legend:
-        fig.legend(handles, labels, loc="center left", ncol=n_cols,
-                   bbox_to_anchor=(1.02, 0.5), frameon=False)
+        fig.legend(handles, labels, loc=loc, ncol=n_cols,
+                   bbox_to_anchor=bbox_to_anchor, frameon=False)
     plt.tight_layout(rect=[0, 0, 0.85, 1])
     return fig, axes
 
@@ -454,75 +478,101 @@ def format_volume(mean, std, log=False):
     else:
         return f"${mean:.3f}$(${std:.3f}$)"
 
-def generate_latex_table(data, log_volume=False, filename = "xxx.tex"):
-    """
-    Generate a LaTeX tabular environment summarizing method performance per dataset.
-    
-    Parameters:
-        results: list of dictionaries with keys:
-            - dataset (str)
-            - n (int)
-            - d (int)
-            - method (str)
-            - coverage_mean (float)
-            - coverage_std (float)
-            - volume_mean (float)
-            - volume_std (float)
-            - runtime (float)
-        log_volume: whether to log-transform volume values
-    
-    Returns:
-        str: LaTeX tabular environment as a string
-    """
-    if isinstance(data, dict):  # dict of {method: filepath}
-        dfs = []
-        for method, path in data.items():
-            df = pd.read_csv(path)
-            df['method'] = method  # override or insert
-            dfs.append(df)
-        df = pd.concat(dfs, ignore_index=True)
-    elif isinstance(data, str):
-        df = pd.read_csv(data)
-    elif isinstance(data, list):
-        if isinstance(data[0], str):
-            df = pd.concat([pd.read_csv(f) for f in data], ignore_index=True)
-        elif isinstance(data[0], dict):
-            df = pd.DataFrame(data)
-        else:
-            raise ValueError("Unsupported list format.")
-    elif isinstance(data, pd.DataFrame):
-        df = data.copy()
-    else:
-        raise ValueError("Unsupported input type.")
 
-    grouped = defaultdict(list)
-    for _, row in df.iterrows():
-        grouped[row['dataset']].append(row)
+def fmt_pm(mean, se, p=2):
+    """Format mean ± se with p decimals."""
+    if pd.isna(mean) or pd.isna(se):
+        return "N/A"
+    return f"{mean:.{p}f} $\\pm$ {se:.{p}f}"
+
+def generate_panel_table(
+    df: pd.DataFrame,
+    datasets_order=None,
+    methods_order=None,
+    cover_col_mean="coverage_mean",
+    cover_col_se="coverage_se",
+    eff_col_mean="eff_mean",          # efficiency = log10(volume) or your metric
+    eff_col_se="eff_se",
+    d_col="d",
+    n_col="n",
+    dataset_col="dataset",
+    method_col="method",
+    caption=None,
+    label=None,
+    filename="table.tex",
+):
+    """
+    Build a panel-style LaTeX table:
+      Method | [ Dataset1: Coverage  Efficiency↓ ] [ Dataset2: Coverage  Efficiency↓ ] ...
+
+    Expected columns (customizable via args):
+      dataset, d, n, method, coverage_mean, coverage_se, eff_mean, eff_se
+    """
+
+    # Choose dataset and method ordering
+    if datasets_order is None:
+        datasets_order = list(OrderedDict.fromkeys(df[dataset_col]))
+    if methods_order is None:
+        methods_order = list(OrderedDict.fromkeys(df[method_col]))
+
+    # Build column spec: 1 'l' for Method + 2 per dataset
+    colspec = "l" + "cc" * len(datasets_order)
+
     lines = []
-    lines.append("\\begin{tabular}{llccc}")
+    lines.append("\\begin{table}[!htbp]")
+    lines.append("\\centering")
+    lines.append(f"\\begin{{tabular}}{{{colspec}}}")
     lines.append("\\toprule")
-    if log_volume:
-        lines.append(r"Dataset & Method & Coverage & Volume($\log_{10}$) & Runtime (s) \\\\")
-    else:
-        lines.append("Dataset & Method & Coverage & Volume & Runtime (s) \\\\")
+
+    # Top header row: dataset titles with (d, n)
+    header = ["\\textbf{Method}"]
+    for ds in datasets_order:
+        sub = df.loc[df[dataset_col] == ds]
+        # robustly pull d, n (assume constant within ds)
+        d_val = int(sub[d_col].iloc[0]) if len(sub) else "?"
+        n_val = int(sub[n_col].iloc[0]) if len(sub) else "?"
+        header.append(f"\\multicolumn{{2}}{{c}}{{{ds} $(d={d_val},\\, n={n_val})$}}")
+    lines.append(" & ".join(header) + " \\\\")
+    # cmidrules under each dataset block
+    cmids = []
+    col_start = 2  # first block starts at column 2 (since col 1 is Method)
+    for _ in datasets_order:
+        cmids.append(f"\\cmidrule(lr){{{col_start}-{col_start+1}}}")
+        col_start += 2
+    lines.append("".join(cmids))
+
+    # Second header row: per-dataset subheaders
+    subhdr = [""]  # empty under Method
+    for _ in datasets_order:
+        subhdr += ["Coverage", "Efficiency $\\downarrow$"]
+    lines.append(" & ".join(subhdr) + " \\\\")
     lines.append("\\midrule")
 
-    for dataset, rows in grouped.items():
-        n = rows[0]['cal_size'][0]
-        d = rows[0]['cal_size'][1]
-        dataset_label = f"\\multirow{{{len(rows)}}}{{*}}{{{dataset}, $n={n}, d={d}$}}"
-        for i, row in enumerate(rows):
-            method = row['Methods']
-            coverage = format_metric(row['test_coverage_avg'], row['test_coverage_1std'])
-            volume = format_volume(row['coverage_vol'], row['coverage_vol_1std'], log=log_volume)
-            runtime = f"{row['runtime_avg']:.3f}"
-            if i == 0:
-                lines.append(f"{dataset_label} & {method} & {coverage} & {volume} & {runtime} \\\\")
+    # Body: methods as rows; fetch coverage/efficiency per dataset
+    for m in methods_order:
+        row = [m]
+        for ds in datasets_order:
+            sub = df.loc[(df[dataset_col] == ds) & (df[method_col] == m)]
+            if len(sub) == 0:
+                row += ["--", "--"]
             else:
-                lines.append(f"& {method} & {coverage} & {volume} & {runtime} \\\\")
-        lines.append("\\midrule")
-
-    lines[-1] = "\\bottomrule"
+                c_mean = sub[cover_col_mean].iloc[0]
+                c_se   = sub[cover_col_se].iloc[0]
+                e_mean = sub[eff_col_mean].iloc[0]
+                e_se   = sub[eff_col_se].iloc[0]
+                row += [fmt_pm(c_mean, c_se, p=2), fmt_pm(e_mean, e_se, p=1)]
+        lines.append(" & ".join(row) + " \\\\")
+    lines.append("\\bottomrule")
     lines.append("\\end{tabular}")
+
+    if caption:
+        lines.append(f"\\caption{{{caption}}}")
+    if label:
+        lines.append(f"\\label{{{label}}}")
+    lines.append("\\end{table}")
+
+    latex = "\n".join(lines)
     with open(filename, "w") as f:
-        f.write("\n".join(lines))
+        f.write(latex)
+    return latex
+

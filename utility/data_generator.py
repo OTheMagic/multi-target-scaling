@@ -54,6 +54,8 @@ def make_multitarget_regression(
                 y[:, i] = X @ coef_i + rng.gamma(shape=i, scale=noise_list[i], size=n_samples)
             elif noise_type == "Mixed":
                 y[:, i] = X @ coef_i + rng.normal(scale=noise_list[i], size=n_samples) if i < n_targets//2 else X @ coef_i + rng.laplace(scale=noise_list[i], size=n_samples)
+            elif noise_type == "Cauchy":
+                y[:, i] = X @ coef_i + rng.standard_cauchy(size=n_samples)
         else:
             coef_i = np.zeros(n_features)
             informative_idx = rng.choice(n_features, size=n_informative, replace=False)
@@ -68,6 +70,8 @@ def make_multitarget_regression(
                 y[:, i] = X @ coef_i + rng.gamma(shape=i, scale=noise_list[i], size=n_samples)
             elif noise_type == "Mixed":
                 y[:, i] = X @ coef_i + rng.normal(scale=noise_list[i], size=n_samples) if i < n_targets//2 else X @ coef_i + rng.laplace(scale=noise_list[i], size=n_samples)
+            elif noise_type == "Cauchy":
+                y[:, i] = X @ coef_i + rng.standard_cauchy(size=n_samples)
 
     if coef is not None:
         return X, y

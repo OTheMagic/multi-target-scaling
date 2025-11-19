@@ -149,7 +149,7 @@ class Rectangle:
         new_lower = np.maximum(self.lower, other.lower)
         new_upper = np.minimum(self.upper, other.upper)
 
-        if np.any(new_lower >= new_upper):
+        if np.any(new_lower > new_upper):
             return None
 
         return Rectangle(new_upper, new_lower)
@@ -228,19 +228,19 @@ class Rectangle:
         Parameters
         ----------
         ax : matplotlib.axes.Axes
-        The axis on which to draw.
+            The axis on which to draw.
         dimx : int
-        Dimension index for x-axis.
+            Dimension index for x-axis.
         dimy : int
-        Dimension index for y-axis.
+            Dimension index for y-axis.
         boundary_color : str, optional
-        Color of the rectangle boundary.
+            Color of the rectangle boundary.
         fill_color : str, optional
-        Fill color.
+            Fill color.
         transparency : float, optional
-        Transparency level of the fill.
+            Transparency level of the fill.
         linewidth : float, optional
-        Line width of the boundary.
+            Line width of the boundary.
         """
         x_min, x_max = self.lower[dimx], self.upper[dimx]
         y_min, y_max = self.lower[dimy], self.upper[dimy]
