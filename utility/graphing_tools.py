@@ -289,6 +289,113 @@ def single_dim_comparison(
     plt.tight_layout(rect=[0, 0, 0.85, 1])
     return fig, axes
 
+
+def heavy_t_comparison(
+    df_dict, dim, sample,
+    include_runtime = True, 
+    include_legend=True, 
+    n_cols=2,
+    loc = "center left",
+    bbox_to_anchor=(1.02, 0.5),
+    figsize = (11, 3),
+    error_bar = True,
+    error_bar_capsize=4
+):
+    plt.rcParams.update({
+        "font.size": 11, 
+        "axes.labelsize": 11,
+        "axes.titlesize": 11,
+        "legend.fontsize": 11,
+        "xtick.labelsize": 11,
+        "ytick.labelsize": 11,
+    })
+
+    # Safely filter data
+    filtered_dict = {
+        method: df[(df["n_dim"] == dim) & (df["n_cals"] == sample)].copy()
+        for method, df in df_dict.items()
+    }
+    if include_runtime:
+        fig, axes = plt.subplots(1, 3, figsize=figsize, sharex=True)
+    else:
+        fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True)
+    axes = axes.flatten()
+
+    for index, ax in enumerate(axes):
+        ax.set_xscale("log")
+        if index == 0:
+            metric = "test_coverage_avg"
+            ax.set_ylim(0.7, 1)
+            ax.axhline(y=0.9, color="red", linestyle='--', linewidth=1)
+            title = "Test Coverage"
+        elif index == 1:
+            metric = "coverage_vol_avg"
+            title = "Volume"
+            ax.set_yscale("log")
+            ax.set_xlabel("No. of Degree of Freedom")
+        else:
+            metric = "runtime_avg"
+            title = r"Runtime ($\log_{10}$-Scale)"
+
+        for method, df in filtered_dict.items():
+            plot_data = df[df["df"] < 100].copy()
+            if index == 2:
+                plot_data[metric] = np.log10(plot_data[metric])
+
+            # Fallbacks if your dicts aren't global
+            m = markers.get(method, 'o') if 'markers' in globals() else 'o'
+            c = colors.get(method, 'black') if 'colors' in globals() else 'black'
+
+            if index == 0:
+
+                if error_bar:
+                    yerr = plot_data["test_coverage_1std"].to_numpy()
+                    ax.errorbar(
+                        plot_data["df"], plot_data[metric],
+                        yerr=yerr, fmt=m + "-", color=c,
+                        capsize=error_bar_capsize, elinewidth=1, linewidth=1,
+                        label=method
+                    )
+
+                ax.plot(
+                    plot_data["df"], plot_data[metric],
+                    label=method, marker=m, color=c,
+                    linestyle="-", linewidth=1
+                )
+                
+            elif index == 1:
+
+                if error_bar:
+                    yerr = plot_data["coverage_vol_1std"].to_numpy()
+                    ax.errorbar(
+                    plot_data["df"], plot_data[metric],
+                    yerr=yerr, fmt=m + "-", color=c,
+                    capsize=error_bar_capsize, elinewidth=1, linewidth=1,
+                    label=method
+                    )
+
+                ax.plot(
+                    plot_data["df"], plot_data[metric],
+                    label=method, marker=m, color=c,
+                    linestyle="-", linewidth=1
+                )
+            elif index == 2:
+                ax.plot(
+                    plot_data["df"], plot_data[metric],
+                    label=method, marker=m, color=c,
+                    linestyle="-", linewidth=1
+                )
+                
+        ax.set_title(title)
+        ax.grid(True)
+
+    handles, labels = axes[0].get_legend_handles_labels()
+    if include_legend:
+        fig.legend(handles, labels, loc=loc, ncol=n_cols,
+                   bbox_to_anchor=bbox_to_anchor, frameon=False)
+    plt.tight_layout(rect=[0, 0, 0.85, 1])
+    return fig, axes
+
 def compare_across_dims(
     df_dict, sample_size, 
     include_runtime = True, 
@@ -402,7 +509,7 @@ def single_dim_text_file(methods, dim, sample_list, trials, alpha, noise_list, l
             f.write(df.to_string(index=False))
             f.write("\n\n" + "-"*60 + "\n\n")
 
-def generate_latex_table_from_csvs(file_dict, dim, log = False, filename="table_dX.tex"):
+def generate_latex_table_from_csvs(file_dict, dim, noise_type, filename="table_dX.tex"):
     """
     Combine CSV files, filter by dimension, format LaTeX table, and save to .tex file.
     
@@ -413,10 +520,9 @@ def generate_latex_table_from_csvs(file_dict, dim, log = False, filename="table_
     """
     combined = []
 
-    for method, path in file_dict.items():
-        df = pd.read_csv(path)
-        df["method"] = method
-        combined.append(df)
+    for method, data in file_dict.items():
+        data["method"] = method
+        combined.append(data)
 
     df_all = pd.concat(combined)
     df_all = df_all[df_all["n_dim"] == dim]
@@ -425,10 +531,7 @@ def generate_latex_table_from_csvs(file_dict, dim, log = False, filename="table_
     lines = []
     lines.append("\\begin{tabular}{l l c c c}")
     lines.append("\\toprule")
-    if log:
-        lines.append(r"Calibration size & Method & Coverage & Volume($\log_{10}$) & Runtime \\\\")
-    else:
-        lines.append("Calibration size & Method & Coverage & Volume & Runtime \\\\")
+    lines.append(f"(n, d, Noise) & Method & Coverage & Volume & Runtime \\\\")
     lines.append("\\midrule")
 
     for n_cals in df_all["n_cals"].unique():
@@ -436,16 +539,11 @@ def generate_latex_table_from_csvs(file_dict, dim, log = False, filename="table_
         n_methods = len(subset)
 
         for idx, (_, row) in enumerate(subset.iterrows()):
-            cal_label = f"\\multirow{{{n_methods}}}{{*}}{{{int(n_cals)}}}" if idx == 0 else ""
+            cal_label = f"\\multirow{{{n_methods}}}{{*}}{{({int(n_cals)}, {int(dim)}, {noise_type})}}" if idx == 0 else ""
             vol_mean = row['coverage_vol_avg']
             vol_std = row['coverage_vol_1std']
 
-            if log:
-                log_mean = np.log10(vol_mean)
-                log_std = np.log10(vol_mean + vol_std) - np.log10(vol_mean)  # approx std in log-scale
-                volume = f"{log_mean:.3f}({log_std:.3f})"
-            else:
-                volume = f"{vol_mean:.3f}({vol_std:.3f})"
+            volume = f"{vol_mean:.3e}({vol_std:.3e})"
             coverage = f"{row['test_coverage_avg']:.3f} ({row['test_coverage_1std']:.3f})"
             runtime = f"{row['runtime_avg']:.3f}"
             lines.append(f"{cal_label} & {row['method']} & {coverage} & {volume} & {runtime} \\\\")
@@ -459,120 +557,80 @@ def generate_latex_table_from_csvs(file_dict, dim, log = False, filename="table_
     with open(filename, "w") as f:
         f.write("\n".join(lines))
 
-import numpy as np
-from collections import defaultdict
 
-def format_metric(mean, std, log=False, precision=3):
-    if log:
-        log_mean = np.log10(mean)
-        log_std = np.log10(mean + std) - np.log10(mean)
-        return f"{log_mean:.{precision}f}({log_std:.{precision}f})"
+def format_pm(mean, std, sci=False, highlight=False):
+    """Format as mean(std), optionally in scientific notation and highlighted."""
+    if pd.isna(mean) or pd.isna(std):
+        return f"\\text{{inf}}"
+    if sci:
+        mean_str = f"{mean:.3e}"
+        std_str = f"{std:.3e}"
     else:
-        return f"{mean:.{precision}f}({std:.{precision}f})"
-
-def format_volume(mean, std, log=False):
-    if log:
-        log_mean = np.log10(mean)
-        log_std = np.log10(mean + std) - np.log10(mean)  # approx std in log-scale
-        return f"{log_mean:.3f}({log_std:.3f})"
-    else:
-        return f"${mean:.3f}$(${std:.3f}$)"
+        mean_str = f"{mean:.3f}"
+        std_str = f"{std:.3f}"
+    result = f"{mean_str}({std_str})"
+    if highlight:
+        return f"\\textcolor{{red}}{{{result}}}"
+    return result
 
 
-def fmt_pm(mean, se, p=2):
-    """Format mean ± se with p decimals."""
-    if pd.isna(mean) or pd.isna(se):
-        return "N/A"
-    return f"{mean:.{p}f} $\\pm$ {se:.{p}f}"
+def extract_stats(df):
+    """Return dict[method] = (cov, cov_std, vol, vol_std)."""
+    stats = {}
+    for _, row in df.iterrows():
+        m = row["Methods"].strip()
+        stats[m] = (
+            row["test_coverage_avg"],
+            row["test_coverage_1std"],
+            row["coverage_vol"],
+            row["coverage_vol_1std"],
+        )
+    return stats
 
-def generate_panel_table(
-    df: pd.DataFrame,
-    datasets_order=None,
-    methods_order=None,
-    cover_col_mean="coverage_mean",
-    cover_col_se="coverage_se",
-    eff_col_mean="eff_mean",          # efficiency = log10(volume) or your metric
-    eff_col_se="eff_se",
-    d_col="d",
-    n_col="n",
-    dataset_col="dataset",
-    method_col="method",
-    caption=None,
-    label=None,
-    filename="table.tex",
-):
-    """
-    Build a panel-style LaTeX table:
-      Method | [ Dataset1: Coverage  Efficiency↓ ] [ Dataset2: Coverage  Efficiency↓ ] ...
-
-    Expected columns (customizable via args):
-      dataset, d, n, method, coverage_mean, coverage_se, eff_mean, eff_se
-    """
-
-    # Choose dataset and method ordering
-    if datasets_order is None:
-        datasets_order = list(OrderedDict.fromkeys(df[dataset_col]))
-    if methods_order is None:
-        methods_order = list(OrderedDict.fromkeys(df[method_col]))
-
-    # Build column spec: 1 'l' for Method + 2 per dataset
-    colspec = "l" + "cc" * len(datasets_order)
-
+def build_panel(panel_datasets, methods_order, caption):
     lines = []
-    lines.append("\\begin{table}[!htbp]")
+    header_cols = " & ".join(
+        [f"\\multicolumn{{2}}{{c}}{{{name} $(d={d},\\, n={n})$}}" for name, _, d, n in panel_datasets]
+    )
+    subheaders = " & ".join(["Coverage & Volume"] * len(panel_datasets))
+
+    lines.append("\\begin{subtable}{\\textwidth}")
     lines.append("\\centering")
-    lines.append(f"\\begin{{tabular}}{{{colspec}}}")
+    lines.append("\\begin{tabular}{l" + "c c " * len(panel_datasets) + "}")
     lines.append("\\toprule")
-
-    # Top header row: dataset titles with (d, n)
-    header = ["\\textbf{Method}"]
-    for ds in datasets_order:
-        sub = df.loc[df[dataset_col] == ds]
-        # robustly pull d, n (assume constant within ds)
-        d_val = int(sub[d_col].iloc[0]) if len(sub) else "?"
-        n_val = int(sub[n_col].iloc[0]) if len(sub) else "?"
-        header.append(f"\\multicolumn{{2}}{{c}}{{{ds} $(d={d_val},\\, n={n_val})$}}")
-    lines.append(" & ".join(header) + " \\\\")
-    # cmidrules under each dataset block
-    cmids = []
-    col_start = 2  # first block starts at column 2 (since col 1 is Method)
-    for _ in datasets_order:
-        cmids.append(f"\\cmidrule(lr){{{col_start}-{col_start+1}}}")
-        col_start += 2
-    lines.append("".join(cmids))
-
-    # Second header row: per-dataset subheaders
-    subhdr = [""]  # empty under Method
-    for _ in datasets_order:
-        subhdr += ["Coverage", "Efficiency $\\downarrow$"]
-    lines.append(" & ".join(subhdr) + " \\\\")
+    lines.append("\\textbf{Method} & " + header_cols + " \\\\")
+    cmid = "".join([f"\\cmidrule(lr){{{2*i+2}-{2*i+3}}}" for i in range(len(panel_datasets))])
+    lines.append(cmid)
+    lines.append("& " + subheaders + " \\\\")
     lines.append("\\midrule")
 
-    # Body: methods as rows; fetch coverage/efficiency per dataset
-    for m in methods_order:
-        row = [m]
-        for ds in datasets_order:
-            sub = df.loc[(df[dataset_col] == ds) & (df[method_col] == m)]
-            if len(sub) == 0:
-                row += ["--", "--"]
+    dfs = []
+    for _, file, _, _ in panel_datasets:
+        df = pd.read_csv(file)
+        dfs.append(extract_stats(df))
+
+    # Find min volume per dataset for highlighting
+    min_vols = []
+    for data in dfs:
+        vols = [v[2] for v in data.values() if pd.notna(v[2])]
+        min_vols.append(min(vols) if vols else None)
+
+    # Build each row (method)
+    for method in methods_order:
+        row_parts = [method]
+        for j, data in enumerate(dfs):
+            if method in data:
+                cov, cov_std, vol, vol_std = data[method]
+                cov_str = format_pm(cov, cov_std, sci=False)
+                highlight = (vol == min_vols[j])
+                vol_str = format_pm(vol, vol_std, sci=True, highlight=False)
             else:
-                c_mean = sub[cover_col_mean].iloc[0]
-                c_se   = sub[cover_col_se].iloc[0]
-                e_mean = sub[eff_col_mean].iloc[0]
-                e_se   = sub[eff_col_se].iloc[0]
-                row += [fmt_pm(c_mean, c_se, p=2), fmt_pm(e_mean, e_se, p=1)]
-        lines.append(" & ".join(row) + " \\\\")
+                cov_str, vol_str = "--", "--"
+            row_parts += [cov_str, vol_str]
+        lines.append(" & ".join(row_parts) + " \\\\")
+
     lines.append("\\bottomrule")
     lines.append("\\end{tabular}")
-
-    if caption:
-        lines.append(f"\\caption{{{caption}}}")
-    if label:
-        lines.append(f"\\label{{{label}}}")
-    lines.append("\\end{table}")
-
-    latex = "\n".join(lines)
-    with open(filename, "w") as f:
-        f.write(latex)
-    return latex
-
+    lines.append(f"\\subcaption{{{caption}}}")
+    lines.append("\\end{subtable}")
+    return "\n".join(lines)

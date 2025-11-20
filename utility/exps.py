@@ -20,9 +20,9 @@ from scipy.io import arff
 
 # Import utility packages
 from utility.data_generator import make_multitarget_regression
-from utility.res_rescaled import check_coverage_rate, scaled_prediction, standardized_prediction
+from utility.res_rescaled import check_coverage_rate, standardized_prediction
 from utility.unscaled import unscaled_prediction, bonferroni_prediction
-from utility.data_splitting import data_splitting_scaled_prediction, data_splitting_standardized_prediction, data_spliting_CHR_prediction, data_splitting_oracle_prediction
+from utility.data_splitting import data_splitting_standardized_prediction, data_spliting_CHR_prediction, data_splitting_oracle_prediction
 from utility.copula import empirical_copula_prediction
 
 def stable_hash(*args):
@@ -159,7 +159,7 @@ def run_synthetic_experiment(
                     scores_cal = np.abs(prediction_cal - y_cal)
 
                     # Run prediction region method and record performance
-                    if method == "Scaled (Full)" or method == "Standardized (Full)":
+                    if method == "TSCP_LWC":
                         start = time.time()
                         regions, region = function_choice(scores=scores_cal, alpha=alpha, method=method)
                         collection[3][i] = time.time() - start
@@ -174,7 +174,31 @@ def run_synthetic_experiment(
                         collection[2][i] = np.max(region.length_along_dimensions())
                     else:
                         start = time.time()
-                        region = function_choice(scores=scores_cal, alpha=alpha, method=method)
+
+                        #Simulate a population oracle
+                        if method == "Population_oracle":
+                            oracle_X, oracle_y = make_multitarget_regression(
+                                n_samples=10000,
+                                n_features=10,
+                                n_informative=10,
+                                n_targets=dim,
+                                noise_type=noise_type,
+                                noise_list=noise_list,
+                                random_state=seed,
+                                coef=coef_true
+                            )
+
+                            oracle_prediction = model.predict(oracle_X)
+                            oracle_res = np.abs(oracle_prediction - oracle_y)
+
+                            mu = np.mean(oracle_res, axis=0)
+                            std = np.std(oracle_res, axis=0, ddof = 1)
+
+                            start = time.time()
+                            region = function_choice(scores = scores_cal, alpha=alpha, method=method, mu = mu, std = std)
+                        else:
+                            start = time.time()
+                            region = function_choice(scores=scores_cal, alpha=alpha, method=method)
                         collection[3][i] = time.time() - start
                         collection[0][i] = check_coverage_rate(scores=scores_test, regions=region, one_rect=True)
                         if log_scale:
@@ -200,6 +224,132 @@ def run_synthetic_experiment(
         "runtime_avg"
     ]
     return pd.DataFrame(outputs, columns=columns)
+
+def heavy_t(
+    dim_list: List[int],
+    sample_list: List[int],
+    alpha_list: List[float],
+    df_list: List[int] = [2, 3, 10, 30, 50, 100],
+    trials: int = 300,
+    method: str = "TSCP_R",
+    log_scale = False
+) -> pd.DataFrame:
+
+    outputs = []
+
+    for alpha in alpha_list:
+        for index_dim, dim in enumerate(dim_list):
+            for index_sample, sample in enumerate(sample_list):
+                for df in df_list:
+                    # Generate training and test data
+                    X, y, coef_true = make_multitarget_regression(
+                        n_samples=8000,
+                        n_features=10,
+                        n_targets=dim,
+                        noise_type="t",
+                        df=df,
+                        random_state=stable_hash(dim)
+                    )
+                    # Initialize model
+                    model = LinearRegression()
+
+
+                    # Initialize collection: [coverage_rate, volume, max_length, runtime] per trial
+                    collection = np.zeros((4, trials))
+
+                    # Run trials
+                    for i in range(trials):
+                        seed = stable_hash(dim, sample, i)
+                        X_train, X_test, y_train, y_test = train_test_split(
+                            X, y, test_size=0.2, random_state=seed+42)
+                        model.fit(X_train, y_train)
+                        # Compute test scores for later evaluation
+                        prediction_test = model.predict(X_test)
+                        scores_test = np.abs(prediction_test - y_test)
+
+                        # Generate calibration data using fixed coefficients
+                        X_cal, y_cal = make_multitarget_regression(
+                            n_samples=sample,
+                            n_features=10,
+                            n_informative=10,
+                            n_targets=dim,
+                            noise_type="t",
+                            df=df,
+                            random_state=seed,
+                            coef=coef_true
+                        )
+
+                        prediction_cal = model.predict(X_cal)
+                        scores_cal = np.abs(prediction_cal - y_cal)
+
+                        # Run prediction region method and record performance
+                        if method == "TSCP_LWC":
+                            start = time.time()
+                            regions, region = function_choice(scores=scores_cal, alpha=alpha, method=method)
+                            collection[3][i] = time.time() - start
+                            collection[0][i] = check_coverage_rate(scores=scores_test, regions=regions, one_rect=False)
+                            volume = 0
+                            for reg in regions:
+                                volume += reg.volume()
+                            if log_scale:
+                                collection[1][i] = np.log10(volume)
+                            else:
+                                collection[1][i] = volume
+                            collection[2][i] = np.max(region.length_along_dimensions())
+                        else:
+                            start = time.time()
+
+                            #Simulate a population oracle
+                            if method == "Population_oracle":
+                                oracle_X, oracle_y = make_multitarget_regression(
+                                    n_samples=10000,
+                                    n_features=10,
+                                    n_informative=10,
+                                    n_targets=dim,
+                                    noise_type="t",
+                                    df=df,
+                                    random_state=seed,
+                                    coef=coef_true
+                                )
+
+                                oracle_prediction = model.predict(oracle_X)
+                                oracle_res = np.abs(oracle_prediction - oracle_y)
+
+                                mu = np.mean(oracle_res, axis=0)
+                                std = np.std(oracle_res, axis=0, ddof = 1)
+
+                                start = time.time()
+                                region = function_choice(scores = scores_cal, alpha=alpha, method=method, mu = mu, std = std)
+                            else:
+                                start = time.time()
+                                region = function_choice(scores=scores_cal, alpha=alpha, method=method)
+                            collection[3][i] = time.time() - start
+                            collection[0][i] = check_coverage_rate(scores=scores_test, regions=region, one_rect=True)
+                            if log_scale:
+                                collection[1][i] = np.log10(region.volume())
+                            else:
+                                collection[1][i] = region.volume()
+                            collection[2][i] = np.max(region.length_along_dimensions())
+
+                    # Store summary statistics per configuration
+                    outputs.append([
+                        alpha, dim, sample, df, trials, "t",
+                        np.mean(collection[0]), np.std(collection[0], ddof=1),
+                        np.mean(collection[1]), np.std(collection[1], ddof=1),
+                        np.median(collection[2]),
+                        np.mean(collection[3])
+                    ])
+
+    columns = [
+        "alpha", "n_dim", "n_cals", "df", "n_trials", "noise_type",
+        "test_coverage_avg", "test_coverage_1std",
+        "coverage_vol_avg", "coverage_vol_1std",
+        "coverage_max_length_median",
+        "runtime_avg"
+    ]
+    return pd.DataFrame(outputs, columns=columns)
+
+
 
 def run_real_experiments(data, num_splits, alpha = 0.1, cal_size = 0.2, test_size = 0.2):
 

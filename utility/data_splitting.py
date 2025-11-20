@@ -4,52 +4,6 @@ from utility.rectangle import Rectangle
 from sklearn.model_selection import train_test_split
 
 
-def data_splitting_scaled_prediction(scores, 
-                                     alpha = 0.2, 
-                                     random_state = 42):
-    """
-    Data-splitting conformal prediction using per-coordinate scaling only.
-
-    The data is split in half. The first half is used to estimate a scale
-    (standard deviation) per dimension. The second half is scaled, and the
-    (1 - alpha)-quantile of the max-norm of the scaled scores is used to
-    construct an axis-aligned rectangular prediction region.
-
-    Parameters
-    ----------
-    scores : np.ndarray
-        Array of shape (n, d) of calibration scores or residuals.
-    alpha : float, default=0.2
-        Miscoverage level in (0, 1). Targets the (1 - alpha)-quantile.
-    random_state : int, default=42
-        Seed used for the train/test split and for tie-breaking jitter.
-
-    Returns
-    -------
-    Rectangle
-        A Rectangle with upper bounds given by quantile_threshold * scale.
-    """
-    scores1, scores2 = train_test_split(scores, test_size=0.5, random_state=random_state)
-
-    scale = np.std(scores1, axis=0)
-    scores_scaled = scores2/scale
-    n, d = scores2.shape
-
-    np.random.seed(random_state)
-    max_norm_scaled = np.max(scores_scaled, axis = 1)+ 1e-10*np.random.randint(n)
-    max_norm_scaled_sorted = np.sort(max_norm_scaled, axis=0, kind="mergesort")
-
-    quantile_level = math.ceil((1 - alpha) * (n + 1))
-    if quantile_level <= n:
-        quantile_threshold = max_norm_scaled_sorted[quantile_level-1]
-    else:
-        quantile_threshold = np.inf
-
-    upper = quantile_threshold*scale
-
-    return Rectangle(upper=upper)
-
-
 def data_splitting_oracle_prediction(scores, mu, std,
                                      alpha = 0.2, 
                                      random_state = 42):
@@ -125,7 +79,7 @@ def data_splitting_standardized_prediction(scores,
     """
     scores1, scores2 = train_test_split(scores, test_size=0.5, random_state=random_state)
 
-    scale = np.std(scores1, axis=0)
+    scale = np.std(scores1, axis=0, ddof=1)
     mean = np.mean(scores1, axis=0)
     scores_standardized = (scores2-mean)/scale
     n, d = scores2.shape

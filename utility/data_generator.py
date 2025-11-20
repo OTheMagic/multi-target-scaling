@@ -8,6 +8,7 @@ def make_multitarget_regression(
     n_informative: int = 10,
     noise_type: str = "Gaussian",
     noise_list: Optional[List[float]] = None,
+    df: Optional[int] = None,
     coef: Optional[List[float]] = None,
     random_state: Optional[int] = 42
 ) -> Union[Tuple[np.ndarray, np.ndarray], Tuple[np.ndarray, np.ndarray, List[np.ndarray]]]:
@@ -40,7 +41,7 @@ def make_multitarget_regression(
         coef_list = []
 
     # Set default noise if not provided
-    if len(noise_list) != n_targets:
+    if noise_list is not None and len(noise_list) != n_targets:
         raise ValueError("Length of noise_list must match n_targets")
 
     for i in range(n_targets):
@@ -56,6 +57,8 @@ def make_multitarget_regression(
                 y[:, i] = X @ coef_i + rng.normal(scale=noise_list[i], size=n_samples) if i < n_targets//2 else X @ coef_i + rng.laplace(scale=noise_list[i], size=n_samples)
             elif noise_type == "Cauchy":
                 y[:, i] = X @ coef_i + rng.standard_cauchy(size=n_samples)
+            elif noise_type == "t":
+                y[:, i] = X @ coef_i + rng.standard_t(df = df, size=n_samples)
         else:
             coef_i = np.zeros(n_features)
             informative_idx = rng.choice(n_features, size=n_informative, replace=False)
@@ -72,6 +75,8 @@ def make_multitarget_regression(
                 y[:, i] = X @ coef_i + rng.normal(scale=noise_list[i], size=n_samples) if i < n_targets//2 else X @ coef_i + rng.laplace(scale=noise_list[i], size=n_samples)
             elif noise_type == "Cauchy":
                 y[:, i] = X @ coef_i + rng.standard_cauchy(size=n_samples)
+            elif noise_type == "t":
+                y[:, i] = X @ coef_i + rng.standard_t(df = df, size=n_samples)
 
     if coef is not None:
         return X, y
