@@ -186,7 +186,7 @@ def run_synthetic_experiment(
                                 n_targets=dim,
                                 noise_type=noise_type,
                                 noise_list=noise_list,
-                                random_state=seed,
+                                random_state=seed+3,
                                 coef=coef_true
                             )
 
