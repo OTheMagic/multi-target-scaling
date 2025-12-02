@@ -1,0 +1,6 @@
+,alpha,n_dim,n_cals,n_trials,noise_type,test_coverage_avg,test_coverage_1std,coverage_vol_avg,coverage_vol_1std,coverage_max_length_median,runtime_avg
+0,0.1,2,10,10,Laplace,1.0,0.0,inf,,inf,0.0003015279769897461
+1,0.1,3,10,10,Laplace,1.0,0.0,inf,,inf,0.00040311813354492186
+2,0.1,4,10,10,Laplace,1.0,0.0,inf,,inf,0.0005025148391723632
+3,0.1,5,10,10,Laplace,1.0,0.0,inf,,inf,0.00040094852447509767
+4,0.1,6,10,10,Laplace,1.0,0.0,inf,,inf,0.0004029035568237305

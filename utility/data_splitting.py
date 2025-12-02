@@ -4,6 +4,46 @@ from utility.rectangle import Rectangle
 from sklearn.model_selection import train_test_split
 
 
+def naive_prediction(scores,
+                     alpha = 0.2, 
+                     random_state = 42):
+    """
+    Standardized conformal prediction using sample mean and sample std directly estimated on the scores. 
+    Note this method is theoratically invalid (should not have marginal coverage).
+
+    Parameters
+    ----------
+    scores : np.ndarray
+        Array of shape (n, d) of calibration scores or residuals.
+    alpha : float, default=0.2
+        Miscoverage level in (0, 1). Targets the (1 - alpha)-quantile.
+    random_state : int, default=42
+        Seed used for tie-breaking jitter on the max-norms.
+
+    Returns
+    -------
+    Rectangle
+        A Rectangle with upper bounds quantile_threshold * std + mu.
+    """
+    scale = np.std(scores, axis=0, ddof=1)
+    mean = np.mean(scores, axis=0)
+    scores_standardized = (scores-mean)/scale
+    n, d = scores.shape
+
+    np.random.seed(random_state)
+    max_norm_standardized = np.max(scores_standardized, axis = 1)+ 1e-10*np.random.randint(n)
+    max_norm_standardized_sorted = np.sort(max_norm_standardized, axis=0, kind="mergesort")
+
+    quantile_level = math.ceil((1 - alpha) * (n + 1))
+    if quantile_level <= n:
+        quantile_threshold = max_norm_standardized_sorted[quantile_level-1]
+    else:
+        quantile_threshold = np.inf
+
+    upper = quantile_threshold*scale + mean
+
+    return Rectangle(upper=upper)
+
 def data_splitting_oracle_prediction(scores, mu, std,
                                      alpha = 0.2, 
                                      random_state = 42):

@@ -2,6 +2,7 @@ from utility.rectangle import Rectangle
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import seaborn as sns
 from collections import OrderedDict
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
@@ -27,7 +28,8 @@ markers = {
         'Emp. Copula': 'X',
         'TSCP-LWC': '*',
         'TSCP-R': '<', 
-        'Pop. Oracle': '>'
+        'Pop. Oracle': '>',
+        'Naive': 'h'
     }
 
 def method_name_coverter(method_list):
@@ -51,6 +53,8 @@ def method_name_coverter(method_list):
             method_name = "Bonferroni"
         elif method == "TSCP_GWC":
             method_name = "TSCP-GWC"
+        elif method == "Naive":
+            method_name = "Naive"
         method_name_list[method] = method_name
     return method_name_list
 

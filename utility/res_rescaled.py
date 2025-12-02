@@ -194,7 +194,8 @@ def standardized_transformation(scores, mu, std, clipped_mean, global_const = No
         t3_num = scores_centered**2 + std**2/(n+1)
         t3_den = np.sqrt(std**4/(n+1) + scores_centered**2*std**2)
         sign = np.where(scores_centered > 0, 1, 0) - np.where(scores_centered < 0, 1, 0)
-        t3 = np.where(scores_centered != 0, t3_num/t3_den*sign, t2)
+        t3_temp = np.where(scores_centered != 0, t3_num/t3_den*sign, t2)
+        t3 = np.where(mu >= std**2/scores_centered, t3_temp, t2)
 
         upperbound = np.maximum.reduce([t1, t2, t3])
         return np.max(upperbound, axis=1)

@@ -22,7 +22,7 @@ from scipy.io import arff
 from utility.data_generator import make_multitarget_regression
 from utility.res_rescaled import check_coverage_rate, standardized_prediction
 from utility.unscaled import unscaled_prediction, bonferroni_prediction
-from utility.data_splitting import data_splitting_standardized_prediction, data_spliting_CHR_prediction, data_splitting_oracle_prediction
+from utility.data_splitting import data_splitting_standardized_prediction, data_spliting_CHR_prediction, data_splitting_oracle_prediction, naive_prediction
 from utility.copula import empirical_copula_prediction
 
 def stable_hash(*args):
@@ -80,6 +80,8 @@ def function_choice(scores, alpha, method, mu = None, std = None):
         return data_splitting_standardized_prediction(scores=scores, alpha=alpha)
     elif method == "Population_oracle":
         return data_splitting_oracle_prediction(scores = scores, mu = mu, std = std, alpha=alpha)
+    elif method == "Naive":
+        return naive_prediction(scores=scores, alpha=alpha)
     
     # Point CHR
     elif method == "Point_CHR":
@@ -178,7 +180,7 @@ def run_synthetic_experiment(
                         #Simulate a population oracle
                         if method == "Population_oracle":
                             oracle_X, oracle_y = make_multitarget_regression(
-                                n_samples=10000,
+                                n_samples=100000,
                                 n_features=10,
                                 n_informative=10,
                                 n_targets=dim,
