@@ -356,13 +356,12 @@ def heavy_t(
 def run_real_experiments(data, num_splits, alpha = 0.1, cal_size = 0.2, test_size = 0.2):
 
     methods = [
-            "Scaled (Shortcut)", 
-            "Scaled (Data Splitting)", 
-            "Standardized (Shortcut)", 
-            "Standardized (Data Splitting)", 
+            "TSCP", 
+            "TSCP-S", 
+            "TSCP-GWC",
             "Point CHR", 
-            "Empirical copula", 
-            "Unscaled", 
+            "Emp. copula", 
+            "Unscaled Max", 
             "Bonferroni"]
 
     # Load data
