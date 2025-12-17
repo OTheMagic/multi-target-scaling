@@ -3,7 +3,7 @@ import hashlib
 import numpy as np
 import pandas as pd
 import time
-from typing import List, Optional
+from typing import List
 
 # Import training packages
 from sklearn.linear_model import LinearRegression, MultiTaskLasso
