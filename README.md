@@ -22,7 +22,7 @@ We propose a conformal prediction method for constructing tight simultaneous pre
 
 The `utility` package contains the following scripts:
 - `rectangle.py`: a script that defines the general use of hyper-rectangles;
-- `res_rescaled.py`: a script that contains implementation of our \emph{TSCP} described in the paper, including TSCP-GWC and TSCP-LWC; 
+- `res_rescaled.py`: a script that contains implementation of our **TSCP** described in the paper, including TSCP-GWC and TSCP-LWC; 
 - `data_splitting.py`: a script that contains implementation of Naive, TSCP-S, Pop. Oracle, and Point CHR;
 - `unscaled.py`: a script that contains implementation of Bonferroni and Unscaled Max;
 - `copula.py`: a script that contains implementation of Emp. Copula;
@@ -30,4 +30,4 @@ The `utility` package contains the following scripts:
 - `data_generator.py`: a script that contains the data generator used in the experiments described in the paper;
 - `exps.py`: a script that contains implementation (including how to generate or load the data) of all of our simulated and real data experiments described in the paper.
 
-The `real_exps` and `syn_exps` contains all of our results and figure summaries of simulated and real experiments. 
+The `real_exps` fold and `syn_exps` folder contain all of our results and figure summaries of simulated and real experiments. 
