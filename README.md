@@ -30,4 +30,4 @@ The `utility` package contains the following scripts:
 - `data_generator.py`: a script that contains the data generator used in the experiments described in the paper;
 - `exps.py`: a script that contains implementation (including how to generate or load the data) of all of our simulated and real data experiments described in the paper.
 
-The `real_exps` fold and `syn_exps` folder contain all of our results and figure summaries of simulated and real experiments. 
+The `real_exps` folder and `syn_exps` folder contain all of our results and figure summaries of simulated and real experiments. 
