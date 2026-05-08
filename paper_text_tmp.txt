@@ -1,0 +1,3051 @@
+Interpretable Multivariate Conformal Prediction with Fast
+Transductive Standardization
+Y unjie F anbrianf an@usc.edu
+Department of Mathematics
+University of Southern California
+Los Angeles, CA, USA
+Matteo Sesiasesia@marshall.usc.edu
+Department of Data Sciences and Operations
+Thomas Lord Department of Computer Science
+University of Southern California
+Los Angeles, CA, USA
+Abstract
+We propose a conformal prediction method for constructing tight simultaneous prediction
+intervals for multiple, potentially related, numerical outputs given a single input. This
+method can be combined with any multi-target regression model and guarantees finite-
+sample coverage. It is computationally efficient and yields informative prediction intervals
+even with limited data. The core idea is a novelcoordinate-wisestandardization procedure
+that makes residuals across output dimensions directly comparable, estimating suitable
+scaling parameters using the calibration data themselves. This does not require modeling of
+cross-output dependence nor auxiliary sample splitting. Implementing this idea requires
+overcoming technical challenges associated with transductive or full conformal prediction.
+Experiments on simulated and real data demonstrate this method can produce tighter
+prediction intervals than existing baselines while maintaining valid simultaneous coverage.
+Keywords:interpretability, multivariate analysis, statistical inference, supervised learning,
+uncertainty quantification.
+1 Introduction
+1.1 Motivation and Preview of Contributions
+We are interested in jointly quantifying uncertainty when predicting several, possibly depen-
+dent continuous outcomes from a shared set of input features. This problem is motivated by
+many applications where data-driven decisions depend on several unknown variables rather
+than on any one of them in isolation. For example, a financial institution may use available
+customer data to jointly forecast that customer’s future credit-line utilization, monthly
+spending volume, and credit score. In this and many other contexts, decision quality hinges
+on the joint reliability of all predicted values, and an output that is incorrect in even one
+dimension could lead to adverse consequences.
+Conformal prediction is a popular and broadly applicable framework for uncertainty
+quantification in predictive settings (Vovk et al., 2005; Angelopoulos and Bates, 2023). It
+derives its main strengths from the ability to augment the output of any machine-learning
+model withprediction setsequipped with finite-sample guarantees, without relying on strong
+assumptions on the data distribution. Its sole assumption is the availability of labeled data
+©2025 Yunjie Fan and Matteo Sesia.
+License: CC-BY 4.0, seehttps://creativecommons.org/licenses/by/4.0/.
+arXiv:2512.15383v1  [stat.ME]  17 Dec 2025
+F an and Sesia
+that areexchangeablewith the test point of interest, a weaker requirement than the standard
+assumption of i.i.d. sampling. For aunivariatesetting, where the goal is to predict a single
+continuous-valued outcome, there now exist several well-established conformal prediction
+methods that produce valid, computationally fast, and easy-to-interpret prediction intervals
+(Lei et al., 2018; Romano et al., 2019; Sesia and Romano, 2021).
+Extending conformal prediction to themultivariatesetting is a non-trivial problem that
+has attracted considerable recent interest, spurring a variety of solutions (Dheur et al.,
+2025). The fundamental challenge is to aggregate a vector of generalized residuals—whose
+components may differ substantially in scale and variability—into a scalar-valuednon-
+conformity scoreleading toprediction setsthat should satisfy four key desiderata: (i)
+finite-sample coverage, (ii) informativeness or tightness, (iii) computational tractability, and
+(iv) interpretability. Interpretability can take different meanings depending on the application,
+and in some settings it is consistent with prediction sets having complex shapes. Nevertheless,
+in many practical scenarios, hyper-rectangular prediction sets—or, equivalently, jointly valid
+prediction intervals—provide the most natural and transparent way to convey uncertainty to
+practitioners. This paper focuses on such settings.
+Existing methods achieve only a subset of these desiderata. The simplest approach
+to obtain hyper-rectangular prediction sets is to apply univariate conformal prediction to
+each output and then take the Cartesian product of the resulting intervals (Neeven and
+Smirnov, 2018); however, a conservative Bonferroni adjustment to the marginal miscoverage
+levels is needed to guarantee joint coverage; see Algorithm S1 in Appendix A. This strategy
+is very easy to implement, but the Bonferroni correction is often too conservative to be
+practically satisfactory, as it adopts a worst-case view of the dependence structure across
+output dimensions. By contrast, we aim to achieve valid coverage with joint prediction
+intervals that are as tight as possible; see Figure 1 for a sketch of this goal.
+Y2
+Y1
+a b
+c
+d
+90%
+90%
+81%
+joint coverage
+(too small)
+Separate prediction intervals
+(low joint coverage)
+Y2
+Y1
+a b
+c
+d
+95%
+95%
+93%
+joint coverage
+(too large)
+Separate prediction intervals with
+Bonferroni correction (conservative)
+Y2
+Y1
+a b
+c
+d
+90%
+joint coverage
+(just right)
+Rectangular prediction set
+(our method)
+Figure 1: Two-dimensional toy example depicting graphically the main objective of this work:
+constructinginformativeandinterpretablehyper-rectangular conformal prediction sets for
+multivariate outcomes. Left: univariate approaches can produce marginal prediction intervals
+for each output separately, which do not guarantee joint coverage. Center: a Bonferroni
+correction can easily restore valid joint coverage, at the cost of being overly conservative.
+Right: our goal is to efficiently construct hyper-rectangular prediction sets that are easy to
+interpret and retain valid coverage; doing so involves technical challenges.
+2
+Interpretable Multiv ariate Conformal Prediction
+A second class of existing methods reduce multivariate residuals to scalar-valued non-
+conformity scores, for example by applying anℓ2 or ℓ∞ norm, then apply a univariate
+conformal prediction method to these scalar scores, and finally map the resulting prediction
+interval back into the original output space by inverting the dimension-reduction trans-
+formation; e.g., see Algorithm S2 in Appendix A. While computationally efficient and in
+principle able to produce hyper-rectangular prediction sets (e.g., using theℓ∞-norm), these
+approaches are dominated by the noisiest dimension, often leading to prediction sets that
+are unnecessarily wide along low-uncertainty directions.
+More sophisticated approaches have been developed to directly minimize the volume
+of the resulting prediction sets; for example using optimal transport, learned embeddings,
+copula, or generative models to describe the dependence structure across residual dimensions.
+However, these methods aim to solve a problem that is different from that considered in
+this paper, since they are explicitly designed to produce non-rectangular prediction sets.
+Moreover, they often introduce substantial computational overhead and require additional
+independent training data to provide finite-sample guarantees.
+In this paper we focus on targeting what we believe is the core difficulty in many
+applications: the mismatch in themarginalscale and variability of residuals across output
+dimensions. To address this challenge, we develop a method based on transductive coordinate-
+wise residual standardization. This restores comparability across coordinates and enables
+the construction of tight hyper-rectangular prediction sets that guarantee finite-sample
+coverage, withoutnecessitatingadditionaltrainingdataorprohibitivecomputationaloverhead.
+Remarkably, our method doesnotneed to explicitly model residual dependencies across
+different dimensions, unlike existing approaches focusing on non-rectangular prediction sets.
+Making this idea operational requires overcoming several hurdles, which we resolve through
+a sequence of increasingly practical steps. We begin by formulating an ideal oracle procedure
+that assumes access to the test point’s true outcome vector and uses this information to
+standardize the multi-dimensional residuals in the calibration set without violating the
+exchangeability conditions that are necessary to guarantee finite-sample coverage. Although
+clearly impractical, this oracle is valuable to guide the design of our practical method.
+Inspired by the oracle procedure, we introduce two increasingly sophisticated data-driven
+approaches. The first provides a more conservative approximation of the oracle, whereas
+the second achieves greater statistical efficiency by building on top of the first. Through
+extensive numerical experiments, we demonstrate that this progression of ideas culminates
+in a practical method producing prediction sets satisfying all our desiderata.
+1.2 Related W orks
+Extending conformal prediction to multivariate outcomes has attracted substantial attention
+in recent years, leading to the development of a wide range of alternative methods.
+A prominent line of work seeks minimum-volume prediction sets with flexible geometries
+by modeling dependence across output dimensions. This includes copula-based approaches
+(Messoudi et al., 2021; Park and Cho, 2025; Sun and Yu, 2023), non-parametric density
+estimation methods (Sadinle et al., 2019; Izbicki et al., 2022; Wang et al., 2023; Dheur et al.,
+2025), parametric density estimation methods (Johnstone and Cox, 2021; Sampson and Chan,
+2024; Braun et al., 2025a,b), optimal-transport techniques (Thurin et al., 2025; Klein et al.,
+3
+F an and Sesia
+2025), and flow-based generative models (Colombo, 2024; Lee et al., 2025; Fang et al., 2025).
+While these approaches can produce smaller prediction sets compared to our method, these
+often have complex shapes that are more difficult to interpret. Moreover, these approaches
+require additional model training on independent data to provide finite-sample guarantees,
+and many also involve substantial computational overhead.
+To the best of our knowledge, the idea of directly addressing heterogeneity across output
+dimensions via marginal residual rescaling remains relatively under-explored. Baheri and
+Amiri Shahbazi (2025) pursue a related idea, but rely on a conservative Bonferroni-type
+correction. The approach of Sampson and Chan (2024) is more closely related to ours,
+but requires an additional independent dataset; avoiding this requirement is the main
+technical challenge addressed in our paper. As we show empirically, the method of Baheri
+and Amiri Shahbazi (2025) is often considerably less efficient than ours—particularly in
+small-sample regimes—resulting in less stable and less informative prediction sets.
+Our solution can be viewed as implementing a special instance of transductive, or full,
+conformal prediction (Vovk et al., 2005; Vovk, 2013). In contrast to the more commonly used
+split conformal methods, full conformal prediction repeatedly incorporates the test point,
+augmented with different candidate labels, directly into a learning algorithm. Although
+this strategy is computationally prohibitive in general, especially for continuous-valued
+numerical outcomes and complex algorithms, it can be implemented efficiently in some cases
+by exploiting structural properties of the underlying predictive model. Accordingly, our paper
+relates to a broader literature on making full conformal inference computationally practical
+in special cases, including approaches tailored to sparse generalized linear models (Lei, 2019;
+Guha et al., 2023) and methods that leverage stability or other forms of structure in the
+predictive model (Ndiaye and Takeuchi, 2019; Abad et al., 2022; Martinez et al., 2023; Li,
+2024). Unlike those works, which focus primarily on accelerating model refitting, we assume
+a fixed, pre-trained model and instead aim to improve efficiency by avoiding calibration data
+splitting while explicitly standardizing residuals across output dimensions. Both the problem
+setting and the proposed methodology are therefore novel.
+More broadly, our approach is also related to recent conformal methods that reuse
+calibration data for different purposes, such as enabling early stopping to control overfitting
+when training deep learning models (Liang et al., 2023) and leveraging data-adaptive grouping
+to improve conditional coverage (Zhou and Sesia, 2024; Zhang and Candès, 2024). In contrast
+to these works, our focus is on addressing heterogeneity across targets in multivariate
+regression while obtaining interpretable, rectangular prediction sets.
+1.3 Outline
+This paper is organized as follows. Section 2 introduces notations, a formal problem statement,
+and necessary assumptions, along with a description of an ideal oracle approach. Section 3
+presents our methodology, starting with a more conservative approach and then developing
+more efficient and computationally tractable implementations. Section 4 validates our method
+empirically and compares its performance to that of existing approaches using both simulated
+and real data. Section 5 discusses some limitations and possible directions for future research.
+The Appendices contain mathematical proofs not contained in the main text, additional
+algorithmic details, and further numerical results.
+4
+Interpretable Multiv ariate Conformal Prediction
+2 Preliminaries
+2.1 Notation
+For anyn∈N , we denote[n] := {1, . . . , n}. For α∈ (0, 1)and any x = (x1, . . . , xn) ∈R n,
+we denote ˆQ1−α(x) :=⌈(1−α)(n+ 1)⌉-th smallest value in{x 1, . . . , xn,+∞}.
+2.2 Setup and Data Assumptions
+We consider a multi-output (multivariate) regression setting where the goal is to predict a
+vector Y = (Y1, . . . , Yd)of d real-valued outputs given input featuresX∈ X . We assume
+access to acalibrationdataset of n > 1labeled examples Dcal = {(X i, Y i)}n
+i=1, drawn
+exchangeably from an unknown joint distributionPX,Y =P X ×P Y|X .
+For a new independent data point(X n+1, Y n+1) ∼P X,Y of which only the inputX n+1
+is observed, the goal is to construct a reasonably tight prediction setˆC(X n+1) ⊂R d that
+contains the outputY n+1 with high probability, guaranteeingmarginal coverage:
+P
+h
+Y n+1 ∈ ˆC(X n+1)
+i
+≥1−α,(1)
+where α∈ (0, 1)is the user-specified miscoverage level. Note that bothY n+1 and ˆC(X n+1)
+are random in(1), as they depend on the new test point as well as on the calibration data
+Dcal. The term “marginal coverage” reflects that the guarantee in(1) holds on average over
+the distribution of test points, rather than conditioning on any fixed value ofXn+1.
+While this paper focuses on achieving marginal coverage because it is a standard goal in
+conformal prediction, the proposed method could be extended to achieve stronger coverage
+guarantees. In particular, fullconditional coverageis known to be generally unattainable in
+finite samples without much more restrictive assumptions (Foygel Barber et al., 2021), but
+there are many techniques to approximate it (Romano et al., 2020a; Gibbs et al., 2025) that
+may be possible to combine with our approach.
+For interpretability, we aim to constructhyper-rectangularprediction sets that can be
+written as a Cartesian product of univariate prediction intervals:
+ˆC(X n+1;D cal) =
+d
+×
+j=1
+
+Lj(X n+1;D cal), Uj(X n+1;D cal)
+
+,(2)
+where[ Lj(X n+1), Uj(X n+1)]denotes the marginal interval for thejth output. Prediction
+sets in this form decompose naturally across dimensions, making them very easy to explain
+and interpret. In particular, under (2), the eventYn+1 ∈ ˆC(X n+1)in (1) is equivalent to
+Y n+1
+j ∈[L j(X n+1), Uj(X n+1)]for allj∈[d],
+which means alld marginal prediction intervals[Lj(X n+1), Uj(X n+1)]mustsimultaneously
+cover their respective outputsYn+1
+j with probability at least1−α.
+2.3 Computing Residuals using a Pre-T rained Model
+We assume access to apre-trainedjoint predictive model ˆf = ( ˆf1, . . . , ˆfd), fitted on data
+independent of both the calibration setDcal and the test point. This model is treated as
+5
+F an and Sesia
+a “black-box” and could be anything; the only requirement forˆf is that it must provide us
+with a coordinate-wisegeneralized residualfunction
+E:X ×R d →R d,
+which aims to quantify the model’s prediction error along each output dimension. Applying
+thisfunctiontoadatapoint( X, Y )producesthevector E(X, Y ) =
+ 
+E1(X, Y ), . . . , Ed(X, Y )
+
+.
+A classical example for modelsˆfj that estimate the conditional mean ofYj given X (Lei
+et al., 2018) isEj(X, Y ) = |Yj − ˆfj(X)|. Alternatively, for models that estimate conditional
+quantiles, as in conformalized quantile regression (Romano et al., 2020b), a natural choice is
+Ej(X, Y) = max
+ ˆf lo
+j (X)−Y j, Y j − ˆf hi
+j (X)
+	
+,
+where ˆf lo
+j (X)and ˆf hi
+j (X)denote the estimated lower and upper conditional quantiles ofYj
+given X, for example at levelsα/2and1 −α/ 2. Intuitively, this choice ofE measures the
+signed distance ofYj to the nearest boundary of the interval[ˆf lo
+j (X), ˆf hi
+j (X)]. Positive values
+indicate thatY j falls outside the interval, while negative values indicate that it lies inside.
+Without much loss of generality, we assume throughout the paper that the residuals are
+almost surelydistinctandnon-negative—which implies Ej(X, Y ) > 0for all j—since this
+simplifies the development of our method. Moreover, we also assume these residuals have
+finite first and second moments at the population level.
+Assumption 1 For all j∈ [d], the distribution of Ej(X, Y )has no point masses and
+satisfies:E j(X, Y)≥0almost surely,E[E j(X, Y)]<∞, and0<Var[E j(X, Y)]<∞.
+The assumption of no point masses is standard in conformal inference and practically
+without loss of generality, since any ties can always be broken by introducing a small amount
+of independent random noise. The bounded second moments are also immediately satisfied
+by any residuals whose distribution has finite support, which is common in practice. The
+non-negativity assumption is satisfied by absolute residuals and many other standard choices,
+although it does not hold for the quantile-based residuals reviewed above. Nonetheless, there
+are at least two simple ways to adapt conformalized quantile regression to this assumption.
+One is to simply truncate negative residuals at zero, which tends to make the corresponding
+conformal prediction sets more conservative (Romano et al., 2020b). Alternatively, provided
+that the residuals are almost-surely bounded, as it is often the case in practice, non-negativity
+can be enforced by applying a sufficiently large constant shift to all calibration and test
+residuals—a transformation that can then be easily inverted to keep the resulting prediction
+sets invariant. This idea will become clearer after we review a general recipe for translating
+residuals into conformal prediction sets.
+2.4 Calibrating Prediction Sets with Marginal Coverage
+After evaluating the residualsEi = E(X i, Y i)for all calibration points indexed byi∈ [n], a
+prediction set forYn+1 based on Xn+1 can be assembled by including all possible values of
+y∈R d whose residuals(E 1(X n+1, y), . . . , Ed(X n+1, y))are sufficiently small:
+ˆC(X n+1) =
+n
+y∈R d : 0≤E j(X n+1, y)≤W j,∀j∈[d]
+o
+,(3)
+6
+Interpretable Multiv ariate Conformal Prediction
+where W1, . . . , Wd are suitable (data-dependent) thresholds. To ensure thatˆC(X n+1)satisfies
+marginal coverage at level1−α, as defined in(1), the thresholds must be chosen such that
+P
+
+Ej(X n+1, Y n+1)≤W j,∀j∈[d]
+
+≥1−α.
+A naive way to achieve this is to setWj = ˆQ1−α/d(E1
+j , . . . , En
+j ), which is equivalent to
+applying univariate conformal prediction separately across alld outcome dimensions, with a
+Bonferroni correction (α/d replacing α). As demonstrated empirically in Appendix C, this
+typically leads to very conservative prediction sets because it takes an overly pessimistic
+worst-case view of possible dependencies of the prediction tasks across outcome dimensions.
+In this paper, we pursue a more efficient approach, which starts by computingscalar
+non-conformity scores Si = Φ(Ei) ∈R for all i∈ [n]using a dimension-reduction function
+Φ : Rd
++ 7→R , whose form will be discussed below. Then, the prediction set is constructed as:
+ˆC(X n+1) =
+n
+y∈R d : Φ(E(X n+1, y))≤ ˆQ1−α(S1, . . . , Sn)
+o
+.(4)
+Theorem 1 (V ovk et al. (2005)) Assume( E1, . . . , En+1)are exchangeable, with Ei =
+E(X i, Y i)for all i∈ [n + 1]. LetΦ : Rd
++ 7→R be anyfixedfunction, independent of the data.
+Then, ˆC(X n+1)defined in (4) satisfies P[Y n+1 ∈ ˆC(X n+1)] ≥ 1 −α. Moreover, if the scores
+S1, . . . , Sn given bySi = Φ(Ei)are almost-surely distinct,P[Y n+1 ∈ ˆC(X n+1)] ≤ 1−α + 1
+n+1.
+The same results hold withΦrandom, if(S 1, . . . , Sn+1)are exchangeable conditional on it.
+Therefore, under Assumption 1, Theorem 1 guarantees the prediction sets defined in(4)
+achieve marginal coveragetightlyfrom above, as long as the sample sizen is not too small.
+A limitation of Theorem 1, however, is that it cannot tell us whether the coverage is equally
+tight across different outcome dimensions. In fact, depending on the data distribution, the
+fitted model, and the choice ofΦ, it could happen thatˆC(X n+1)achieves the desired marginal
+coverage while being much wider than necessary along certain directions, thereby providing
+uncertainty estimates that are potentially much less informative than ideal. Moreover,
+depending onΦ, the prediction set ˆC(X n+1)may have a difficult-to-interpret shape.
+Several recent works propose residual transformations based onℓp-norms, i.e.,Φ( ·) =
+∥ · ∥ p for different1 ≤p≤ ∞ (Johnstone and Ndiaye, 2022). Although conceptually and
+computationally simple, these can be heavily affected by the nosiest output dimension.
+A single high-variance dimension may dominate the scalar score and inflate the resulting
+prediction set uniformly across all coordinates. To obtain tighter prediction sets, recent
+works have proposed learning a suitable transformation of the residuals prior to applying
+a norm-based dimension reduction, for example by using optimal transport (Thurin et al.,
+2025; Klein et al., 2025). However, these approaches require additional training data as well
+as expensive computations, and they typically lead to prediction sets with irregular shapes.
+In this paper, we propose a conceptually simpler solution that consists ofstandardizing
+the residuals prior to reducing their dimension by taking the maximum across coordinates,
+similar to the ℓ∞ norm. This leads to rectangular prediction sets that are uniformly
+tight across all output dimensions, without requiring additional training data or expensive
+computations. Despite the apparent simplicity of this idea, however, achieving all desiderata
+while maintaining guaranteed finite-sample coverage involves significant technical challenges,
+which we overcome as gradually explained below.
+7
+F an and Sesia
+2.5 An Ideal Population Oracle
+To motivate our method, we begin by describing an idealizedoracleapproach that assumes
+access to population-level information not available in practice. This oracle highlights the
+structure of the prediction sets we ultimately aim to approximate and achieves our four key
+desiderata: validity, tightness, computational tractability, and interpretability.
+Consider prediction sets of the form in(4), obtained by transforming the vector-valued
+residuals E(X, Y ) ∈R d
++ using a suitable functionΦ : Rd
++ 7→R . To address the possible het-
+erogeneity in scale and variability across different dimensions, a natural idea is to standardize
+them one by one, which suggests using a functionΦdefined as:
+Φ(t;µ, σ) := max
+1≤j≤d
+tj −µ j
+σj
+,∀t∈R d
++.(5)
+Above, µ, σ∈R d
++ are a location and scale parameter, respectively, which should ideally be
+equal to the population mean and standard deviation of the residual vector:
+µ∗
+j =E[E j(X, Y)], σ ∗
+j =
+q
+Var[Ej(X, Y)],∀j∈[d].(6)
+With this choice ofΦ, the prediction sets defined in (4) become:
+Cpop(X n+1) =
+n
+y∈R d : 0≤E j(X n+1, y)≤ ˆQpop
+1−α ·σ ∗
+j +µ ∗
+j ,∀j∈[d]
+o
+,(7)
+where ˆQpop
+1−α := ˆQ1−α(S1
+pop, . . . , Sn
+pop)andS i
+pop := Φ(Ei;µ ∗, σ∗)for alli∈[n].
+Although practically unfeasible, this oracle prediction set satisfies all four of our desiderata:
+(i)itguaranteesfinite-samplemarginalcoverage, asperTheorem1; (ii)ittendstobeuniformly
+tight across all output dimensions, because it operates with residuals whose components are
+all on the same scale; (iii) it is fast to compute, at least for standard choices of the residual
+function E; (iv) it is an easy-to-interpret hyper-rectangle, at least for standard choices ofE.
+To see that prediction setsˆC(X n+1)in the form of (3), of which(7) is a special instance
+corresponding to Wj = ˆQpop
+1−α ·σ ∗
+j + µ∗
+j, are easy-to-compute rectangles, consider the case of
+absolute mean-regression residuals, i.e.,Ej(X, Y) =|Y j − ˆfj(X)|. In this case,
+ˆC(X n+1) =
+d
+×
+j=1
+h
+ˆfj(X)−W j, ˆfj(X) +W j
+i
+.(8)
+Alternatively, for quantile-based residualsEj(X, Y) =|max
+ ˆf lo
+j (X)−Y j, Y j − ˆf hi
+j (X)
+	
+|,
+ˆC(X n+1) =
+d
+×
+j=1
+h
+ˆf lo
+j (X n+1)−W j, ˆf hi
+j (X n+1) +W j
+i
+.(9)
+In the following, we will describe practical approximations of these oracle prediction sets,
+starting from intuitive but not fully satisfactory solutions before presenting our method.
+8
+Interpretable Multiv ariate Conformal Prediction
+2.6 Simple but Unsatisfactory Practical Approaches
+An intuitiveplug-inapproximation of the ideal oracle is obtained by replacing the pop-
+ulation mean µ∗ and standard deviation σ∗ parameters in (6) with their empirical coun-
+terparts, ˆµpi and ˆσpi, evaluated on the calibration data, and then constructing hyper-
+rectangular prediction sets ˆCpi(X n+1)in the form of(3) using Wj = ˆQpi
+1−α ·ˆσpi
+j + ˆµpi
+j , where
+ˆQpi
+1−α := ˆQ1−α(S1
+pi, . . . , Sn
+pi)and Si
+pi := Φ(Ei; ˆµpi,ˆσpi)for all i∈ [n]. This approach, outlined
+by Algorithm S3 in Appendix A, tends to perform well in large-samples (as shown empiri-
+cally in Appendix C) but lacks finite-sample guarantees. In fact, using a data-dependent
+transformationΦ, which breaks the exchangeability between calibration and test scores in
+(S1, . . . , Sn+1), violates the key assumption of Theorem 1.
+An alternative solution that is also intuitive yet unsatisfactory consists of combining the
+above plug-in approach with an additional data splitting step that allows one to recover
+finite-sample guarantees: the location and scale parameter estimates for the transformation
+functionΦ, denoted here as ˆµds and ˆσds, are estimated empirically using only a random
+subset of n1 < n observations. The remaining n2 = n−n 1 data points are used to
+evaluate the scores(S1
+ds, . . . , Sn2
+ds )and compute ˆQds
+1−α := ˆQ1−α(S1
+ds, . . . , Sn2
+ds ), finally leading
+to Wj = ˆQds
+1−α ·ˆσds
+j + ˆµds
+j . This approach is outlined by Algorithm S4 in Appendix A. While
+it satisfies the key assumption of Theorem 1, it makes an inefficient use of the data. Since it
+reduces the effective number of calibration samples roughly by half, it tends to produce more
+unstable and often wider-than-necessary prediction sets, especially in small-sample regimes.
+The main contribution of this paper is therefore to overcome this inefficiency. We develop
+atransductiveconformal prediction method that uses a similar standardization idea but
+avoids wasteful data splitting by reusing the entire calibration data to estimate the scaling
+parameters, all while retaining finite-sample guarantees and manageable computational costs.
+Achieving this requires resolving several technical challenges, as explained step by step below.
+3 Methodology
+3.1 A T ransductive Rescaling Oracle and High-Level Method Blueprint
+According to Theorem 1, prediction sets of the form(4) achieve finite-sample marginal
+coverage if the dimension-reduction mapΦis independent of the calibration data, as assumed
+in the previous section, or if(Φ(E1), . . . ,Φ(En+1))can remain exchangeable conditional onΦ.
+This latter requirement, which is strictly weaker than independence, is the foundation of the
+method developed in this section. We begin by showing how this conditional-exchangeability
+condition naturally leads to a differenttransductiveoracle, which is much more closely aligned
+with the practical method introduced below.
+Consider an imaginary oracle that knows the unordered values in{E1, . . . , En+1}; she
+would estimate the population location and scale parametersµ∗, σ∗ defined in(6) as follows:
+ˆµoracle
+j = 1
+n+ 1
+n+1X
+i=1
+Ei
+j,ˆσ oracle
+j =
+vuut 1
+n
+n+1X
+i=1
+ 
+Ei
+j −ˆµoracle
+j
+2,∀j∈[d].(10)
+Since these statistics are symmetric in alln+1data points and thus invariant to their ordering,
+conditioning on the random functionΦ(·; ˆµoracle,ˆσoracle)maintains the exchangeability of
+9
+F an and Sesia
+(E1, . . . , En+1). Therefore, Theorem 1 implies the following hyper-rectangular prediction
+sets guarantee finite-sample marginal coverage: ˆCoracle(X n+1)in the form of (3) using
+Wj = ˆQoracle
+1−α ·ˆσoracle
+j + ˆµoracle
+j , where ˆQoracle
+1−α := ˆQ1−α(S1
+oracle, . . . , Sn
+oracle)and Si
+oracle :=
+Φ(Ei; ˆµoracle,ˆσoracle)for all i∈ [n]. Of course, this oracle is impractical because both
+Φ(·; ˆµoracle,ˆσoracle)and ˆQoracle
+1−α depend on the unknown test outcomeYn+1 throughE n+1.
+We will now translate this oracle into a practical method producing a (slightly) larger
+prediction set that depends only on the observable residualsE1, . . . , En, through the statistics
+ˆµj = 1
+n
+nX
+i=1
+Ei
+j,ˆσ j =
+vuut 1
+n
+nX
+i=1
+ 
+Ei
+j −ˆµj
+2,∀j∈[d].(11)
+Note that the choice of using a factor1/n instead of the common1/(n− 1)in the above
+definition of ˆσis deliberate, as it simplifies the derivation of the following results. Note also
+that0<ˆσ j <∞almost surely under Assumption 1, as long asn >1.
+To obtain a practical method, we proceed in two steps, separately addressing the un-
+known nature ofΦ(·; ˆµoracle,ˆσoracle)and ˆQoracle
+1−α . First, we will find suitablemonotonically
+nondecreasing link functionsω1(·), . . . , ωd(·) :R7→R + satisfying
+Sn+1
+oracle ≤c⇐ ⇒0≤E n+1
+j ≤ω j(c),∀c∈R.(12)
+Substitutingc= ˆQoracle
+1−α into (12) gives the equivalence relation
+Y n+1 ∈ ˆCoracle(X n+1)⇐ ⇒Y n+1 ∈ ˜C(X n+1),(13)
+where the set ˜C(X n+1)is defined as
+˜C(X n+1) :=
+n
+y∈R d : 0≤E j(X n+1, y)≤ω j( ˆQoracle
+1−α ),∀j∈[d]
+o
+.(14)
+Although ˜C(X n+1)is still impractical, it is closer to being computable. The last remaining
+step is to replaceˆQoracle
+1−α with a conservative data-driven estimate, which we denote here as
+˜Q1−α ≥ ˆQoracle
+1−α . Doing that will give a practical prediction set
+ˆC(X n+1) :=
+n
+y∈R d : 0≤E j(X n+1, y)≤ω j( ˜Q1−α),∀j∈[d]
+o
+⊇ ˜C(X n+1),(15)
+inheriting the coverage lower bound from Theorem 1. Technical difficulties, which we address
+below, arise when one tries to keep this approximation tight and computationally efficient.
+3.2 Explicit F orm of the Link F unctions
+Thefollowingresultgivesanexplicitformforthevectoroflinkfunctions ω := (ω1(·), . . . , ωd(·))
+defined implicitly in (12).
+10
+Interpretable Multiv ariate Conformal Prediction
+Lemma 2 Under Assumption 1, suitable link functionsω1(c), . . . , ωd(c)satisfying (12) are:
+ωj(c) =
+
+
+
+0,ifc≤ − n√n+1 ,
+max
+(
+0,ˆµj −ˆσj|c|
+s
+(n+ 1) 2
+n2 −(n+ 1)c 2
+)
+,if− n√n+ 1 < c <0,
+ˆµj + ˆσj|c|
+s
+(n+ 1) 2
+n2 −(n+ 1)c 2 ,if0≤c < n√n+ 1 ,
+∞,ifc≥ n√n+ 1 ,
+∀j∈[d].
+Replacing this expression for the link functions into(14) gives an upper boundωj( ˆQoracle
+1−α )
+for Ej(X n+1, y)that is finite (and hence informative) if and only ifˆQoracle
+1−α < n/ √n+ 1.
+Fortunately, ˆQoracle
+1−α < n/√n+ 1almost surely as long as the sample size is not too small.
+Lemma 3Under Assumption 1, ifn≥1/α−1, then ˆQoracle
+1−α < n/√n+ 1almost surely.
+Armed with Lemma 2 and Lemma 3, what remains to be done is to obtain a practical
+prediction set ˆC(X n+1) ⊇ ˆCoracle(X n+1), as previewed in(15), is to find a tight upper bound
+˜Q1−α for ˆQoracle
+1−α . This is the main challenge and focus of the next sections.
+3.3 A Conservative Global-W orst-Case Approach
+We introduce a (highly) conservative approximation of˜C(X n+1)from (14), obtained by
+taking the worst-case upper bound ofˆQoracle
+1−α over all possible values ofEn+1 ∈R d
++. We
+refer to the resultingglobal-worst-case(GWC) prediction set as ˆCgwc(X n+1). Because
+ˆCgwc(X n+1) ⊇ ˜C(X n+1)almost surely, Theorem 1 ensures thatˆCgwc(X n+1)attains marginal
+coverage of at least1−α in finite samples. As we show in the next section, this conservative
+prediction set can in fact be sharpened considerably, without sacrificing marginal coverage,
+albeit with some additional methodological effort.
+Let z∈R d
++ denote a placeholder for the test residualEn+1. Define the plug-in scaling
+parametersˆµ(z)andˆσ(z)that would result ifE n+1 in (10) were replaced byz:
+ˆµj(zj) =
+Pn
+i=1 Ei
+j +z j
+n+ 1 ,ˆσ j(zj) =
+sPn
+i=1
+ 
+Ei
+j −ˆµj(zj)
+2 +
+ 
+zj −ˆµj(zj)
+2
+n , j∈[d]. (16)
+With this notation, we haveˆµj(En+1
+j ) = ˆµoracle
+j and ˆσj(En+1
+j ) = ˆσoracle
+j . Define then the
+GWC transformation ˆΦgwc :R d
++ 7→Ras
+ˆΦgwc(t) := max
+1≤j≤d
+sup
+zj ≥0
+tj −ˆµj(zj)
+ˆσj(zj) ≥Φ(t; ˆµoracle,ˆσoracle)∀t∈R d
++.(17)
+Intuitively, for each coordinatej∈ [d]and t∈R d
++, we consider the most unfavorable (largest)
+possible value of the standardized ratio as a function ofEn+1
+j = zj ≥ 0. This ensures
+that ˆΦgwc(t)dominates the oracle transformationΦ( t; ˆµoracle,ˆσoracle)uniformly over all t.
+Conveniently, ˆΦgwc(t)admits a closed-form expression.
+11
+F an and Sesia
+Lemma 4The GWC transformation ˆΦgwc defined in(17)can be written as:
+ˆΦgwc(t) = max
+1≤j≤d
+max
+(
+tj −ˆµj(0)
+ˆσj(0) ,
+tj −ˆµj(z∗
+j )
+ˆσj(z∗
+j ) ,− 1√n+ 1
+)
+.
+wherez ∗
+j = ˆµj −
+ˆσ2
+j
+tj −ˆµj
+ifˆµj ≥
+ˆσ2
+j
+tj −ˆµj
+andz ∗
+j = 0otherwise.
+Using Lemma 4, we compute the scalar non-conformity scoresSi
+gwc := ˆΦgwc(Ei)for
+i∈ [n], and define the corresponding conformal quantile ˆQgwc
+1−α := ˆQ1−α(S1
+gwc, . . . , Sn
+gwc).
+Because ˆΦgwc(t) ≥ Φ(t; ˆµoracle,ˆσoracle)for all t, it follows thatˆQgwc
+1−α ≥ ˆQoracle
+1−α almost surely.
+Then the GWC prediction set is given by:
+ˆCgwc(X n+1) :=
+n
+y∈R d : 0≤E(X n+1, y)≤ω( ˆQgwc
+1−α),∀j∈[d]
+o
+.(18)
+Algorithm S5 in Appendix A summarizes this procedure, which guarantees valid coverage.
+Theorem 5 Assume( E1, . . . , En+1)are exchangeable and Assumption 1 holds. Then,
+ˆCgwc(X n+1)constructed by Algorithm S5 satisfies:P[Y n+1 ∈ ˆCgwc(X n+1)]≥1−α.
+ProofFrom (18), it is easy to see thatˆCgwc(X n+1) ⊇ ˜C(X n+1)almost surely because
+ˆQgwc
+1−α ≥ ˆQoracle
+1−α and the link functionω outlined in Lemma 2 is monotone non-decreasing.
+We already know from Theorem 1 thenP[Yn+1 ∈ ˜C(X n+1)]≥1−α.
+We refer to Appendix A.3.1 for details on how to constructˆCgwc(X n+1)in practice at
+cost O(dn). While computationally efficient, however,ˆCgwc(X n+1)isstatisticallyinefficient
+as it tends to be substantially larger than the estimated oracle prediction set˜C(X n+1),
+which we would ideally like to approximate tightly. In the next section, we therefore extend
+this approach and develop a tighterlocal worst-case(LWC) prediction setˆClwc(X n+1) ⊆
+ˆCgwc(X n+1)that approximates the oracle ˜C(X n+1)more closely.
+3.4 A Tighter Local-W orst-Case Method
+The construction of ˆCgwc(X n+1)described in the previous section relies on aglobalupper
+bound ˆQgwc
+1−α for the ideal quantileˆQoracle
+1−α , designed to hold uniformly over all possible values
+of the unobserved test residualEn+1 ∈R d
++. However, the resulting prediction sets are often
+overly conservative, as the GWC procedure ignores the fact that many choices ofEn+1
+correspond to outcome valuesY n+1 ∈R d that are extremely unlikely to belong to the ideal
+prediction set ˜C(X n+1)and could therefore be safely disregarded.
+This motivates the development of a more statistically efficient approach that constructs
+and aggregates a collection oflocalprediction sets, each tailored to a distinct working
+hypothesis that restrictsY n+1 to a specific region of the outcome space. After a high-level
+overview of the main ideas and an implicit characterization of the target prediction set for a
+given partition of the outcome space into disjoint local regions, we detail the implementation
+of the method in three steps. First, we introduce an intuitive, data-driven partition guided
+by the order statistics of the calibration residuals. Second, we derive a tractable explicit
+characterization of the resulting local prediction sets. Third, we develop a computationally
+efficient algorithm for constructing a tight enclosing rectangular prediction set in practice,
+while avoiding explicit enumeration of an exponential number of local prediction sets.
+12
+Interpretable Multiv ariate Conformal Prediction
+3.4.1 Method Over view
+For any subsetR ⊆R d of the outcome space, consider the working hypothesis thatY n+1 ∈ R.
+Let ˆQlwc
+1−α(R)denote an upper bound for ˆQoracle
+1−α tailored to this hypothesis, satisfying
+Y n+1 ∈ R=⇒ ˆQlwc
+1−α(R)≥ ˆQoracle
+1−α .
+Then, define theR-specific local prediction setˆClwc(X n+1; R)by replacing the (very conser-
+vative) upper bound ˆQgwc
+1−α in (18) with its local alternativeˆQlwc
+1−α(R):
+ˆClwc(X n+1;R) :=
+n
+y∈ R: 0≤E j(X n+1, y)≤ω j( ˆQlwc
+1−α(R))
+o
+.(19)
+By construction, this satisfies
+Y n+1 ∈ R=⇒ R ⊇ ˆClwc(X n+1;R)⊇ ˜C(X n+1)∩ R.(20)
+Although we cannot knowa prioriwhether Y n+1 ∈ R for any fixed regionR, we can
+construct many local prediction sets as in(19) using a collectionP of hypothesized regions
+R chosen to be sufficiently rich so thatY n+1 ∈ R with high probability for someR ∈ P, and
+then aggregate these local prediction sets. To ensure interpretability, we report a relatively
+tight rectangular set that bounds the union of all localized prediction sets, rather than the
+union itself. Moreover, since the conservative prediction setˆCgwc(X n+1)from the previous
+section already enjoys valid marginal coverage, our goal is to obtain a smaller prediction set.
+Accordingly, it suffices to consider arandom partitionP of ˆCgwc(X n+1), rather than of the
+entire outcome spaceRd. In summary, we constructˆClwc(X n+1)using:
+ˆClwc(X n+1) := Rect
+ G
+R∈P
+ˆClwc(X n+1;R);P
+!
+, (21)
+where Rect(A; P)denotes a rectangle containing the subsetA⊆R d that does not extend
+beyond the outcome space partitioned byP in any coordinate. In practice, our method
+constructs arelatively tight, though not necessarily thetightest, such rectangle due to
+computational considerations. Nonetheless, we will show that the resulting prediction sets
+are (often much) more informative thanˆCgwc(X n+1)in finite samples. Moreover, in the
+large-sample limit, the union in(21) becomes approximately rectangular itself, making this
+enclosing step a very mild relaxation from the perspective of statistical efficiency.
+The following result guarantees that this high-level approach leads to prediction sets
+ˆClwc(X n+1)that are contained in ˆCgwc(X n+1)while retaining valid marginal coverage.
+Proposition 6 Consider a (random) collection P of disjoint regions R ⊆R d satisfying
+⊔R∈P R = ˆCgwc(X n+1)almost surely. For any R ∈ P , let ˆClwc(X n+1; R) ⊆R d denote a
+local prediction set satisfying(20) almost surely. Then, ˆClwc(X n+1)defined in (21) satisfies
+ˆClwc(X n+1) ⊆ ˆCgwc(X n+1). Therefore, if(E1, . . . , En+1)are exchangeable and Assumption 1
+holds,P[Y n+1 ∈ ˆClwc(X n+1)]≥1−α.
+We next introduce an intuitive data-driven partition based on the possible rankings of
+the test residualsEn+1
+j relative to the calibration residuals(E1
+j , . . . , En
+j )for each coordinate
+j∈[d], and then we characterize the corresponding prediction setˆClwc(X n+1).
+13
+F an and Sesia
+3.4.2 Step 1: A Data-Driven Partition Based on Sample Order Statistics
+For each j∈ [d], let E(k)
+j denote the k-th order statistic of{Ei
+j}n
+i=1, so that0 := E(0)
+j <
+E(1)
+j ≤. . .≤E (n)
+j < E (n+1)
+j := +∞. For each multi-indexh = (h1, . . . , hd) ∈ [n + 1]d, define
+a (half-open) rectangleRh in the residual space and its regionYh in the outcome space as:
+Rh :=
+d
+×
+j=1
+
+E(hj −1)
+j , U hj
+j
+
+,whereU hj
+j := min
+n
+E(hj)
+j , ωj( ˆQgwc)
+o
+,
+Y h :=
+n
+y∈R d :E(X n+1, y)∈R h
+o
+.
+(22)
+This defines a partitionP = {Y h}h∈[n+1]d of ˆCgwc(X n+1)into disjoint regions, some of which
+may be empty, depending on the values of{ωj( ˆQgwc)}d
+j=1. Figure 2 visualizes the partition
+and the corresponding construction ofˆClwc(X n+1), in a two-dimensional toy example.
+E1
+E2
+E(1)
+1 E(2)
+1 E(3)
+1
+E(1)
+2 E(2)
+2 E(3)
+2
+0
+ˆC gwc(X n+1)
+ˆC lwc(X n+1,R)
+ˆC lwc(X n+1)
+Figure 2: Illustration of the construction of transductively standardized conformal prediction
+sets using the method outlined in(21), with the data-driven partitionP of the outcome space
+defined in(22), in a toy example with a two-dimensional outcome variable. The gray grid lines
+indicate the partitionP in the residual space, as determined by the order statisticsE(k)
+j of
+the calibration residuals. The shaded rectangles represent local prediction setsˆClwc(X n+1; R)
+corresponding to different hypothesized rectanglesR ∈ P . The solid rectangle shows the
+projection, in residual space, of their rectangular enclosure defined in(21), which constitutes
+our final prediction set. For comparison, the larger dashed rectangle shows the corresponding
+projection of the more conservative prediction setˆCgwc(X n+1)from Section 3.3.
+Whileitmayappearatfirstsightthatthischoiceofpartitionnecessarilyincursexponential
+computational costs of orderO(nd), rendering it intractable for all but very small dimensions
+d, in fact it enables a much more efficient characterization of the local prediction sets
+ˆClwc(X n+1; h)that will lead to a practical algorithm for constructing ˆClwc(X n+1)at a
+computational cost of onlyO(d2nlogn).
+14
+Interpretable Multiv ariate Conformal Prediction
+3.4.3 Step 2: Characterization of the Local Prediction Sets
+For anyh∈ [n + 1]d with Y h ̸= ∅, we characterize the local prediction setˆClwc(X n+1; h)as
+ˆClwc(X n+1;h) :=
+n
+y∈ Y h : 0≤E j(X n+1, y)≤ω j( ˆQlwc
+1−α(h))
+o
+,(23)
+where the functionωj is given in Lemma 2, and the scalar quantityˆQlwc
+1−α(h)is computed as
+described below, following a strategy similar to the worst-case approach from Section 3.3,
+but operating more liberally under the working hypothesis thatYn+1 ∈ Y h.
+Define the LWC transformation functionˆΦlwc(·, h) :R d
++ 7→Rsuch that, for anyt∈R d
++,
+ˆΦlwc(t;h) := max
+1≤j≤d
+(
+sup
+z∈Rh
+tj
+ˆσj(zj) −inf
+z∈E gwc
+ˆµj(zj)
+ˆσj(zj)
+)
+,E gwc :=
+d
+×
+j=1
+h
+0, ω( ˆQgwc
+1−α)
+i
+(24)
+where Egwc istheprojectionof ˆCgwc(X n+1)ontotheresidualspace; i.e., y∈ ˆCgwc(X n+1) ⇐ ⇒
+E(X n+1, y)∈ E gwc. With this choice, note that, wheneverEn+1 ∈R h,
+ˆΦlwc(t;h)≥max
+1≤j≤d
+sup
+z∈Rh
+tj −ˆµj(zj)
+ˆσj(zj) ≥Φ
+ 
+t; ˆµoracle,ˆσoracle
+,∀t∈R d
++.(25)
+Therefore, ˆΦlwc(t; h)islocallymore conservative than the oracle transformation from Sec-
+tion 3.1 under the working hypothesis thatY n+1 ∈ Y h, while being much less conservative
+than ˆΦgwc(t)from Section 3.3. Moreover, ˆΦlwc(t;h)admits the following closed form.
+Lemma 7IfY h ̸=∅, then ˆΦlwc(t;h)defined in(24)can be written for anyt∈R d
++ as:
+ˆΦlwc(t;h) = max
+1≤j≤d
+(
+tj
+rj(hj) −min
+(
+ˆµj(0)
+ˆσj(0) ,lim
+zj ↑ωj( ˆQgwc
+1−α)
+ˆµj(zj)
+ˆσj(zj)
+))
+,
+where
+rj(hj) =
+
+
+
+ˆσj,ifE (hj −1)
+j ≤ˆµj < U hj
+j ,
+min
+n
+ˆσj(E(hj −1)
+j ),ˆσj(U hj
+j )
+o
+,otherwise.
+Note that the expression forˆΦlwc(t; h)in Lemma 7 involves a limit forzj ↑ω j( ˆQgwc
+1−α)because
+ωj( ˆQgwc
+1−α)can be infinite when ˆQgwc
+1−α ≥ n√n+1 (recall Lemma 2), in which caseEgwc = Rd
++.
+Nonetheless, our construction remains well-defined even in that special case.
+The formula for ˆΦlwc(t; h)given by Lemma 7 makes it easy to compute the scores
+Si
+lwc(h) := ˆΦlwc(Ei, h)for all i∈ [n], and to evaluate the empirical quantileˆQlwc
+1−α(h) :=
+ˆQ1−α(S1
+lwc(h), . . . , Sn
+lwc(h))used in the characterization of ˆClwc(X n+1; h)in (23). Under
+the working hypothesisY n+1 ∈ Y h and En+1 ∈R h, it follows immediately from(25) that
+ˆQlwc
+1−α(h) ≥ ˆQoracle
+1−α almost surely. Therefore, this approach guarantees thatˆClwc(X n+1; h)
+satisfies(20) for allh∈ [n+1] d—this continues to hold even ifY h = ∅, because in that special
+case ˆClwc(X n+1;h) = ˜C(X n+1)∩ Y h =Y h =∅. Algorithm 1 summarizes this construction.
+15
+F an and Sesia
+Algorithm 1Construction of local prediction sets under working hypothesisYn+1 ∈ Y h
+Input:Calibration residuals {Ei}n
+i=1; target miscoverage levelα∈ (0, 1); global bounds
+ω1( ˆQgwc
+1−α), . . . , ωd( ˆQgwc
+1−α); calibration meanˆµand standard deviationˆσ; indexh∈[n+ 1] d.
+1:ifY h ̸=∅then
+2:ComputeS i
+lwc(h)← ˆΦlwc(Ei, h)fori∈[n]using ˆΦlwc(·, h)defined in (24).
+3:Compute ˆQlwc
+1−α(h)← ˆQ1−α(S1
+lwc(h), . . . , Sn
+lwc(h)).
+4:returnω 1( ˆQlwc
+1−α(h)), . . . , ωd( ˆQlwc
+1−α(h))usingωdefined in (12).
+5:else
+6:return∅.
+7:end if
+3.4.4 Computational Shortcut for Rectangular Enclosure
+While the characterization provided above makes it easy to computeˆClwc(X n+1; h)for any
+specific indexh∈[n+ 1] d, the problem remains that the expression forˆClwc(X n+1)in (21)
+involves anexponentialnumber of such local prediction sets. Therefore, to obtain a practical
+method, we must now develop a shortcut that avoids full enumeration of allˆClwc(X n+1;h).
+Our solution begins by noting thatˆClwc(X n+1;h)from (23) can be re-written as:
+ˆClwc(X n+1;h) =
+d\
+j=1
+n
+y∈R d :E (hj −1)
+j ≤E j(X n+1, y)≤B h
+j
+o
+⊆ ˆCgwc(X n+1),
+Bh
+j :=
+
+
+
+min
+n
+U hj
+j , ω j( ˆQlwc
+1−α(h))
+o
+,ifU hj
+j , ω j( ˆQlwc
+1−α(h))> E (hj −1)
+j ,
+0,otherwise.
+∀j∈[d].(26)
+For every coordinatej∈[d], define thej-th boundary
+Lj := max
+h∈[n+1]d
+Bh
+j .(27)
+For example, in the two-dimensional illustration of Figure 2, the value ofL1 represents the
+most extreme right-side endpoint of all shaded rectangles along the horizontal dimension,
+while L2 represents the most extreme upper endpoint of all shaded rectangles along the
+vertical dimension. Therefore,L1 and L2 uniquely identify the two sides of the solid rectangle
+shown in Figure 2, which represents the prediction setˆClwc(X n+1). In general, we write
+ˆClwc(X n+1) :=
+n
+y∈R d : 0≤E j(X n+1, y)≤ L j
+o
+⊇
+G
+h∈[n+1]d
+ˆClwc(X n+1;h).
+Notably, this rectangular enclosure is typically very tight in practice, because the union of
+the local prediction sets on the right-hand-side above is itself very close to being a rectangle
+when the sample size is large enough.
+The last remaining step to make our method practical is finding an efficient algorithm
+for computing the boundariesLj for all j∈ [d], without requiring enumeration of all local
+prediction sets. Such a shortcut is made possible by the following result, which simplifies the
+definition of Lj in (27) from a maximum over(n + 1)d distinct values to a maximum over an
+16
+Interpretable Multiv ariate Conformal Prediction
+explicit, narrowed-down list of onlyn + 1relevant candidates. Before stating this result, it is
+helpful to introduce some notation.
+For anyj∈[d], define the (random)mean indexh ∗
+j ∈[n+ 1]as that unique index such
+thatE
+(h∗
+j −1)
+j ≤ˆµj ≤E
+(h∗
+j )
+j ; define alsoh∗ := (h∗
+1, . . . , h∗
+d). Then, for allj∈[d], define
+Rowj(h∗) :=
+n
+h∈[n+1] d :h k =h ∗
+k for allk̸=j
+o
+,∀j∈[d].
+In words, Rowj(h∗)is a subset of[ n + 1]d containing exactly n + 1indices, defined as those
+coinciding with the mean indexh∗ on all coordinates other than thej-th one.
+Lemma 8 For any j∈ [d], the j-th boundary defined in(27) can be equivalently written as:
+Lj =B h[j]
+j , h [j] := arg max
+h∈Rowj(h∗)
+Bh
+j ,
+as long as Y h∗
+̸= ∅, where h[j] ∈Row j(h∗)satisfies Bh[j]
+j > 0and Bh
+j = 0for any h∈
+Rowj(h∗)with hj ≥h [j]
+j . Moreover, for every j∈ [d], if there existsm∈Row j(h∗)with
+mj ≥h ∗
+j andB m
+j = 0, thenB h
+j = 0for allh∈Row j(h∗)withh j ≥m j.
+Under the regularity conditionY h∗
+̸= ∅, which can be immediately verified and typically
+holds in practice under all but the most extreme scenarios, Lemma 8 gives a very fast
+algorithm for computingLj separately for each coordinatej∈ [d]. In particular, one can
+conduct a backward search overh∈Row j(h∗)with hj = n + 1, . . . ,1, evaluating each
+Bh
+j using (26) and stopping at the first non-zero value. Moreover, if h[j]
+j ≥h ∗
+j, which
+can be determined by simply checking whetherBh∗
+j > 0, then we can findh[j]
+j even more
+effectively through a binary search that checks whetherBm
+j = 0at each intermediate split
+stepm∈Row j(h∗)withm j ∈[h ∗
+j , ..., n+ 1].
+The special caseY h∗
+̸= ∅ corresponds to an extreme situation where even the conservative
+GWC prediction set ˆCgwc(X n+1)does not cover the empirical mean of the calibration
+residuals. Typically, this should not occur at moderate miscoverage levelsα, unless the
+data are extremely heavy-tailed. Such cases can be handled by simply falling back to the
+conservative GWC prediction setˆCgwc(X n+1)itself, which we know to have valid marginal
+coverage. In conclusion, the procedure described above, summarized in Algorithm 2, produces:
+ˆC(X n+1) =
+(
+y∈R d : 0≤E j(X n+1, y)≤ L j
+	
+,ifY h∗
+̸=∅,
+ˆCgwc(X n+1),otherwise. (28)
+Theorem 9 Assume( E1, . . . , En+1)are exchangeable and Assumption 1 holds. Then,
+ˆC(X n+1)constructed by Algorithm 2 satisfies:P[Y n+1 ∈ ˆC(X n+1)]≥1−α.
+ProofUsing the characterization of ˆC(X n+1)in (28), the proof follows immediately by
+combining Proposition 6, which tells us thatP[Y n+1 ∈ ˆClwc(X n+1)] ≥ 1 −α, and Theorem 5,
+which tells us thatP[Yn+1 ∈ ˆCgwc(X n+1)]≥1−α.
+17
+F an and Sesia
+Algorithm 2Transductively Standardized Conformal Prediction (TSCP)
+Input:Calibration residuals{E i}n
+i=1; target miscoverage levelα∈(0,1); test inputX n+1.
+1:Computeˆµ,ˆσusing (11).
+2:Compute global boundsω 1( ˆQgwc
+1−α), . . . , ωd( ˆQgwc
+1−α)using TSCP-GWC.▷Algorithm S5.
+3:Sort{E i
+j}n
+i=1 for eachj∈[d]to obtain order statisticsE (k)
+j .
+4:ComputeY h∗
+using (22).
+5:ifY h∗
+=∅then
+6:return ˆC(X n+1)←
+n
+y∈R d : 0≤E j(X n+1, y)≤ω j( ˆQgwc
+1−α),∀j∈[d]
+o
+.
+7:else
+8:forj= 1toddo
+9:Computeω j( ˆQlwc
+1−α(h∗))using Algorithm 1 andB h∗
+j using (26).
+10:ifB h∗
+j = 0then
+11:Backward search overh j =h ∗
+j −1, . . . ,1to findh [j].▷Algorithm S6
+12:else
+13:Binary search overh j =h ∗
+j , . . . , n+1to findh [j].▷Algorithm S7
+14:end if
+15:UpdateL j ←B h[j]
+j .
+16:end for
+17:return ˆC(X n+1)←
+n
+y∈R d : 0≤E j(X n+1, y)≤ L j,∀j∈[d]
+o
+.
+18:end if
+Theorem 9 guarantees that our prediction setsˆC(X n+1)defined in (28) have valid finite-
+sample marginal coverage above the target level1−α. Moreover, these prediction sets have
+an interpretable rectangular shape and are typically much tighter thanˆCgwc(X n+1).
+The computational complexity of Algorithm 2 ranges fromO(d2nlogn )in the best case,
+when binary searches can be used for all coordinates, toO(d2n2)in the worst case, when
+all coordinates require backward searches; see Appendix A.3 for details. Even in the worst
+case, a cost ofO(d2n2)is typically not prohibitive in practice: calibration sample sizesn
+for conformal prediction are usually in the hundreds to low thousands, and beyond that
+additional samples are often better spent improving model training.
+Inaddition, thecomputationofthedistinctboundaries L1, . . . ,Ld istriviallyparallelizable,
+and the entire procedure need not be repeated across different test inputs, sinceL1, . . . ,Ld are
+independent of X n+1—remarkably, we have arrived throughtransductivelogic at a method
+that is effectivelyinductive. Therefore, applying Algorithm 2 tom different test points using
+the same calibration data set has total cost ranging fromO(d2nlogn + dm)to O(d2n2 + dm)
+for typical choices of generalized residuals (Section 2.3).
+4 Numerical Experiments
+4.1 Methods and Metrics
+We provide a comprehensive empirical validation of the proposedTSCPmethod (Algorithm 2)
+using simulated and real data. The performance of TSCP is compared to that of three
+representative benchmark approaches: (i)Unscaled Max, a direct extension of split conformal
+18
+Interpretable Multiv ariate Conformal Prediction
+inference that applies the ℓ∞ norm to the residuals, summarized in Algorithm S2; (ii)
+Point CHR, a data-splitting variant recently proposed by Sampson and Chan (2024), which
+estimates per-target out-of-sample points using a held-out calibration set and adjusts them to
+form axis-aligned rectangular sets; (iii)Emp. Copula, the first distribution-free copula-based
+method introduced in Messoudi et al. (2021).
+The results of additional experiments comparing TSCP to different approaches are in
+Appendix C. We do not include in this empirical study alternative copula-based methods—
+e.g., vine copulas (Park and Cho, 2025)—because their main limitations relative to our
+approach are the same as those of theEmp. Copulabenchmark. To enable meaningful direct
+comparisons, we also omit approaches that do not produce rectangular prediction sets.
+For simplicity, we apply all methods using the same conditional mean-regression modelˆf
+and standard absolute residuals; i.e.,Ej(X, Y ) = | ˆfj(X) −Y j| for all j∈ [d]. Although our
+method can also be seamlessly applied using different choices of models and residuals, this
+is a relatively common choice previously employed in several related works (Sampson and
+Chan, 2024; Park and Cho, 2025; Dheur et al., 2025).
+The conformal prediction sets produced by the different methods are compared based on
+two key performance metrics: average coverage and size (volume). Since all methods rely on
+the same underlying model, it suffices to measure the size of the prediction sets in residual
+space. Specifically, we report
+(Test) Coverage:= 1
+N
+NX
+l=1
+# of included test points
+# of total test points ,
+(Residual space) Volume:= 1
+N
+NX
+l=1
+1
+2dVol(prediction set),
+where both metrics are averaged overN repetitions of each experiment, corresponding to
+independent data sets. The constant factor2−d in the volume definition facilitates comparison
+across experiments with different output dimensions.
+4.2 Experiments with Simulated Data
+We simulate data with features from a10-dimensional standard normal distribution with
+independent components, and 10-dimensional outcomes
+Yj |X∼f j(X) +ϵ j,∀j∈[10],(29)
+where fj(X) = P10
+i=1 ξiXi such that ξ1, . . . , ξ10 ∼Unif (−10, 10), and ϵj is independent
+random noise for eachj∈ [d]. We consider six settings corresponding to different noise
+distributions; the results for two are presented here while those corresponding to other
+settings, which lead to qualitatively similar conclusions, are summarized in Appendix C.1.
+In each setting, we simulate a training data set containing7200observations to fit
+a linear regression model ˆf using ordinary least squares, a calibration set Dcal of size
+|Dcal| ∈ { 30, 50, 100, 300, 500}, and a test setDtest of size800, to construct prediction sets at
+levelα= 0.1. All results are averaged overN= 200independent repetitions.
+19
+F an and Sesia
+Figure 3 summarizes the results obtained in the first setting, where the noise distribution
+is Gaussian with heterogeneous variance across dimensions:
+ϵheter
+j ∼ N
+ 
+0,(10−j+ 1) 2
+,∀j∈[10].
+/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
+/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
+/uni00000013/uni00000011/uni00000019
+/uni00000013/uni00000011/uni0000001a
+/uni00000013/uni00000011/uni0000001b
+/uni00000013/uni00000011/uni0000001c
+/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
+/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
+/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
+/uni00000014/uni00000013/uni00000014/uni00000014
+/uni00000014/uni00000013/uni00000014/uni00000015
+/uni00000014/uni00000013/uni00000014/uni00000016
+/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
+/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
+/uni00000028/uni00000050/uni00000053/uni00000011/uni00000003/uni00000026/uni00000052/uni00000053/uni00000058/uni0000004f/uni00000044
+/uni00000038/uni00000051/uni00000056/uni00000046/uni00000044/uni0000004f/uni00000048/uni00000047/uni00000003/uni00000030/uni00000044/uni0000005b
+/uni00000033/uni00000052/uni0000004c/uni00000051/uni00000057/uni00000003/uni00000026/uni0000002b/uni00000035
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
+Figure 3: Average performance of the proposed TSCP method and alternative conformal
+prediction approaches on simulated data withd = 10outcome variables and heterogeneous
+noise variances. The target coverage level is90%. TSCP consistently attains near-nominal
+coverage while producing the smallest prediction sets on average. Numerical results and
+corresponding standard deviations are reported in Table S3.
+These results show that our method performs well across both small and large sample
+sizes, always achieving valid coverage at level1−α (as predicted by the theory) but not
+excessively above it, using relatively tight prediction sets. ThePoint CHRapproach yields
+substantially larger, and therefore less informative, prediction sets—especially in small
+samples (e.g., n < 100)—due to the inefficiency introduced by its additional sample split.
+Even for moderately large samples, our method continues to perform noticeably better,
+although this difference is difficult to discern in Figure 3 because of the log–log scale; see
+Table S3 for a more detailed numerical summary. TheEmp. Copulaapproach clearly fails to
+achieve finite-sample coverage, since it uses the same calibration set both to estimate the
+copula model and to calibrate the prediction sets based on the resulting nonconformity scores.
+While this issue could be addressed through additional data splitting, doing so would come
+with the same efficiency disadvantages ofPoint CHR. This limitation is shared by related
+copula-based approaches that we do not explicitly include in our comparisons. Finally, the
+Unscaled Maxapproach produces much larger (and effectively uninformative) prediction sets
+in both small and large samples, as it is negatively affected by the unequal variances of the
+noise distribution across different dimensions.
+Figure 4 reports results from analogous experiments in which the noise distribution has
+equal variance across dimensions, withϵhomo
+j ∼ N (0, 1)for all j∈ [10]. This setting strongly
+favors theUnscaled Maxapproach; nevertheless, our TSCP still performs as a close second.
+In practice, however, noise levels are rarely knowna priori, making the adaptivity and
+robustness of TSCP generally desirable.
+The results of additional numerical experiments are reported in Appendices C.2–C.3. In
+Appendix C.2, we compare TSCP with several alternative approaches described in Sections 2
+20
+Interpretable Multiv ariate Conformal Prediction
+/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
+/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
+/uni00000013/uni00000011/uni00000019
+/uni00000013/uni00000011/uni0000001a
+/uni00000013/uni00000011/uni0000001b
+/uni00000013/uni00000011/uni0000001c
+/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
+/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
+/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
+/uni00000014/uni00000013/uni00000017
+/uni00000014/uni00000013/uni00000018
+/uni00000014/uni00000013/uni00000019
+/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
+/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
+/uni00000028/uni00000050/uni00000053/uni00000011/uni00000003/uni00000026/uni00000052/uni00000053/uni00000058/uni0000004f/uni00000044
+/uni00000038/uni00000051/uni00000056/uni00000046/uni00000044/uni0000004f/uni00000048/uni00000047/uni00000003/uni00000030/uni00000044/uni0000005b
+/uni00000033/uni00000052/uni0000004c/uni00000051/uni00000057/uni00000003/uni00000026/uni0000002b/uni00000035
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
+Figure 4: Average performance of the proposed TSCP method and alternative conformal
+prediction approaches in numerical experiments similar to those of Figure 3. Here, the
+outcome variables have homogeneous variance across theird = 10dimensions, which gives
+an advantage to theUnscaled Maxapproach. The target coverage level is0 .9. TSCP
+consistently attains near-nominal coverage while producing the smallest prediction sets on
+average. Numerical results and corresponding standard deviations are reported in Table S4.
+and 3, including the naive plug-in rescaling procedure (Algorithm S3), the data-splitting
+variant (Algorithm S4), the conservative global worst-case approach (Algorithm S5), and the
+union-based construction without rectangular enclosure (Section 3.4). These experiments
+highlight the favorable balance between statistical–computational trade-offs achieved by
+TSCP. We further examine scalability with respect to the outcome dimension and show that
+Algorithm 2 remains computationally efficient in regimes where union-based constructions
+become prohibitive. In Appendix C.3, we investigate the robustness of TSCP under heavy-
+tailed noise and demonstrate that our method continues to achieve near-nominal coverage
+even in extreme settings where the population variance of the residuals is infinite.
+4.3 Experiments with Real Data
+We now evaluate all methods on six real datasets. The first four,rf2(Tsoumakas et al.,
+2022),scm1d(Contributors, 2019a),scm20d(Contributors, 2019b), andstock(Yeh, 2015),
+are borrowed from related prior works (Park and Cho, 2025; Dheur et al., 2025). The other
+two datasets,student(Cortez, 2008) andenergy(Tsanas and Xifara, 2012), are obtained
+from the UCI repository and serve to illustrate the small-sample performance of TSCP.
+Foreachdataset, weperform200randomtrain/calibration/testsplitsusinga75% /5%/20%
+ratio. We fit a multivariate sparse (lasso) regression model with regularization parameter
+λ = 0.0001onstock, and random forest regression models on all other datasets; see the
+GitHub software repository linked in the Software Availability section for additional repro-
+ducibility details. Table 1 reports the average coverage and volume, along with one standard
+deviation. As shown in Table 1, the empirical behavior of all methods on real data largely
+mirrors the trends observed in the simulation studies. Among methods with theoretical
+coverage guarantees, TSCP achieves the smallest prediction-set volume on thestock,scm1d,
+scm20d, andenergydatasets. Onrf2, TSCP is outperformed byPoint CHR, likely due to the
+presence of a small number of influential outliers. Onstudent,Unscaled Maxyields smaller
+volumes, consistent with the approximately homogeneous noise across targets (student GPAs
+21
+F an and Sesia
+at different grade levels). ThePoint CHRapproach produces an uninformative,infinite
+prediction set on thestockdataset, because its additional data split makes the effective
+calibration set extremely small. Finally,Emp. Copulagenerally fails to achieve the desired
+coverage level, consistent with its lack of finite-sample guarantees. Overall, the results show
+that TSCP provides a reasonable trade-off between coverage and volume, excelling especially
+when calibration data are limited or when noise scales differ significantly across targets.
+MethodStock(d= 6, n= 15)rf2(d= 8, n= 384)
+Coverage Volume Coverage Volume
+Unscaled Max 0.940(0.057) 6.03e-02(1.57e-01) 0.900(0.016) 4.14e+03(2.90e+03)
+Emp. copula 0.727(0.113) 1.01e-05(9.80e-06) 0.893(0.016) 5.35e+01(4.69e+01)
+Point CHR 1.000(0.000) inf 0.901(0.022)6.85e+01(7.55e+01)
+TSCP 0.956(0.059)1.86e-03(8.55e-03)0.901(0.017) 5.42e+02(1.50e+03)
+Methodscm1d(d= 16, n= 490)scm20d(d= 16, n= 448)
+Coverage Volume Coverage Volume
+Unscaled Max 0.900(0.016) 2.74e+39(4.02e+39) 0.901(0.016) 2.70e+40(2.92e+40)
+Emp. copula 0.893(0.016) 1.09e+39(1.34e+39) 0.892(0.017) 1.178e+40(1.190e+40)
+Point CHR 0.905(0.020) 2.84e+39(5.43e+39) 0.902(0.023) 3.00e+40(8.00e+40)
+TSCP 0.901(0.015)1.52e+39(2.61e+39)0.901(0.016)1.53e+40(1.50e+40)
+MethodEnergy(d= 2, n= 38)Student(d= 3, n= 32)
+Coverage Volume Coverage Volume
+Unscaled Max 0.917(0.049) 1.58e+01(6.80e+00) 0.904(0.055)1.51e+02(1.27e+02)
+Emp. copula 0.886(0.061) 5.41e+00(4.49e+00) 0.861(0.073) 1.08e+02(7.19e+01)
+Point CHR 0.899(0.069) 8.81e+00(2.42e+01) 0.939(0.057) 6.89e+02(1.07e+03)
+TSCP 0.922(0.048)6.95e+00(4.43e+00)0.912(0.056) 1.98e+02(1.77e+02)
+Table 1: Performance of the proposed TSCP method and alternative conformal prediction
+approaches on real datasets. Results are averaged over200random splits of the data into
+training/calibration/and test subsets, with one standard deviation reported in parentheses.
+The target coverage level is0.9. Coverage values below the target are highlighted in red, and
+the smallest volume among methods achieving valid coverage is highlighted inbold.
+To emphasize their interpretability, Table 2 displays the rectangular prediction sets
+produced by different methods for two representative test points from theenergydataset,
+where d = 2. In this setting, rectangular prediction sets consist of pairs of simultaneous
+prediction intervals that aim to jointly contain the true outcomes with probability90%.
+5 Discussion and Future Work
+The core idea underlying the method presented in this paper is the explicit standardization
+of residuals, which contributes both to the transparency and to the computational efficiency
+of the resulting prediction sets. As with other standardization-based methods, however, this
+strategy introduces some sensitivity to outliers. This behavior is visible in the numerical
+22
+Interpretable Multiv ariate Conformal Prediction
+T est 1/MethodsOutcome 1 Outcome 2 Volume Ground Truth
+Unscaled Max [31.70, 38.94][34.74, 41.98]13.09
+(35.40, 39.22)Emp. copula[34.36, 36.28] [34.74, 41.98]3.47
+Point CHR [34.29, 36.36] [31.45, 45.27] 7.14
+TSCP [34.28, 36.36] [33.63, 43.08] 4.93
+T est 2/MethodsOutcome 1 Outcome 2 Volume Ground Truth
+Unscaled Max [25.44, 32.67] [29.34, 36.58] 13.09
+(29.88, 28.31)Emp. copula[28.10, 30.02][29.34, 36.58] 3.47
+Point CHR [28.02, 30.09] [26.05, 39.87] 7.14
+TSCP [28.01, 30.10][28.24, 37.69]4.93
+Table 2: Anecdotal illustration of conformal prediction sets of rectangular shape for two
+test points from theenergydataset. In this case, the prediction sets can be reported as
+pairs of joint prediction intervals for the two outcome dimensions. Volumes are computed in
+residual space. Intervals that fail to cover the corresponding true outcomes are highlighted
+in red; smallest interval that covers the ground truth is highlighted inbold. This example
+is included for illustration only: the coverage guarantees of conformal prediction hold on
+average, not for individual test points.
+experiments based on therf2dataset, where a small number of influential observations can
+substantially expand the resulting prediction sets. An important direction for future work is
+therefore the development of robust extensions of our method, for example through rescaling
+based on median absolute deviation or quantile-based normalizations, while preserving the
+exchangeability required for conformal validity.
+Additional directions for future work include allowing for negative residuals. Such an
+extension could, for example, enable shrinkage of baseline prediction sets when starting from
+quantile regression models that already exhibit conservative coverage. It would also be of
+interest to adapt the proposed approach to settings with non-numerical outcomes, such as
+categorical or ordinal responses. Finally, our method could be extended to handle partly
+observed outcomes (Braun et al., 2025b).
+Software A vailability
+A software implementation of the methods described in this paper, along with code neces-
+sary to reproduce the numerical experiments, is available online athttps://github.com/
+OTheMagic/multi-target-scaling.git.
+Acknowledgments and Disclosure of Funding
+The authors thank Rundong Ding and Dr. Yizhe Zhu for helpful suggestions during an oral
+presentation of an earlier version of this work. M.S. was partly supported by a NSF grant
+DMS 2210637, a USC-Capital One CREDIF award, and a Google Research Scholar award.
+23
+F an and Sesia
+References
+J. Abad, U. Bhatt, A. Weller, and G. Cherubin. Approximating full conformal prediction at
+scale via influence functions.arXiv preprint arXiv:2202.01315, 2022.
+A. N. Angelopoulos and S. Bates. Conformal prediction: A gentle introduction.Foundations
+and Trends®in Machine Learning, 16(4):494–591, 2023.
+A. N. Angelopoulos, R. F. Barber, and S. Bates. Theoretical foundations of conformal
+prediction.arXiv preprint arXiv:2411.11824, 2024.
+A. Baheri and M. Amiri Shahbazi. Multi-scale conformal prediction: A theoretical framework
+with coverage guarantees.arXiv preprint arXiv:2502.05565, 2025.
+S. Braun, L. Aolaritei, M. I. Jordan, and F. Bach. Minimum volume conformal sets for
+multivariate regression.arXiv preprint arXiv:2503.19068, 2025a.
+S. Braun, E. Berta, M. I. Jordan, and F. Bach. Multivariate conformal prediction via
+conformalized gaussian scoring.arXiv preprint arXiv:2507.20941, 2025b.
+N. Colombo. Normalizing flows for conformal regression. InProceedings of the 40th Conference
+on Uncertainty in Artificial Intelligence (UAI), 2024.
+O. Contributors. Dataset 41485 on openml. https://www.openml.org/d/41485, 2019a.
+OpenML dataset ID 41485.
+O. Contributors. Dataset 41486 on openml, 2019b. URLhttps://www.openml.org/d/41486.
+OpenML dataset ID 41486.
+P. Cortez. Student performance [dataset].https://doi.org/10.24432/C5TG7T, 2008. UCI
+Machine Learning Repository.
+V. Dheur, M. Fontana, Y. Estievenart, N. Desobry, and S. Ben Taieb. A unified comparative
+study with generalized conformity scores for multi-output conformal regression.arXiv
+preprint arXiv:2501.10533, 2025.
+Z. Fang, A. Tan, and J. Huang. Contra: Conformal prediction region via normalizing
+flow transformation. InProceedings of the 13th International Conference on Learning
+Representations (ICLR), 2025.
+R. Foygel Barber, E. Cand‘es, A. Ramdas, and R. J. Tibshirani. The limits of distribution-free
+conditional predictive inference.Information and Inference: A Journal of the IMA, 10(2):
+455–482, 2021.
+I. Gibbs, J. J. Cherian, and E. Candès. Conformal prediction with conditional guarantees.
+Journal of the Royal Statistical Society Series B: Statistical Methodology, page qkaf008,
+2025.
+E. K. Guha, E. Ndiaye, and X. Huo. Conformalization of sparse generalized linear models.
+InInternational Conference on Machine Learning, pages 11871–11887. PMLR, 2023.
+24
+Interpretable Multiv ariate Conformal Prediction
+R. Izbicki, G. Shimizu, and R. B. Stern. CD-split and HPD-split: Efficient conformal regions
+in high dimensions.Journal of Machine Learning Research, 23(87):1–32, 2022.
+C. Johnstone and B. Cox. Conformal uncertainty sets for robust optimization. InConformal
+and Probabilistic Prediction and Applications, pages 72–90. PMLR, 2021.
+C. Johnstone and E. Ndiaye. Exact and approximate conformal inference for multi-output
+regression.arXiv preprint arXiv:2210.17405, 2022.
+M. Klein, L. Béthune, E. Ndiaye, and M. Cuturi. Multivariate conformal prediction using
+optimal transport. InProceedings of the 42nd International Conference on Machine
+Learning (ICML), 2025.
+J. Lee, C. Xu, and Y. Xie. Flow-based conformal prediction for multi-dimensional time series.
+arXiv preprint arXiv:2502.05709, 2025.
+J. Lei. Fast exact conformalization of the lasso using piecewise linear homotopy.Biometrika,
+106(4):749–764, 2019.
+J. Lei, M. G’Sell, A. Rinaldo, R. Tibshirani, and L. Wasserman. Distribution-free predictive
+inference for regression.Journal of the American Statistical Association, 113(523):1094–
+1111, 2018.
+D. Li. Generalized fast exact conformalization.Advances in Neural Information Processing
+Systems, 37:65699–65716, 2024.
+Z. Liang, Y. Zhou, and M. Sesia. Conformal inference is (almost) free for neural networks
+trained with early stopping. InProceedings of the 40th International Conference on Machine
+Learning, volume 202 ofProceedings of Machine Learning Research, pages 21188–21216.
+PMLR, 2023.
+J. A. Martinez, U. Bhatt, A. Weller, and G. Cherubin. Approximating full conformal
+prediction at scale via influence functions. InProceedings of the AAAI Conference on
+Artificial Intelligence, volume 37, pages 6631–6639, 2023.
+S. Messoudi, S. Destercke, and S. Rousseau. Copula-based conformal prediction for multi-
+target regression.Pattern Recognition, 120:108101, 2021.
+E. Ndiaye and I. Takeuchi. Computing full conformal prediction set with approximate
+homotopy.Advances in Neural Information Processing Systems, 32, 2019.
+J. Neeven and E. Smirnov. Conformal stacked weather forecasting. InConformal and
+Probabilistic Prediction and Applications, pages 220–233. PMLR, 2018.
+J. W. Park and K. Cho. Semiparametric conformal prediction. InProceedings of The 28th
+International Conference on Artificial Intelligence and Statistics, volume 258 ofProceedings
+of Machine Learning Research, pages 3880–3888. PMLR, 2025.
+Y. Romano, E. Patterson, and E. Candès. Conformalized quantile regression.Advances in
+Neural Information Processing Systems, 32, 2019.
+25
+F an and Sesia
+Y. Romano, R. F. Barber, C. Sabatti, and E. Candès. With Malice Toward None: Assessing
+Uncertainty via Equalized Coverage.Harvard Data Science Review, 2(2), apr 30 2020a.
+Y. Romano, M. Sesia, and E. Candès. Classification with valid and adaptive coverage. In
+Advances in Neural Information Processing Systems, volume 33, pages 3538–3548, 2020b.
+M. Sadinle, J. Lei, and L. Wasserman. Least ambiguous set-valued classifiers with bounded
+error levels.Journal of the American Statistical Association, 114(525):223–234, 2019.
+M. Sampson and K.-S. Chan. Conformal multi-target hyperrectangles.Statistical Analysis
+and Data Mining: The ASA Data Science Journal, 17(1):3–21, 2024.
+M. Sesia and Y. Romano. Conformal prediction using conditional histograms. InAdvances
+in Neural Information Processing Systems, volume 34, 2021.
+S. H. Sun and R. Yu. Copula conformal prediction for multi-step time series prediction. In
+Proceedings of the Twelfth International Conference on Learning Representations, 2023.
+G. Thurin, K. Nadjahi, and C. Boyer. Optimal transport-based conformal prediction. In
+Proceedings of the 42nd International Conference on Machine Learning (ICML), 2025.
+A. Tsanas and A. Xifara. Energy efficiency [dataset].https://doi.org/10.24432/C51307,
+2012. UCI Machine Learning Repository.
+G. Tsoumakas, E. Spyromitros-Xioufis, W. Groves, and I. Vlahavas. River flow-rf2, 2022.
+URLhttps://www.kaggle.com/ds/2172526.
+V. Vovk. Transductive conformal predictors. InIFIP International Conference on Artificial
+Intelligence Applications and Innovations, pages 348–360. Springer, 2013.
+V. Vovk, A. Gammerman, and G. Shafer.Algorithmic Learning in a Random World. Springer,
+2005.
+Z. Wang, M. Cauchois, and J. C. Duchi. Probabilistic conformal prediction using conditional
+random samples. InInternational Conference on Artificial Intelligence and Statistics, pages
+8814–8836. PMLR, 2023.
+I.-C. Yeh. Stock Portfolio Performance. UCI Machine Learning Repository, 2015. DOI:
+https://doi.org/10.24432/C5SC7G.
+Y. Zhang and E. Candès. Posterior conformal prediction.arXiv preprint arXiv:2409.19712,
+2024.
+Y. Zhou and M. Sesia. Conformal classification with equalized coverage for adaptively selected
+groups. InAdvances in Neural Information Processing Systems 37 (NeurIPS), 2024.
+26
+Interpretable Multiv ariate Conformal Prediction
+Appendix: Algorithms, Proofs, and Numerical Results
+Appendix A. Additional Algorithmic Details
+A.1 Implementation of Alternative Methods
+Algorithm S1Separate Prediction Intervals with Bonferroni Correction
+Input:Calibration residuals{E i}n
+i=1; target miscoverage levelα∈(0,1); test inputX n+1.
+1:Computeα ∗ ←α/d.
+2:forj= 1toddo
+3:Compute ˆQ1−α∗,j ← ˆQ1−α∗(E1
+j , . . . , En
+j ).
+4:end for
+5:return ˆCBonf.(X n+1)←
+n
+y∈R d : 0≤E j(X n+1, y)≤ ˆQ1−α∗,j,∀j∈[d]
+o
+.
+Algorithm S2Prediction Intervals via Dimension Reduction withℓ∞-Norm (Unscaled)
+Input:Calibration residuals{E i}n
+i=1; target miscoverage levelα∈(0,1); test inputX n+1.
+1:ComputeS i
+unscaled ← ∥E i∥∞ fori= 1, . . . , n.
+2:Compute ˆQunscaled
+1−α ← ˆQ1−α(S1
+unscaled, . . . , Sn
+unscaled)
+3:return ˆCunscaled(X n+1)←
+n
+y∈R d : 0≤E n+1
+j (y)≤ ˆQunscaled
+1−α ,∀j∈[d]
+o
+.
+Algorithm S3Heuristic Plug-In Standardization
+Input:Calibration residuals{E i}n
+i=1; target miscoverage levelα∈(0,1); test inputX n+1.
+1:forj= 1toddo
+2:Compute the location and scale parameters
+ˆµpi
+j ← 1
+n
+nX
+i=1
+Ei
+j,ˆσ pi
+j ←
+vuut 1
+n−1
+nX
+i=1
+(Ei
+j −ˆµpi
+j )2.
+3:end for
+4:ComputeS i
+pi ←Φ(E i; ˆµpi
+j ,ˆσpi
+j )fori∈[n], usingΦdefined in (5).
+5:Compute ˆQpi
+1−α ← ˆQ1−α(S1
+pi, . . . , Sn
+pi).
+6:Compute
+ˆCpi(X n+1)←
+n
+y∈R d : 0≤E j(X n+1, y)≤ ˆQpi
+1−α ·ˆσpi
+j + ˆµpi
+j ,∀j∈[d]
+o
+,
+using either(8) (for absolute regression residuals) or(9) (for quantile regression residuals).
+7:returnPrediction set ˆCpi(X n+1).
+27
+F an and Sesia
+Algorithm S4Standardization with Data Splitting
+Input:Calibration residuals{E i}n
+i=1; target miscoverage levelα∈(0,1); test inputX n+1.
+Output: ˆCds(X n+1)
+1:Randomly split{1, . . . , n}into two disjoint subsets,I 1 andI 2.
+2:forj= 1toddo
+3:Compute the location and scale parameters
+ˆµds
+j ← 1
+|I1|
+X
+i∈I1
+Ei
+j,ˆσ ds
+j ←
+s
+1
+|I1| −1
+X
+i∈I1
+(Ei
+j −ˆµj)2.
+4:end for
+5:ComputeS i
+ds ←Φ(E i; ˆµds
+j ,ˆσds
+j )fori∈ I 2, usingΦdefined in (5).
+6:Compute ˆQds
+1−α ← ˆQ1−α(S1
+ds, . . . , Sn
+ds).
+7:return ˆCds(X n+1)←
+n
+y∈R d : 0≤E j(X n+1, y)≤ ˆQds
+1−α ·ˆσds
+j + ˆµds
+j ,∀j∈[d]
+o
+.
+A.2 Auxiliary Algorithms
+Algorithm S5Global-Worst-Case TSCP (TSCP-GWC)
+Input:Calibration residuals{E i}n
+i=1; target miscoverage levelα∈(0,1); test inputX n+1.
+1:Computeˆµ,ˆσusing (11).
+2:ComputeS i
+gwc ←Φ gwc(Ei)usingΦ gwc defined in Lemma 4.
+3:Compute ˆQgwc
+1−α ← ˆQ1−α(Sgwc
+1 , . . . , Sn
+gwc).
+4:Computeω 1( ˆQgwc
+1−α), . . . , ωd( ˆQgwc
+1−α)usingωdefined in (12).
+5:return ˆCgwc(X n+1)←
+n
+y∈R d : 0≤E j(X n+1, y)≤ω j( ˆQgwc
+1−α),∀j∈[d]
+o
+.
+Algorithm S6Backward Search in Algorithm 2
+Input:Calibration residuals {Ei}n
+i=1; global boundsω1( ˆQgwc
+1−α), . . . , ωd( ˆQgwc
+1−α); target miscov-
+erage level α∈ (0, 1); calibration meanˆµand standard deviationˆσ; mean indexh∗; current
+coordinatej.
+1:forh∈Row j(h∗)withh j =h ∗
+j −1to1do
+2:Computeω j( ˆQlwc
+1−α(h))using Algorithm 1 andB h
+j using (26).
+3:ifB h
+j >0then
+4:returnh [j] =h.
+5:end if
+6:end for
+28
+Interpretable Multiv ariate Conformal Prediction
+Algorithm S7Binary Search in Algorithm 2
+Input:Calibration residuals {Ei}n
+i=1 global bounds ω1( ˆQgwc
+1−α), . . . , ωd( ˆQgwc
+1−α); ; target mis-
+coverage level α∈ (0, 1); calibration mean ˆµand standard deviation ˆσ; mean index h∗;
+current coordinatej.
+1:LetI min ←h ∗
+j andI max ←n+ 1.
+2:whileI min < Imax do
+3:Computem j ← ⌈(Imin +I max)/2⌉andm k =h ∗
+k for allk̸=j.
+4:Computeω j( ˆQlwc
+1−α(h))andB m
+j using (26).▷Algorithm 1
+5:ifB m
+j >0then
+6:I min ←m j.
+7:else
+8:I max ←m j −1.
+9:end if
+10:ifI max =I min then
+11:returnh [j]
+j =I min andh [j]
+k =h ∗
+k for allk̸=j.
+12:end if
+13:end while
+A.3 Computational Cost Analysis
+A.3.1 Algorithm S5
+Since the calibration residuals{Ei}n
+i=1 are stored as an(n, d)-array, we know
+1. Computing(ˆµj,ˆσj)d
+j=1using (11) requiresO(nd).
+2. EvaluatingS i
+gwc ←Φ gwc(Ei)for alli∈[n]is alsoO(nd).
+3. Computing the quantileˆQgwc
+1−α costs O(n)using a selection algorithm such as quickselect.
+4. Computing ω1( ˆQgwc
+1−α), . . . , ωd( ˆQgwc
+1−α)costs O(d)once ˆQgwc
+1−α and( ˆµj,ˆσj)d
+j=1 are known.
+Hence, the overall computational complexity of Algorithm S5 isO(nd).
+A.3.2 Algorithm 1
+Algorithm 1 shares the same structure and computational cost as Algorithm S5:O(nd).
+A.3.3 Algorithm 2
+Since the calibration residuals{Ei}n
+i=1 are stored as an(n, d)-array, we know
+1. Computing( ˆµj,ˆσj)d
+j=1 using (11) and ω1( ˆQgwc
+1−α), . . . , ωd( ˆQgwc
+1−α)using Algorithm S5
+requiresO(nd).
+2. Sorting{E i
+j}n
+i=1 for allj∈[d]costsO(dnlogn);
+3. Computing Y h∗
+relies on computing h∗, which requires masking all values belowˆµ
+and report the index of the lowest value from the sorted residuals list{Ei
+j}n
+i=1, each of
+which costsO(n), so together this operation contributesO(dn).
+29
+F an and Sesia
+4. IfY h∗
+=∅, then the cost is onlyO(d)since all global bounds have been computed.
+5. If Y h∗
+̸= ∅, then for each coordinate, we compute the local bounds using Algorithm 1
+and Bh∗
+j using (26), which costs O(dn). If Bh∗
+j = 0, then we use the backward
+search detailed in Algorithm S6, which costsO(dn2); see Appendix A.3.4. IfBh∗
+j > 0,
+then we use the binary search detailed in Algorithm S7, which costsO(dnlogn ); see
+Appendix A.3.5.
+Let T≤d be the number of coordinates where binary searches are enabled, then the total
+cost of Algorithm 2 isO(T dnlogn+ (d−T)dn 2)
+A.3.4 Algorithm S6
+Running Algorithm 1 and formingBh
+j costs O(dn)for each h; there are n + 1indices in
+Rowj(h∗), so the computational complexity of Algorithm S6 never exceedsO(dn2).
+A.3.5 Algorithm S7
+Running Algorithm 1 and formingBh
+j costs O(dn)for each h. The number of indices h
+encountered in this algorithm isO(log2 n)because we split and continue in only half of the
+current indices sequence at each step. This is a standard binary search. Therefore, the total
+computational complexity of Algorithm S7 never exceedsO(dnlogn).
+30
+Interpretable Multiv ariate Conformal Prediction
+Appendix B. Mathematical Proofs
+B.1 Auxiliary Lemmas
+Lemma S10 Let x1, . . . , xn ∈R and ¯xn = 1
+n
+Pn
+i=1 xi. For any xn+1 ∈R , let ˆσ(xn+1)be
+the sample standard deviation of{x1, . . . , xn, xn+1}, then
+ˆσ2(xn+1) = (xn+1 −¯xn)2
+n+ 1 + 1
+n
+nX
+i=1
+(xi −¯xn)2.
+ProofDenote¯x n+1 = 1
+n+1
+Pn+1
+i=1 xi. We notice that
+ˆσ2(xn+1) = 1
+n
+n+1X
+i=1
+(xi −¯xn+1)2
+= 1
+n
+"
+(xn+1 −¯xn+1)2 +
+nX
+i=1
+(xi −¯xn + ¯xn −¯xn+1)2
+#
+=(xn+1 −¯xn+1)2
+n + 1
+n
+nX
+i=1
+
+(xi −¯xn)2 + 2(xi −¯xn)(¯xn −¯xn+1) + (¯xn −¯xn+1)2
+=(xn+1 −¯xn+1)2
+n + (¯xn −¯xn+1)2 + 1
+n
+nX
+i=1
+(xi −¯xn)2.
+Substituting¯xn+1 = xn+1+n¯xn
+n+1 , we get
+ˆσ2(xn+1) = 1
+n
+
+xn+1 − xn+1 +n¯xn
+n+ 1
+2
++
+
+¯xn − n¯xn +x n+1
+n+ 1
+2
++ 1
+n
+nX
+i=1
+(xi −¯xn)2
+= n
+(n+ 1) 2 (xn+1 −¯xn)2 + 1
+(n+ 1) 2 (¯xn −x n+1)2 + 1
+n
+nX
+i=1
+(xi −¯xn)2
+=(xn+1 −¯xn)2
+n+ 1 + 1
+n
+nX
+i=1
+(xi −¯xn)2.
+Lemma S11 Let X1, . . . , Xn ∈R be real-valued random variables with sample mean¯X n.
+LetX n+1 and ˜X n+1 be another two random variables such that
+|X n+1 − ¯X n| ≤ | ˜X n+1 − ¯X n|a.s.
+Then,
+ˆσ(Xn+1)≤ˆσ( ˜X n+1)a.s.,
+where ˆσ(X n+1)is the the sample standard deviation of{X1, . . . , Xn, Xn+1}, as in Lemma S10.
+31
+F an and Sesia
+ProofThis is a direct application of Lemma S10:
+ˆσ(Xn+1) = (X n+1 − ¯X n)2
+n+ 1 + 1
+n
+nX
+i=1
+(X i − ¯X n)2
+≤ ( ˜X n+1 − ¯X n)2
+n+ 1 + 1
+n
+nX
+i=1
+(X i − ¯X n)2 [Assumption]
+= ˆσ(˜X n+1).
+Lemma S12 Let X1, . . . , Xn+1 ∈R be real-valued random variables with sample mean¯X n+1
+and sample standard deviation¯Sn+1 > 0. Define Zi = (X i − ¯X n+1)/ ¯Sn+1 for i∈ [n + 1].
+Then,
+|Zi| ≤ n√n+ 1 almost surely,∀i∈[n+ 1].
+This inequality is strict ifX1, . . . , Xn+1 are almost-surely distinct.
+ProofFix any i∈ [n + 1]. Let ¯X −i = 1
+n
+P
+k̸=i X i be the sample mean of the random
+variables excluding thei-th one, and
+¯S−i =
+s
+1
+n
+X
+k̸=i
+(Xk − ¯X −i)2.
+Then, it follows from Lemma S10 that
+|Zi|= |X i − ¯X n+1|
+¯Sn+1 =
+|X i − 1
+n+1
+Pn+1
+i=1 X i|q
+1
+n
+Pn+1
+i=1 (X i − ¯X n+1)2
+=
+n
+n+1 |X i − ¯X −i|q
+1
+n+1(X i − ¯X −i)2 + ¯S−i
+.
+But ¯S−i ≥0, so we must have
+|Zi| ≤
+n
+n+1 |X i − ¯X −i|q
+1
+n+1(X i − ¯X −i)2
+= n√n+ 1 .
+If X1, . . . , Xn+1 are almost-surely distinct, we know¯S−i > 0almost-surely for any i∈ [n + 1]
+thus this inequality becomes strict.
+B.2 Proofs of Main Results
+Proof[of Theorem 1] This is a well-known result, whose proof is included for completeness.
+By definition of ˆC(X n+1)in (4),
+Y n+1 /∈ˆC(X n+1)⇐ ⇒S n+1 > ˆQ1−α(S1, . . . , Sn).
+32
+Interpretable Multiv ariate Conformal Prediction
+Moreover, S1, . . . , Sn+1 are exchangeable becauseE1, . . . , En+1 are exchangeable andΦis
+fixed. Therefore, the proof is complete by applying the fundamental “quantile inflation
+lemma” of conformal prediction (e.g., see Angelopoulos et al. (2024)), which states
+P
+h
+Sn+1 > ˆQ1−α(S1, . . . , Sn)
+i
+≤α.
+Moreover, it is also a standard result that, ifS1, . . . , Sn+1 are almost-surely unique,
+P
+h
+Sn+1 > ˆQ1−α(S1, . . . , Sn)
+i
+≥α− 1
+n+ 1 .
+Proof[of Lemma 2] From Assumption 1, we know thatE1
+j , . . . , En+1
+j are almost-surely
+distinct for everyj∈ [d]and0 <ˆσoracle
+j <∞ almost-surely for allj∈ [d], which also ensures
+Sn+1
+oracle is well-defined.
+To prove this lemma, fix anyc∈Rand note that
+Sn+1
+oracle ≤c⇐ ⇒E n+1
+j ≤cˆσoracle
+j + ˆµoracle
+j ,∀j∈[d]
+⇐ ⇒E n+1
+j ≤c
+vuut 1
+n
+n+1X
+i=1
+
+Ei
+j −ˆµoracle
+j
+2
++ 1
+n+ 1
+n+1X
+i=1
+Ei
+j,∀j∈[d].
+Everything exceptEn+1 here is observed, so we can solve this inequality forEn+1 coordinate-
+wise. Fix anyj∈[d]and define
+gj(En+1) :=E n+1
+j −c
+vuut 1
+n
+n+1X
+i=1
+
+Ei
+j −ˆµoracle
+j
+2
+− 1
+n+ 1
+n+1X
+i=1
+Ei
+j
+= n
+n+ 1
+
+En+1
+j −ˆµj
+
+−c
+vuut 1
+n
+n+1X
+i=1
+
+Ei
+j −ˆµoracle
+j
+2
+= n
+n+ 1
+
+En+1
+j −ˆµj
+
+−c
+r
+1
+n+ 1
+
+En+1
+j −ˆµj
+2
++ ˆσ2
+j .
+where the last equality follows from Lemma S10. Therefore,
+gj(En+1)≤0⇐ ⇒ n
+n+ 1
+
+En+1
+j −ˆµj
+
+≤c
+r
+1
+n+ 1
+
+En+1
+j −ˆµj
+2
++ ˆσ2
+j .(S1)
+The solution of this inequality inEn+1
+j depends on the range ofc. There are two cases:
+1. ifc≥0, then (S1) holds if and only ifeither0≤E n+1
+j <ˆµj orE n+1
+j ≥µ j and
+ n
+n+ 1
+2
+En+1
+j −ˆµj
+2
+≤c 2
+ 1
+n+ 1 (En+1
+j −ˆµj)2 + ˆσ2
+j
+
+.
+33
+F an and Sesia
+2. ifc <0, then (S1) holds if and only ifEn+1
+j <ˆµj and
+ n
+n+ 1
+2
+En+1
+j −ˆµj
+2
+≥c 2
+
+1
+n+1
+
+En+1
+j −ˆµj
+2
++ ˆσ2
+j
+
+.
+The solution in both cases relies on solving a quadratic equality in the formh(x) = 0, where:
+h(x) :=
+ n
+n+ 1
+2
+(x−ˆµj)2 −c 2 1
+n+1 (x−ˆµj)2 −c 2ˆσ2
+j = 0.
+This equality can be reorganized into a more recognized quadratic form
+h(x) =Ax 2 +Bx+K= 0,
+where
+A=
+ n
+n+ 1
+2
+− c2
+n+ 1 ,
+B= 2ˆµj
+ n
+n+ 1
+2
+−2ˆµj
+c2
+n+ 1 ,
+K=
+ n
+n+ 1
+2
+ˆµ2
+j − c2
+n+ 1 ˆµ2
+j −c 2ˆσ2
+j .
+The solution set is:
+h(x) = 0⇐ ⇒x=
+
+
+
+ˆµj ±ˆσj|c|
+q
+(n+1)2
+n2−(n+1)c2 , c 2 < n2
+n+1 ,
+ˆµj, c 2 = n2
+n+1 andˆσj = 0,
+no real solution,otherwise.
+We first note the eventˆσj = 0occurs if and only ifE1
+j = . . . = En
+j , which has probability zero
+by Assumption 1. For the rest, we note thatc2 < n2
+n+1 implies A > 0thus h(x) = Ax2+Bx+K
+concave up for allx≥ 0. Therefore by analyzing the positiveness and negativeness ofh(x)
+relative to the solution set in our two cases, we know(S1) holds almost-surely if and only if
+
+
+
+ˆµj ≤E n+1
+j ≤ˆµj + ˆσj|c|
+q
+(n+1)2
+n2−(n+1)c2 , c≥0, c 2 < n2
+n+1 ,
+En+1
+j <∞, c≥0, c 2 ≥ n2
+n+1 ,
+0≤E n+1
+j <ˆµj, c≥0,
+0≤E n+1
+j ≤ˆµj −ˆσj|c|
+q
+(n+1)2
+n2−(n+1)c2 , c <0, c 2 < n2
+n+1 ,
+no solution, c <0, c 2 ≥ n2
+n+1 .
+almost-surely
+⇐ ⇒
+
+
+
+0≤E n+1
+j ≤ˆµj + ˆσj|c|
+q
+(n+1)2
+n2−(n+1)c2 ,0≤c < n√n+1 ,
+0≤E n+1
+j <∞, c > n√n+1 ,
+0≤E n+1
+j ≤max
+
+0,ˆµj −ˆσj|c|
+q
+(n+1)2
+n2−(n+1)c2
+
+,− n√n+1 < c <0,
+no solution, c≤ − n√n+1 .
+almost surely
+34
+Interpretable Multiv ariate Conformal Prediction
+Interpreting the “no-solution” case asEn+1
+j = 0, we obtain precisely the expression for
+ωj(c)given in the statement of the lemma. This notation adjustment is harmless because
+both En+1
+j = 0and Sn+1
+oracle ≤ −n/ √n+ 1 are probability null sets by our Assumption 1
+and Lemma S12, respectively. The monotonic nondecreasing property of thisωj(c)follows
+immediately from the construction.
+Proof[of Lemma 3] From Assumption 1,E1
+j , . . . , En+1
+j are almost-surely distinct for every
+j∈ [d]and0 <ˆσoracle
+j <∞ almost-surely for allj∈ [d]. This ensures Si
+oracle is well-defined
+for alli∈[n+ 1]. Moreover, we know from Lemma S12 that
+
+Ei
+j −ˆµoracle
+j
+ˆσoracle
+j
+ < n√n+ 1 ,
+almost-surely for alli∈[n+ 1]. Aggregating this inequality for allj∈[d], we obtain
+|Si
+oracle|=
+ max
+1≤j≤d
+Ei
+j −ˆµoracle
+j
+ˆσoracle
+j
+ ≤max
+1≤j≤d
+
+Ei
+j −ˆµoracle
+j
+ˆσoracle
+j
+ <max
+1≤j≤d
+n√n+ 1 = n√n+ 1 ,
+almost-surely for alli∈[n+ 1]. Recall that the quantile ˆQoracle
+1−α is defined as
+ˆQoracle
+1−α :=⌈(1−α)(n+ 1)⌉th smallest value in{S 1
+oracle, . . . , Sn
+oracle,+∞},
+so ˆQoracle
+1−α < n/√n+ 1almost-surely ifn≥1/α−1and ˆQoracle
+1−α = +∞otherwise.
+Proof[of Lemma 4] Fix anyj∈[d]and let
+g(tj, zj) := tj −ˆµj(zj)
+ˆσj(zj) .
+Finding the supremum of thisg over zj ≥ 0is a simple univariate optimization problem.
+Expandinggin full, we get
+g(tj, zj) = tj −ˆµj(zj)
+ˆσj(zj) =
+tj − 1
+n+1(zj +nˆµj)q
+1
+n+1(zj −ˆµj)2 + ˆσ2
+j
+,
+where the last equality follows from Lemma S10. Differentiatingg with respect tozj yields
+gzj(tj, zj) =
+− 1
+n+1
+q
+1
+n+1(zj −ˆµj)2 + ˆσ2
+j −
+ 
+tj − 1
+n+1(zj +nˆµj)
+ 1
+n+1 (zj −ˆµj)
+q
+1
+n+1 (zj −ˆµj)2+ˆσ2
+j
+1
+n+1(zj −ˆµj)2 + ˆσ2
+j 2 .
+Solvingg zj(tj, z∗
+j ) = 0with respect toz ∗
+j gives:
+ˆσ2
+j + (tj −ˆµj)(z∗
+j −ˆµj) = 0 =⇒z ∗
+j = ˆµj −
+ˆσ2
+j
+tj −ˆµj
+.
+There are three cases here for any fixedtj ≥0:
+35
+F an and Sesia
+•Case 1: ifg(t j, z∗
+j )is indeed the global maximum andz∗
+j >0, then we can just take
+sup
+zj ≥0
+g(tj, zj) =g(t j, z∗
+j ).
+• Case 2: if g(tj, z∗
+j )is not the global maximum orz∗
+j < 0, then the supremum must
+occur at eitherzj = 0or zj → ∞ due to the fact thatgzj has only one critical point.
+Hence,
+sup
+zj ≥0
+g(tj, zj) = max
+
+g(tj,0),lim
+zj →∞
+g(tj, zj)
+
+= max
+
+g(tj,0),− 1√n+ 1
+
+.
+• Case 3: if tj = ˆµj, then similar derivation strategy shows thatgzj ≡ −ˆσ2
+j < 0. This
+implies thatgis monotonically decreasing and thus we take
+sup
+zj ≥0
+g(ˆµj, zj) =g(ˆµj,0).
+Collecting all candidates, we obtain the closed form:
+sup
+zj ≥0
+g(tj, zj) = max
+
+g(t j,0), g
+ 
+tj, z∗
+j I
+
+z∗
+j ≥0
+	
+,− 1√n+ 1
+
+.
+Proof[ofProposition6]Let P beany(random)partitionof ˆCgwc(X n+1), sothat ˆCgwc(X n+1) =F
+R∈P Ralmost-surely. Because ˆCgwc(X n+1)⊇ ˜C(X n+1)almost-surely, we know
+Y n+1 ∈ ˜C(X n+1)⇐ ⇒Y n+1 ∈ ˜C(X n+1), Y n+1 ∈ ˆCgwc(X n+1)
+⇐ ⇒ ∃R ∈ P:Y n+1 ∈ ˜C(X n+1), Y n+1 ∈ R
+⇐ ⇒ ∃R ∈ P:Y n+1 ∈ ˜C(X n+1)∩R.
+If ˆClwc(X n+1,R)satisfies the condition on the right-hand-side of (20),
+R ⊇ ˆClwc(X n+1,R)⊇ ˜C(X n+1)∩R,
+then
+Y n+1 ∈ ˜C(X n+1) =⇒ ∃R ∈ P, Y n+1 ∈ ˆClwc(X n+1,R)
+⇐ ⇒Y n+1 ∈ ˆClwc(X n+1) =
+G
+R∈P
+ˆClwc(X n+1,R).
+Since we already know thatP[Yn+1 ∈ ˜C(X n+1)]≥1−α, this proves that
+P
+h
+Y n+1 ∈ ˆClwc(X n+1)
+i
+≥1−α.
+36
+Interpretable Multiv ariate Conformal Prediction
+Finally, the containment thatˆClwc(X n+1)⊆ ˆCgwc(X n+1)almost-surely is trivial because
+ˆClwc(X n+1,R)⊆ R ⊆ ˆCgwc(X n+1),
+for everyR ∈ P.
+Proof[of Lemma 7] Fix anyh∈ [n+1]d. Suppose Y h ̸= ∅, thenRh ̸= ∅ and by Equation(22),
+I h
+j :=
+h
+E(hj −1), U hj
+j
+i
+̸=∅,∀j∈[d].
+Fix any t∈R d
++. Similar to the proof of Lemma 4, we have to solve a univariate optimization
+problem. We first notice that for anyj∈[d],
+sup
+z∈Rh
+tj
+ˆσj(zj) = sup
+zj ∈Ih
+j
+tj
+ˆσj(zj) = tj
+inf zj ∈Ih
+j
+ˆσj(zj) .
+By Lemma S10, we know that
+ˆσj(zj) =
+r
+1
+n+ 1 (zj −ˆµj)2 + ˆσ2
+j ,
+so clearlyˆσj(zj)is minimized at
+z∗
+j = argmin
+zj ∈Ih
+j
+|zj −ˆµj|=
+
+
+
+ˆµj,ifˆµ j ∈ I h
+j ,
+E(hj −1),ifˆµ j < E (hj −1),
+U hj
+j ,ifˆµ j > U hj
+j .
+Hence,r j(hj) = ˆσj(z∗
+j )is exactly the infimum proposed. For the second part, denote
+g(zj) := ˆµj(zj)
+ˆσj(zj) =
+1
+n+1(zj +nˆµj)q
+1
+n+1(zj −ˆµj)2 + ˆσ2
+j
+=
+1
+n+1(zj −ˆµj) + ˆµj
+q
+1
+n+1(zj −ˆµj)2 + ˆσ2
+j
+,
+then we want to find
+inf
+z∈E gwc
+g(zj) = inf
+zj ∈[0,ωj( ˆQgwc
+1−α)]
+g(zj).
+Differentiatingg(z j)inz j, we get
+g′(zj) =
+1
+n+1 ˆσ2
+j − 1
+n+1(zj −ˆµj)ˆµj
+( 1
+n+1(zj −ˆµj)2 + ˆσ2
+j )
+q
+1
+n+1(zj −ˆµj)2 + ˆσ2
+j
+.
+Set this to zero gives the critical point
+z∗
+j =µ j +
+σ2
+j
+µj
+>0.
+37
+F an and Sesia
+Letϵ >0, then we see that
+sign(g′(z∗
+j +ϵ)) = sign(− 1
+n+ 1 ϵˆµj) =−1,
+sign(g′(z∗
+j −ϵ)) = sign( 1
+n+ 1 ϵˆµj) = +1.
+This implies thatg(z ∗)is always the local maximum. Hence, ifz∗
+j ∈[0, ω j( ˆQgwc
+1−α)], then
+inf
+zj ∈[0,ωj( ˆQgwc
+1−α)]
+g(zj) = min
+(
+g(0),lim
+zj →ωj( ˆQgwc
+1−α)
+g(zj)
+)
+;
+ifz ∗
+j > ω j( ˆQgwc
+1−α), then
+inf
+zj ∈[0,ωj( ˆQgwc
+1−α)]
+g(zj) =g(0).
+But in either case, we only need to compare the boundaries in order to find the infimum.
+Therefore, it follows that
+inf
+zj ∈[0,ωj( ˆQgwc
+1−α)]
+g(zj) = min
+(
+g(0),lim
+zj →ωj( ˆQgwc
+1−α)
+g(zj)
+)
+.
+This is true for everyj∈[d], so we must have
+ˆΦlwc(t;h) = max
+1≤j≤d
+(
+sup
+z∈Rh
+tj
+ˆσj(zj) −inf
+z∈E gwc
+g(zj)
+)
+= max
+1≤j≤d
+(
+tj
+mj
+−min
+(
+ˆµj(0)
+ˆσj(0) ,lim
+zj →ωj( ˆQgwc
+1−α)
+ˆµj(zj)
+ˆσj(zj)
+))
+.
+Proof[of Lemma 8] Fix any j∈ [d]and suppose Y h∗
+̸= ∅. There are two parts to this
+lemma, which we prove separately.
+Part I.We aim to prove
+sup
+h∈[n+1]d
+Bh
+j = sup
+h∈Rowj(h∗)
+Bh
+j =B h[j]
+j .(S2)
+We first notice that the first supremum can be decomposed into suprema over surfaces:
+sup
+h∈[n+1]d
+Bh
+j = sup
+k∈[n+1]
+sup
+h∈Surfacej(k)
+Bh
+j ,
+where
+Surfacej(k) :=
+n
+h∈[n+ 1] d :h j =k
+o
+.
+38
+Interpretable Multiv ariate Conformal Prediction
+Fix any k∈ [n + 1]and let h∗(j, k) ∈Surface j(k)be the multi-index defined such that
+h∗
+j(j, k) = k and h∗
+l (j, k) = h∗
+l for all l̸ = j; then h∗(j, k) ∈Row j(h∗). Since this holds for
+everyk∈[n+ 1], to prove (S2) the main challenge is to show that:
+sup
+h∈Surfacej(k)
+Bh
+j =B h∗(j,k)
+j .(S3)
+To prove (S3), recall from the definition in (24) that
+ˆΦlwc(t, h) = max
+1≤l≤d
+ tl
+rl(hl) −c l
+
+,
+where
+rl(hl) = min
+n
+ˆσl(zl) :z l ∈R h
+l :=
+h
+E(hl−1)
+l , U hl
+l
+io
+, c l = inf
+z∈E gwc
+ˆµl(zl)
+ˆσl(zl) .
+Without loss of generality, assumeY h ̸= ∅ for all h∈Surface j(k). This does not affect
+the final result becauseY h = ∅ leads to Bh
+j = 0, which can be safely excluded from the
+supremum calculation. Then notice that, for allh∈Surface j(k), we haverj(hj) = rj(k)and
+rl(hl)≥ˆσl =r l(h∗(j, k)). Therefore, for any fixedt,
+ˆΦlwc(t, h) = max
+1≤l≤d
+ tl
+rl(hl) −c l
+
+≤max
+
+max
+l̸=j
+ tl
+ˆσl
+−c l
+
+, tj
+rj(k) −c j
+
+= Φlwc(t, h∗(j, k)).
+Because this holds point-wise for allt, we can extend the inequality to the corresponding
+conformal quantile and conclude that, almost surely for allh∈Surfacej(k),
+ˆQlwc
+1−α(h)≤ ˆQlwc
+1−α(h∗(j, k))
+and therefore, by the monotonicity of the functionωfrom Lemma 2,
+ωj( ˆQlwc
+1−α(h))≤ω j( ˆQlwc
+1−α(h∗(j, k))).
+Therefore, it follows that, for allh∈Surfacej(k),
+Bh
+j =
+
+
+
+min
+n
+U k
+j , ωj( ˆQlwc
+1−α(h))
+o
+,ifU k
+j , ωj( ˆQlwc
+1−α(h)> E (k−1)
+j
+0,otherwise
+≤
+
+
+
+min
+
+U k
+j , ωj( ˆQlwc
+1−α(h∗(j, k)))
+	
+,ifU k
+j , ωj( ˆQlwc
+1−α(h∗(j, k)))> E (k−1)
+j
+0,otherwise
+=B h∗(j,k)
+j .
+This completes the proof of (S3).
+The second equality in (S2) is trivial. We can easily see that for any k∈ [n], if
+Bh∗(j,k+1)
+j ̸= 0, then
+U k+1
+j , ωj( ˆQlwc
+1−α(h∗(j, k+ 1))≥E (k)
+j ≥min
+n
+E(k)
+j , ωj( ˆQgwc
+1−α)
+o
+=U k
+j .
+39
+F an and Sesia
+Hence, it follows thatBh∗(j,k+1)
+j ≥B h∗(j,k)
+j regardless of whetherBh∗(j,k)
+j = 0or not. Then
+finding the supremum among allk∈ [n + 1]simplifies to finding the right-most nonzero
+Bh∗(j,k)
+j , which is exactly howBh[j]
+j is defined.
+Part II.In this part, we aim to show that ifBh∗(j,mj)
+j = 0for somem j ≥h ∗
+j, then
+Bh∗(j,N)
+j = 0,∀N≥m j.
+There two cases that could lead toBh∗(j,mj)
+j = 0:
+• If U mj
+j = min
+n
+E(mj)
+j , ωj( ˆQgwc
+1−α)
+o
+≤E (mj −1)
+j , then ωj( ˆQgwc
+1−α) ≤E (mj −1)
+j ≤E (N−1)
+j for
+any N≥m j by the nature of order statistics. Hence,U N
+j ≤E (N−1)
+j for all N≥m j,
+which further impliesBh∗(j,N)
+j = 0for allN≥m j.
+•Ifω j( ˆQlwc
+1−α(h∗(j, mj))≤E (mj −1)
+j , then we claim that
+ωj( ˆQlwc
+1−α(h∗(j, N))≤ω j( ˆQlwc
+1−α(h∗(j, mj))≤E (mj −1)
+j ≤E (N−1)
+j ,
+which then impliesBh∗(j,N)
+j = 0for allN≥m j. This is actually trivial because
+rl(h∗(j, mj)) = min
+zj ∈R
+h∗(j,mj )
+j
+|zj −ˆµj| ≤min
+zj ∈Rh∗(j,N)
+j
+|zj −ˆµj|=r l(h∗(j, N)),
+according to howRh
+j is defined earlier. This then leads to
+Φlwc(t, h∗(j, mj))≥Φ lwc(t, h∗(j, N)),∀t
+=⇒ ˆQlwc
+1−α(h∗(j, N))≤ ˆQlwc
+1−α(h∗(j, mj))
+=⇒ω j( ˆQlwc
+1−α(h∗(j, N)))≤ω j( ˆQlwc
+1−α(h∗(j, mj))).
+40
+Interpretable Multiv ariate Conformal Prediction
+Appendix C. Additional Numerical Results
+This section presents the results of additional numerical experiments, including comparisons
+with a broader range of alternative approaches. These experiments are conducted using the
+same protocol and performance metrics described in Section 4 unless specified otherwise.
+C.1 Additional Results from the Experiments of Section 4
+Here we present additional results from the numerical experiments described in Section 4,
+corresponding to six different noise distributions. These results are qualitatively consistent
+with those summarized in Section 4: our method performs consistently well, producing
+relatively tight prediction sets with valid coverage.
+C.1.1 Gaussian Noise (heterogeneous)
+(n, d, Noise) Method Coverage Volume
+(30, 10, Gaussian)
+Emp. Copula 0.714 (0.079) 1.68e+10(1.16e+10)
+Point CHR 0.933 (0.066) 4.04e+12(1.38e+13)
+TSCP (Ours) 0.910 (0.053)1.83e+11(2.74e+11)
+Unscaled Max 0.908 (0.047) 2.22e+13(4.77e+13)
+(50, 10, Gaussian)
+Emp. Copula 0.816 (0.057) 3.64e+10(2.22e+10)
+Point CHR 0.919 (0.057) 4.85e+11(1.72e+12)
+TSCP (Ours) 0.904 (0.047)9.42e+10(8.82e+10)
+Unscaled Max 0.897 (0.043) 1.16e+13(1.10e+13)
+(100, 10, Gaussian)
+Emp. Copula 0.819 (0.039) 2.58e+10(9.90e+09)
+Point CHR 0.901 (0.041) 9.74e+10(9.22e+10)
+TSCP (Ours) 0.903 (0.034)6.59e+10(3.43e+10)
+Unscaled Max 0.908 (0.027) 1.09e+13(6.93e+12)
+(300, 10, Gaussian)
+Emp. Copula 0.872 (0.019) 3.73e+10(8.11e+09)
+Point CHR 0.899 (0.025) 5.60e+10(2.05e+10)
+TSCP (Ours) 0.899 (0.018)4.93e+10(1.17e+10)
+Unscaled Max 0.901 (0.020) 8.68e+12(3.29e+12)
+(500, 10, Gaussian)
+Emp. Copula 0.886 (0.018) 4.16e+10(8.27e+09)
+Point CHR 0.900 (0.022) 5.13e+10(1.49e+10)
+TSCP (Ours) 0.901 (0.016)4.81e+10(9.67e+09)
+Unscaled Max 0.903 (0.016) 8.54e+12(2.46e+12)
+Table S3: Performance of the proposed TSCP method and alternative conformal prediction
+approaches on simulated data withd = 10outcome variables, as in Figure 3. All results are
+averaged over200trials with their one standard deviation reported in parenthesis. The target
+coverage level is0.9. Coverage below this target is highlighted in red. For volume, lower is
+better. Smallest volume size (among those with valid theoretical coverage) is highlighted in
+bold. TSCP yields the tightest volume while maintaining valid coverage.
+41
+F an and Sesia
+C.1.2 Gaussian Noise (homogeneous)
+(n, d, Noise) Method Coverage Volume
+(30, 10, Unit Gaussian)
+Emp. Copula 0.714 (0.079) 4.64e+03(3.20e+03)
+Point CHR 0.933 (0.066) 1.11e+06(3.80e+06)
+TSCP (Ours) 0.910 (0.053) 5.04e+04(7.56e+04)
+Unscaled Max 0.904 (0.054)2.19e+04(1.94e+04)
+(50, 10, Unit Gaussian)
+Emp. Copula 0.816 (0.057) 1.00e+04(6.12e+03)
+Point CHR 0.919 (0.057) 1.34e+05(4.75e+05)
+TSCP (Ours) 0.904 (0.047) 2.60e+04(2.43e+04)
+Unscaled Max 0.901 (0.045)1.68e+04(1.15e+04)
+(100, 10, Unit Gaussian)
+Emp. Copula 0.819 (0.039) 7.11e+03(2.73e+03)
+Point CHR 0.901 (0.041) 2.68e+04(2.54e+04)
+TSCP (Ours) 0.903 (0.034) 1.82e+04(9.46e+03)
+Unscaled Max 0.900 (0.035)1.50e+04(7.38e+03)
+(300, 10, Unit Gaussian)
+Emp. Copula 0.872 (0.019) 1.03e+04(2.23e+03)
+Point CHR 0.899 (0.025) 1.54e+04(5.66e+03)
+TSCP (Ours) 0.899 (0.018) 1.36e+04(3.23e+03)
+Unscaled Max 0.898 (0.018)1.28e+04(3.07e+03)
+(500, 10, Unit Gaussian)
+Emp. Copula 0.886 (0.018) 1.15e+04(2.28e+03)
+Point CHR 0.900 (0.022) 1.41e+04(4.11e+03)
+TSCP (Ours) 0.901 (0.016) 1.33e+04(2.67e+03)
+Unscaled Max 0.899 (0.017)1.26e+04(2.50e+03)
+Table S4: Performance of the proposed TSCP method and alternative conformal prediction
+approaches on simulated data withd = 10outcome variables, as in Figure 4. Other details
+are as in Table S3. In this case, Unscaled Max yields the tightest volume while maintaining
+valid coverage, while TSCP remains a competitive second.
+42
+Interpretable Multiv ariate Conformal Prediction
+C.1.3 Laplace Noise
+(n, d, Noise) Method Coverage Volume
+(30, 10, Laplace)
+Emp. Copula 0.712 (0.079) 3.82e+12(4.91e+12)
+Point CHR 0.938 (0.060) 5.57e+16(2.71e+17)
+TSCP (Ours) 0.908 (0.060)3.14e+14(9.93e+14)
+Unscaled Max 0.897 (0.053) 6.36e+15(1.99e+16)
+(50, 10, Laplace)
+Emp. Copula 0.819 (0.056) 1.36e+13(1.75e+13)
+Point CHR 0.917 (0.050) 6.64e+14(1.81e+15)
+TSCP (Ours) 0.906 (0.045)7.32e+13(1.60e+14)
+Unscaled Max 0.901 (0.041) 3.34e+15(5.12e+15)
+(100, 10, Laplace)
+Emp. Copula 0.811 (0.039) 5.96e+12(3.94e+12)
+Point CHR 0.896 (0.039) 4.74e+13(6.07e+13)
+TSCP (Ours) 0.898 (0.030)2.64e+13(1.94e+13)
+Unscaled Max 0.895 (0.029) 1.77e+15(1.78e+15)
+(300, 10, Laplace)
+Emp. Copula 0.871 (0.020) 1.11e+13(4.03e+12)
+Point CHR 0.895 (0.023) 2.01e+13(1.12e+13)
+TSCP (Ours) 0.896 (0.017)1.74e+13(6.40e+12)
+Unscaled Max 0.896 (0.017) 1.38e+15(7.08e+14)
+(500, 10, Laplace)
+Emp. Copula 0.882 (0.016) 1.29e+13(4.10e+12)
+Point CHR 0.896 (0.021) 1.83e+13(8.95e+12)
+TSCP (Ours) 0.896 (0.016)1.64e+13(5.68e+12)
+Unscaled Max 0.897 (0.017) 1.36e+15(5.51e+14)
+Table S5: Performance of the proposed TSCP method and alternative conformal prediction
+approaches on simulated data withd = 10outcome variables, and noise following aLaplace
+distribution; i.e.,ϵ j ∼Laplace(10−j+ 1)for allj∈[10]. Other details are as in Table S3.
+43
+F an and Sesia
+C.1.4 Mixture Noise
+(n, d, Noise) Method Coverage Volume
+(30, 10, Mixed)
+Emp. Copula 0.715 (0.075) 2.69e+11(3.04e+11)
+Point CHR 0.935 (0.062) 2.56e+15(1.98e+16)
+TSCP (Ours) 0.913 (0.051)9.53e+12(3.12e+13)
+Unscaled Max 0.903 (0.052) 3.46e+13(6.74e+13)
+(50, 10, Mixed)
+Emp. Copula 0.821 (0.058) 7.07e+11(5.96e+11)
+Point CHR 0.925 (0.048) 6.10e+13(3.06e+14)
+TSCP (Ours) 0.906 (0.044)2.57e+12(3.91e+12)
+Unscaled Max 0.901 (0.044) 1.98e+13(1.68e+13)
+(100, 10, Mixed)
+Emp. Copula 0.819 (0.035) 3.82e+11(1.98e+11)
+Point CHR 0.898 (0.042) 2.76e+12(4.47e+12)
+TSCP (Ours) 0.900 (0.029)1.23e+12(7.54e+11)
+Unscaled Max 0.905 (0.028) 1.65e+13(9.89e+12)
+(300, 10, Mixed)
+Emp. Copula 0.874 (0.022) 6.47e+11(2.25e+11)
+Point CHR 0.902 (0.025) 1.27e+12(7.23e+11)
+TSCP (Ours) 0.900 (0.019)9.05e+11(3.48e+11)
+Unscaled Max 0.900 (0.020) 1.36e+13(5.22e+12)
+(500, 10, Mixed)
+Emp. Copula 0.886 (0.016) 7.26e+11(1.82e+11)
+Point CHR 0.897 (0.020) 1.01e+12(5.42e+11)
+TSCP (Ours) 0.898 (0.014)8.17e+11(2.05e+11)
+Unscaled Max 0.902 (0.016) 1.35e+13(3.73e+12)
+Table S6: Performance of the proposed TSCP method and alternative conformal prediction
+approaches on simulated data withd = 10outcome variables, and noise following aMixture
+distribution; i.e., ϵj ∼ 1
+2Laplace(10 −j + 1) + 1
+2 N (0, (10 −j + 1)2 for all j∈ [10]. Other
+details are as in Table S3.
+44
+Interpretable Multiv ariate Conformal Prediction
+C.1.5 Gamma Noise
+(n, d, Noise) Method Coverage Volume
+(30, 10, Gamma)
+Emp. Copula 0.714 (0.067) 5.33e-02(6.85e-02)
+Point CHR 0.929 (0.058) 7.55e+02(4.32e+03)
+TSCP (Ours) 0.904 (0.056)3.77e+00(1.59e+01)
+Unscaled Max 0.898 (0.051) 2.69e+15(6.18e+15)
+(50, 10, Gamma)
+Emp. Copula 0.826 (0.048) 2.20e-01(2.78e-01)
+Point CHR 0.927 (0.049) 5.01e+01(3.36e+02)
+TSCP (Ours) 0.910 (0.041)1.15e+00(2.56e+00)
+Unscaled Max 0.902 (0.039) 1.94e+15(3.54e+15)
+(100, 10, Gamma)
+Emp. Copula 0.818 (0.038) 1.04e-01(1.01e-01)
+Point CHR 0.906 (0.038) 1.28e+00(2.38e+00)
+TSCP (Ours) 0.900 (0.030)4.65e-01(5.82e-01)
+Unscaled Max 0.897 (0.030) 9.67e+14(7.86e+14)
+(300, 10, Gamma)
+Emp. Copula 0.873 (0.019) 1.75e-01(1.15e-01)
+Point CHR 0.895 (0.024) 3.74e-01(3.70e-01)
+TSCP (Ours) 0.898 (0.018)2.67e-01(1.69e-01)
+Unscaled Max 0.895 (0.018) 7.04e+14(3.45e+14)
+(500, 10, Gamma)
+Emp. Copula 0.885 (0.015) 1.89e-01(1.06e-01)
+Point CHR 0.896 (0.020) 3.20e-01(2.33e-01)
+TSCP (Ours) 0.897 (0.016)2.36e-01(1.35e-01)
+Unscaled Max 0.893 (0.015) 6.37e+14(2.53e+14)
+Table S7: Performance of the proposed TSCP method and alternative conformal prediction
+approaches on simulated data withd = 10outcome variables, and noise following aGamma
+distribution; i.e., ϵj ∼Gamma (1, 10 −j + 1)for all j∈ [10]. Other details are as in Table S3.
+45
+F an and Sesia
+C.2 Comparison of Alternative Implementations of TSCP
+The additional methods considered in this section include (i)Naive, the heuristic plug-in
+rescaling method that uses location parameters estimated directly from calibration data
+without further adjustments, summarized in Algorithm S3; (ii)TSCP-S, the inefficient
+data-splitting variant summarized in Algorithm S4; (iii)TSCP-GWC, our conservative
+global-worst-case method summarized in Algorithm S5; (iv)TSCP-LWC, the aggregated
+union described in Section 3.4 but not enclosed by a rectangle.
+/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
+/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
+/uni00000013/uni00000011/uni0000001b/uni00000018
+/uni00000013/uni00000011/uni0000001c/uni00000013
+/uni00000013/uni00000011/uni0000001c/uni00000018
+/uni00000014/uni00000011/uni00000013/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
+/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
+/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
+/uni00000015/uni00000013
+/uni00000016/uni00000013
+/uni00000017/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
+/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
+/uni00000033/uni00000052/uni00000053/uni00000011/uni00000003/uni00000032/uni00000055/uni00000044/uni00000046/uni0000004f/uni00000048
+/uni00000031/uni00000044/uni0000004c/uni00000059/uni00000048
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni00000036
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
+/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
+/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
+/uni00000013/uni00000011/uni0000001b/uni00000018
+/uni00000013/uni00000011/uni0000001c/uni00000013
+/uni00000013/uni00000011/uni0000001c/uni00000018
+/uni00000014/uni00000011/uni00000013/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
+/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
+/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
+/uni00000014/uni0000001b
+/uni00000015/uni00000013
+/uni00000015/uni00000015
+/uni00000015/uni00000017/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
+/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
+/uni00000033/uni00000052/uni00000053/uni00000011/uni00000003/uni00000032/uni00000055/uni00000044/uni00000046/uni0000004f/uni00000048
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni0000002a/uni0000003a/uni00000026
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni0000002f/uni0000003a/uni00000026
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
+Figure S1: Performance of TSCP and alternative approaches on simulated data withd = 2
+targets and heterogeneous Laplace noise. The target average is90%. Results are averaged
+over200trials. All methods achieves near-nominal coverage and approximatePop. Oracleas
+the calibration sample size increases. Our TSCP is sticking above TSCP-LWC with almost
+indifferent average volume, highlighting its tight containment.
+All methods compared in Figure S1 tend to approximatePop. Oraclewell asn increases,
+with our TSCP and TSCP-LWC being two most stable and fastest approximation among
+all methods with theoretical coverage. These results also show that TSCP encloses the
+aggregated union TSCP-LWC very tightly, and that TSCP-GWC is conservative, though it
+still performs better than the data-splitting variant TSCP-S. Despite lacking finite-sample
+coverage guarantee, theNaiveapproach actually performs well, as also shown in Figure S2.
+Figure S3 better highlights the prohibitive computational cost of TSCP-LWC, by reporting
+on the results of similar experiments where a small sample size is fixed,|Dcal| = 30, while
+the outcome dimensions are gradually increased:d∈ {2,3,4,5,10,20,30}.
+46
+Interpretable Multiv ariate Conformal Prediction
+/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
+/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
+/uni00000013/uni00000011/uni0000001a
+/uni00000013/uni00000011/uni0000001b
+/uni00000013/uni00000011/uni0000001c
+/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
+/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
+/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
+/uni00000014/uni00000013/uni00000014/uni00000016
+/uni00000014/uni00000013/uni00000014/uni00000017
+/uni00000014/uni00000013/uni00000014/uni00000018
+/uni00000014/uni00000013/uni00000014/uni00000019
+/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
+/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
+/uni00000033/uni00000052/uni00000053/uni00000011/uni00000003/uni00000032/uni00000055/uni00000044/uni00000046/uni0000004f/uni00000048
+/uni00000031/uni00000044/uni0000004c/uni00000059/uni00000048
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni00000036
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni0000002a/uni0000003a/uni00000026
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni0000002f/uni0000003a/uni00000026
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
+Figure S2: Performance of TSCP and alternative approaches on simulated data withd = 10
+targets. Other details are as in Figure S1. TSCP-LWC is omitted from this figure due to its
+prohibitive cost with even moderately high-dimensional outcomes.
+/uni00000015/uni00000016/uni00000017/uni00000018/uni00000014/uni00000013/uni00000015/uni00000013/uni00000016/uni00000013
+/uni00000027/uni0000004c/uni00000050/uni00000048/uni00000051/uni00000056/uni0000004c/uni00000052/uni00000051/uni00000056
+/uni00000013/uni00000011/uni00000015
+/uni00000013/uni00000011/uni00000017
+/uni00000013/uni00000011/uni00000019
+/uni00000013/uni00000011/uni0000001b
+/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
+/uni00000015/uni00000016/uni00000017/uni00000018/uni00000014/uni00000013/uni00000015/uni00000013/uni00000016/uni00000013
+/uni00000027/uni0000004c/uni00000050/uni00000048/uni00000051/uni00000056/uni0000004c/uni00000052/uni00000051/uni00000056
+/uni00000014/uni00000013/uni00000014/uni00000018
+/uni00000014/uni00000013/uni00000016/uni00000015
+/uni00000014/uni00000013/uni00000017/uni0000001c
+/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
+/uni00000015/uni00000016/uni00000017/uni00000018/uni00000014/uni00000013/uni00000015/uni00000013/uni00000016/uni00000013
+/uni00000027/uni0000004c/uni00000050/uni00000048/uni00000051/uni00000056/uni0000004c/uni00000052/uni00000051/uni00000056
+/uni00000015
+/uni00000013
+log10 /uni0000000b/uni00000030/uni00000048/uni00000044/uni00000051/uni0000000c
+/uni00000035/uni00000058/uni00000051/uni00000057/uni0000004c/uni00000050/uni00000048
+/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
+/uni00000028/uni00000050/uni00000053/uni00000011/uni00000003/uni00000026/uni00000052/uni00000053/uni00000058/uni0000004f/uni00000044/uni00000033/uni00000052/uni0000004c/uni00000051/uni00000057/uni00000003/uni00000026/uni0000002b/uni00000035/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni0000002f/uni0000003a/uni00000026/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
+Figure S3: Performance of TSCP and alternative approaches on simulated data with fixed
+sample size |Dcal| = 30, as a function of the number of output dimensionsd. Other details
+are as in Figure S1. These results are averaged over30independent repetitions. The runtime
+results are presented in seconds on alog10 scale. The runtime of all methods except TSCP-
+LWC scales well with number of dimensions. TSCP-LWC is only applied whend∈ { 2, 3, 4}
+due to the exponential growth of its runtime.
+47
+F an and Sesia
+C.3 Robustness to Heavy-T ailed Data
+We test the performance of TSCP on simulated heavy-tailed data withd = 10outcomes and
+noise following a Student’s-t distribution; i.e., Yj |X∼t DF, with DF∈ { 1.5, 2, 3} degrees
+of freedom. For1 <DF≤ 2, the Student’s-t distribution leads to residuals with infinite
+population variance, violating Assumption 1. Nonetheless, TSCP continues to achieve the
+desired coverage level even in this extreme setting, although with some loss of informativeness.
+/uni00000014/uni00000011/uni00000018/uni00000015/uni00000011/uni00000013/uni00000016/uni00000011/uni00000013
+/uni00000027/uni00000048/uni0000004a/uni00000055/uni00000048/uni00000048/uni00000003/uni00000052/uni00000049/uni00000003/uni00000029/uni00000055/uni00000048/uni00000048/uni00000047/uni00000052/uni00000050/uni00000056
+/uni00000013/uni00000011/uni00000019
+/uni00000013/uni00000011/uni0000001a
+/uni00000013/uni00000011/uni0000001b
+/uni00000013/uni00000011/uni0000001c
+/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
+/uni00000014/uni00000011/uni00000018/uni00000015/uni00000011/uni00000013/uni00000016/uni00000011/uni00000013
+/uni00000027/uni00000048/uni0000004a/uni00000055/uni00000048/uni00000048/uni00000003/uni00000052/uni00000049/uni00000003/uni00000029/uni00000055/uni00000048/uni00000048/uni00000047/uni00000052/uni00000050/uni00000056
+/uni00000014/uni00000013/uni00000014/uni00000015
+/uni00000014/uni00000013/uni00000014/uni0000001b
+/uni00000014/uni00000013/uni00000015/uni00000017
+/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
+/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
+/uni00000028/uni00000050/uni00000053/uni00000011/uni00000003/uni00000026/uni00000052/uni00000053/uni00000058/uni0000004f/uni00000044
+/uni00000033/uni00000052/uni0000004c/uni00000051/uni00000057/uni00000003/uni00000026/uni0000002b/uni00000035
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
+(a) Small sample,|Dcal|= 30. Output dimensionsd= 10.
+/uni00000014/uni00000011/uni00000018/uni00000015/uni00000011/uni00000013/uni00000016/uni00000011/uni00000013
+/uni00000027/uni00000048/uni0000004a/uni00000055/uni00000048/uni00000048/uni00000003/uni00000052/uni00000049/uni00000003/uni00000029/uni00000055/uni00000048/uni00000048/uni00000047/uni00000052/uni00000050/uni00000056
+/uni00000013/uni00000011/uni00000019
+/uni00000013/uni00000011/uni0000001a
+/uni00000013/uni00000011/uni0000001b
+/uni00000013/uni00000011/uni0000001c
+/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
+/uni00000014/uni00000011/uni00000018/uni00000015/uni00000011/uni00000013/uni00000016/uni00000011/uni00000013
+/uni00000027/uni00000048/uni0000004a/uni00000055/uni00000048/uni00000048/uni00000003/uni00000052/uni00000049/uni00000003/uni00000029/uni00000055/uni00000048/uni00000048/uni00000047/uni00000052/uni00000050/uni00000056
+/uni00000014/uni00000013/uni0000001c
+/uni00000014/uni00000013/uni00000014/uni00000014
+/uni00000014/uni00000013/uni00000014/uni00000016
+/uni00000030/uni00000048/uni00000044/uni00000051
+/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
+/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
+/uni00000028/uni00000050/uni00000053/uni00000011/uni00000003/uni00000026/uni00000052/uni00000053/uni00000058/uni0000004f/uni00000044
+/uni00000033/uni00000052/uni0000004c/uni00000051/uni00000057/uni00000003/uni00000026/uni0000002b/uni00000035
+/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
+(b) Large sample,|Dcal|= 500. Output dimensionsd= 10.
+Figure S4: Performance of the proposed TSCP method and other approaches on simulated
+data with noise following a Student’s-t distribution with varying degree of freedoms, using
+small (a) and large (b) sample sizes. The target coverage level is 0.9. All methods except
+Emp. Copulahave near-nominal coverage in all settings. TSCP maintains valid marginal
+coverage even on very heavy-tailed data. In the small sample setting, Point CHR suffers
+more in terms of prediction set size due to its inefficient use of calibration data, although it
+can outperform TSCP in large samples.
+48

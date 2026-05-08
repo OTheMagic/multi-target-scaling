@@ -1,0 +1,5 @@
+alpha,n_dim,n_cal,method,noise_type,coordinate,correlation,correlation_structure,score_type,n_trials,coordinate_length_avg,coordinate_length_1std,coordinate_length_median
+0.1,2,12,TSCP_R,Gaussian,1,0.4,equicorrelated,absolute_residual,1,6.50959258534688,,6.50959258534688
+0.1,2,12,TSCP_R,Gaussian,2,0.4,equicorrelated,absolute_residual,1,2.020121341184948,,2.020121341184948
+0.1,2,12,Unscaled,Gaussian,1,0.4,equicorrelated,absolute_residual,1,4.658348856231543,,4.658348856231543
+0.1,2,12,Unscaled,Gaussian,2,0.4,equicorrelated,absolute_residual,1,4.658348856231543,,4.658348856231543

@@ -1,8 +1,6 @@
 import numpy as np
 from itertools import combinations
 import math
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 
 class Rectangle:
     """
@@ -54,6 +52,9 @@ class Rectangle:
         if index is not None:
             self.upper[index] = new_upper
         else:
+            new_upper = np.asarray(new_upper, dtype=float)
+            if new_upper.shape != self.upper.shape:
+                raise ValueError("Unmatched dimension")
             self.upper = new_upper
 
     def update_lower(self, new_lower, index=None):
@@ -70,6 +71,9 @@ class Rectangle:
         if index is not None:
             self.lower[index] = new_lower
         else:
+            new_lower = np.asarray(new_lower, dtype=float)
+            if new_lower.shape != self.lower.shape:
+                raise ValueError("Unmatched dimension")
             self.lower = new_lower
 
     def info(self):
@@ -187,6 +191,7 @@ class Rectangle:
         bool
             True if the point lies within bounds.
         """
+        point = np.asarray(point, dtype=float)
         if point.shape != self.lower.shape:
             raise ValueError("Point dimensionality must match the rectangle dimensionality.")
 
@@ -242,6 +247,8 @@ class Rectangle:
         linewidth : float, optional
             Line width of the boundary.
         """
+        import matplotlib.patches as patches
+
         x_min, x_max = self.lower[dimx], self.upper[dimx]
         y_min, y_max = self.lower[dimy], self.upper[dimy]
 
@@ -276,11 +283,13 @@ class Rectangle:
         tuple
             matplotlib Figure and Axes objects.
         """
+        import matplotlib.pyplot as plt
+
         n = self.dimensions()
         if n < 2:
             raise ValueError("Plotting requires at least 2 dimensions.")
 
-        coor_max = np.max(self.upper, axis=0)*1.5
+        coor_max = self.upper * 1.5
 
         if dimx is not None and dimy is not None:
             if not (0 <= dimx < n and 0 <= dimy < n):
@@ -307,7 +316,7 @@ class Rectangle:
             for idx, (dx, dy) in enumerate(dim_pairs):
                 ax = axes[idx]
                 self.draw_2D(ax, dx, dy)
-                ax.set(xlim = (0, coor_max[dimx]), ylim = (0, coor_max[dimy]))
+                ax.set(xlim=(0, coor_max[dx]), ylim=(0, coor_max[dy]))
 
             for j in range(num_plots, rows*cols):
                 fig.delaxes(axes[j])

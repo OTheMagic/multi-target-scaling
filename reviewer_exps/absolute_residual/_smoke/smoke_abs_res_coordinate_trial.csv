@@ -1,0 +1,5 @@
+alpha,n_dim,n_cal,trial,method,noise_type,score_type,coordinate,coordinate_length,correlation,correlation_structure
+0.1,2,12,0,TSCP_R,Gaussian,absolute_residual,1,6.50959258534688,0.4,equicorrelated
+0.1,2,12,0,TSCP_R,Gaussian,absolute_residual,2,2.020121341184948,0.4,equicorrelated
+0.1,2,12,0,Unscaled,Gaussian,absolute_residual,1,4.658348856231543,0.4,equicorrelated
+0.1,2,12,0,Unscaled,Gaussian,absolute_residual,2,4.658348856231543,0.4,equicorrelated

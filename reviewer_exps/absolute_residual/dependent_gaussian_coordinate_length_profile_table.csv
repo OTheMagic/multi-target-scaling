@@ -1,0 +1,11 @@
+correlation,correlation_structure,n_cal,coordinate,noise_level,TSCP (Ours),Point CHR,Unscaled Max,Emp. Copula
+0.6,equicorrelated,100,1,10.0,49.21,49.85,37.50,47.69
+0.6,equicorrelated,100,2,9.0,43.98,45.45,37.50,41.88
+0.6,equicorrelated,100,3,8.0,39.24,39.71,37.50,37.52
+0.6,equicorrelated,100,4,7.0,34.54,34.93,37.50,33.07
+0.6,equicorrelated,100,5,6.0,29.56,30.22,37.50,28.31
+0.6,equicorrelated,100,6,5.0,24.52,25.24,37.50,23.39
+0.6,equicorrelated,100,7,4.0,19.70,20.28,37.50,19.05
+0.6,equicorrelated,100,8,3.0,14.72,15.10,37.50,14.01
+0.6,equicorrelated,100,9,2.0,9.84,10.11,37.50,9.49
+0.6,equicorrelated,100,10,1.0,4.93,5.05,37.50,4.74

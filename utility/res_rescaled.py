@@ -1,8 +1,8 @@
 # Import necessary packages
 import numpy as np
-import math
 from itertools import combinations, product
 from utility.rectangle import Rectangle
+from utility.conformal_utils import add_jitter, conformal_quantile, conformal_rank
 from typing import Union, List, Tuple
 
 ### Basic handling tools
@@ -207,14 +207,11 @@ def standardized_transformation(scores, mu, std, clipped_mean, global_const = No
 
 def scaled_upperbound(scores, alpha, mu, std, clipped_mean):
 
-    n, d = scores.shape
-
-    np.random.seed(42)
-    scores_upperbound = scaled_transformation(scores, mu, std, clipped_mean) + 1e-10*np.random.rand(n)
-    scores_upperbound_sorted = np.sort(scores_upperbound, kind="mergesort")
-
-    quantile_level = math.ceil((1 - alpha) * (n + 1))
-    return scores_upperbound_sorted[quantile_level - 1] if quantile_level <= n else np.inf
+    scores_upperbound = add_jitter(
+        scaled_transformation(scores, mu, std, clipped_mean),
+        random_state=42,
+    )
+    return conformal_quantile(scores_upperbound, alpha)
 
 def scaled_threshold(upperbound, mu, std, size, dim = None):
 
@@ -264,8 +261,7 @@ def scaled_prediction(scores, alpha=0.2, short_cut=True) -> Union[Rectangle, Tup
     scores_augmented = np.append(scores, [np.repeat(np.inf, d), np.zeros(d)], axis=0)
     scores_sorted = np.transpose(np.sort(scores_augmented, axis=0, kind="mergesort"))
 
-
-    # Perforem binary search along dim_along
+    # Perform binary search along dim_along
     def binary_search_dimension(fixed_indices, dim_along, max_bounds, start, end):
 
         # Edge case: the last rectangle along dim_along to be evaluated
@@ -325,7 +321,7 @@ def scaled_prediction(scores, alpha=0.2, short_cut=True) -> Union[Rectangle, Tup
         mean_rectangle = create_hyper_rectangle(scores_sorted, mean_index)
         mean_upperbound = scaled_upperbound(scores, alpha, scores_mean, scores_std, scores_mean)
 
-        # Perform coordinte-wise binary search
+        # Perform coordinate-wise binary search
         for idx in range(d):
             L_temp = scaled_threshold(mean_upperbound,
                                       scores_mean,
@@ -362,12 +358,13 @@ def scaled_prediction(scores, alpha=0.2, short_cut=True) -> Union[Rectangle, Tup
 
         regions = []
         max_bounds = np.zeros(d)
-        upper = [scores_sorted[dim][math.ceil((1 - alpha) * (n + 1))] for dim in range(d)]
+        quantile_level = conformal_rank(n, alpha)
+        upper = [scores_sorted[dim][quantile_level] for dim in range(d)]
         rectangle = Rectangle(upper=upper)
         regions.append(rectangle)
         max_bounds = np.maximum(max_bounds,  rectangle.upper)
         for indices in product(range(1, n + 2), repeat=d):
-            if np.all(np.array(indices) <= math.ceil((1 - alpha) * (n + 1))):
+            if np.all(np.array(indices) <= quantile_level):
                 continue
             else:
                 rectangle = create_hyper_rectangle(scores_sorted, indices)
@@ -423,21 +420,19 @@ def standardized_upperbound(scores, alpha, mu, std, clipped_mean, global_const =
         The (1 - alpha)-empirical quantile of the transformed scores, or
         np.inf if the requested order statistic exceeds the sample size.
     """
-    n, d = scores.shape
-
     if global_const is not None:
-
-        np.random.seed(42)
-        scores_upperbound = standardized_transformation(scores, mu, std, clipped_mean, global_const) + 1e-10 * np.random.randint(n)
-        scores_upperbound_sorted = np.sort(scores_upperbound, kind="mergesort")
-
+        scores_upperbound = standardized_transformation(
+            scores,
+            mu,
+            std,
+            clipped_mean,
+            global_const,
+        )
     else:
-        np.random.seed(42)
-        scores_upperbound = standardized_transformation(scores, mu, std, clipped_mean) + 1e-10 * np.random.randint(n)
-        scores_upperbound_sorted = np.sort(scores_upperbound, kind="mergesort")
+        scores_upperbound = standardized_transformation(scores, mu, std, clipped_mean)
 
-    quantile_level = math.ceil((1 - alpha) * (n + 1))
-    return scores_upperbound_sorted[quantile_level - 1] if quantile_level <= n else np.inf
+    scores_upperbound = add_jitter(scores_upperbound, random_state=42)
+    return conformal_quantile(scores_upperbound, alpha)
             
 
 def standardized_threshold(upperbound, mu, std, size, dim = None):
@@ -539,11 +534,11 @@ def standardized_prediction(scores, alpha=0.2, method = "LWC", short_cut=True):
     scores_sorted = np.transpose(np.sort(scores_augmented, axis=0, kind="mergesort"))
 
     # Global region
-    global_uppberbound = standardized_upperbound(scores, alpha,
+    global_upperbound = standardized_upperbound(scores, alpha,
                                                  scores_mean,
                                                  scores_std,
                                                  scores_mean)
-    global_threshold = standardized_threshold(global_uppberbound,
+    global_threshold = standardized_threshold(global_upperbound,
                                               scores_mean,
                                               scores_std, n)
     global_rectangle = Rectangle(upper=global_threshold)
@@ -556,7 +551,7 @@ def standardized_prediction(scores, alpha=0.2, method = "LWC", short_cut=True):
     bound = np.where(global_threshold == np.inf, 1/np.sqrt(n+1), ((n*scores_mean+global_threshold)/(n+1)) / np.sqrt((global_threshold - scores_mean)**2/(n+1) + scores_std**2))
     global_const = np.minimum(zero, bound)
 
-    # Perforem binary search along dim_along
+    # Perform binary search along dim_along
     def binary_search_dimension(fixed_indices, dim_along, max_bounds, start, end):
 
         # Edge case: the last rectangle along dim_along to be evaluated
@@ -672,12 +667,13 @@ def standardized_prediction(scores, alpha=0.2, method = "LWC", short_cut=True):
 
         regions = []
         max_bounds = np.zeros(d)
-        upper = [scores_sorted[dim][math.ceil((1 - alpha) * (n + 1))] for dim in range(d)]
+        quantile_level = conformal_rank(n, alpha)
+        upper = [scores_sorted[dim][quantile_level] for dim in range(d)]
         rectangle = Rectangle(upper=upper)
         regions.append(rectangle)
         max_bounds = np.maximum(max_bounds,  rectangle.upper)
         for indices in product(range(1, n + 2), repeat=d):
-            if np.all(np.array(indices) <= math.ceil((1 - alpha) * (n + 1))):
+            if np.all(np.array(indices) <= quantile_level):
                 continue
             else:
                 rectangle = create_hyper_rectangle(scores_sorted, indices).intersection(global_rectangle)

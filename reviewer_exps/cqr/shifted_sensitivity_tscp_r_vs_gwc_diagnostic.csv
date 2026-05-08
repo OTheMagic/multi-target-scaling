@@ -1,0 +1,4 @@
+alpha,n_dim,n_cal,base_interval_alpha,shift_constant,max_abs_coordinate_length_diff,max_abs_coordinate_adjustment_diff,coverage_vol_avg_TSCP_GWC,coverage_vol_avg_TSCP_R,test_coverage_avg_TSCP_GWC,test_coverage_avg_TSCP_R,abs_volume_diff,abs_coverage_diff
+0.1,3,100,0.5,100.0,0.0,0.0,2856.1838581389306,2856.1838581389306,0.8936499999999999,0.8936499999999999,0.0,0.0
+0.1,3,100,0.5,300.0,0.0,0.0,2856.1838581389297,2856.1838581389297,0.8936499999999999,0.8936499999999999,0.0,0.0
+0.1,3,100,0.5,1000.0,0.0,0.0,2856.1838581389434,2856.1838581389434,0.8936499999999999,0.8936499999999999,0.0,0.0

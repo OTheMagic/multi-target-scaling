@@ -1,12 +1,12 @@
 import numpy as np
-import math
 from utility.rectangle import Rectangle
+from utility.conformal_utils import add_jitter, conformal_quantile, conformal_rank
 from sklearn.model_selection import train_test_split
 
 
 def naive_prediction(scores,
-                     alpha = 0.2, 
-                     random_state = 42):
+                     alpha=0.2,
+                     random_state=42):
     """
     Standardized conformal prediction using sample mean and sample std directly estimated on the scores. 
     Note this method is theoratically invalid (should not have marginal coverage).
@@ -27,26 +27,21 @@ def naive_prediction(scores,
     """
     scale = np.std(scores, axis=0, ddof=1)
     mean = np.mean(scores, axis=0)
-    scores_standardized = (scores-mean)/scale
-    n, d = scores.shape
+    scores_standardized = (scores - mean) / scale
 
-    np.random.seed(random_state)
-    max_norm_standardized = np.max(scores_standardized, axis = 1)+ 1e-10*np.random.randint(n)
-    max_norm_standardized_sorted = np.sort(max_norm_standardized, axis=0, kind="mergesort")
+    max_norm_standardized = add_jitter(
+        np.max(scores_standardized, axis=1),
+        random_state=random_state,
+    )
+    quantile_threshold = conformal_quantile(max_norm_standardized, alpha)
 
-    quantile_level = math.ceil((1 - alpha) * (n + 1))
-    if quantile_level <= n:
-        quantile_threshold = max_norm_standardized_sorted[quantile_level-1]
-    else:
-        quantile_threshold = np.inf
-
-    upper = quantile_threshold*scale + mean
+    upper = quantile_threshold * scale + mean
 
     return Rectangle(upper=upper)
 
 def data_splitting_oracle_prediction(scores, mu, std,
-                                     alpha = 0.2, 
-                                     random_state = 42):
+                                     alpha=0.2,
+                                     random_state=42):
     """
     Data-splitting conformal prediction using oracle standardization.
 
@@ -73,27 +68,22 @@ def data_splitting_oracle_prediction(scores, mu, std,
     Rectangle
         A Rectangle with upper bounds quantile_threshold * std + mu.
     """
-    scores_standardized = (scores-mu)/std
-    n, d = scores.shape
+    scores_standardized = (scores - mu) / std
 
-    np.random.seed(random_state)
-    max_norm_standardized = np.max(scores_standardized, axis = 1)+ 1e-10*np.random.randint(n)
-    max_norm_standardized_sorted = np.sort(max_norm_standardized, axis=0, kind="mergesort")
+    max_norm_standardized = add_jitter(
+        np.max(scores_standardized, axis=1),
+        random_state=random_state,
+    )
+    quantile_threshold = conformal_quantile(max_norm_standardized, alpha)
 
-    quantile_level = math.ceil((1 - alpha) * (n + 1))
-    if quantile_level <= n:
-        quantile_threshold = max_norm_standardized_sorted[quantile_level-1]
-    else:
-        quantile_threshold = np.inf
-
-    upper = quantile_threshold*std + mu
+    upper = quantile_threshold * std + mu
 
     return Rectangle(upper=upper)
 
 
 def data_splitting_standardized_prediction(scores, 
-                                           alpha = 0.2, 
-                                           random_state = 42):
+                                           alpha=0.2,
+                                           random_state=42):
     """
     Data-splitting conformal prediction with estimated mean and scale.
 
@@ -121,28 +111,23 @@ def data_splitting_standardized_prediction(scores,
 
     scale = np.std(scores1, axis=0, ddof=1)
     mean = np.mean(scores1, axis=0)
-    scores_standardized = (scores2-mean)/scale
-    n, d = scores2.shape
+    scores_standardized = (scores2 - mean) / scale
 
-    np.random.seed(random_state)
-    max_norm_standardized = np.max(scores_standardized, axis = 1)+ 1e-10*np.random.randint(n)
-    max_norm_standardized_sorted = np.sort(max_norm_standardized, axis=0, kind="mergesort")
+    max_norm_standardized = add_jitter(
+        np.max(scores_standardized, axis=1),
+        random_state=random_state,
+    )
+    quantile_threshold = conformal_quantile(max_norm_standardized, alpha)
 
-    quantile_level = math.ceil((1 - alpha) * (n + 1))
-    if quantile_level <= n:
-        quantile_threshold = max_norm_standardized_sorted[quantile_level-1]
-    else:
-        quantile_threshold = np.inf
-
-    upper = quantile_threshold*scale + mean
+    upper = quantile_threshold * scale + mean
 
     return Rectangle(upper=upper)
 
 
 def data_spliting_CHR_prediction(scores, 
-                                 alpha = 0.2, 
-                                 reference_dim = 0,
-                                 random_state = 42):
+                                 alpha=0.2,
+                                 reference_dim=0,
+                                 random_state=42):
     """
     Data-splitting CHR-style conformal rectangular prediction.
 
@@ -173,28 +158,30 @@ def data_spliting_CHR_prediction(scores,
     scores1, scores2 = train_test_split(scores, test_size=0.5, random_state=random_state)
 
     n, d = scores1.shape
-    quantile_level = math.ceil((1 - alpha) * (n + 1))
+    quantile_level = conformal_rank(n, alpha)
 
     # Compute the base rectangle
     scores_sorted = np.sort(scores1, axis=0, kind="mergesort")
 
     if quantile_level <= n:
-        base_upper = scores_sorted[quantile_level-1] 
+        base_upper = scores_sorted[quantile_level-1]
     else:
         base_upper = np.repeat(np.inf, d)
         return Rectangle(upper=base_upper)
 
     # Compute the excess length and excess scores
     excess = scores2 - base_upper
-    scale = base_upper[reference_dim]/base_upper
-    scaled_excess = excess*scale
-    excess_scores = np.max(scaled_excess, axis = 1)
+    scale = base_upper[reference_dim] / base_upper
+    scaled_excess = excess * scale
+    excess_scores = np.max(scaled_excess, axis=1)
 
     # Compute adjustments
-    excess_scores_sorted = np.sort(excess_scores, kind="mergesort")
-    adj1 = excess_scores_sorted[quantile_level-1] if quantile_level <= n else np.inf
-    adjustments = adj1*base_upper/base_upper[reference_dim]
+    if quantile_level <= len(excess_scores):
+        adj1 = np.partition(excess_scores, quantile_level - 1)[quantile_level - 1]
+    else:
+        adj1 = np.inf
+    adjustments = adj1 * base_upper / base_upper[reference_dim]
 
-    upper = base_upper+adjustments
+    upper = base_upper + adjustments
 
     return Rectangle(upper=upper)

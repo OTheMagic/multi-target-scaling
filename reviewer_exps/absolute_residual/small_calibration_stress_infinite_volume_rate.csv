@@ -1,0 +1,21 @@
+alpha,n_dim,n_cal,method,method_display,noise_type,correlation,correlation_structure,n_trials,infinite_volume_rate
+0.1,10,10,TSCP_R,TSCP (Ours),Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,10,Point_CHR,Point CHR,Gaussian,0.0,equicorrelated,200,1.0
+0.1,10,10,Unscaled,Unscaled Max,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,10,Empirical_copula,Emp. Copula,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,20,TSCP_R,TSCP (Ours),Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,20,Point_CHR,Point CHR,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,20,Unscaled,Unscaled Max,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,20,Empirical_copula,Emp. Copula,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,30,TSCP_R,TSCP (Ours),Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,30,Point_CHR,Point CHR,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,30,Unscaled,Unscaled Max,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,30,Empirical_copula,Emp. Copula,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,50,TSCP_R,TSCP (Ours),Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,50,Point_CHR,Point CHR,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,50,Unscaled,Unscaled Max,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,50,Empirical_copula,Emp. Copula,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,100,TSCP_R,TSCP (Ours),Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,100,Point_CHR,Point CHR,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,100,Unscaled,Unscaled Max,Gaussian,0.0,equicorrelated,200,0.0
+0.1,10,100,Empirical_copula,Emp. Copula,Gaussian,0.0,equicorrelated,200,0.0

@@ -1,0 +1,3 @@
+alpha,n_dim,n_cal,trial,method,noise_type,score_type,test_coverage,coverage_volume,coverage_max_length,runtime,correlation,correlation_structure
+0.1,2,12,0,TSCP_R,Gaussian,absolute_residual,0.875,13.150166904078532,6.50959258534688,0.0,0.4,equicorrelated
+0.1,2,12,0,Unscaled,Gaussian,absolute_residual,1.0,21.700214066353723,4.658348856231543,0.0,0.4,equicorrelated

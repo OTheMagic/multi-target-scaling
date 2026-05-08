@@ -1,7 +1,6 @@
 import numpy as np
 from scipy.stats import rankdata
 from utility.rectangle import Rectangle
-from sklearn.model_selection import train_test_split
 
 
 class EmpiricalCopula:
@@ -100,14 +99,11 @@ class EmpiricalCopula:
         np.ndarray, shape (d,)
             Vector of upper thresholds (tau_1, ..., tau_d) in [0, 1].
         """
-        count = 0
+        sorted_vals = np.sort(self.U, axis=0, kind="mergesort")
         for i in range(self.n):
-            sorted_vals = np.sort(self.U, axis=0, kind="mergesort") 
             if self.cdf(sorted_vals[i]) >= 1-alpha:
                 return sorted_vals[i]
-            count += 1
-        if count == self.n:
-            return np.repeat(1, self.d)
+        return np.ones(self.d)
     
 
 def inverse_ecdf_transform(U_thresholds, scores):
@@ -131,11 +127,11 @@ def inverse_ecdf_transform(U_thresholds, scores):
         the bound for that coordinate is set to +inf.
     """
     n, d = scores.shape
-    upper = np.zeros(d)
-    for j in range(d):
-        scores_sorted = np.sort(scores[:, j])
-        idx = int(np.ceil(U_thresholds[j] * (n+1)))
-        upper[j] = scores_sorted[idx-1] if idx <= n else np.inf
+    scores_sorted = np.sort(scores, axis=0, kind="mergesort")
+    indices = np.ceil(U_thresholds * (n + 1)).astype(int) - 1
+    upper = np.full(d, np.inf)
+    valid = (indices >= 0) & (indices < n)
+    upper[valid] = scores_sorted[indices[valid], np.arange(d)[valid]]
     return upper
 
 

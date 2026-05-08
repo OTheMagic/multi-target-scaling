@@ -1,9 +1,9 @@
 import numpy as np
-import math
 from utility.rectangle import Rectangle
+from utility.conformal_utils import add_jitter, conformal_quantile
 
 
-def unscaled_prediction(scores, alpha = 0.2):
+def unscaled_prediction(scores, alpha=0.2, random_state=42):
     """
     Conformal rectangular prediction using the unscaled max-norm method.
 
@@ -27,22 +27,16 @@ def unscaled_prediction(scores, alpha = 0.2):
         A hyper-rectangle with identical upper bounds across all dimensions,
         equal to the (1 - alpha)-quantile of the max-norm.
     """
-    n, d = scores.shape
+    _, d = scores.shape
 
-    # Break ties randomly
-    np.random.seed(42)
-    max_norm = np.max(scores, axis = 1) + 1e-10*np.random.rand(n)
-
-    # Sort the scores and get the quantile for each coordinate
-    max_norm_sorted = np.sort(max_norm, axis=0, kind="mergesort")
-    quantile_level = math.ceil((1 - alpha) * (n + 1))
-    quantile_threshold = max_norm_sorted[quantile_level-1] if quantile_level <= n else np.inf
+    max_norm = add_jitter(np.max(scores, axis=1), random_state=random_state)
+    quantile_threshold = conformal_quantile(max_norm, alpha)
     upper = np.repeat(quantile_threshold, d)
 
     return Rectangle(upper=upper)
 
 
-def bonferroni_prediction(scores, alpha = 0.2):
+def bonferroni_prediction(scores, alpha=0.2, random_state=42):
     """
     Conformal rectangular prediction using per-coordinate Bonferroni correction.
 
@@ -65,18 +59,12 @@ def bonferroni_prediction(scores, alpha = 0.2):
         A hyper-rectangle whose j-th upper bound is the empirical
         (1 - alpha/d)-quantile of scores[:, j].
     """
-    n, d = scores.shape
+    _, d = scores.shape
 
     # Bonferroni correction
     alpha_corrected = alpha / d
 
-    # Break ties randomly
-    np.random.seed(42)
-    scores = scores + 1e-10*np.random.rand(n, d)
-
-    # Sort the scores and get the quantile for each coordinate
-    scores_sorted = np.sort(scores, axis=0, kind="mergesort")
-    quantile_level = math.ceil((1 - alpha_corrected) * (n + 1))
-    upper = scores_sorted[quantile_level-1] if quantile_level <= n else np.repeat(np.inf, d)
+    scores = add_jitter(scores, random_state=random_state)
+    upper = conformal_quantile(scores, alpha_corrected, axis=0)
 
     return Rectangle(upper=upper)
