@@ -3,6 +3,7 @@ import hashlib
 import numpy as np
 import pandas as pd
 import time
+from joblib import Parallel, delayed
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -365,6 +366,7 @@ def _fit_coordinatewise_quantile_models(
     random_state: int,
     quantile_model_factory: Optional[Callable[[float, int], Any]] = None,
     quantile_model_params: Optional[Dict[str, Any]] = None,
+    n_jobs: int = 1,
 ):
     """Fit lower/upper quantile models independently for each target."""
     X_train = np.asarray(X_train)
@@ -372,9 +374,7 @@ def _fit_coordinatewise_quantile_models(
     if y_train.ndim == 1:
         y_train = y_train.reshape(-1, 1)
 
-    lower_models = []
-    upper_models = []
-    for coordinate in range(y_train.shape[1]):
+    def fit_pair(coordinate):
         lower_model = _make_quantile_model(
             quantile=lower_quantile,
             random_state=random_state + 2 * coordinate,
@@ -389,8 +389,19 @@ def _fit_coordinatewise_quantile_models(
         )
         lower_model.fit(X_train, y_train[:, coordinate])
         upper_model.fit(X_train, y_train[:, coordinate])
-        lower_models.append(lower_model)
-        upper_models.append(upper_model)
+        return lower_model, upper_model
+
+    if n_jobs == 1:
+        model_pairs = [
+            fit_pair(coordinate) for coordinate in range(y_train.shape[1])
+        ]
+    else:
+        model_pairs = Parallel(n_jobs=n_jobs, prefer="threads")(
+            delayed(fit_pair)(coordinate) for coordinate in range(y_train.shape[1])
+        )
+
+    lower_models = [pair[0] for pair in model_pairs]
+    upper_models = [pair[1] for pair in model_pairs]
 
     return lower_models, upper_models
 
@@ -668,6 +679,9 @@ def _summarize_trial_results(trial_df: pd.DataFrame) -> pd.DataFrame:
             "score_transform",
             "base_interval_alpha",
             "shift_constant",
+            "redraw_train_test",
+            "n_train",
+            "n_test",
         ]
         if col in trial_df.columns
     ]
@@ -701,6 +715,9 @@ def _summarize_coordinate_results(coordinate_df: pd.DataFrame) -> pd.DataFrame:
             "score_transform",
             "base_interval_alpha",
             "shift_constant",
+            "redraw_train_test",
+            "n_train",
+            "n_test",
         ]
         if col in coordinate_df.columns
     ]
@@ -892,6 +909,9 @@ def run_abs_res_synthetic_experiment(
     n_features: int = 10,
     n_informative: int = 10,
     test_size: float = 0.2,
+    redraw_train_test: bool = False,
+    n_train: Optional[int] = None,
+    n_test: Optional[int] = None,
     oracle_n_samples: int = 100000,
     oracle_seed_offset: int = 3,
     data_generator: Callable[..., Any] = make_multitarget_regression,
@@ -944,6 +964,15 @@ def run_abs_res_synthetic_experiment(
         Number of informative features used for calibration/oracle generation.
     test_size : float, default=0.2
         Test split fraction for the generated train/test pool.
+    redraw_train_test : bool, default=False
+        If True, generate fresh independent training and test observations in
+        every Monte Carlo repetition instead of repeatedly splitting one pool.
+    n_train : int, optional
+        Number of fresh training observations when `redraw_train_test=True`.
+        Defaults to `n_train_pool - ceil(test_size * n_train_pool)`.
+    n_test : int, optional
+        Number of fresh test observations when `redraw_train_test=True`.
+        Defaults to `ceil(test_size * n_train_pool)`.
     oracle_n_samples : int, default=100000
         Number of oracle samples for `Population_oracle`.
     oracle_seed_offset : int, default=3
@@ -975,10 +1004,33 @@ def run_abs_res_synthetic_experiment(
 
     if trials <= 0:
         raise ValueError("trials must be positive.")
+    if redraw_train_test:
+        default_n_test = int(np.ceil(test_size * n_train_pool))
+        n_test = default_n_test if n_test is None else int(n_test)
+        n_train = (
+            n_train_pool - default_n_test if n_train is None else int(n_train)
+        )
+        if n_train <= 0 or n_test <= 0:
+            raise ValueError("n_train and n_test must be positive.")
     if model_factory is None:
         model_factory = LinearRegression
     generator_kwargs = dict(generator_kwargs or {})
     metadata = _recordable_metadata(generator_kwargs)
+    protocol_n_test = (
+        n_test
+        if redraw_train_test
+        else int(np.ceil(test_size * n_train_pool))
+    )
+    protocol_n_train = (
+        n_train if redraw_train_test else n_train_pool - protocol_n_test
+    )
+    metadata.update(
+        {
+            "redraw_train_test": redraw_train_test,
+            "n_train": protocol_n_train,
+            "n_test": protocol_n_test,
+        }
+    )
 
     records = []
     coordinate_records = []
@@ -1002,12 +1054,31 @@ def run_abs_res_synthetic_experiment(
             for trial in range(trials):
                 seed = _stable_hash(dim, sample, trial)
 
-                X_train, X_test, y_train, y_test = train_test_split(
-                    X,
-                    y,
-                    test_size=test_size,
-                    random_state=seed + 42,
-                )
+                if redraw_train_test:
+                    X_trial, y_trial = data_generator(
+                        n_samples=n_train + n_test,
+                        n_features=n_features,
+                        n_informative=n_informative,
+                        n_targets=dim,
+                        noise_type=noise_type,
+                        noise_list=noise_list,
+                        random_state=_stable_hash(dim, sample, trial, "train_test"),
+                        coef=coef_true,
+                        **generator_kwargs,
+                    )
+                    X_train, X_test = X_trial[:n_train], X_trial[n_train:]
+                    y_train, y_test = y_trial[:n_train], y_trial[n_train:]
+                    calibration_seed = _stable_hash(
+                        dim, sample, trial, "calibration"
+                    )
+                else:
+                    X_train, X_test, y_train, y_test = train_test_split(
+                        X,
+                        y,
+                        test_size=test_size,
+                        random_state=seed + 42,
+                    )
+                    calibration_seed = seed
 
                 model = model_factory()
                 model.fit(X_train, y_train)
@@ -1021,7 +1092,7 @@ def run_abs_res_synthetic_experiment(
                     n_targets=dim,
                     noise_type=noise_type,
                     noise_list=noise_list,
-                    random_state=seed,
+                    random_state=calibration_seed,
                     coef=coef_true,
                     **generator_kwargs,
                 )
@@ -1036,7 +1107,13 @@ def run_abs_res_synthetic_experiment(
                         n_targets=dim,
                         noise_type=noise_type,
                         noise_list=noise_list,
-                        random_state=seed + oracle_seed_offset,
+                        random_state=(
+                            _stable_hash(
+                                dim, sample, trial, "oracle", oracle_seed_offset
+                            )
+                            if redraw_train_test
+                            else seed + oracle_seed_offset
+                        ),
                         coef=coef_true,
                         **generator_kwargs,
                     )
@@ -1114,6 +1191,9 @@ def run_abs_res_synthetic_experiment(
         "n_features": n_features,
         "n_informative": n_informative,
         "test_size": test_size,
+        "redraw_train_test": redraw_train_test,
+        "n_train": protocol_n_train,
+        "n_test": protocol_n_test,
         "oracle_n_samples": oracle_n_samples,
         "oracle_seed_offset": oracle_seed_offset,
         "data_generator": getattr(data_generator, "__name__", str(data_generator)),
@@ -1193,11 +1273,15 @@ def run_cqr_synthetic_experiment(
     base_interval_alpha: Optional[float] = None,
     quantile_model_factory: Optional[Callable[[float, int], Any]] = None,
     quantile_model_params: Optional[Dict[str, Any]] = None,
+    quantile_n_jobs: int = 1,
     log_scale: bool = False,
     n_train_pool: int = 8000,
     n_features: int = 10,
     n_informative: int = 10,
     test_size: float = 0.2,
+    redraw_train_test: bool = False,
+    n_train: Optional[int] = None,
+    n_test: Optional[int] = None,
     oracle_n_samples: int = 100000,
     oracle_seed_offset: int = 3,
     data_generator: Callable[..., Any] = make_multitarget_regression,
@@ -1252,9 +1336,34 @@ def run_cqr_synthetic_experiment(
         )
     if trials <= 0:
         raise ValueError("trials must be positive.")
+    if quantile_n_jobs == 0:
+        raise ValueError("quantile_n_jobs cannot be zero.")
+    if redraw_train_test:
+        default_n_test = int(np.ceil(test_size * n_train_pool))
+        n_test = default_n_test if n_test is None else int(n_test)
+        n_train = (
+            n_train_pool - default_n_test if n_train is None else int(n_train)
+        )
+        if n_train <= 0 or n_test <= 0:
+            raise ValueError("n_train and n_test must be positive.")
 
     generator_kwargs = dict(generator_kwargs or {})
     metadata = _recordable_metadata(generator_kwargs)
+    protocol_n_test = (
+        n_test
+        if redraw_train_test
+        else int(np.ceil(test_size * n_train_pool))
+    )
+    protocol_n_train = (
+        n_train if redraw_train_test else n_train_pool - protocol_n_test
+    )
+    metadata.update(
+        {
+            "redraw_train_test": redraw_train_test,
+            "n_train": protocol_n_train,
+            "n_test": protocol_n_test,
+        }
+    )
     records = []
     coordinate_records = []
     needs_oracle = "Population_oracle" in score_region_methods
@@ -1277,12 +1386,31 @@ def run_cqr_synthetic_experiment(
             for trial in range(trials):
                 seed = _stable_hash(dim, sample, trial)
 
-                X_train, X_test, y_train, y_test = train_test_split(
-                    X,
-                    y,
-                    test_size=test_size,
-                    random_state=seed + 42,
-                )
+                if redraw_train_test:
+                    X_trial, y_trial = data_generator(
+                        n_samples=n_train + n_test,
+                        n_features=n_features,
+                        n_informative=n_informative,
+                        n_targets=dim,
+                        noise_type=noise_type,
+                        noise_list=noise_list,
+                        random_state=_stable_hash(dim, sample, trial, "train_test"),
+                        coef=coef_true,
+                        **generator_kwargs,
+                    )
+                    X_train, X_test = X_trial[:n_train], X_trial[n_train:]
+                    y_train, y_test = y_trial[:n_train], y_trial[n_train:]
+                    calibration_seed = _stable_hash(
+                        dim, sample, trial, "calibration"
+                    )
+                else:
+                    X_train, X_test, y_train, y_test = train_test_split(
+                        X,
+                        y,
+                        test_size=test_size,
+                        random_state=seed + 42,
+                    )
+                    calibration_seed = seed
 
                 X_cal, y_cal = data_generator(
                     n_samples=sample,
@@ -1291,7 +1419,7 @@ def run_cqr_synthetic_experiment(
                     n_targets=dim,
                     noise_type=noise_type,
                     noise_list=noise_list,
-                    random_state=seed,
+                    random_state=calibration_seed,
                     coef=coef_true,
                     **generator_kwargs,
                 )
@@ -1306,7 +1434,13 @@ def run_cqr_synthetic_experiment(
                         n_targets=dim,
                         noise_type=noise_type,
                         noise_list=noise_list,
-                        random_state=seed + oracle_seed_offset,
+                        random_state=(
+                            _stable_hash(
+                                dim, sample, trial, "oracle", oracle_seed_offset
+                            )
+                            if redraw_train_test
+                            else seed + oracle_seed_offset
+                        ),
                         coef=coef_true,
                         **generator_kwargs,
                     )
@@ -1325,6 +1459,7 @@ def run_cqr_synthetic_experiment(
                         random_state=quantile_seed,
                         quantile_model_factory=quantile_model_factory,
                         quantile_model_params=quantile_model_params,
+                        n_jobs=quantile_n_jobs,
                     )
 
                     raw_scores_cal, base_lengths_cal = _cqr_scores_and_base_lengths(
@@ -1541,10 +1676,14 @@ def run_cqr_synthetic_experiment(
         "n_features": n_features,
         "n_informative": n_informative,
         "test_size": test_size,
+        "redraw_train_test": redraw_train_test,
+        "n_train": protocol_n_train,
+        "n_test": protocol_n_test,
         "oracle_n_samples": oracle_n_samples,
         "oracle_seed_offset": oracle_seed_offset,
         "data_generator": getattr(data_generator, "__name__", str(data_generator)),
         "generator_kwargs": generator_kwargs,
+        "quantile_n_jobs": quantile_n_jobs,
         "output_dir": str(output_dir) if output_dir is not None else None,
         "experiment_name": experiment_name,
         "trial_csv_path": trial_csv_path,
