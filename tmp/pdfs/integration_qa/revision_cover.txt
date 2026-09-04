@@ -3,47 +3,94 @@ Summary of Revisions
 Interpretable Multivariate Conformal Prediction
 with F ast Transductive Standardization
 JMLR-25-3153-1
-This summary compares the revision with the original arXiv v1 submission. It distinguishes the author’s edits, added
-experiments, and the ﬁnal publication-style reorganization; it does not certify new theoretical results.
-• Abstract and Section 1: motivation and related work. The central motivation and contribution statement
-are retained; no substantive rewrite is claimed. Author check: Correct the Point CHR/CQHR distinction and
-add shape-template related work. These changes are necessary for accurate positioning of the new comparisons.
-• Section 2: setup and motivating constructions. The supplied revision renames and reorganizes the preliminar-
-ies, clariﬁes joint exchangeability and simultaneous versus marginal coverage, strengthens vector/scalar distinctions,
-discusses ties, and introduces a common parameterized population-oracle formulation. This makes the statistical
-target and the role of standardization more explicit. The latest edit removes the unqualiﬁed shift-invariance claim
-and replaces “uniformly tight” with a coverage-balance description. Author check: Reconcile capped-score ties
-with the implementation and qualify the remaining balance claim.
-• Section 3: methodology . The supplied edit uses a common threshold-indexed prediction-set map, separates
-observed and oracle scaling statistics, rewrites the global/local construction in that notation, and corrects the
-exceptional empty-cell sign. The latest edit replaces the local conditional-coverage inference with a pointwise oracle-
-acceptance implication, improving mathematical precision. Author check: Review the search-lemma endpoint
-inequality and complete the common-event argument in the piecewise coverage proof.
-• Section 4: numerical experiments. New main-text material includes dependent heterogeneous Gaussian noise,
-coordinate-length bar plots, partial heteroskedasticity, native CQHR, and real-data wall-clock comparisons. New
-200-split real-data reruns add all coordinate lengths and direct backward-search/fallback counts. Independent-
-noise benchmarks now lead into the dependence studies; the original energy example remains in the body. Sample
-sizes and CQR settings are explicit. These changes answer requests for coordinate detail, broader baselines, and
-computational evidence; the Point CHR inﬁnite-volume case is now explained by its allocation.
-• Section 5: discussion. The existing discussion is retained without alteration. Author check: Connect it to
-the new contamination and CQR evidence while retaining the distinction between empirical robustness and proved
-validity.
-• Appendix A: algorithms and complexity . The supplied algorithmic material is retained. No faster worst-case
-bound is claimed. The new Section 4 diagnostics measure actual search branches and their observed costs, rather
-than inferring branch frequency from overall runtime.
-• Appendix B: proofs. The supplied proof section is preserved, including its updated notation. No new moment-
-relaxation or tie-handling theorem is claimed. Author check: Check mathematical consistency with the revised
-main text; this integration did not perform a complete proof-equivalence audit.
-• Appendix C: uniﬁed experimental evidence. Distribution benchmarks, dependence and heterogeneity sweeps,
-calibration size, heavy tails, contamination, CQR transformations, shape templates, oracle approximation, compu-
-tational scaling, and real-data results are now organized by scientiﬁc topic. The earlier and added studies jointly
-show where eﬃciency gains persist and where they are limited.
-• Experimental presentation and preservation. The two experiment ﬁles now contain the complete account
-without a revision-log narrative. Eight earlier plots have been redrawn in the newer visual style, and the author’s
-order through Section 4.2 is preserved. Numerical results and tables are unchanged. Author check: Reconcile
-the archived CSV provenance with the speciﬁed fresh sampling before submission; restyling does not establish how
-those runs were sampled.
-• Figures, bibliography , and remaining completion. All original experimental assets and labels are retained; 19
-new PDF ﬁgures and the Tumu et al. reference are added. Figures 1 and 2 now show illustrative marginal coverage
-rates and residual-boundary labels, respectively, to clarify their interpretation. Author check: Finish notation
-consistency and manuscript-wide color marking. The separate reviewer audit lists the remaining items.
+This summary compares the current draft with the original arXiv v1 submission of December 17, 2025. It describes
+changes present in the draft; red author checks identify unresolved decisions rather than completed changes.
+• Abstract. The central contribution and ﬁnite-sample coverage claim are retained. Grammatical corrections
+improve readability; no new theoretical result is claimed.
+• Section 1: introduction and related work. The motivation for interpretable simultaneous intervals and the
+Bonferroni comparison are retained. Figure 1 now shows illustrative marginal coverages of 92% and 93% alongside
+90% joint coverage, making that distinction visible immediately. The ﬁnal pass tightens the language. AUTHOR-
+CHECK LIT: The Point CHR/CQHR distinction, shape-template discussion, and empirical attribution still need
+substantive review.
+• Section 2: setup and motivating constructions. The revised setup states joint exchangeability of calibra-
+tion and test observations and explains that coverage is marginal over the data but simultaneous across outputs.
+Residual deﬁnitions discuss capping and ties. A common location/scale parameterization separates the population
+oracle from its practical approximations. These changes clarify the statistical target and motivation for coordinate
+adaptation; vector/scalar notation is standardized. AUTHOR-CHECK MAP/TIES/BALANCE: Review
+inverse terminology, tie handling, and the coverage-balance claim.
+• Section 3: methodology . A threshold-indexed set map connects the transductive oracle, link functions, and
+global/local bounds. The local argument now gives a pointwise implication on oracle acceptance and working-region
+membership, not cell-conditional coverage. Figure 2 labels the residual boundaries; multi-indices are consistently
+bold. The real-data diagnostic reference now points to the appendix. These changes make the construction easier
+to follow. AUTHOR-CHECK EVENT/ENDPOINT/BOUNDAR Y: The piecewise proof, search-lemma
+endpoint, and partition boundaries still need mathematical review.
+• Section 4: numerical experiments. T welve experimental studies have been added in total: ten
+simulation studies and two real-data diagnostic studies. This count spans Section 4 and Appendix C and
+treats a parameter sweep as one study. Additional panels and coordinate plots are not counted separately. E11
+and E12 share a rerun cohort, and E01 and E04 use the same dependent-Gaussian experiment family; the count is
+of distinct study questions, not independent datasets. The original independent Gaussian benchmarks, six-dataset
+comparison, and energy illustration remain.
+• E01: Dependent heterogeneous Gaussian noise (Section 4.2). Tests whether coordinate adaptation remains
+useful when outputs are correlated. Joint coverage, volume, runtime, and coordinate lengths distinguish scale
+adaptation from the smaller but under-covering copula regions.
+• E02: Partial heteroskedasticity (Section 4.2). Makes only ﬁve of ten coordinates input-dependent while
+preserving marginal second moments. Separates heteroskedasticity from unequal marginal scales and assesses joint,
+not input-conditional, coverage.
+• E03: CQR with native CQHR (Section 4.3). Tests quantile-regression residuals and adds the requested
+CQHR baseline. Outcome-space volumes and lengths show design-dependent gains of capped TSCP while identi-
+fying its inability to shrink the ﬁtted base interval.
+• Section 4.4: real-data presentation. The original results are retained in an expanded table. A new plot
+of existing timing records makes wall-clock cost visible in the body; it is not counted as an added experiment.
+The Point CHR inﬁnite volume on stock is explained by the small ﬁnal calibration split. Coordinate and search
+diagnostics are presented in Appendix C.
+• Section 5: discussion. The existing future directions are retained. New cross-references connect the outlier
+discussion to the contamination study and distinguish a direct signed-score extension from the capped and shifted
+CQR experiments.
+1
+
+PAGE 2
+• Appendix A: algorithmic details and complexity . The algorithms and complexity bounds are retained, with
+standardized vector notation and grammar. Branch diagnostics complement rather than improve the worst-case
+bound. AUTHOR-CHECK DS: Review the ﬁnal-subset indexing in the data-splitting algorithm’s quantile.
+• Appendix B: proofs. The original arguments are retained with language, notation, punctuation, and display-
+layout corrections. No new theorem for inﬁnite variance, ties, or signed residuals is claimed. AUTHOR-CHECK
+DOMAIN/ZERO/ALGEBRA: Review sample-size and degenerate cases, the zero-residual event argument,
+and the tagged quadratic coeﬃcient.
+• Appendix C: supplementary experiments. The original distribution tables, heavy-tail comparisons,
+population-oracle approximations, local-union comparison, and dimension-scaling study remain. The inﬁnite-
+variance cases are explicitly outside the stated assumptions. The following nine added studies extend this
+evidence.
+• E04: Dependence-strength sweep (Appendix C.2). Separates sensitivity to correlation from the single
+dependent setting in the body. Varying correlation at ﬁxed marginal scales shows stable TSCP coverage and
+decreasing volume as dependence strengthens.
+• E05: Coordinate-heterogeneity sweep (Appendix C.3). Identiﬁes when coordinate rescaling is useful by
+varying the largest-to-smallest noise-scale ratio. The common unscaled threshold becomes less eﬃcient as hetero-
+geneity increases, while remaining competitive at equal scales.
+• E06: Target-coverage sweep (Appendix C.4). Checks that the comparison is not speciﬁc to a 90 percent
+target. Targets of 80, 90, and 95 percent show the coverage-volume trade-oﬀ and the relative behavior of the
+methods.
+• E07: Exchangeable contamination (Appendix C.6). Tests the sensitivity of mean and standard deviation
+scaling to outliers. Increasing row-wise contamination shows that near-nominal coverage can coexist with severe
+volume inﬂation.
+• E08: CQR base-interval sensitivity (Appendix C.7). Checks dependence on the width of the ﬁtted start-
+ing interval. The base-miscoverage sweep reveals CQHR’s sensitivity to ﬁtted widths and puts the main CQR
+comparison in context.
+• E09: Shifted CQR scores (Appendix C.7). Examines additive shifts as an alternative to capping signed
+scores. Constants 100, 300, and 1000 give nearly identical recorded rectangles, equal to shifted TSCP-GWC within
+each run; this is not a general invariance theorem.
+• E10: Rectangular shape-template baseline (Appendix C.8). Adds the requested comparison with the
+Tumu et al. family. The two-dimensional KDE/mean-shift study compares coverage, normalized volume, and
+runtime for a speciﬁc rectangular template implementation, not every multimodal design.
+• E11: Real-data coordinate diagnostics (Appendix C.10.1). Goes beyond the original two-point energy
+illustration with all 51 target coordinates. Paired length ratios and marginal coverages show where volume gains
+do and do not shorten individual intervals, including unfavorable student-data results.
+• E12: Real-data search and fallback diagnostics (Appendix C.10.2). Measures actual branch use, inspected
+candidates, and construction times. No backward search or fallback occurs at miscoverage 0.1 in the tested splits;
+larger miscoverage levels exercise both branches without demonstrating a worst-case scan.
+• Figures, references, and ﬁnal checks. The current draft uses 17 added experimental PDF assets and eight
+restyled original experimental assets; several assets can belong to one study. The Tumu et al. reference and
+both schematic annotations are retained. No numerical data or ﬁgure PDF was changed in the ﬁnal copyedit.
+AUTHOR-CHECK DA T A/SHIFT/REPRO/COLOR/MET ADA T A:Resolve sampling provenance, the
+shift explanation/selection rule, run documentation, revision highlighting, and template metadata before submis-
+sion.
+2

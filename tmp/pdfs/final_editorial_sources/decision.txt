@@ -1,0 +1,12 @@
+PAGE 1
+Thank you for your submission to JMLR.  The manuscript was sent to two expert Reviewers, who each 
+noted several positive aspects of the work while also highlighting areas in which it could be 
+improved.  One Reviewer felt that the empirical assessment was incomplete and suggested additional 
+results and baselines which could strengthen the work, while the other Reviewer was more positive 
+about the methodology and empirical assessment but expressed some difficulty in digesting elements 
+of the manuscript, suggesting areas for presentational improvement.  I would therefore like to 
+invite a resubmission which addresses the two Reviewers' feedback in full, together with a point-
+by-point response to the Reviewers' reports.  For the convenience of the Reviewers, I kindly 
+request that modified sections of the manuscript are indicated using a different colour font.
+9/2/26, 9:16 PM jmlr.csail.mit.edu/manudb/center/getfile2/29239/decision/JMLR-25-3153-1-decision.txt
+https://jmlr.csail.mit.edu/manudb/center/getfile2/29239/decision/JMLR-25-3153-1-decision.txt 1/1

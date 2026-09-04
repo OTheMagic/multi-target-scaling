@@ -1,0 +1,69 @@
+PAGE 1
+Review: Interpretable Multivariate Conformal Prediction with Fast
+Transductive Standardization
+1 Summary
+The paper introduces a conformal approach to construct hyper-rectangular prediction sets for mul-
+tivariate responses. Transductively Standardized Conformal Prediction (TSCP) scales the residuals
+of each output dimension to form the scores, using a transductive approach to calculate the mean
+and standard deviation of the residuals as to not waste data. A global worst-case approach is
+introduced, which is then improved upon by using a data-driven partition of the outcome space to
+ensure tighter prediction sets. The resulting prediction sets have the standard lower-bound confor-
+mal coverage guarantee, while maintaining reasonably small volumes compared to other methods.
+While the paper introduces some interesting ideas and is theoretically sound, it requires additional
+comparisons and some additions and clarifications.
+2 Major Comments
+•In section 1.2 you discuss that Sampson and Chan (2024) require an additional independent
+dataset. This is true for their Point CHR method, but not for their quantile regression
+approach (CQHR).
+•After Theorem 1 you discuss that the overall coverage cannot be used to determine if the
+dimension-specific coverage is tight. However, both the real data analyses and simulation
+studies lack dimension-specific comparisons (e.g., comparing prediction interval lengths or
+listing marginal coverages across the 10 dimensions in the first simulation study for TSCP).
+Adding these to your numerical comparisons would improve them greatly.
+•In section 3.4.4 it is stated: “Under the regularity conditionY h ̸=∅, which can be immedi-
+ately verified and typically holds in practice...” How often did this not hold in the real data
+experiments, if at all?
+•The numerical studies do not include a comparison with CQHR from Sampson and Chan
+(2024), which performed better than Point CHR in their paper.
+•The numerical studies and lit review also fail to compare TSCP with any of the approaches
+fromMulti-Modal Conformal Prediction Regions with Simple Structures by Optimizing Convex
+Shape Templates(Tumu et al. 2024), which can be used to form convex (including hyper-
+rectangular) prediction regions.
+•Standardizing the residuals to be used as scores is done to address heterogeneity across di-
+mensions. How does it work if some, but not all, dimensions have heteroskedastic errors? A
+simulation demonstrating this would make the numerical experiments more interesting.
+1
+
+PAGE 2
+•Above equation 9, you state one possible score is the absolute value of CQR. It seems like
+this score would lead to a larger adjustment than the standard CQR score, which cannot be
+used because of Assumption 1. Is that not the case? You mentioned earlier in the paper
+that a constant could be added to the standard CQR scores so they are non-negative, and
+not overly conservative when the quantile regression coverage is conservative. Would it not
+be beneficial to include this score instead of the absolute value of the CQR score, so that
+practitioners don’t use an overly conservative approach? Along the same line, it would be
+nice to know how to choose such a constant in practice, so that this approach could be used
+with quantile regression.
+3 Minor Comments
+•In Figure 1 it would be a nice addition to include the marginal coverage rates for the rightmost
+image. Making the marginal coverages be different (e.g., 92% and 93%) would also highlight
+early on that the marginal dimension coverages need not be the same.
+•In section 2.5 when discussing the oracle prediction set your second claim is: “it tends to
+be uniformly tight across all output dimensions, because it operates with residuals whose
+components are all on the same scale”. Does tight here refer to the marginal coverage, or
+something else? If it is the coverage, would the error distribution shapes need to be the same
+for this to be true?
+•In section 3.4.4, after you introduceL j, you discuss whatL 1 andL 2 are with respect to
+Figure 2. AddingL 1 andL 2 to the margins (or with a dashed line across the plot) would be
+a helpful visualization.
+•The authors discuss the computational cost of using TSCP as they introduce it. There are
+some plots in the appendices which compare the computational cost. They should either add
+a note in the numerical studies that computational cost comparisons can be found in the
+appendix, or (better) include similar plots in the main text.
+•In the stock data analysis, the volume of Point CHR is infinite because of the size of the
+training/calibration sets along with the coverage rate. One would not split their data in such
+a way in practice, which should be stated. The comparison does make the point that Point
+CHR does not use the data as efficiently, but it should be clarified that the infinite prediction
+sets are caused by how small the last calibration set size is, and not the method.
+•Readability would be improved if vectors were bolded while scalars were not.
+2

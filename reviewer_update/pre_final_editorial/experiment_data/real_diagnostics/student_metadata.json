@@ -1,0 +1,97 @@
+{
+  "dataset": "student",
+  "rows": 649,
+  "features": 30,
+  "outputs": 3,
+  "target_names": [
+    "G1",
+    "G2",
+    "G3"
+  ],
+  "feature_hash": "9c1b06eaecb1d9d51706446dfad6e4e41ecef731f0bb47023f72dab1a31febdd",
+  "target_hash": "2f82b2abcff318e5e76dee0bb0942b2795ee6116d5aa29f2150839a4e42da5a9",
+  "model_params": {
+    "memory": null,
+    "steps": [
+      [
+        "preprocessor",
+        "ColumnTransformer(remainder='passthrough',\n                  transformers=[('cat', OneHotEncoder(handle_unknown='ignore'),\n                                 ['school', 'sex', 'address', 'famsize',\n                                  'Pstatus', 'Mjob', 'Fjob', 'reason',\n                                  'guardian', 'schoolsup', 'famsup', 'paid',\n                                  'activities', 'nursery', 'higher', 'internet',\n                                  'romantic'])])"
+      ],
+      [
+        "regressor",
+        "RandomForestRegressor(n_estimators=200, n_jobs=-1, random_state=42)"
+      ]
+    ],
+    "transform_input": null,
+    "verbose": false,
+    "preprocessor": "ColumnTransformer(remainder='passthrough',\n                  transformers=[('cat', OneHotEncoder(handle_unknown='ignore'),\n                                 ['school', 'sex', 'address', 'famsize',\n                                  'Pstatus', 'Mjob', 'Fjob', 'reason',\n                                  'guardian', 'schoolsup', 'famsup', 'paid',\n                                  'activities', 'nursery', 'higher', 'internet',\n                                  'romantic'])])",
+    "regressor": "RandomForestRegressor(n_estimators=200, n_jobs=-1, random_state=42)",
+    "preprocessor__n_jobs": null,
+    "preprocessor__remainder": "passthrough",
+    "preprocessor__sparse_threshold": 0.3,
+    "preprocessor__transformer_weights": null,
+    "preprocessor__transformers": [
+      [
+        "cat",
+        "OneHotEncoder(handle_unknown='ignore')",
+        [
+          "school",
+          "sex",
+          "address",
+          "famsize",
+          "Pstatus",
+          "Mjob",
+          "Fjob",
+          "reason",
+          "guardian",
+          "schoolsup",
+          "famsup",
+          "paid",
+          "activities",
+          "nursery",
+          "higher",
+          "internet",
+          "romantic"
+        ]
+      ]
+    ],
+    "preprocessor__verbose": false,
+    "preprocessor__verbose_feature_names_out": true,
+    "preprocessor__cat": "OneHotEncoder(handle_unknown='ignore')",
+    "preprocessor__cat__categories": "auto",
+    "preprocessor__cat__drop": null,
+    "preprocessor__cat__dtype": "<class 'numpy.float64'>",
+    "preprocessor__cat__feature_name_combiner": "concat",
+    "preprocessor__cat__handle_unknown": "ignore",
+    "preprocessor__cat__max_categories": null,
+    "preprocessor__cat__min_frequency": null,
+    "preprocessor__cat__sparse_output": true,
+    "regressor__bootstrap": true,
+    "regressor__ccp_alpha": 0.0,
+    "regressor__criterion": "squared_error",
+    "regressor__max_depth": null,
+    "regressor__max_features": 1.0,
+    "regressor__max_leaf_nodes": null,
+    "regressor__max_samples": null,
+    "regressor__min_impurity_decrease": 0.0,
+    "regressor__min_samples_leaf": 1,
+    "regressor__min_samples_split": 2,
+    "regressor__min_weight_fraction_leaf": 0.0,
+    "regressor__monotonic_cst": null,
+    "regressor__n_estimators": 200,
+    "regressor__n_jobs": -1,
+    "regressor__oob_score": false,
+    "regressor__random_state": 42,
+    "regressor__verbose": 0,
+    "regressor__warm_start": false
+  },
+  "package_versions": {
+    "numpy": "2.5.2",
+    "pandas": "2.3.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.0",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.1",
+    "ucimlrepo": "0.0.7"
+  }
+}

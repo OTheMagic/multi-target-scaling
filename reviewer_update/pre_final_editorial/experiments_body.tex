@@ -1,0 +1,359 @@
+% Main numerical experiments.
+% Required packages: amsmath, booktabs, graphicx, and xcolor.
+% Figure paths are relative to this file's directory.
+
+\begingroup
+\color{blue}
+\setlength{\emergencystretch}{2em}
+
+\FloatBarrier
+\section{Numerical Experiments}
+\label{sec:numerical-experiments}
+\label{sec:experiments}
+
+We evaluate Transductively Standardized Conformal Prediction (TSCP) on
+simulated and real multivariate regression problems, studying joint coverage,
+coordinate-wise interval length, prediction-set volume, and computational cost. 
+We first consider absolute-residual scores under independent Gaussian noise
+to establish the effect of unequal outcome scales, followed by dependent
+and partially heteroskedastic noise to examine cross-output and
+input-dependent variation. We then study quantile-regression scores and
+six real datasets. Appendix~\ref{app:additional-experiments} provides
+additional noise-distribution comparisons, sensitivity analyses, heavy-tail
+and contamination stress tests, comparisons with the oracle and
+alternative constructions introduced in the paper.
+
+\subsection{Methods and Evaluation Metrics}
+\label{sec:experiment-methods}
+
+The primary comparisons use four methods. \emph{Unscaled Max} applies split
+conformal prediction to the maximum coordinate-wise residual without
+additional scaling. \emph{Point CHR} estimates coordinate scales using an
+additional data split \citep{sampson2024conformal}. \emph{Emp.
+Copula} estimates a dependence model from the calibration residuals and then
+uses the same observations for calibration; this implementation does not have
+the finite-sample guarantee enjoyed by the other methods
+\citep{messoudi2021copula}. \emph{TSCP} denotes
+the rectangular local-worst-case construction proposed in Algorithm~\ref{alg:shortcut}. For
+quantile-regression experiments, we replace Point CHR with the native
+quantile-hyperrectangle method \emph{CQHR} of
+\citet{sampson2024conformal}. Appendix~\ref{app:shape-template} contains a
+separate low-dimensional comparison with the hyperrectangular shape-template
+method of \citet{tumu2024templates}.
+
+For a test sample of size $m$, we report the empirical joint coverage
+\[
+  \widehat{\operatorname{Cov}}
+  = \frac{1}{m}\sum_{i=1}^{m}
+    \mathbf{1}\!\left\{\boldsymbol{Y}_i
+    \in \widehat{C}(\boldsymbol{X}_i)\right\}.
+\]
+For absolute-residual experiments, all methods return a rectangle with residual
+half-widths $(\mathcal{L}_1,\ldots,\mathcal{L}_d)$. We therefore report the normalized
+residual-space volume $\prod_{j=1}^{d}\mathcal{L}_j$, which equals $2^{-d}$ times the
+full rectangular volume in the outcome space, and the full coordinate-wise interval lengths
+$2\mathcal{L}_j$. For quantile-regression experiments, the base interval
+depends on the test covariates, so volume and coordinate lengths are
+averaged over the test observations in outcome space. Runtime is
+the wall-clock time needed to construct the conformal region after residuals
+have been computed; fitting the underlying regression model is excluded. Unless
+stated otherwise, absolute-residual results are averaged over 200 repetitions (30 repetitions for quantile-regression experiments)
+and the target coverage is $1-\alpha=0.9$. All methods in each repetition use
+the same fitted regression model and the calibration and test observations.
+Sample sizes and model settings are specified below. 
+
+\subsection{Absolute Mean-Regression Residuals}
+\label{sec:absolute-residual-experiments}
+
+We first generate $10$-dimensional features
+$\boldsymbol{X}\sim\mathcal{N}(\boldsymbol{0},I_{10})$ and outcomes
+\begin{equation}
+  Y_j=f_j(\boldsymbol X)+\epsilon_j,\qquad j\in[d],
+  \label{eq:data-generator}
+\end{equation}
+where $d=10$ and every $f_j$ is linear, with coefficients sampled once
+from $\operatorname{Unif}(-10,10)$ and held fixed across repetitions.
+In each repetition, we independently generate 7,200 training observations,
+800 test observations, and a calibration sample of size $n\in\{30,50,100,300,500\}$. We
+estimate the regression coefficients using
+ordinary least squares, and all methods in each repetition share the same fitted predictor. 
+
+\subsubsection{Independent Gaussian Noise}
+
+Figure~\ref{fig:gaussian-heter} reports results under independent Gaussian
+noise with $\epsilon_j\sim\mathcal{N}(0,(11-j)^2)$ for $j\in[10]$. TSCP
+combines near-nominal joint coverage with smaller prediction-set volumes
+than Point CHR and Unscaled Max. The volume penalty for
+Point CHR is particularly obsvious when $n<100$, where its additional
+split reduces the observations available for calibration heavily. Unscaled Max
+assigns one residual threshold to outputs with unequal noise scales and
+therefore produces substantially larger rectangles. Emp. Copula yields
+smaller regions but undercovers; its reuse of calibration observations for
+dependence estimation precludes the split-conformal guarantee enjoyed by
+the other benchmarks.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/fig_body_abs_independent_gaussian.pdf}
+\caption{Absolute-residual experiment with $d=10$, independent Gaussian
+noise, and heterogeneous scales $(10,9,\ldots,1)$. Panels report mean joint
+coverage and residual-space volume over 200 repetitions. The dashed line
+marks the target coverage $0.9$. TSCP attains near-nominal coverage while having the smallest residual-space volume.}
+\label{fig:gaussian-heter}
+\end{figure}
+
+
+Figure~\ref{fig:gaussian-homo} reports the corresponding homogeneous setting,
+with $\epsilon_j\sim\mathcal{N}(0,1)$ for all $j\in[10]$. Unscaled Max is
+the most efficient method with near-nominal coverage, while TSCP remains
+competitive.
+Together, these two settings show that coordinate adaptation is useful when
+noise scales differ, whereas unscaled calibration can be more efficient
+when a common scale is appropriate.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/fig_body_abs_homogeneous_gaussian.pdf}
+\caption{Absolute-residual experiment with $d=10$, independent Gaussian
+noise, and unit scale in every coordinate. Panels report mean joint
+coverage and residual-space volume over 200 repetitions. The dashed line
+marks the target coverage $0.9$. Unscaled Max has the smallest residual-space volume with near-nominal coverage, while TSCP remains the competitive second.}
+\label{fig:gaussian-homo}
+\end{figure}
+
+\subsubsection{Heterogeneous and Dependent Noise}
+
+The dependent-noise experiment uses
+$\boldsymbol{\epsilon}\sim\mathcal{N}(\boldsymbol{0},DRD)$, where
+$D=\operatorname{diag}(10,9,\ldots,1)$ and $R$ is equicorrelated with
+$\rho=0.6$. This simultaneously tests heterogeneous coordinate scales and
+cross-output dependence. 
+
+Figure~\ref{fig:body-abs-overview} reports joint
+coverage and residual-space volume (as usual), along with construction time. The story remains unchanged from our independent noise experiements with heterogeneous scales: our TSCP attains nearly nominal coverage while having the smallest residual-space volume.
+
+\begin{figure*}[!htbp]
+  \centering
+  \includegraphics[width=0.94\textwidth]{figures/fig_body_abs_residual_overview.pdf}
+  \caption{Absolute-residual experiment with $d=10$, heterogeneous Gaussian
+  scales $(10,9,\ldots,1)$, and equicorrelation $\rho=0.6$. Panels report
+  mean joint coverage, residual-space volume, and construction time over
+  200 repetitions. The dashed line marks the target coverage $0.9$.
+  Runtime excludes model fitting and residual computation.}
+  \label{fig:body-abs-overview}
+\end{figure*}
+
+Figure~\ref{fig:body-abs-coordinate-bars} reports the coordinate-wise
+lengths comparisons between the methods at $n=100$. The mean TSCP full interval length decreases
+from $49.4$ on the noisiest coordinate to $5.0$ on the quietest coordinate.
+In contrast, Unscaled Max assigns the same length, approximately $38.0$, to
+every coordinate. Thus, similar overall coverage does not imply similar
+coordinate-wise informativeness: TSCP allocates width according to coordinate scale
+instead of allowing the noisiest output to determine all ten intervals. The
+smaller Emp. Copula bars must be read together with its joint undercoverage in
+Figure~\ref{fig:body-abs-overview}.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.90\textwidth]{figures/fig_body_abs_coordinate_bars.pdf}
+  \caption{Coordinate-wise mean full interval lengths for the
+  absolute-residual experiment with $d=10$, $n=100$, heterogeneous Gaussian
+  scales $(10,9,\ldots,1)$, and equicorrelation $\rho=0.6$. Residual-space
+  half-widths are multiplied by two to report full outcome intervals. Results
+  average 200 independent repetitions. Unscaled Max assigns the same length to every coordinate, while others adapt to the coordinate scales.}
+  \label{fig:body-abs-coordinate-bars}
+\end{figure*}
+
+\subsubsection{Partial Heteroskedasticity}
+To distinguish heterogeneity across coordinates from heteroskedasticity with
+respect to the input, we next make only the first five coordinates
+heteroskedastic. For $j\leq5$, conditional on $X_1=x_1$, the noise standard
+deviation is
+\[
+  \sigma_j(x_1)
+  = (11-j)\sqrt{\frac{1+1.5x_1^2}{2.5}},
+\]
+while $\sigma_j(x_1)=11-j$ for $j>5$ remain constant. The normalization preserves
+$\mathbb{E}[\sigma_j^2(X_1)]=(11-j)^2$, so the comparison isolates
+input-dependent variance and does not change the marginal second moments.
+Figure~\ref{fig:body-partial-hetero} shows that TSCP remains close to the
+target coverage $0.9$ across calibration sizes and continues to adapt coordinate-wise. This experiment does not
+assert conditional coverage at each value of $X_1$.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.94\textwidth]{figures/fig_body_partial_heteroskedasticity.pdf}
+  \caption{Performance when only the first five of ten outcomes are
+  heteroskedastic in $X_1$. The shaded coordinates in the right panel are the
+  heteroskedastic ones; full interval lengths are shown for $n=100$.
+  Results are averaged over 200 repetitions, and the dashed line marks
+  the target joint coverage $0.9$.}
+  \label{fig:body-partial-hetero}
+\end{figure*}
+
+\subsection{Quantile-Regression Residuals}
+\label{sec:cqr-experiments}
+
+We next replace absolute mean-regression residuals with coordinate-wise quantile regression residuals. Let $\widehat q_{\ell,j}(x)$ and $\widehat q_{u,j}(x)$ denote fitted
+lower and upper conditional quantiles. The signed residual is
+\[
+  E_j(x,y)
+  = \max\{\widehat q_{\ell,j}(x)-y_j,
+           y_j-\widehat q_{u,j}(x)\}.
+\]
+Negative values correspond to observations strictly inside the base interval $[ \widehat q_{\ell,j}(x), \widehat q_{u,j}(x) ]$.
+Because the current TSCP theory is stated for nonnegative residuals, so we use the capped residuals $\max\{E_j,0\}$ to ensure nonnegativity. Transformation like this eliminates the chance for the original based interval to shrink; hence, we delibrately choose a base interval trained using miscoverage $0.5$ to avoiding having two many negative raw residuals. This choice is not a requirement of the method, and we explore other base interval miscoverage levels and other transformation of residuals in Appendix~\ref{app:cqr-sensitivity}.
+
+Unscaled Max, CQHR, and Emp. Copula use the raw signed
+residuals for fair comparison. CQHR uses the first
+coordinate as reference and a numerical floor of $10^{-12}$ on base-interval
+lengths when forming width ratios.
+
+We use the same linear signal and ten-dimensional Gaussian features in~\eqref{eq:data-generator} with
+$d=3$ Gaussian outcomes and independent noise scales $(3,2,1)$, fit separate
+gradient-boosted quantile regressions using 2,400 training observations, and
+evaluate on 600 test observations. Each quantile model uses 100 boosting
+stages, maximum tree depth $5$, learning rate $0.05$, and minimum leaf size
+$5$. The base-interval miscoverage is $0.5$ and
+the final target miscoverage is $0.1$. Each of the 30 repetitions uses individually randomized
+training, test, and calibration samples. 
+
+Figure~\ref{fig:body-cqr} shows that
+TSCP, CQHR, and Unscaled Max attain
+near-nominal coverage, and Our TSCP's residual-space
+volume remains the smallest among them. The volume of CQHR will decrease if the base interval is trained with a smaller miscoverage, but this comes at the cost of a larger base interval and less training stability. Emp. Copula undercovers, as expected.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.88\textwidth]{figures/fig_body_cqr_comparison.pdf}
+  \caption{CQR experiment with $d=3$ and base-interval miscoverage $0.5$.
+  TSCP uses capped nonnegative scores, Unscaled Max, CQHR, and Emp. Copula use raw
+  signed scores. Results are averaged over 30 independent repetitions.}
+  \label{fig:body-cqr}
+\end{figure*}
+
+Figure~\ref{fig:body-cqr-coordinate-bars} reports the corresponding
+coordinate-wise comparison at $n=100$. In particular, TSCP preserves a substantially
+shorter third-coordinate interval than Unscaled Max, while CQHR is much wider
+on the second and third coordinates in this fitted-quantile design. As above,
+the coordinate-wise lengths should be interpreted together with the joint
+coverage panel rather than compared without regard to calibration.
+
+\begin{figure*}[!htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{figures/fig_body_cqr_coordinate_bars.pdf}
+  \caption{Coordinate-wise mean full outcome-space lengths for the CQR
+  experiment with $d=3$, $n=100$, base-interval miscoverage $0.5$, and final
+  target coverage $0.9$. TSCP uses capped scores, Unscaled Max and Emp. Copula
+  use raw signed scores, and CQHR uses its native construction. Results
+  average 30 independent repetitions.}
+  \label{fig:body-cqr-coordinate-bars}
+\end{figure*}
+
+\subsection{Real Data Experiments}
+\label{sec:real-data-experiments}
+
+We evaluate six real-data benchmarks:
+\texttt{rf2}~\citep{grigorios_tsoumakas_eleftherios_spyromitros-xioufis_william_groves_ioannis_vlahavas_2022},
+\texttt{scm1d}~\citep{scm1d}, \texttt{scm20d}~\citep{scm20d},
+\texttt{stock}~\citep{stock_portfolio_performance_390},
+\texttt{student}~\citep{cortez2008student}, and
+\texttt{energy}~\citep{tsanas2012energy}. The table and runtime figure use the order
+\texttt{stock}, \texttt{rf2}, \texttt{scm1d}, \texttt{scm20d},
+\texttt{energy}, and \texttt{student}. Each result averages 200 random
+training/calibration/test splits using proportions $75\%/5\%/20\%$. The
+calibration sizes therefore range from $15$ on \texttt{stock} to $490$ on
+\texttt{scm1d}. A multitask lasso with regularization parameter $10^{-4}$ is
+used for \texttt{stock}; random forests are used for the other datasets. We use absolute-residual scores for all datasets, and the target coverage is $0.9$. The same fitted model is used for all methods in each split. We use this section to report the joint coverage and residual-space volume of all four methods; coordinate-wise comparisons are summarized in Appendix~\ref{app:real-coordinate-audit}.
+Table~\ref{tab:real-data} reports coverage and residual-space volume for the
+four primary methods.
+
+\begin{table*}[!htbp]
+\centering
+\small
+\begin{tabular}{llrrr}
+\toprule
+Dataset & Method & $d$ & Coverage & Volume \\
+\midrule
+\texttt{stock} & Unscaled Max & 6 & $0.940\,(0.057)$ & $6.03\mathrm{e}{-2}\,(1.57\mathrm{e}{-1})$ \\
+ & Emp. Copula & 6 & $\color{red} 0.727\,(0.113)$ & $1.01\mathrm{e}{-5}\,(9.80\mathrm{e}{-6})$ \\
+ & Point CHR & 6 & $1.000\,(0.000)$ & $\infty$ \\
+ & \textbf{TSCP} & 6 & $0.956\,(0.059)$ & $\mathbf{1.86\mathrm{e}{-3}\,(8.55\mathrm{e}{-3})}$ \\
+\addlinespace
+\texttt{rf2} & Unscaled Max & 8 & $0.900\,(0.016)$ & $4.14\mathrm{e}{3}\,(2.90\mathrm{e}{3})$ \\
+ & Emp. Copula & 8 & $\color{red}0.893\,(0.016)$ & $5.35\mathrm{e}{1}\,(4.69\mathrm{e}{1})$ \\
+ & Point CHR & 8 & $0.901\,(0.022)$ & $\mathbf{6.85\mathrm{e}{1}\,(7.55\mathrm{e}{1})}$ \\
+ & TSCP & 8 & $0.901\,(0.017)$ & $5.42\mathrm{e}{2}\,(1.50\mathrm{e}{3})$ \\
+\addlinespace
+\texttt{scm1d} & Unscaled Max & 16 & $0.900\,(0.016)$ & $2.74\mathrm{e}{39}\,(4.02\mathrm{e}{39})$ \\
+ & Emp. Copula & 16 & $\color{red}0.893\,(0.016)$ & $1.09\mathrm{e}{39}\,(1.34\mathrm{e}{39})$ \\
+ & Point CHR & 16 & $0.905\,(0.020)$ & $2.84\mathrm{e}{39}\,(5.43\mathrm{e}{39})$ \\
+ & \textbf{TSCP} & 16 & $0.901\,(0.015)$ & $\mathbf{1.52\mathrm{e}{39}\,(2.61\mathrm{e}{39})}$ \\
+\addlinespace
+\texttt{scm20d} & Unscaled Max & 16 & $0.901\,(0.016)$ & $2.70\mathrm{e}{40}\,(2.92\mathrm{e}{40})$ \\
+ & Emp. Copula & 16 & $\color{red}0.892\,(0.017)$ & $1.18\mathrm{e}{40}\,(1.19\mathrm{e}{40})$ \\
+ & Point CHR & 16 & $0.902\,(0.023)$ & $3.00\mathrm{e}{40}\,(8.00\mathrm{e}{40})$ \\
+ & \textbf{TSCP} & 16 & $0.901\,(0.016)$ & $\mathbf{1.53\mathrm{e}{40}\,(1.50\mathrm{e}{40})}$ \\
+\addlinespace
+\texttt{energy} & Unscaled Max & 2 & $0.917\,(0.049)$ & $1.58\mathrm{e}{1}\,(6.80\mathrm{e}{0})$ \\
+ & Emp. Copula & 2 & ${\color{red}0.886\,(0.061)}$ & $5.41\mathrm{e}{0}\,(4.49\mathrm{e}{0})$ \\
+ & Point CHR & 2 & $0.899\,(0.069)$ & $8.81\mathrm{e}{0}\,(2.42\mathrm{e}{1})$ \\
+ & \textbf{TSCP} & 2 & $0.922\,(0.048)$ & $\mathbf{6.95\mathrm{e}{0}\,(4.43\mathrm{e}{0})}$ \\
+\addlinespace
+\texttt{student} & Unscaled Max & 3 & $0.904\,(0.055)$ & $\mathbf{1.51\mathrm{e}{2}\,(1.27\mathrm{e}{2})}$ \\
+ & Emp. Copula & 3 & ${\color{red}0.861\,(0.073)}$ & $1.08\mathrm{e}{2}\,(7.19\mathrm{e}{1})$ \\
+ & Point CHR & 3 & $0.939\,(0.057)$ & $6.89\mathrm{e}{2}\,(1.07\mathrm{e}{3})$ \\
+ & TSCP & 3 & $0.912\,(0.056)$ & $1.98\mathrm{e}{2}\,(1.77\mathrm{e}{2})$ \\
+\bottomrule
+\end{tabular}
+\caption{Performance on real datasets, averaged over 200 random splits. One
+standard deviation is reported in parentheses. Bold volume denotes the
+smallest average volume among the methods with empirical coverage; methods are highlighted in \textcolor{red}{red} if $0.9$ is not within 2 standard errors of the empirical coverage. The calibration sizes are 15, 384,
+490, 448, 38, and 32 in the order shown.}
+\label{tab:real-data}
+\end{table*}
+
+Among TSCP, Point CHR, and Unscaled Max, TSCP has the smallest average
+volume on \texttt{stock}, \texttt{scm1d}, \texttt{scm20d}, and
+\texttt{energy}. Point CHR has the smallest volume on \texttt{rf2}, while
+Unscaled Max has the smallest volume on \texttt{student}. Thus, the
+coordinate-adaptive construction is beneficial in several datasets but is
+not uniformly preferable. Emp. Copula produces smaller regions with
+empirical coverage below the target.
+
+Figure~\ref{fig:body-real-runtime} compares construction times.
+TSCP constructs a region in $0.74$--$7.46$ milliseconds on
+these datasets. It is slower than the algebraically simpler Unscaled Max and
+Point CHR implementations, but substantially faster than Emp. Copula on the
+two $16$-dimensional SCM datasets. 
+
+The infinite Point CHR volume on \texttt{stock} should not be interpreted as
+an intrinsic failure of the method. With only $n=15$ calibration observations,
+its additional split leaves too few observations for a finite $0.9$ conformal
+quantile. A practitioner committed to Point CHR would allocate a larger
+fraction of the data to its final calibration stage, at the cost of fewer
+observations for model and scale estimation.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.90\textwidth]{figures/fig_body_real_runtime.pdf}
+  \caption{Average wall-clock time for conformal region construction on the
+  six real datasets. The vertical axis is logarithmic and reports
+  milliseconds. All methods use the same fitted regression model in each
+  split; model fitting and residual computation are excluded.}
+  \label{fig:body-real-runtime}
+\end{figure*}
+
+
+
+
+\subsubsection{Interpretability of Rectangular Prediction Sets}
+To emphasize their interpretability, Table~\ref{tab:toy} displays the rectangular prediction sets produced by different methods for two representative test points from the \emph{energy} dataset, where $d=2$. In this setting, rectangular prediction sets consist of pairs of simultaneous prediction intervals that aim to jointly contain the true outcomes with probability $90\%$.
+
+\begin{table}[!htbp]
+\input{figures/toy_real}
+\caption{Anecdotal illustration of conformal prediction sets of rectangular shape for two test points from the \emph{energy} dataset. Volumes are computed in residual space. Intervals that fail to cover the corresponding true outcomes are highlighted in \textcolor{red}{red}; smallest interval that covers the ground truth is highlighted in \textbf{bold}. This example is included for illustration only: the coverage guarantees of conformal prediction hold on average, not for individual test points.}
+\label{tab:toy}
+\end{table}
+
+\endgroup

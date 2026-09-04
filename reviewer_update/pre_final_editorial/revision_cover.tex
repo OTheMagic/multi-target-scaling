@@ -1,0 +1,103 @@
+% Section-by-section change summary relative to arXiv:2512.15383v1.
+% Author-check labels deliberately identify unresolved or unverified changes.
+\documentclass[10pt]{article}
+\usepackage[margin=0.7in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,enumitem,xcolor,microtype}
+\usepackage[colorlinks=true,linkcolor=black,urlcolor=blue,bookmarks=false]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.4em}
+\setlength{\emergencystretch}{2em}
+\setlist[itemize]{leftmargin=1.25em,itemsep=0.6em,topsep=0.35em}
+\newcommand{\checkauthor}[1]{\textcolor{red!65!black}{\textbf{Author check:} #1}}
+\pagestyle{empty}
+\begin{document}
+\begin{center}
+{\Large\bfseries Summary of Revisions}\par
+\vspace{0.3em}
+{\bfseries Interpretable Multivariate Conformal Prediction\par
+with Fast Transductive Standardization}\par
+JMLR-25-3153-1
+\end{center}
+
+This summary compares the revision with the original arXiv v1 submission.
+It distinguishes the author's edits, added experiments, and the final
+publication-style reorganization; it does not certify new theoretical results.
+
+\begin{itemize}
+\item \textbf{Abstract and Section 1: motivation and related work.}
+The central motivation and contribution statement are retained; no substantive
+rewrite is claimed. \checkauthor{Correct the Point CHR/CQHR distinction and
+add shape-template related work.} These changes are necessary for accurate
+positioning of the new comparisons.
+
+\item \textbf{Section 2: setup and motivating constructions.}
+The supplied revision renames and reorganizes the preliminaries, clarifies
+joint exchangeability and simultaneous versus marginal coverage, strengthens
+vector/scalar distinctions, discusses ties, and introduces a common
+parameterized population-oracle formulation. This makes the statistical
+target and the role of standardization more explicit.
+The latest edit removes the unqualified shift-invariance claim and replaces
+``uniformly tight'' with a coverage-balance description.
+\checkauthor{Reconcile capped-score ties with the implementation and qualify
+the remaining balance claim.}
+
+\item \textbf{Section 3: methodology.}
+The supplied edit uses a common threshold-indexed prediction-set map,
+separates observed and oracle scaling statistics, rewrites the global/local
+construction in that notation, and corrects the exceptional empty-cell sign.
+The latest edit replaces the local conditional-coverage inference with a
+pointwise oracle-acceptance implication, improving mathematical precision.
+\checkauthor{Review the search-lemma endpoint inequality and complete the
+common-event argument in the piecewise coverage proof.}
+
+\item \textbf{Section 4: numerical experiments.}
+New main-text material includes dependent heterogeneous Gaussian noise,
+coordinate-length bar plots, partial heteroskedasticity, native CQHR, and
+real-data wall-clock comparisons. New 200-split real-data reruns add all
+coordinate lengths and direct backward-search/fallback counts. Independent-noise
+benchmarks now lead into the dependence studies; the original energy example
+remains in the body. Sample sizes and CQR settings are explicit. These changes
+answer requests for coordinate detail, broader baselines, and computational
+evidence; the Point CHR infinite-volume case is now explained by its allocation.
+
+\item \textbf{Section 5: discussion.}
+The existing discussion is retained without alteration.
+\checkauthor{Connect it to the new contamination and CQR evidence while
+retaining the distinction between empirical robustness and proved validity.}
+
+\item \textbf{Appendix A: algorithms and complexity.}
+The supplied algorithmic material is retained. No faster worst-case bound is
+claimed. The new Section 4 diagnostics measure actual search branches and
+their observed costs, rather than inferring branch frequency from overall runtime.
+
+\item \textbf{Appendix B: proofs.}
+The supplied proof section is preserved, including its updated notation.
+No new moment-relaxation or tie-handling theorem is claimed.
+\checkauthor{Check mathematical consistency with the revised main text; this
+integration did not perform a complete proof-equivalence audit.}
+
+\item \textbf{Appendix C: unified experimental evidence.}
+Distribution benchmarks, dependence and heterogeneity sweeps, calibration
+size, heavy tails, contamination, CQR transformations, shape templates,
+oracle approximation, computational scaling, and real-data results are now
+organized by scientific topic. The earlier and added studies jointly show
+where efficiency gains persist and where they are limited.
+
+\item \textbf{Experimental presentation and preservation.}
+The two experiment files now contain the complete account without a
+revision-log narrative. Eight earlier plots have been redrawn in the newer
+visual style, and the author's order through Section 4.2 is preserved.
+Numerical results and tables are unchanged.
+\checkauthor{Reconcile the archived CSV provenance with the specified fresh
+sampling before submission; restyling does not establish how those runs
+were sampled.}
+
+\item \textbf{Figures, bibliography, and remaining completion.}
+All original experimental assets and labels are retained; 19 new PDF figures
+and the Tumu et al.\ reference are added. Figures 1 and 2 now show illustrative
+marginal coverage rates and residual-boundary labels, respectively, to clarify
+their interpretation. \checkauthor{Finish notation consistency and
+manuscript-wide color marking.} The separate reviewer audit lists the remaining items.
+\end{itemize}
+\end{document}

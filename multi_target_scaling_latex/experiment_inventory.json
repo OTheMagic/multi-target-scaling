@@ -1,0 +1,235 @@
+{
+  "comparison": "Current final manuscript versus arXiv:2512.15383v1, December 17, 2025",
+  "counting_unit": "Study with a distinct experimental question; parameter sweeps and extra views are not additional studies.",
+  "total_added_studies": 12,
+  "simulation_studies": 10,
+  "real_data_diagnostic_studies": 2,
+  "shared_data_note": "E11 and E12 share the same 200-split cohort per dataset; E01 and E04 use views from the same dependent-Gaussian experiment family. The count is not a count of independently generated datasets.",
+  "additional_reanalysis": {
+    "figure": "fig_body_real_runtime.pdf",
+    "counted_as_new_study": false,
+    "reason": "New visualization of existing real-data timing records."
+  },
+  "not_counted": [
+    "Original independent Gaussian, distribution-table, heavy-tail, oracle/enclosure and dimension-scaling studies.",
+    "Small-calibration and additional heavy-tail stress studies omitted from the author's final selection.",
+    "Coordinate panels and bars already belonging to E01, E02, E03, or E11."
+  ],
+  "studies": [
+    {
+      "id": "E01",
+      "name": "Dependent heterogeneous Gaussian noise",
+      "kind": "simulation",
+      "location": "sec:absolute-residual-experiments",
+      "figures": [
+        "fig_body_abs_residual_overview.pdf",
+        "fig_body_abs_coordinate_bars.pdf"
+      ],
+      "data": [
+        "reviewer_update/data/dependent_gaussian_summary.csv",
+        "reviewer_update/data/dependent_gaussian_coordinate_summary.csv"
+      ],
+      "reviewers": [
+        "R2.M2"
+      ],
+      "why": "Tests whether coordinate adaptation remains useful when outputs are correlated.",
+      "finding": "Joint coverage, volume, runtime, and coordinate lengths distinguish scale adaptation from the smaller but under-covering copula regions."
+    },
+    {
+      "id": "E02",
+      "name": "Partial heteroskedasticity",
+      "kind": "simulation",
+      "location": "sec:absolute-residual-experiments",
+      "figures": [
+        "fig_body_partial_heteroskedasticity.pdf"
+      ],
+      "data": [
+        "reviewer_update/data/partial_heteroskedasticity_summary.csv"
+      ],
+      "reviewers": [
+        "R2.M6"
+      ],
+      "why": "Makes only five of ten coordinates input-dependent while preserving marginal second moments.",
+      "finding": "Separates heteroskedasticity from unequal marginal scales and assesses joint, not input-conditional, coverage."
+    },
+    {
+      "id": "E03",
+      "name": "CQR with native CQHR",
+      "kind": "simulation",
+      "location": "sec:cqr-experiments",
+      "figures": [
+        "fig_body_cqr_comparison.pdf",
+        "fig_body_cqr_coordinate_bars.pdf"
+      ],
+      "data": [
+        "reviewer_update/data/cqr_sample_size_summary.csv",
+        "reviewer_update/data/cqr_sample_size_coordinate_summary.csv"
+      ],
+      "reviewers": [
+        "R1.Q3",
+        "R2.M4",
+        "R2.M7"
+      ],
+      "why": "Tests quantile-regression residuals and adds the requested CQHR baseline.",
+      "finding": "Outcome-space volumes and lengths show design-dependent gains of capped TSCP while identifying its inability to shrink the fitted base interval."
+    },
+    {
+      "id": "E04",
+      "name": "Dependence-strength sweep",
+      "kind": "simulation",
+      "location": "app:dependence-sensitivity",
+      "figures": [
+        "fig_app_dependence_sensitivity.pdf"
+      ],
+      "data": [
+        "reviewer_update/data/dependent_gaussian_summary.csv"
+      ],
+      "reviewers": [],
+      "why": "Separates sensitivity to correlation from the single dependent setting in the body.",
+      "finding": "Varying correlation at fixed marginal scales shows stable TSCP coverage and decreasing volume as dependence strengthens."
+    },
+    {
+      "id": "E05",
+      "name": "Coordinate-heterogeneity sweep",
+      "kind": "simulation",
+      "location": "app:heterogeneity-sensitivity",
+      "figures": [
+        "fig_app_heterogeneity_sweep.pdf"
+      ],
+      "data": [
+        "reviewer_update/data/heterogeneity_sweep_summary.csv"
+      ],
+      "reviewers": [
+        "R2.m2"
+      ],
+      "why": "Identifies when coordinate rescaling is useful by varying the largest-to-smallest noise-scale ratio.",
+      "finding": "The common unscaled threshold becomes less efficient as heterogeneity increases, while remaining competitive at equal scales."
+    },
+    {
+      "id": "E06",
+      "name": "Target-coverage sweep",
+      "kind": "simulation",
+      "location": "app:alpha-small-sample",
+      "figures": [
+        "fig_app_alpha_sensitivity.pdf"
+      ],
+      "data": [
+        "reviewer_update/data/alpha_sensitivity_summary.csv"
+      ],
+      "reviewers": [],
+      "why": "Checks that the comparison is not specific to a 90 percent target.",
+      "finding": "Targets of 80, 90, and 95 percent show the coverage-volume trade-off and the relative behavior of the methods."
+    },
+    {
+      "id": "E07",
+      "name": "Exchangeable contamination",
+      "kind": "simulation",
+      "location": "app:contamination",
+      "figures": [
+        "fig_app_contamination_stress.pdf"
+      ],
+      "data": [
+        "reviewer_update/data/contamination_stress_summary.csv"
+      ],
+      "reviewers": [
+        "R1.C4"
+      ],
+      "why": "Tests the sensitivity of mean and standard deviation scaling to outliers.",
+      "finding": "Increasing row-wise contamination shows that near-nominal coverage can coexist with severe volume inflation."
+    },
+    {
+      "id": "E08",
+      "name": "CQR base-interval sensitivity",
+      "kind": "simulation",
+      "location": "app:cqr-sensitivity",
+      "figures": [
+        "fig_app_cqr_base_interval.pdf"
+      ],
+      "data": [
+        "reviewer_update/data/cqr_base_alpha_summary.csv"
+      ],
+      "reviewers": [
+        "R1.Q3",
+        "R2.M4",
+        "R2.M7"
+      ],
+      "why": "Checks dependence on the width of the fitted starting interval.",
+      "finding": "The base-miscoverage sweep reveals CQHR's sensitivity to fitted widths and puts the main CQR comparison in context."
+    },
+    {
+      "id": "E09",
+      "name": "Shifted CQR scores",
+      "kind": "simulation",
+      "location": "app:cqr-sensitivity",
+      "figures": [
+        "fig_app_cqr_shift_sensitivity.pdf"
+      ],
+      "data": [
+        "reviewer_update/data/cqr_shift_summary.csv",
+        "reviewer_update/data/cqr_shift_tscp_r_vs_gwc_diagnostic.csv"
+      ],
+      "reviewers": [
+        "R2.M7"
+      ],
+      "why": "Examines additive shifts as an alternative to capping signed scores.",
+      "finding": "Constants 100, 300, and 1000 give nearly identical recorded rectangles, equal to shifted TSCP-GWC within each run; this is not a general invariance theorem."
+    },
+    {
+      "id": "E10",
+      "name": "Rectangular shape-template baseline",
+      "kind": "simulation",
+      "location": "app:shape-template",
+      "figures": [
+        "fig_app_shape_template_baseline.pdf"
+      ],
+      "data": [
+        "reviewer_update/data/shape_template_baseline_summary.csv",
+        "reviewer_update/data/shape_template_standard_summary.csv"
+      ],
+      "reviewers": [
+        "R2.M5"
+      ],
+      "why": "Adds the requested comparison with the Tumu et al. family.",
+      "finding": "The two-dimensional KDE/mean-shift study compares coverage, normalized volume, and runtime for a specific rectangular template implementation, not every multimodal design."
+    },
+    {
+      "id": "E11",
+      "name": "Real-data coordinate diagnostics",
+      "kind": "real-data diagnostic",
+      "location": "app:real-coordinate-audit",
+      "figures": [
+        "fig_app_real_marginal_coverage.pdf",
+        "fig_body_real_coordinate_bars.pdf"
+      ],
+      "data": [
+        "reviewer_update/real_diagnostics/data/real_coordinate_summary.csv",
+        "reviewer_update/real_diagnostics/data/real_joint_summary.csv"
+      ],
+      "reviewers": [
+        "R2.M2"
+      ],
+      "why": "Goes beyond the original two-point energy illustration with all 51 target coordinates.",
+      "finding": "Paired length ratios and marginal coverages show where volume gains do and do not shorten individual intervals, including unfavorable student-data results."
+    },
+    {
+      "id": "E12",
+      "name": "Real-data search and fallback diagnostics",
+      "kind": "real-data diagnostic",
+      "location": "app:real-data-diagnostics",
+      "figures": [
+        "fig_body_real_search_diagnostics.pdf",
+        "fig_app_real_search_alpha.pdf"
+      ],
+      "data": [
+        "reviewer_update/real_diagnostics/data/real_search_summary.csv",
+        "reviewer_update/real_diagnostics/data/real_search_alpha_summary.csv"
+      ],
+      "reviewers": [
+        "R1.Q2",
+        "R2.M3"
+      ],
+      "why": "Measures actual branch use, inspected candidates, and construction times.",
+      "finding": "No backward search or fallback occurs at miscoverage 0.1 in the tested splits; larger miscoverage levels exercise both branches without demonstrating a worst-case scan."
+    }
+  ]
+}

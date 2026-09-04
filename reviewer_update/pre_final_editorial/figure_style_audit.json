@@ -1,0 +1,2511 @@
+{
+  "operation": "Presentation only; source CSV values are unchanged",
+  "figures": [
+    {
+      "figure": "fig_body_abs_independent_gaussian.pdf",
+      "replaces": "baselines/gaussian_10d.pdf",
+      "sources": [
+        {
+          "path": "syn_exps/gaussian/empirical_copula_gaussian.csv",
+          "sha256": "e84d87cdc2a0cfbdc30b75e5f1002b2e29f059147b3083a33360f85d1d608c46"
+        },
+        {
+          "path": "syn_exps/gaussian/unscaled_gaussian.csv",
+          "sha256": "c3f03b351d7cd1fd8dc111ef85a175abe476db4d270d38640e071b0e18d17c55"
+        },
+        {
+          "path": "syn_exps/gaussian/point_chr_gaussian.csv",
+          "sha256": "27a7499bcdbc1348eecdaff47d228015825aae1966642c229ae55dbd1c3f1d4b"
+        },
+        {
+          "path": "syn_exps/gaussian/tscp_r_gaussian.csv",
+          "sha256": "cb187bfb8fbcb2917d43296d897827f8d786f7eb8bf5761d34304a3208e0876e"
+        }
+      ],
+      "plotted_rows": [
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.714184375,
+          "test_coverage_1std": 0.079388741181393,
+          "coverage_vol_avg": 16837331322.705242,
+          "coverage_vol_1std": 11615463321.031763,
+          "coverage_max_length_median": 24.40143891434584,
+          "runtime_avg": 0.000512830018997,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.815840625,
+          "test_coverage_1std": 0.057067778150191,
+          "coverage_vol_avg": 36369077942.59526,
+          "coverage_vol_1std": 22217104173.75503,
+          "coverage_max_length_median": 26.220601365092666,
+          "runtime_avg": 0.001017842292786,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.818925,
+          "test_coverage_1std": 0.03901399174024,
+          "coverage_vol_avg": 25811954931.589523,
+          "coverage_vol_1std": 9897046269.574593,
+          "coverage_max_length_median": 24.849344796679944,
+          "runtime_avg": 0.002642949819565,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.871934375,
+          "test_coverage_1std": 0.018627383567674,
+          "coverage_vol_avg": 37260777591.65946,
+          "coverage_vol_1std": 8107005334.690497,
+          "coverage_max_length_median": 25.110788541445835,
+          "runtime_avg": 0.024857909679413,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.886290625,
+          "test_coverage_1std": 0.017576787463071,
+          "coverage_vol_avg": 41599062959.74375,
+          "coverage_vol_1std": 8271050766.339322,
+          "coverage_max_length_median": 25.33001932613725,
+          "runtime_avg": 0.081896990537643,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.907896875,
+          "test_coverage_1std": 0.047447991955005,
+          "coverage_vol_avg": 22205704841495.72,
+          "coverage_vol_1std": 47734631541215.39,
+          "coverage_max_length_median": 20.00131151999544,
+          "runtime_avg": 4.002571106e-05,
+          "method": "Unscaled"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.897284375,
+          "test_coverage_1std": 0.043496014260124,
+          "coverage_vol_avg": 11576439982929.258,
+          "coverage_vol_1std": 11026575684780.96,
+          "coverage_max_length_median": 19.567153996518027,
+          "runtime_avg": 3.5121440887e-05,
+          "method": "Unscaled"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.907703125,
+          "test_coverage_1std": 0.027025946138531,
+          "coverage_vol_avg": 10857509386412.568,
+          "coverage_vol_1std": 6930795889965.393,
+          "coverage_max_length_median": 19.80133731915988,
+          "runtime_avg": 4.5071840286e-05,
+          "method": "Unscaled"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.901478125,
+          "test_coverage_1std": 0.019788372483281,
+          "coverage_vol_avg": 8675194856935.24,
+          "coverage_vol_1std": 3288995423980.828,
+          "coverage_max_length_median": 19.52794253896156,
+          "runtime_avg": 5.5243968964e-05,
+          "method": "Unscaled"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.902515625,
+          "test_coverage_1std": 0.015628132537749,
+          "coverage_vol_avg": 8538286437946.039,
+          "coverage_vol_1std": 2458352277121.351,
+          "coverage_max_length_median": 19.53788053604089,
+          "runtime_avg": 0.000105640888214,
+          "method": "Unscaled"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.9325875,
+          "test_coverage_1std": 0.066496295991982,
+          "coverage_vol_avg": 4044306788827.9473,
+          "coverage_vol_1std": 13792586534851.549,
+          "coverage_max_length_median": 38.069477861309046,
+          "runtime_avg": 0.00036186337471,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.919040625,
+          "test_coverage_1std": 0.057367900390466,
+          "coverage_vol_avg": 484616775820.32666,
+          "coverage_vol_1std": 1724831746661.435,
+          "coverage_max_length_median": 31.572752423620905,
+          "runtime_avg": 0.000387099981308,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.901334375,
+          "test_coverage_1std": 0.041351314474612,
+          "coverage_vol_avg": 97399567273.51868,
+          "coverage_vol_1std": 92168728952.98244,
+          "coverage_max_length_median": 27.99092110901063,
+          "runtime_avg": 0.000402386188507,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.899309375,
+          "test_coverage_1std": 0.024638035849821,
+          "coverage_vol_avg": 55970274301.89665,
+          "coverage_vol_1std": 20524978848.138847,
+          "coverage_max_length_median": 26.317788124383164,
+          "runtime_avg": 0.000416835546494,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.899934375,
+          "test_coverage_1std": 0.021881719849046,
+          "coverage_vol_avg": 51308955711.37942,
+          "coverage_vol_1std": 14915539663.96113,
+          "coverage_max_length_median": 26.06651002669451,
+          "runtime_avg": 0.000402283668518,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.9096625,
+          "test_coverage_1std": 0.0532409074031,
+          "coverage_vol_avg": 183021979455.90594,
+          "coverage_vol_1std": 274225714914.4925,
+          "coverage_max_length_median": 29.113139076574672,
+          "runtime_avg": 0.002162472009659,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.904271875,
+          "test_coverage_1std": 0.04671788062627,
+          "coverage_vol_avg": 94208110452.24988,
+          "coverage_vol_1std": 88177989089.29047,
+          "coverage_max_length_median": 26.955223278206116,
+          "runtime_avg": 0.002513889074326,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.902596875,
+          "test_coverage_1std": 0.034071904820539,
+          "coverage_vol_avg": 65925556793.53436,
+          "coverage_vol_1std": 34312908408.002373,
+          "coverage_max_length_median": 26.49341293915376,
+          "runtime_avg": 0.003087364435196,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.898809375,
+          "test_coverage_1std": 0.017698266395367,
+          "coverage_vol_avg": 49335605904.29828,
+          "coverage_vol_1std": 11725805060.864206,
+          "coverage_max_length_median": 25.95260732529529,
+          "runtime_avg": 0.004599506855011,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.900640625,
+          "test_coverage_1std": 0.016256091521091,
+          "coverage_vol_avg": 48102240609.35574,
+          "coverage_vol_1std": 9671554670.41857,
+          "coverage_max_length_median": 25.890429314837995,
+          "runtime_avg": 0.00590980052948,
+          "method": "TSCP_R"
+        }
+      ],
+      "coverage_ylim": [
+        0.6,
+        1.0
+      ],
+      "error_bars": false,
+      "method_styles": {
+        "Empirical_copula": {
+          "label": "Emp. Copula",
+          "color": "#8C8C8C",
+          "marker": "P"
+        },
+        "Unscaled": {
+          "label": "Unscaled Max",
+          "color": "#9C755F",
+          "marker": "<"
+        },
+        "Point_CHR": {
+          "label": "Point CHR",
+          "color": "#4E79A7",
+          "marker": "o"
+        },
+        "TSCP_R": {
+          "label": "TSCP (Ours)",
+          "color": "#E15759",
+          "marker": "D"
+        }
+      }
+    },
+    {
+      "figure": "fig_body_abs_homogeneous_gaussian.pdf",
+      "replaces": "baselines/unit_gaussian_10d.pdf",
+      "sources": [
+        {
+          "path": "syn_exps/gaussian/empirical_copula_unit_gaussian.csv",
+          "sha256": "3ea45bc6cc31600398adb905a19124009ea2549fcc715eb33a9983f29b6aff20"
+        },
+        {
+          "path": "syn_exps/gaussian/unscaled_unit_gaussian.csv",
+          "sha256": "7e09bc63005ef5432ee0f6fa130af097a8c2d22de5d5cd977c0559a3b40b2950"
+        },
+        {
+          "path": "syn_exps/gaussian/point_chr_unit_gaussian.csv",
+          "sha256": "01fd88b71952ee699a9e49d0bb52a6e908719ee661c8239a28a0f2821231d359"
+        },
+        {
+          "path": "syn_exps/gaussian/tscp_r_unit_gaussian.csv",
+          "sha256": "26b66a16a353f1f7d36249cd60bf9b4aaf7dd61d7cf8ea6326d920b79948a792"
+        }
+      ],
+      "plotted_rows": [
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.714184375,
+          "test_coverage_1std": 0.079388741181393,
+          "coverage_vol_avg": 4639.917141398019,
+          "coverage_vol_1std": 3200.910306721701,
+          "coverage_max_length_median": 3.064273433862239,
+          "runtime_avg": 0.000593563318252,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.815840625,
+          "test_coverage_1std": 0.057067778150191,
+          "coverage_vol_avg": 10022.342907461178,
+          "coverage_vol_1std": 6122.43831948708,
+          "coverage_max_length_median": 3.226219098629569,
+          "runtime_avg": 0.001030029058456,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.818925,
+          "test_coverage_1std": 0.03901399174024,
+          "coverage_vol_avg": 7113.082818449491,
+          "coverage_vol_1std": 2727.3606342522594,
+          "coverage_max_length_median": 2.880199635243289,
+          "runtime_avg": 0.002661482095718,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.871934375,
+          "test_coverage_1std": 0.018627383567674,
+          "coverage_vol_avg": 10268.071426273027,
+          "coverage_vol_1std": 2234.073339586288,
+          "coverage_max_length_median": 2.82796315227229,
+          "runtime_avg": 0.024802194833755,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.886290625,
+          "test_coverage_1std": 0.017576787463071,
+          "coverage_vol_avg": 11463.586574003426,
+          "coverage_vol_1std": 2279.279862858013,
+          "coverage_max_length_median": 2.768607058927266,
+          "runtime_avg": 0.080612560510635,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.9042625,
+          "test_coverage_1std": 0.053774526950441,
+          "coverage_vol_avg": 21877.0094738662,
+          "coverage_vol_1std": 19414.40418624649,
+          "coverage_max_length_median": 2.62212664089661,
+          "runtime_avg": 4.0166378021e-05,
+          "method": "Unscaled"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.900715625,
+          "test_coverage_1std": 0.04465351136102,
+          "coverage_vol_avg": 16825.68599060694,
+          "coverage_vol_1std": 11540.641884255374,
+          "coverage_max_length_median": 2.602614393686117,
+          "runtime_avg": 3.0206441879e-05,
+          "method": "Unscaled"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.8999,
+          "test_coverage_1std": 0.034978818518853,
+          "coverage_vol_avg": 14976.796532104345,
+          "coverage_vol_1std": 7382.285353889547,
+          "coverage_max_length_median": 2.587635731265528,
+          "runtime_avg": 5.0240755081e-05,
+          "method": "Unscaled"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.89789375,
+          "test_coverage_1std": 0.017777469852577,
+          "coverage_vol_avg": 12812.444610617757,
+          "coverage_vol_1std": 3067.621810907728,
+          "coverage_max_length_median": 2.568303045621759,
+          "runtime_avg": 8.5417032242e-05,
+          "method": "Unscaled"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.89935,
+          "test_coverage_1std": 0.016719145812015,
+          "coverage_vol_avg": 12647.810059342131,
+          "coverage_vol_1std": 2496.1797483335986,
+          "coverage_max_length_median": 2.565572806307973,
+          "runtime_avg": 8.5682868958e-05,
+          "method": "Unscaled"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.9325875,
+          "test_coverage_1std": 0.066496295991982,
+          "coverage_vol_avg": 1114502.5321947206,
+          "coverage_vol_1std": 3800867.100654146,
+          "coverage_max_length_median": 4.716781036002256,
+          "runtime_avg": 0.000384244918823,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.919040625,
+          "test_coverage_1std": 0.057367900390466,
+          "coverage_vol_avg": 133547.39192580665,
+          "coverage_vol_1std": 475317.3905042915,
+          "coverage_max_length_median": 3.87511577937596,
+          "runtime_avg": 0.000352029800415,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.901334375,
+          "test_coverage_1std": 0.041351314474612,
+          "coverage_vol_avg": 26840.70967634424,
+          "coverage_vol_1std": 25399.230862263903,
+          "coverage_max_length_median": 3.244238696463603,
+          "runtime_avg": 0.000338760614395,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.899309375,
+          "test_coverage_1std": 0.024638035849821,
+          "coverage_vol_avg": 15423.907159914086,
+          "coverage_vol_1std": 5656.133941837331,
+          "coverage_max_length_median": 2.898545825802341,
+          "runtime_avg": 0.00037145614624,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.899934375,
+          "test_coverage_1std": 0.021881719849046,
+          "coverage_vol_avg": 14139.37271587804,
+          "coverage_vol_1std": 4110.322879177823,
+          "coverage_max_length_median": 2.815246024211048,
+          "runtime_avg": 0.000438278913498,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.9096625,
+          "test_coverage_1std": 0.0532409074031,
+          "coverage_vol_avg": 50435.95112872079,
+          "coverage_vol_1std": 75569.25565324469,
+          "coverage_max_length_median": 3.452421013923765,
+          "runtime_avg": 0.002203743457794,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.904271875,
+          "test_coverage_1std": 0.04671788062627,
+          "coverage_vol_avg": 25961.22973221178,
+          "coverage_vol_1std": 24299.489938626903,
+          "coverage_max_length_median": 3.148299772301032,
+          "runtime_avg": 0.002652478218079,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.902596875,
+          "test_coverage_1std": 0.034071904820539,
+          "coverage_vol_avg": 18167.31613578455,
+          "coverage_vol_1std": 9455.717705027051,
+          "coverage_max_length_median": 2.937242855178218,
+          "runtime_avg": 0.003041059970856,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.898809375,
+          "test_coverage_1std": 0.017698266395367,
+          "coverage_vol_avg": 13595.570410135137,
+          "coverage_vol_1std": 3231.3175322045727,
+          "coverage_max_length_median": 2.758280837964377,
+          "runtime_avg": 0.004341996908188,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Gaussian",
+          "test_coverage_avg": 0.900640625,
+          "test_coverage_1std": 0.016256091521091,
+          "coverage_vol_avg": 13255.687998609988,
+          "coverage_vol_1std": 2665.221194449613,
+          "coverage_max_length_median": 2.711850132199268,
+          "runtime_avg": 0.005881875753403,
+          "method": "TSCP_R"
+        }
+      ],
+      "coverage_ylim": [
+        0.6,
+        1.0
+      ],
+      "error_bars": false,
+      "method_styles": {
+        "Empirical_copula": {
+          "label": "Emp. Copula",
+          "color": "#8C8C8C",
+          "marker": "P"
+        },
+        "Unscaled": {
+          "label": "Unscaled Max",
+          "color": "#9C755F",
+          "marker": "<"
+        },
+        "Point_CHR": {
+          "label": "Point CHR",
+          "color": "#4E79A7",
+          "marker": "o"
+        },
+        "TSCP_R": {
+          "label": "TSCP (Ours)",
+          "color": "#E15759",
+          "marker": "D"
+        }
+      }
+    },
+    {
+      "figure": "fig_app_oracle_approximation.pdf",
+      "replaces": "ours/ours_approximation_2d.pdf",
+      "sources": [
+        {
+          "path": "syn_exps/laplace/population_oracle_laplace.csv",
+          "sha256": "2e220e62023c167ce9b9ba38860692d2e9c9993c4259111c8e9d220e996412a5"
+        },
+        {
+          "path": "syn_exps/laplace/naive_laplace.csv",
+          "sha256": "a1bb9fd90c56deed1fcba5752f91da703d617e8468027186d1b187df4d5423a3"
+        },
+        {
+          "path": "syn_exps/laplace/tscp_s_laplace.csv",
+          "sha256": "1fab7e40e08123511a7af782725114269661e574ced73a3027f9f0926f531250"
+        },
+        {
+          "path": "syn_exps/laplace/tscp_r_laplace.csv",
+          "sha256": "83d549a3979febb8b0466a5ff64917abf49d5f26584f92befde13592ea98f721"
+        }
+      ],
+      "plotted_rows": [
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9110875,
+          "test_coverage_1std": 0.047247213166599,
+          "coverage_vol_avg": 21.303654665219877,
+          "coverage_vol_1std": 8.163067315926272,
+          "coverage_max_length_median": 6.313451198845405,
+          "runtime_avg": 7.7776908875e-05,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.90543125,
+          "test_coverage_1std": 0.038886905078967,
+          "coverage_vol_avg": 19.455372039461015,
+          "coverage_vol_1std": 5.580113458750049,
+          "coverage_max_length_median": 6.085651854146697,
+          "runtime_avg": 9.4711780548e-05,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9015625,
+          "test_coverage_1std": 0.031316512132752,
+          "coverage_vol_avg": 18.34062991512664,
+          "coverage_vol_1std": 4.07938969156206,
+          "coverage_max_length_median": 5.975010857162394,
+          "runtime_avg": 5.0061941147e-05,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9024125,
+          "test_coverage_1std": 0.016759039974124,
+          "coverage_vol_avg": 17.85312755080373,
+          "coverage_vol_1std": 2.057026673429171,
+          "coverage_max_length_median": 5.933784723650957,
+          "runtime_avg": 0.000110391378403,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.903875,
+          "test_coverage_1std": 0.014984812244067,
+          "coverage_vol_avg": 17.975363322997303,
+          "coverage_vol_1std": 1.798087787519276,
+          "coverage_max_length_median": 5.975602793190647,
+          "runtime_avg": 0.000167647600174,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.89731875,
+          "test_coverage_1std": 0.054009489252669,
+          "coverage_vol_avg": 20.26350319357546,
+          "coverage_vol_1std": 7.787260842940948,
+          "coverage_max_length_median": 6.102373450393476,
+          "runtime_avg": 9.0318918228e-05,
+          "method": "Naive"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9003125,
+          "test_coverage_1std": 0.039442417557292,
+          "coverage_vol_avg": 19.31858672352449,
+          "coverage_vol_1std": 5.524309103906112,
+          "coverage_max_length_median": 6.010023200293287,
+          "runtime_avg": 9.5502138138e-05,
+          "method": "Naive"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.900375,
+          "test_coverage_1std": 0.030219958919321,
+          "coverage_vol_avg": 18.360491452139645,
+          "coverage_vol_1std": 3.958117456971112,
+          "coverage_max_length_median": 5.986964446322188,
+          "runtime_avg": 0.000125379562378,
+          "method": "Naive"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.901590625,
+          "test_coverage_1std": 0.016514421601696,
+          "coverage_vol_avg": 17.818047311733736,
+          "coverage_vol_1std": 1.950244290392239,
+          "coverage_max_length_median": 5.930405321365818,
+          "runtime_avg": 9.5527172089e-05,
+          "method": "Naive"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.90365,
+          "test_coverage_1std": 0.015084097378318,
+          "coverage_vol_avg": 17.966005792397386,
+          "coverage_vol_1std": 1.784055789362347,
+          "coverage_max_length_median": 5.983304233069856,
+          "runtime_avg": 0.000135551691055,
+          "method": "Naive"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.941728125,
+          "test_coverage_1std": 0.057665058915325,
+          "coverage_vol_avg": 42.50729181981751,
+          "coverage_vol_1std": 36.31665795036906,
+          "coverage_max_length_median": 7.959965835613022,
+          "runtime_avg": 0.000369310379028,
+          "method": "TSCP_S"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.925715625,
+          "test_coverage_1std": 0.051638373919398,
+          "coverage_vol_avg": 28.313230613662554,
+          "coverage_vol_1std": 15.42058806182984,
+          "coverage_max_length_median": 7.149237115252372,
+          "runtime_avg": 0.000513060092926,
+          "method": "TSCP_S"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.900915625,
+          "test_coverage_1std": 0.039761127076156,
+          "coverage_vol_avg": 19.41162082328235,
+          "coverage_vol_1std": 5.499576913685837,
+          "coverage_max_length_median": 6.143732948569605,
+          "runtime_avg": 0.000366386175156,
+          "method": "TSCP_S"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.902596875,
+          "test_coverage_1std": 0.023855812416256,
+          "coverage_vol_avg": 18.33798163245024,
+          "coverage_vol_1std": 3.020036140100819,
+          "coverage_max_length_median": 6.049808542633612,
+          "runtime_avg": 0.00035422205925,
+          "method": "TSCP_S"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.902784375,
+          "test_coverage_1std": 0.018878828514097,
+          "coverage_vol_avg": 18.051453833761787,
+          "coverage_vol_1std": 2.318533525931306,
+          "coverage_max_length_median": 5.984224770957793,
+          "runtime_avg": 0.000432696342468,
+          "method": "TSCP_S"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.910890625,
+          "test_coverage_1std": 0.050721956347948,
+          "coverage_vol_avg": 22.756794713703776,
+          "coverage_vol_1std": 9.04853358861162,
+          "coverage_max_length_median": 6.5663256041765,
+          "runtime_avg": 0.000521318912506,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.907778125,
+          "test_coverage_1std": 0.037940342695853,
+          "coverage_vol_avg": 20.5247353954752,
+          "coverage_vol_1std": 5.929985961712661,
+          "coverage_max_length_median": 6.178612532399566,
+          "runtime_avg": 0.000640543699264,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.90386875,
+          "test_coverage_1std": 0.029829616529533,
+          "coverage_vol_avg": 18.89066561481775,
+          "coverage_vol_1std": 4.104442642724473,
+          "coverage_max_length_median": 6.060710815145736,
+          "runtime_avg": 0.000662875175476,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9027375,
+          "test_coverage_1std": 0.016330199272864,
+          "coverage_vol_avg": 17.980219639046023,
+          "coverage_vol_1std": 1.972111569711357,
+          "coverage_max_length_median": 5.946428048768107,
+          "runtime_avg": 0.00091135263443,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.904365625,
+          "test_coverage_1std": 0.015004249489665,
+          "coverage_vol_avg": 18.06114525139924,
+          "coverage_vol_1std": 1.79362553389086,
+          "coverage_max_length_median": 5.998561757090842,
+          "runtime_avg": 0.001103881597519,
+          "method": "TSCP_R"
+        }
+      ],
+      "coverage_ylim": [
+        0.6,
+        1.0
+      ],
+      "error_bars": false,
+      "method_styles": {
+        "Population_oracle": {
+          "label": "Pop. Oracle",
+          "color": "#333333",
+          "marker": "s"
+        },
+        "Naive": {
+          "label": "Naive",
+          "color": "#7B61A8",
+          "marker": "P"
+        },
+        "TSCP_S": {
+          "label": "TSCP-S",
+          "color": "#59A14F",
+          "marker": "^"
+        },
+        "TSCP_R": {
+          "label": "TSCP (Ours)",
+          "color": "#E15759",
+          "marker": "D"
+        }
+      }
+    },
+    {
+      "figure": "fig_app_local_enclosure_2d.pdf",
+      "replaces": "ours/ours_containment_2d.pdf",
+      "sources": [
+        {
+          "path": "syn_exps/laplace/population_oracle_laplace.csv",
+          "sha256": "2e220e62023c167ce9b9ba38860692d2e9c9993c4259111c8e9d220e996412a5"
+        },
+        {
+          "path": "syn_exps/laplace/tscp_gwc_laplace.csv",
+          "sha256": "ea03af7311cbd975addc810fa4aaee60c28ea9d2283d7eec30fa41ad7192cd3d"
+        },
+        {
+          "path": "syn_exps/laplace/tscp_lwc_laplace.csv",
+          "sha256": "b4600a63a2d6b862058362a34f78a3921165175a827c56093484ae1ab94e9163"
+        },
+        {
+          "path": "syn_exps/laplace/tscp_r_laplace.csv",
+          "sha256": "83d549a3979febb8b0466a5ff64917abf49d5f26584f92befde13592ea98f721"
+        }
+      ],
+      "plotted_rows": [
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9110875,
+          "test_coverage_1std": 0.047247213166599,
+          "coverage_vol_avg": 21.303654665219877,
+          "coverage_vol_1std": 8.163067315926272,
+          "coverage_max_length_median": 6.313451198845405,
+          "runtime_avg": 7.7776908875e-05,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.90543125,
+          "test_coverage_1std": 0.038886905078967,
+          "coverage_vol_avg": 19.455372039461015,
+          "coverage_vol_1std": 5.580113458750049,
+          "coverage_max_length_median": 6.085651854146697,
+          "runtime_avg": 9.4711780548e-05,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9015625,
+          "test_coverage_1std": 0.031316512132752,
+          "coverage_vol_avg": 18.34062991512664,
+          "coverage_vol_1std": 4.07938969156206,
+          "coverage_max_length_median": 5.975010857162394,
+          "runtime_avg": 5.0061941147e-05,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9024125,
+          "test_coverage_1std": 0.016759039974124,
+          "coverage_vol_avg": 17.85312755080373,
+          "coverage_vol_1std": 2.057026673429171,
+          "coverage_max_length_median": 5.933784723650957,
+          "runtime_avg": 0.000110391378403,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.903875,
+          "test_coverage_1std": 0.014984812244067,
+          "coverage_vol_avg": 17.975363322997303,
+          "coverage_vol_1std": 1.798087787519276,
+          "coverage_max_length_median": 5.975602793190647,
+          "runtime_avg": 0.000167647600174,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.919178125,
+          "test_coverage_1std": 0.049610510994294,
+          "coverage_vol_avg": 24.79403512385112,
+          "coverage_vol_1std": 10.705224626734283,
+          "coverage_max_length_median": 6.712236558266191,
+          "runtime_avg": 0.000248930454254,
+          "method": "TSCP_GWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.91265,
+          "test_coverage_1std": 0.037906001500405,
+          "coverage_vol_avg": 21.423142818365992,
+          "coverage_vol_1std": 6.434918680427395,
+          "coverage_max_length_median": 6.316136461941578,
+          "runtime_avg": 0.000202486515045,
+          "method": "TSCP_GWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.906084375,
+          "test_coverage_1std": 0.029692432313095,
+          "coverage_vol_avg": 19.21523820219827,
+          "coverage_vol_1std": 4.236270402408308,
+          "coverage_max_length_median": 6.132404946693526,
+          "runtime_avg": 0.000272506475449,
+          "method": "TSCP_GWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.90345625,
+          "test_coverage_1std": 0.016284259160907,
+          "coverage_vol_avg": 18.069949626987,
+          "coverage_vol_1std": 1.988924645350077,
+          "coverage_max_length_median": 5.973850708736178,
+          "runtime_avg": 0.000292642116547,
+          "method": "TSCP_GWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.904784375,
+          "test_coverage_1std": 0.014977290899821,
+          "coverage_vol_avg": 18.11769701886446,
+          "coverage_vol_1std": 1.807245875171499,
+          "coverage_max_length_median": 6.009476823092546,
+          "runtime_avg": 0.000370236635208,
+          "method": "TSCP_GWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.910453125,
+          "test_coverage_1std": 0.050846050894511,
+          "coverage_vol_avg": 22.51612880427457,
+          "coverage_vol_1std": 8.917660997546076,
+          "coverage_max_length_median": 6.566325604176453,
+          "runtime_avg": 0.012325637340546,
+          "method": "TSCP_LWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.907515625,
+          "test_coverage_1std": 0.03796794704416,
+          "coverage_vol_avg": 20.407682465589,
+          "coverage_vol_1std": 5.876856045362738,
+          "coverage_max_length_median": 6.178612532399587,
+          "runtime_avg": 0.030540956258774,
+          "method": "TSCP_LWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9037375,
+          "test_coverage_1std": 0.029828732754488,
+          "coverage_vol_avg": 18.83697634135784,
+          "coverage_vol_1std": 4.082453088237346,
+          "coverage_max_length_median": 6.060710815145718,
+          "runtime_avg": 0.117466455698013,
+          "method": "TSCP_LWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.90270625,
+          "test_coverage_1std": 0.016342521446326,
+          "coverage_vol_avg": 17.96300698807621,
+          "coverage_vol_1std": 1.968449429441469,
+          "coverage_max_length_median": 5.946428048768115,
+          "runtime_avg": 1.09699085354805,
+          "method": "TSCP_LWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.904353125,
+          "test_coverage_1std": 0.014997562812368,
+          "coverage_vol_avg": 18.051228516095595,
+          "coverage_vol_1std": 1.792105303809937,
+          "coverage_max_length_median": 5.998561757090863,
+          "runtime_avg": 3.414393857717514,
+          "method": "TSCP_LWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.910890625,
+          "test_coverage_1std": 0.050721956347948,
+          "coverage_vol_avg": 22.756794713703776,
+          "coverage_vol_1std": 9.04853358861162,
+          "coverage_max_length_median": 6.5663256041765,
+          "runtime_avg": 0.000521318912506,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.907778125,
+          "test_coverage_1std": 0.037940342695853,
+          "coverage_vol_avg": 20.5247353954752,
+          "coverage_vol_1std": 5.929985961712661,
+          "coverage_max_length_median": 6.178612532399566,
+          "runtime_avg": 0.000640543699264,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.90386875,
+          "test_coverage_1std": 0.029829616529533,
+          "coverage_vol_avg": 18.89066561481775,
+          "coverage_vol_1std": 4.104442642724473,
+          "coverage_max_length_median": 6.060710815145736,
+          "runtime_avg": 0.000662875175476,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9027375,
+          "test_coverage_1std": 0.016330199272864,
+          "coverage_vol_avg": 17.980219639046023,
+          "coverage_vol_1std": 1.972111569711357,
+          "coverage_max_length_median": 5.946428048768107,
+          "runtime_avg": 0.00091135263443,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.904365625,
+          "test_coverage_1std": 0.015004249489665,
+          "coverage_vol_avg": 18.06114525139924,
+          "coverage_vol_1std": 1.79362553389086,
+          "coverage_max_length_median": 5.998561757090842,
+          "runtime_avg": 0.001103881597519,
+          "method": "TSCP_R"
+        }
+      ],
+      "coverage_ylim": [
+        0.6,
+        1.0
+      ],
+      "error_bars": false,
+      "method_styles": {
+        "Population_oracle": {
+          "label": "Pop. Oracle",
+          "color": "#333333",
+          "marker": "s"
+        },
+        "TSCP_GWC": {
+          "label": "TSCP-GWC",
+          "color": "#F28E2B",
+          "marker": "v"
+        },
+        "TSCP_LWC": {
+          "label": "TSCP-LWC",
+          "color": "#3E9A9A",
+          "marker": "X"
+        },
+        "TSCP_R": {
+          "label": "TSCP (Ours)",
+          "color": "#E15759",
+          "marker": "D"
+        }
+      }
+    },
+    {
+      "figure": "fig_app_local_enclosure_10d.pdf",
+      "replaces": "ours/ours_containment_10d.pdf",
+      "sources": [
+        {
+          "path": "syn_exps/laplace/population_oracle_laplace.csv",
+          "sha256": "2e220e62023c167ce9b9ba38860692d2e9c9993c4259111c8e9d220e996412a5"
+        },
+        {
+          "path": "syn_exps/laplace/naive_laplace.csv",
+          "sha256": "a1bb9fd90c56deed1fcba5752f91da703d617e8468027186d1b187df4d5423a3"
+        },
+        {
+          "path": "syn_exps/laplace/tscp_s_laplace.csv",
+          "sha256": "1fab7e40e08123511a7af782725114269661e574ced73a3027f9f0926f531250"
+        },
+        {
+          "path": "syn_exps/laplace/tscp_gwc_laplace.csv",
+          "sha256": "ea03af7311cbd975addc810fa4aaee60c28ea9d2283d7eec30fa41ad7192cd3d"
+        },
+        {
+          "path": "syn_exps/laplace/tscp_r_laplace.csv",
+          "sha256": "83d549a3979febb8b0466a5ff64917abf49d5f26584f92befde13592ea98f721"
+        }
+      ],
+      "plotted_rows": [
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.89473125,
+          "test_coverage_1std": 0.056595758601204,
+          "coverage_vol_avg": 46962552327300.32,
+          "coverage_vol_1std": 107366634494409.6,
+          "coverage_max_length_median": 46.4684812670682,
+          "runtime_avg": 9.462594986e-05,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.898609375,
+          "test_coverage_1std": 0.042643695404752,
+          "coverage_vol_avg": 37084177386673.33,
+          "coverage_vol_1std": 115159115097310.6,
+          "coverage_max_length_median": 46.409523172640576,
+          "runtime_avg": 0.000104701519012,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.894296875,
+          "test_coverage_1std": 0.028232446734252,
+          "coverage_vol_avg": 18042141609403.48,
+          "coverage_vol_1std": 11589432316843.988,
+          "coverage_max_length_median": 45.69095923994308,
+          "runtime_avg": 9.1333389282e-05,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.896503125,
+          "test_coverage_1std": 0.016343600920993,
+          "coverage_vol_avg": 16098241301587.512,
+          "coverage_vol_1std": 5747919634384.307,
+          "coverage_max_length_median": 45.95816701669179,
+          "runtime_avg": 0.000137023925781,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.895175,
+          "test_coverage_1std": 0.015263488762271,
+          "coverage_vol_avg": 15401567407748.39,
+          "coverage_vol_1std": 5046087045896.74,
+          "coverage_max_length_median": 45.76699789669095,
+          "runtime_avg": 0.000119607448578,
+          "method": "Population_oracle"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.804625,
+          "test_coverage_1std": 0.074100632503624,
+          "coverage_vol_avg": 11564521352324.05,
+          "coverage_vol_1std": 16509297724515.932,
+          "coverage_max_length_median": 45.46919878503613,
+          "runtime_avg": 0.000130431652069,
+          "method": "Naive"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.85010625,
+          "test_coverage_1std": 0.051753452762125,
+          "coverage_vol_avg": 16180532563558.703,
+          "coverage_vol_1std": 23983297199428.21,
+          "coverage_max_length_median": 46.62580532003231,
+          "runtime_avg": 7.5290203094e-05,
+          "method": "Naive"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.872509375,
+          "test_coverage_1std": 0.032575017155757,
+          "coverage_vol_avg": 14281944456433.57,
+          "coverage_vol_1std": 9579739680862.418,
+          "coverage_max_length_median": 46.32536140527148,
+          "runtime_avg": 0.000108271837234,
+          "method": "Naive"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.887965625,
+          "test_coverage_1std": 0.017698310759876,
+          "coverage_vol_avg": 14461315122816.686,
+          "coverage_vol_1std": 5245650689780.847,
+          "coverage_max_length_median": 45.888235120349925,
+          "runtime_avg": 0.000170953273773,
+          "method": "Naive"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.8913,
+          "test_coverage_1std": 0.016424383224998,
+          "coverage_vol_avg": 14678542162131.57,
+          "coverage_vol_1std": 5026099206031.039,
+          "coverage_max_length_median": 45.9479360680519,
+          "runtime_avg": 0.000211011171341,
+          "method": "Naive"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.937725,
+          "test_coverage_1std": 0.062914393810101,
+          "coverage_vol_avg": 4.36464824764142e+16,
+          "coverage_vol_1std": 2.17884020801567e+17,
+          "coverage_max_length_median": 78.18170189217645,
+          "runtime_avg": 0.000383511781692,
+          "method": "TSCP_S"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.921396875,
+          "test_coverage_1std": 0.05083898713264,
+          "coverage_vol_avg": 721132192292373.5,
+          "coverage_vol_1std": 2697189718863681.0,
+          "coverage_max_length_median": 64.23128782911346,
+          "runtime_avg": 0.000347489118576,
+          "method": "TSCP_S"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.89720625,
+          "test_coverage_1std": 0.039371630329611,
+          "coverage_vol_avg": 46903294411007.9,
+          "coverage_vol_1std": 62645612791282.02,
+          "coverage_max_length_median": 52.72135036132323,
+          "runtime_avg": 0.000401819944382,
+          "method": "TSCP_S"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.894396875,
+          "test_coverage_1std": 0.023949045041533,
+          "coverage_vol_avg": 20071247082244.625,
+          "coverage_vol_1std": 13437075691028.645,
+          "coverage_max_length_median": 47.36092681021691,
+          "runtime_avg": 0.000486056804657,
+          "method": "TSCP_S"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.896453125,
+          "test_coverage_1std": 0.021012840943862,
+          "coverage_vol_avg": 18399648853612.992,
+          "coverage_vol_1std": 8803841138389.943,
+          "coverage_max_length_median": 46.86181699133854,
+          "runtime_avg": 0.000425466299057,
+          "method": "TSCP_S"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.911096875,
+          "test_coverage_1std": 0.059915190057342,
+          "coverage_vol_avg": 365284802077020.8,
+          "coverage_vol_1std": 1077411102842215.6,
+          "coverage_max_length_median": 59.133395405606606,
+          "runtime_avg": 0.000269882678985,
+          "method": "TSCP_GWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.908640625,
+          "test_coverage_1std": 0.044577530664958,
+          "coverage_vol_avg": 88050481981545.81,
+          "coverage_vol_1std": 198022019299035.47,
+          "coverage_max_length_median": 54.046976006037326,
+          "runtime_avg": 0.000208394527435,
+          "method": "TSCP_GWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.900103125,
+          "test_coverage_1std": 0.029892616747946,
+          "coverage_vol_avg": 27968422311859.91,
+          "coverage_vol_1std": 21594708634036.28,
+          "coverage_max_length_median": 49.36336094957885,
+          "runtime_avg": 0.000301518440246,
+          "method": "TSCP_GWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.89678125,
+          "test_coverage_1std": 0.017656420236428,
+          "coverage_vol_avg": 17692749104415.605,
+          "coverage_vol_1std": 6640571152485.211,
+          "coverage_max_length_median": 46.78609236695016,
+          "runtime_avg": 0.000445979833603,
+          "method": "TSCP_GWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.89650625,
+          "test_coverage_1std": 0.016256061635185,
+          "coverage_vol_avg": 16534547638000.494,
+          "coverage_vol_1std": 5775171757421.848,
+          "coverage_max_length_median": 46.49932891126126,
+          "runtime_avg": 0.00068310379982,
+          "method": "TSCP_GWC"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.90841875,
+          "test_coverage_1std": 0.059857744298042,
+          "coverage_vol_avg": 314034282679386.6,
+          "coverage_vol_1std": 992590343961273.6,
+          "coverage_max_length_median": 57.81703703437373,
+          "runtime_avg": 0.002139698266983,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 50,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9055125,
+          "test_coverage_1std": 0.045015690313177,
+          "coverage_vol_avg": 73201346650399.22,
+          "coverage_vol_1std": 159814009511972.3,
+          "coverage_max_length_median": 53.15340301471015,
+          "runtime_avg": 0.002485473155975,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 100,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.898259375,
+          "test_coverage_1std": 0.029651376627636,
+          "coverage_vol_avg": 26388774420846.83,
+          "coverage_vol_1std": 19377925042325.945,
+          "coverage_max_length_median": 49.076962015163645,
+          "runtime_avg": 0.0031296646595,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 300,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.896165625,
+          "test_coverage_1std": 0.017428478838023,
+          "coverage_vol_avg": 17400089022994.154,
+          "coverage_vol_1std": 6398892902786.31,
+          "coverage_max_length_median": 46.72063706776802,
+          "runtime_avg": 0.004345051050186,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "n_trials": 200,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.896090625,
+          "test_coverage_1std": 0.016157326277779,
+          "coverage_vol_avg": 16371931136461.648,
+          "coverage_vol_1std": 5681617012428.9375,
+          "coverage_max_length_median": 46.47086140132939,
+          "runtime_avg": 0.005678232908249,
+          "method": "TSCP_R"
+        }
+      ],
+      "coverage_ylim": [
+        0.6,
+        1.0
+      ],
+      "error_bars": false,
+      "method_styles": {
+        "Population_oracle": {
+          "label": "Pop. Oracle",
+          "color": "#333333",
+          "marker": "s"
+        },
+        "Naive": {
+          "label": "Naive",
+          "color": "#7B61A8",
+          "marker": "P"
+        },
+        "TSCP_S": {
+          "label": "TSCP-S",
+          "color": "#59A14F",
+          "marker": "^"
+        },
+        "TSCP_GWC": {
+          "label": "TSCP-GWC",
+          "color": "#F28E2B",
+          "marker": "v"
+        },
+        "TSCP_R": {
+          "label": "TSCP (Ours)",
+          "color": "#E15759",
+          "marker": "D"
+        }
+      }
+    },
+    {
+      "figure": "fig_app_heavy_tail_n30.pdf",
+      "replaces": "t/t_n30_10d.pdf",
+      "sources": [
+        {
+          "path": "syn_exps/t/empirical_copula_t.csv",
+          "sha256": "d142f4e65d371096958f1372eb9ade5211c71695d30645977d4ca4b3a2e1397e"
+        },
+        {
+          "path": "syn_exps/t/point_chr_t.csv",
+          "sha256": "a2fcfa7e1f6bf5c4479b112bb95b5bbfb281273341a7ed621da48e97cc3f484b"
+        },
+        {
+          "path": "syn_exps/t/tscp_r_t.csv",
+          "sha256": "3bafe9ef59dbb0372d731b2a2386d540b94bf4b6c87f44d8ea7f5470785bc77f"
+        }
+      ],
+      "plotted_rows": [
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "df": 1.5,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.7144625,
+          "test_coverage_1std": 0.069829072765334,
+          "coverage_vol_avg": 2818979964708.11,
+          "coverage_vol_1std": 28030966428234.293,
+          "coverage_max_length_median": 46.06469047988507,
+          "runtime_avg": 0.000547858476639,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "df": 2.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.724659375,
+          "test_coverage_1std": 0.072202288955312,
+          "coverage_vol_avg": 4028270067.866544,
+          "coverage_vol_1std": 32175084440.593765,
+          "coverage_max_length_median": 20.05840546680744,
+          "runtime_avg": 0.000608713626862,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "df": 3.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.726071875,
+          "test_coverage_1std": 0.068638882836513,
+          "coverage_vol_avg": 16218822.16313653,
+          "coverage_vol_1std": 49818677.87665538,
+          "coverage_max_length_median": 9.40055579261434,
+          "runtime_avg": 0.000592893362045,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "df": 1.5,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.932740625,
+          "test_coverage_1std": 0.061593000393484,
+          "coverage_vol_avg": 3.05943209826952e+26,
+          "coverage_vol_1std": 3.06535594229438e+27,
+          "coverage_max_length_median": 197.40059761417524,
+          "runtime_avg": 0.000321955680847,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "df": 2.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.9372,
+          "test_coverage_1std": 0.068873517412383,
+          "coverage_vol_avg": 5.26323879618611e+21,
+          "coverage_vol_1std": 6.49394032708355e+22,
+          "coverage_max_length_median": 61.4122399800891,
+          "runtime_avg": 0.000416040420532,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "df": 3.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.9369375,
+          "test_coverage_1std": 0.059632755123911,
+          "coverage_vol_avg": 4871112000503026.0,
+          "coverage_vol_1std": 6.67661037194251e+16,
+          "coverage_max_length_median": 22.59015167422921,
+          "runtime_avg": 0.000435665845871,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "df": 1.5,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.906515625,
+          "test_coverage_1std": 0.051613775042181,
+          "coverage_vol_avg": 9.32166576694226e+18,
+          "coverage_vol_1std": 8.14543360141015e+19,
+          "coverage_max_length_median": 84.3705438242159,
+          "runtime_avg": 0.001889433860779,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "df": 2.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.907784375,
+          "test_coverage_1std": 0.052139179345753,
+          "coverage_vol_avg": 163730164715600.38,
+          "coverage_vol_1std": 1661393184020836.5,
+          "coverage_max_length_median": 28.72710951710351,
+          "runtime_avg": 0.002014857530594,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "df": 3.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.916328125,
+          "test_coverage_1std": 0.050793133756378,
+          "coverage_vol_avg": 144870921028.1698,
+          "coverage_vol_1std": 1142991561782.6316,
+          "coverage_max_length_median": 11.786835297548324,
+          "runtime_avg": 0.002089774608612,
+          "method": "TSCP_R"
+        }
+      ],
+      "coverage_ylim": [
+        0.6,
+        1.0
+      ],
+      "error_bars": false,
+      "method_styles": {
+        "Empirical_copula": {
+          "label": "Emp. Copula",
+          "color": "#8C8C8C",
+          "marker": "P"
+        },
+        "Point_CHR": {
+          "label": "Point CHR",
+          "color": "#4E79A7",
+          "marker": "o"
+        },
+        "TSCP_R": {
+          "label": "TSCP (Ours)",
+          "color": "#E15759",
+          "marker": "D"
+        }
+      }
+    },
+    {
+      "figure": "fig_app_heavy_tail_n500.pdf",
+      "replaces": "t/t_n500_10d.pdf",
+      "sources": [
+        {
+          "path": "syn_exps/t/empirical_copula_t.csv",
+          "sha256": "d142f4e65d371096958f1372eb9ade5211c71695d30645977d4ca4b3a2e1397e"
+        },
+        {
+          "path": "syn_exps/t/point_chr_t.csv",
+          "sha256": "a2fcfa7e1f6bf5c4479b112bb95b5bbfb281273341a7ed621da48e97cc3f484b"
+        },
+        {
+          "path": "syn_exps/t/tscp_r_t.csv",
+          "sha256": "3bafe9ef59dbb0372d731b2a2386d540b94bf4b6c87f44d8ea7f5470785bc77f"
+        }
+      ],
+      "plotted_rows": [
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "df": 1.5,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.8809125,
+          "test_coverage_1std": 0.015598135196492,
+          "coverage_vol_avg": 2620818181961.496,
+          "coverage_vol_1std": 7474419942602.846,
+          "coverage_max_length_median": 25.12226758288758,
+          "runtime_avg": 0.079275305271149,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "df": 2.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.88731875,
+          "test_coverage_1std": 0.015355475663481,
+          "coverage_vol_avg": 7044611582.28394,
+          "coverage_vol_1std": 5813724298.917967,
+          "coverage_max_length_median": 13.107587333863254,
+          "runtime_avg": 0.08039800286293,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "df": 3.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.887734375,
+          "test_coverage_1std": 0.015477562873297,
+          "coverage_vol_avg": 36918663.35484694,
+          "coverage_vol_1std": 21286730.894901365,
+          "coverage_max_length_median": 7.189298987123909,
+          "runtime_avg": 0.080624902248382,
+          "method": "Empirical_copula"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "df": 1.5,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.8950375,
+          "test_coverage_1std": 0.020758773195275,
+          "coverage_vol_avg": 7040403774851.05,
+          "coverage_vol_1std": 12775927001696.404,
+          "coverage_max_length_median": 23.344862340546683,
+          "runtime_avg": 0.000496618747711,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "df": 2.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.90103125,
+          "test_coverage_1std": 0.020243953242932,
+          "coverage_vol_avg": 15560483080.2948,
+          "coverage_vol_1std": 21375858321.666386,
+          "coverage_max_length_median": 11.575081020548351,
+          "runtime_avg": 0.000526809692383,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "df": 3.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.900859375,
+          "test_coverage_1std": 0.018172906872743,
+          "coverage_vol_avg": 56191733.71106913,
+          "coverage_vol_1std": 46042302.055601165,
+          "coverage_max_length_median": 6.658264245163027,
+          "runtime_avg": 0.000490756034851,
+          "method": "Point_CHR"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "df": 1.5,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.8959,
+          "test_coverage_1std": 0.015076964400291,
+          "coverage_vol_avg": 58048184275638.95,
+          "coverage_vol_1std": 301862952102366.06,
+          "coverage_max_length_median": 55.7413082133068,
+          "runtime_avg": 0.004944692850113,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "df": 2.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.900153125,
+          "test_coverage_1std": 0.015424466618385,
+          "coverage_vol_avg": 37603975301.86903,
+          "coverage_vol_1std": 108526854100.6565,
+          "coverage_max_length_median": 18.134258810003537,
+          "runtime_avg": 0.005287728309631,
+          "method": "TSCP_R"
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 500,
+          "df": 3.0,
+          "n_trials": 200,
+          "noise_type": "t",
+          "test_coverage_avg": 0.90145625,
+          "test_coverage_1std": 0.014922342686178,
+          "coverage_vol_avg": 61924598.451725855,
+          "coverage_vol_1std": 43571175.97652914,
+          "coverage_max_length_median": 7.565633915810434,
+          "runtime_avg": 0.005363001823425,
+          "method": "TSCP_R"
+        }
+      ],
+      "coverage_ylim": [
+        0.6,
+        1.0
+      ],
+      "error_bars": false,
+      "method_styles": {
+        "Empirical_copula": {
+          "label": "Emp. Copula",
+          "color": "#8C8C8C",
+          "marker": "P"
+        },
+        "Point_CHR": {
+          "label": "Point CHR",
+          "color": "#4E79A7",
+          "marker": "o"
+        },
+        "TSCP_R": {
+          "label": "TSCP (Ours)",
+          "color": "#E15759",
+          "marker": "D"
+        }
+      }
+    },
+    {
+      "figure": "fig_app_dimension_scaling.pdf",
+      "replaces": "ours/ours_runtime.pdf",
+      "sources": [
+        {
+          "path": "syn_exps/laplace/empirical_copula_laplace_30sample.csv",
+          "sha256": "b34ff50c1adeb719f0eb0510853601058794f3a9f917241a6a4305301166ede6"
+        },
+        {
+          "path": "syn_exps/laplace/point_chr_laplace_30sample.csv",
+          "sha256": "a2680cc32be8357f842ff1e4a7f7f41d1624a2c0317f554860c250faf5f4b06b"
+        },
+        {
+          "path": "syn_exps/laplace/tscp_lwc_laplace_30sample.csv",
+          "sha256": "ba2ebd99f93427b5fdb9411777bb6588769ab61bcb1556626ceca6549f8037db"
+        },
+        {
+          "path": "syn_exps/laplace/tscp_r_laplace_30sample.csv",
+          "sha256": "1e1b79d283fc6a24d8990bda7365ddabe32f1405dcec207c34a1381b8daed14e"
+        }
+      ],
+      "plotted_rows": [
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.857520833333333,
+          "test_coverage_1std": 0.083123052760012,
+          "coverage_vol_avg": 17.78387810880107,
+          "coverage_vol_1std": 9.701216023908234,
+          "coverage_max_length_median": 5.532655661924929,
+          "runtime_avg": 0.00050433476766,
+          "method": "Empirical_copula",
+          "runtime_ms": 0.5043347676595
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 3,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.837291666666667,
+          "test_coverage_1std": 0.060112218454082,
+          "coverage_vol_avg": 173.8466402819097,
+          "coverage_vol_1std": 71.17661552267927,
+          "coverage_max_length_median": 8.759244724915892,
+          "runtime_avg": 0.00036822160085,
+          "method": "Empirical_copula",
+          "runtime_ms": 0.3682216008504
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 4,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.8588125,
+          "test_coverage_1std": 0.08125387092901,
+          "coverage_vol_avg": 5893.382649353062,
+          "coverage_vol_1std": 4663.707820381355,
+          "coverage_max_length_median": 13.947887469099136,
+          "runtime_avg": 0.000602149963379,
+          "method": "Empirical_copula",
+          "runtime_ms": 0.6021499633789
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 5,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.872,
+          "test_coverage_1std": 0.046162078592715,
+          "coverage_vol_avg": 159429.04104909717,
+          "coverage_vol_1std": 157666.4224084933,
+          "coverage_max_length_median": 22.619214960079617,
+          "runtime_avg": 0.000568954149882,
+          "method": "Empirical_copula",
+          "runtime_ms": 0.5689541498819
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.700104166666667,
+          "test_coverage_1std": 0.081991983965668,
+          "coverage_vol_avg": 3608612581339.897,
+          "coverage_vol_1std": 4939026970434.679,
+          "coverage_max_length_median": 41.759159359986405,
+          "runtime_avg": 0.000468826293945,
+          "method": "Empirical_copula",
+          "runtime_ms": 0.4688262939453
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 20,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.525979166666667,
+          "test_coverage_1std": 0.073653078359752,
+          "coverage_vol_avg": 2.18793937010895e+30,
+          "coverage_vol_1std": 3.17323997953874e+30,
+          "coverage_max_length_median": 96.98131411297317,
+          "runtime_avg": 0.000872198740641,
+          "method": "Empirical_copula",
+          "runtime_ms": 0.8721987406412
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 30,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.367458333333333,
+          "test_coverage_1std": 0.066313594504385,
+          "coverage_vol_avg": 3.311765382149e+50,
+          "coverage_vol_1std": 1.19253129942953e+51,
+          "coverage_max_length_median": 154.59862984718902,
+          "runtime_avg": 0.001375540097554,
+          "method": "Empirical_copula",
+          "runtime_ms": 1.3755400975545
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.922166666666667,
+          "test_coverage_1std": 0.090915887693282,
+          "coverage_vol_avg": 37.40849237329757,
+          "coverage_vol_1std": 25.89861420927892,
+          "coverage_max_length_median": 7.283619024610909,
+          "runtime_avg": 0.000435256958008,
+          "method": "Point_CHR",
+          "runtime_ms": 0.4352569580078
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 3,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9458125,
+          "test_coverage_1std": 0.058473337480605,
+          "coverage_vol_avg": 1336.0696273732576,
+          "coverage_vol_1std": 1577.165632254128,
+          "coverage_max_length_median": 16.136336259547424,
+          "runtime_avg": 0.000401703516642,
+          "method": "Point_CHR",
+          "runtime_ms": 0.4017035166422
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 4,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.945916666666667,
+          "test_coverage_1std": 0.05539234407036,
+          "coverage_vol_avg": 62372.74462666955,
+          "coverage_vol_1std": 153498.29605193628,
+          "coverage_max_length_median": 22.59853915843276,
+          "runtime_avg": 0.000300701459249,
+          "method": "Point_CHR",
+          "runtime_ms": 0.3007014592488
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 5,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.945354166666667,
+          "test_coverage_1std": 0.049750639869102,
+          "coverage_vol_avg": 2050327.0541243493,
+          "coverage_vol_1std": 3437888.286470988,
+          "coverage_max_length_median": 29.14462560134846,
+          "runtime_avg": 0.000369111696879,
+          "method": "Point_CHR",
+          "runtime_ms": 0.369111696879
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.946770833333333,
+          "test_coverage_1std": 0.060456926488935,
+          "coverage_vol_avg": 8.78619885016268e+16,
+          "coverage_vol_1std": 2.80946347805182e+17,
+          "coverage_max_length_median": 85.41491366283375,
+          "runtime_avg": 0.000400861104329,
+          "method": "Point_CHR",
+          "runtime_ms": 0.4008611043294
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 20,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.956541666666667,
+          "test_coverage_1std": 0.058514921591425,
+          "coverage_vol_avg": 7.24692454673728e+40,
+          "coverage_vol_1std": 3.79764094782843e+41,
+          "coverage_max_length_median": 234.51959232526377,
+          "runtime_avg": 0.000317295392354,
+          "method": "Point_CHR",
+          "runtime_ms": 0.3172953923543
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 30,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.926583333333333,
+          "test_coverage_1std": 0.052702997662786,
+          "coverage_vol_avg": 8.21122958450698e+62,
+          "coverage_vol_1std": 2.84627720854638e+63,
+          "coverage_max_length_median": 368.2121644201327,
+          "runtime_avg": 0.000621589024862,
+          "method": "Point_CHR",
+          "runtime_ms": 0.6215890248616
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.892583333333333,
+          "test_coverage_1std": 0.074818338422928,
+          "coverage_vol_avg": 22.7572179025609,
+          "coverage_vol_1std": 12.243755075808368,
+          "coverage_max_length_median": 6.491363757533053,
+          "runtime_avg": 0.010141921043396,
+          "method": "TSCP_LWC",
+          "runtime_ms": 10.1419210433959
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 3,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9185,
+          "test_coverage_1std": 0.044274442888685,
+          "coverage_vol_avg": 369.6600682552402,
+          "coverage_vol_1std": 200.27738858364853,
+          "coverage_max_length_median": 10.805012766192515,
+          "runtime_avg": 1.064046986897786,
+          "method": "TSCP_LWC",
+          "runtime_ms": 1064.0469868977864
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 4,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.921416666666666,
+          "test_coverage_1std": 0.054923519839948,
+          "coverage_vol_avg": 10252.470116621147,
+          "coverage_vol_1std": 9180.971436114643,
+          "coverage_max_length_median": 16.771855161445558,
+          "runtime_avg": 18.59009087085724,
+          "method": "TSCP_LWC",
+          "runtime_ms": 18590.09087085724
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 2,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.892979166666667,
+          "test_coverage_1std": 0.07491782195643,
+          "coverage_vol_avg": 23.04321060673163,
+          "coverage_vol_1std": 12.513964157891284,
+          "coverage_max_length_median": 6.491363757533053,
+          "runtime_avg": 0.000652591387431,
+          "method": "TSCP_R",
+          "runtime_ms": 0.6525913874308
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 3,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.9191875,
+          "test_coverage_1std": 0.044021984001531,
+          "coverage_vol_avg": 382.8400541923135,
+          "coverage_vol_1std": 207.9282964900545,
+          "coverage_max_length_median": 10.805012766192515,
+          "runtime_avg": 0.000768836339315,
+          "method": "TSCP_R",
+          "runtime_ms": 0.7688363393147
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 4,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.922979166666666,
+          "test_coverage_1std": 0.054236889438884,
+          "coverage_vol_avg": 11899.384155222086,
+          "coverage_vol_1std": 13575.12022953037,
+          "coverage_max_length_median": 16.771855161445558,
+          "runtime_avg": 0.000965523719788,
+          "method": "TSCP_R",
+          "runtime_ms": 0.9655237197875
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 5,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.929125,
+          "test_coverage_1std": 0.040750502429735,
+          "coverage_vol_avg": 400566.6403523061,
+          "coverage_vol_1std": 538735.23696395,
+          "coverage_max_length_median": 23.57789390303052,
+          "runtime_avg": 0.001171898841858,
+          "method": "TSCP_R",
+          "runtime_ms": 1.1718988418579
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 10,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.892625,
+          "test_coverage_1std": 0.067749061578944,
+          "coverage_vol_avg": 158669693829330.2,
+          "coverage_vol_1std": 287652220080818.94,
+          "coverage_max_length_median": 56.27716705236728,
+          "runtime_avg": 0.002164204915365,
+          "method": "TSCP_R",
+          "runtime_ms": 2.1642049153645
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 20,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.914,
+          "test_coverage_1std": 0.060402430942745,
+          "coverage_vol_avg": 1.33961564449609e+36,
+          "coverage_vol_1std": 5.81080176173262e+36,
+          "coverage_max_length_median": 138.64627850718057,
+          "runtime_avg": 0.00472412109375,
+          "method": "TSCP_R",
+          "runtime_ms": 4.72412109375
+        },
+        {
+          "alpha": 0.1,
+          "n_dim": 30,
+          "n_cals": 30,
+          "n_trials": 30,
+          "noise_type": "Laplace",
+          "test_coverage_avg": 0.889145833333333,
+          "test_coverage_1std": 0.071227212654697,
+          "coverage_vol_avg": 2.35452769789703e+59,
+          "coverage_vol_1std": 9.31470364265448e+59,
+          "coverage_max_length_median": 233.02437722281155,
+          "runtime_avg": 0.007845401763916,
+          "method": "TSCP_R",
+          "runtime_ms": 7.845401763916
+        }
+      ],
+      "coverage_ylim": [
+        0.6,
+        1.0
+      ],
+      "error_bars": false,
+      "method_styles": {
+        "Empirical_copula": {
+          "label": "Emp. Copula",
+          "color": "#8C8C8C",
+          "marker": "P"
+        },
+        "Point_CHR": {
+          "label": "Point CHR",
+          "color": "#4E79A7",
+          "marker": "o"
+        },
+        "TSCP_LWC": {
+          "label": "TSCP-LWC",
+          "color": "#3E9A9A",
+          "marker": "X"
+        },
+        "TSCP_R": {
+          "label": "TSCP (Ours)",
+          "color": "#E15759",
+          "marker": "D"
+        }
+      }
+    }
+  ],
+  "shared_style": "reviewer_update/build_experiment_update.py",
+  "restyled_real_figures": [
+    "fig_body_real_coordinate_bars",
+    "fig_body_real_search_diagnostics",
+    "fig_app_real_marginal_coverage",
+    "fig_app_real_search_alpha"
+  ]
+}

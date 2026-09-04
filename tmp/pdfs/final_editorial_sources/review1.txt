@@ -1,0 +1,52 @@
+PAGE 1
+This paper studies the problem of how to build simultaneous prediction intervals for multivariate 
+regression outputs that are both valid and easy to interpret. The main contribution is a conformal 
+method that standardizes residuals coordinate-wise and then uses a transductive calibration 
+strategy to avoid the extra sample split that related approaches often require. The resulting 
+method produces rectangular prediction sets with finite-sample marginal coverage guarantees and is 
+designed to be more efficient than Bonferroni-style corrections or unscaled max-based approaches 
+when different output dimensions have very different noise levels. Overall, I found the paper 
+interesting, technically solid, and relevant to the JMLR audience.
+There is already a lot of work on multivariate conformal prediction, but much of it either 
+produces complex non-rectangular sets or requires stronger modeling assumptions and additional 
+training/calibration data. In contrast, this work makes a case for rectangular sets as the right 
+target in many applications, and the proposed method seems well aligned with that goal. I also 
+thought the progression from the oracle construction to the global worst-case and then local 
+worst-case approximation was thoughtful and gave the method a clear conceptual arc.
+That said, I do have a few concerns:
+- The paper is fairly dense, and the methodological core is harder to parse than it needs to be. 
+The high-level intuition is good, but once the paper gets into the transductive oracle, link 
+functions, worst-case constructions, and the indexing used in the local partition argument, the 
+presentation becomes difficult to follow. I think the paper would benefit from more intuition in 
+Section 3, especially around why the local worst-case construction is the “right” relaxation and 
+how the rectangular enclosure affects efficiency in practice.
+-  More discussion of the assumptions and how they relate to the experiments are needed. The 
+theory assumes nonnegative residuals with finite first and second moments, but the appendix also 
+emphasizes robustness under heavy-tailed settings where the population variance is infinite. That 
+may be empirically true, but it creates some tension with the formal assumptions, and the paper 
+should be more explicit about what exactly is proved versus what is only observed experimentally. 
+Along similar lines, the treatment of negative residuals is deferred to workarounds and future 
+work, which is understandable, but it does narrow the immediate scope of the method
+- While the complexity discussion is appreciated, I am not fully convinced by the computational 
+story yet. The worst-case complexity is still quadratic in the calibration size up to dimension 
+factors, and it would help to see more direct runtime comparisons in the main paper, not only 
+prediction-set volume comparisons. Since one of the selling points is tractability, clearer wall-
+clock evidence would strengthen the paper.
+- The paper’s robustness to outliers seems mixed. The authors acknowledge this in the discussion 
+and point to rf2 as an example where influential observations can substantially enlarge the sets. 
+That honesty is appreciated, but it also suggests that the current standardization scheme may be 
+brittle in some realistic settings. I would have liked either a stronger empirical stress test on 
+contamination/outliers or a small robust variant, even if only heuristic.
+Overall, I think this is a strong paper. The problem is important, the proposed solution is novel 
+and nontrivial, and the theory and experiments line up reasonably well with the paper’s claims. My 
+main reservation is presentation clarity and some mismatch between assumptions, empirical claims, 
+and robustness discussion. 
+A few questions:
+- Can the authors clarify more explicitly the gap between the formal assumptions used in the 
+validity results and the heavy-tailed experiments where variance may be infinite?
+- How often does the algorithm fall into the less favorable backward-search regime in practice, 
+and what are the actual runtime implications on the datasets considered?
+- Do the authors expect the gains of TSCP to persist when using quantile-regression residuals 
+rather than absolute mean-regression residuals?
+9/2/26, 9:16 PM jmlr.csail.mit.edu/manudb/center/getfile2/64667/review/JMLR-25-3153-1-review1.txt
+https://jmlr.csail.mit.edu/manudb/center/getfile2/64667/review/JMLR-25-3153-1-review1.txt 1/1

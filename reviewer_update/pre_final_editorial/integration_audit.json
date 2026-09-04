@@ -1,0 +1,53 @@
+{
+  "nonexperimental_prose_preserved_from_latest_author_snapshot": true,
+  "latest_author_snapshot": "reviewer_update\\pre_figure_unification\\body.tex",
+  "latest_author_snapshot_sha256": "09562b29a6b4dd758dab6f4c1122acf4005175517804ab5f6a6adf36d8ad9666",
+  "author_nonexperimental_revisions_since_integration": true,
+  "figure_1_label_restored": true,
+  "discussion_and_supplement_algorithms_proofs_unchanged": true,
+  "protected_main_abstract_style_unchanged": true,
+  "original_labels_preserved": 95,
+  "total_unique_labels": 134,
+  "original_graphic_inclusions_preserved": 10,
+  "experimental_figures_restyled_and_renamed": {
+    "figures/baselines/gaussian_10d.pdf": "figures/fig_body_abs_independent_gaussian.pdf",
+    "figures/baselines/unit_gaussian_10d.pdf": "figures/fig_body_abs_homogeneous_gaussian.pdf",
+    "figures/ours/ours_approximation_2d.pdf": "figures/fig_app_oracle_approximation.pdf",
+    "figures/ours/ours_containment_2d.pdf": "figures/fig_app_local_enclosure_2d.pdf",
+    "figures/ours/ours_containment_10d.pdf": "figures/fig_app_local_enclosure_10d.pdf",
+    "figures/t/t_n30_10d.pdf": "figures/fig_app_heavy_tail_n30.pdf",
+    "figures/t/t_n500_10d.pdf": "figures/fig_app_heavy_tail_n500.pdf",
+    "figures/ours/ours_runtime.pdf": "figures/fig_app_dimension_scaling.pdf"
+  },
+  "new_figures_copied_unchanged": 27,
+  "original_figure_files_unchanged": 22,
+  "authorized_schematic_updates": [
+    "figures/joint_prediction.pdf",
+    "figures/joint_prediction_draw.tex",
+    "figures/partition.pdf",
+    "figures/partition_draw.tex"
+  ],
+  "schematic_sources_unchanged_except_annotation_blocks": true,
+  "pre_edit_schematics_preserved": true,
+  "original_table_labels_preserved": [
+    "tab:gamma",
+    "tab:gaussian-heter",
+    "tab:gaussian-homo",
+    "tab:laplace",
+    "tab:mixed",
+    "tab:real",
+    "tab:toy"
+  ],
+  "missing_tex_inputs": [],
+  "missing_graphics": [],
+  "unresolved_internal_references": [],
+  "unresolved_citations": [],
+  "response_blocks": 22,
+  "reviewer_point_statuses": {
+    "Partially addressed": 6,
+    "Addressed": 13,
+    "Open": 1
+  },
+  "unresolved_response_manuscript_references": [],
+  "scope": "Static integration audit; compilation and visual QA are checked separately."
+}

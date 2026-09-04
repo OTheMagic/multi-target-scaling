@@ -1,0 +1,18 @@
+{
+  "splits_verified": 1200,
+  "coordinate_method_rows": 40800,
+  "original_rectangle_equality": "bitwise equality on all 1200 calibration sets",
+  "split_indices": "exact match to original two-stage hash-seeded splitting code",
+  "zero_scale_coordinates": 0,
+  "target_within_one_sd": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "fit_warning_count": 0,
+  "distinct_fit_warnings": [],
+  "instrumentation_tests": 63
+}

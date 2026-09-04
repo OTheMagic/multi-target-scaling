@@ -1,0 +1,131 @@
+\documentclass[11pt]{article}
+
+\usepackage{blindtext}
+
+
+% Any additional packages needed should be included after jmlr2e.
+% Note that jmlr2e.sty includes epsfig, amssymb, natbib and graphicx,
+% and defines many common macros, such as 'proof' and 'example'.
+%
+% It also sets the bibliographystyle to plainnat; for more information on
+% natbib citation styles, see the natbib documentation, a copy of which
+% is archived at http://www.jmlr.org/format/natbib.pdf
+
+% Available options for package jmlr2e are:
+%
+%   - abbrvbib : use abbrvnat for the bibliography style
+%   - nohyperref : do not load the hyperref package
+%   - preprint : remove JMLR specific information from the template,
+%         useful for example for posting to preprint servers.
+%
+% Example of using the package with custom options:
+%
+\usepackage[abbrvbib, preprint]{jmlr2e}
+%\usepackage{jmlr2e}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage[english]{babel}
+
+\usepackage{algorithm, algpseudocode}
+
+\usepackage{amsmath, 
+            amssymb, 
+            mathtools, 
+            enumitem, 
+            float, 
+            subcaption, 
+            multirow, 
+            booktabs, 
+            tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,patterns,calc,positioning}
+
+\usepackage{placeins}
+
+% Definitions of handy macros can go here
+
+\newcommand{\dataset}{{\cal D}}
+\newcommand{\fracpartial}[2]{\frac{\partial #1}{\partial  #2}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\tE}{\tilde{E}}
+\newcommand{\Prob}{\mathbb{P}}
+
+\newtheorem{assumption}{Assumption}
+
+% Heading arguments are {volume}{year}{pages}{date submitted}{date published}{paper id}{author-full-names}
+
+\usepackage{lastpage}
+\jmlrheading{23}{2025}{1-\pageref{LastPage}}{12/25; Revised 12/25}{12/25}{21-0000}{Yunjie Fan and Matteo Sesia}
+
+% Short headings should be running head and authors last names
+
+\ShortHeadings{Interpretable Multivariate Conformal Prediction}{Fan and Sesia}
+\firstpageno{1}
+
+\begin{document}
+
+\title{Interpretable Multivariate Conformal Prediction with Fast Transductive Standardization}
+
+\author{\name Yunjie Fan \email brianfan@usc.edu \\
+       \addr Department of Mathematics\\
+       University of Southern California\\
+       Los Angeles, CA, USA
+       \AND
+       \name Matteo Sesia \email sesia@marshall.usc.edu \\
+       \addr Department of Data Sciences and Operations\\
+       {Thomas Lord Department of Computer Science\\
+       University of Southern California\\
+       Los Angeles, CA, USA}
+}
+\editor{My editor}
+
+\maketitle
+
+\begin{abstract}%   <- trailing '%' for backward compatibility of .sty file
+\input{abstract.tex}
+\end{abstract}
+
+\begin{keywords}
+interpretability, multivariate analysis, statistical inference, supervised learning, uncertainty quantification.
+\end{keywords}
+
+\input{body}
+
+\bibliography{biblio} 
+
+\newpage
+
+\appendix
+\include{supplementary}
+
+\end{document}
+
+
+
+
+
+
+
+% \section{Discussion}
+
+% While our method offers strong finite-sample guarantees and good empirical performance, it has limitations. First, when calibration data are abundant, simpler alternatives such as data-splitting methods may be preferable due to their simplicity and lower computational cost. Second, in settings where the residuals across targets exhibit similar variability, scaling may offer little benefit relative to the \emph{Unscaled Max} approach.
+% Another limitation is that our method is restricted to rectangular prediction sets. While such regions are generally easy to explain, they may be suboptimal in applications where there is reason for capturing uncertainty structures that are not axis-aligned.
+
+% This work opens several directions for future research. Our framework could accommodate alternative conformity scores and models, including those based on quantile estimation \cite{romano2019conformalized, feldman2023quantile} or conditional distributions~\cite{izbicki2019flexible,chernozhukov2021distributional,sesia2021conformal}. This would allow better adaptation to heteroscedastic or non-symmetric errors.
+% Finally, while this paper focuses on standard deviation scaling for concreteness, our approach could be extended to support alternative strategies—such as median-based or other robust scale estimators—that may offer improved performance in the presence of skewed or heavy-tailed errors.
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

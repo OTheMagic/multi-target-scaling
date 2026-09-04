@@ -1,0 +1,33 @@
+\centering
+\captionsetup[subtable]{justification=centering}
+\small
+\begin{subtable}{\linewidth}
+\centering
+\begin{tabular}[t]{l c c c c}
+\toprule
+\textbf{Test 1/Methods} 
+& Outcome 1 & Outcome 2 & Volume & Ground Truth \\
+\midrule
+Unscaled Max & [31.70, 38.94] & \textbf{[34.74, 41.98]} & 13.09 & \multirow{4}{*}{(35.40, 39.22)} \\
+Emp. copula & \textbf{[34.36, 36.28]} & \textbf{[34.74, 41.98]} & {3.47} &\\
+Point CHR & [34.29, 36.36] & [31.45, 45.27] & 7.14 &\\
+TSCP & [34.28, 36.36] & [33.63, 43.08] & 4.93 &\\
+\midrule
+\end{tabular}
+\end{subtable}
+
+\small
+\begin{subtable}{\linewidth}
+\centering
+\begin{tabular}[t]{l c c c c}
+\midrule
+\textbf{Test 2/Methods} 
+& Outcome 1 & Outcome 2 & Volume & Ground Truth \\
+\midrule
+Unscaled Max & [25.44, 32.67] & \color{red}[29.34, 36.58] & 13.09 & \multirow{4}{*}{(29.88, 28.31)} \\
+Emp. copula & \textbf{[28.10, 30.02]} & \color{red}[29.34, 36.58] & 3.47 & \\
+Point CHR & [28.02, 30.09] & [26.05, 39.87] & 7.14 & \\
+TSCP & [28.01, 30.10] & \textbf{[28.24, 37.69]} & {4.93} & \\
+\bottomrule
+\end{tabular}
+\end{subtable}

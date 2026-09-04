@@ -1,0 +1,164 @@
+{
+  "baseline": "reviewer_update\\pre_final_editorial",
+  "scope": "Full language/notation copyedit; substantive scientific questions remain tagged.",
+  "author_labels_preserved": 127,
+  "current_labels": 129,
+  "experimental_pdf_inclusions_preserved": 25,
+  "all_graphic_inclusions_preserved": 27,
+  "all_figure_pdfs_and_csvs_unchanged": true,
+  "assets_checked": 122,
+  "numerical_tables_unchanged": true,
+  "only_table_text_change": "Emp. copula -> Emp. Copula in the energy illustration",
+  "missing_references": [],
+  "missing_citations": [],
+  "reviewer_point_statuses": {
+    "Partially addressed": 5,
+    "Addressed": 14,
+    "Open": 1
+  },
+  "added_studies": 12,
+  "added_figure_assets": 17,
+  "author_check_tags": [
+    {
+      "tag": "METADATA",
+      "file": "main.tex",
+      "line": 67,
+      "note": "Confirm publication year, dates, paper ID, and editor before submission."
+    },
+    {
+      "tag": "COLOR",
+      "file": "main.tex",
+      "line": 76,
+      "note": "Review all revision highlighting against v1; a complete original TeX source is unavailable."
+    },
+    {
+      "tag": "LIT",
+      "file": "body.tex",
+      "line": 41,
+      "note": "Distinguish Point CHR from CQHR and discuss rectangular shape templates."
+    },
+    {
+      "tag": "DOMAIN",
+      "file": "body.tex",
+      "line": 77,
+      "note": "Restore an explicit n >= 2 requirement for the variance and strict-bound arguments."
+    },
+    {
+      "tag": "TIES",
+      "file": "body.tex",
+      "line": 158,
+      "note": "Reconcile coordinate tie-breaking and zero scales with the saved implementation."
+    },
+    {
+      "tag": "MAP",
+      "file": "body.tex",
+      "line": 208,
+      "note": "The max scalarization is not injective; use a sublevel-set threshold map, not a literal inverse."
+    },
+    {
+      "tag": "BALANCE",
+      "file": "body.tex",
+      "line": 229,
+      "note": "Equal marginal means and variances do not imply equal tail shapes or coverage."
+    },
+    {
+      "tag": "MAP",
+      "file": "body.tex",
+      "line": 249,
+      "note": "The threshold characterization also requires theta_j > 0 in every coordinate."
+    },
+    {
+      "tag": "DOMAIN",
+      "file": "body.tex",
+      "line": 419,
+      "note": "Define z_j^* explicitly at t_j = observed mean to avoid division by zero."
+    },
+    {
+      "tag": "BALANCE",
+      "file": "body.tex",
+      "line": 488,
+      "note": "Give conditions for the asymptotic enclosure claim or qualify it as empirical."
+    },
+    {
+      "tag": "BOUNDARY",
+      "file": "body.tex",
+      "line": 508,
+      "note": "Half-open cells omit the closed global upper boundary; check the partition claim."
+    },
+    {
+      "tag": "BOUNDARY",
+      "file": "body.tex",
+      "line": 640,
+      "note": "Two weak inequalities do not give a unique mean index at an order statistic."
+    },
+    {
+      "tag": "ENDPOINT",
+      "file": "body.tex",
+      "line": 654,
+      "note": "The displayed >= includes the maximizer itself; verify a strict endpoint and tie convention."
+    },
+    {
+      "tag": "EVENT",
+      "file": "body.tex",
+      "line": 683,
+      "note": "State the common oracle-acceptance event for both branches; marginal bounds alone do not justify selection."
+    },
+    {
+      "tag": "DS",
+      "file": "supplementary.tex",
+      "line": 84,
+      "note": "Scores are defined only on I_2, but this quantile still indexes all n observations."
+    },
+    {
+      "tag": "ALGEBRA",
+      "file": "supplementary.tex",
+      "line": 323,
+      "note": "Expanding A(x-mu)^2 gives B = -2 A mu; verify the displayed sign."
+    },
+    {
+      "tag": "ZERO",
+      "file": "supplementary.tex",
+      "line": 352,
+      "note": "Pairwise distinctness under exchangeability does not imply P(E_j^{n+1}=0)=0."
+    },
+    {
+      "tag": "DATA",
+      "file": "experiments_body.tex",
+      "line": 76,
+      "note": "Archived CSV provenance remains unverified against the independent-redraw design."
+    },
+    {
+      "tag": "TIES",
+      "file": "experiments_body.tex",
+      "line": 216,
+      "note": "Capping enforces nonnegativity but does not establish the standing distinctness assumption."
+    },
+    {
+      "tag": "REPRO",
+      "file": "experiments_body.tex",
+      "line": 349,
+      "note": "Verify the environment and package versions for these historical timing records."
+    },
+    {
+      "tag": "SHIFT",
+      "file": "experiments_appendix.tex",
+      "line": 261,
+      "note": "Verify the proposed mechanism and supply a rule ensuring nonnegativity on future inputs."
+    }
+  ],
+  "documents": {
+    "main": {
+      "pages": 64,
+      "sha256": "369b64e5c268f70332b23e9cbeb54547939df816a4d495de383ca82d41ad2e16"
+    },
+    "response_to_reviewers": {
+      "pages": 13,
+      "sha256": "fe93681fad2d94ac4c90c199f2021b3c1ef69fcb0fe907c56a5323c0f5999ba4"
+    },
+    "revision_cover": {
+      "pages": 2,
+      "sha256": "8b89d236a28a1e455873d7efcdf0eb51a346517c40456921a01a8370e120da95"
+    }
+  },
+  "scientific_submission_readiness": "Not certified; author decisions remain open."
+}

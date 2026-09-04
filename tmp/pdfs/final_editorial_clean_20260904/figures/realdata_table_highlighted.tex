@@ -1,0 +1,59 @@
+\centering
+\captionsetup[subtable]{justification=centering}
+\small
+\begin{subtable}{\textwidth}
+\centering
+\begin{tabular}[t]{l c c c c }
+\toprule
+\textbf{Method} & \multicolumn{2}{c}{Stock $(d=6,\, n=15)$} & \multicolumn{2}{c}{rf2 $(d=8,\, n=384)$} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+& Coverage & Volume & Coverage & Volume \\
+\midrule
+Unscaled Max & 0.940(0.057) & 6.03e-02(1.57e-01) & 0.900(0.016) & 4.14e+03(2.90e+03) \\
+Emp. copula & \color{red}0.727(0.113) & 1.01e-05(9.80e-06) & \color{red}{0.893(0.016)} & 5.35e+01(4.69e+01) \\
+Point CHR & 1.000(0.000) & \text{inf} & 0.901(0.022) & \textbf{{6.85e+01(7.55e+01)}} \\
+TSCP & 0.956(0.059) & \textbf{{1.86e-03(8.55e-03)}} & 0.901(0.017) & 5.42e+02(1.50e+03) \\
+\midrule
+
+\end{tabular}
+%\subcaption{First panel: Stock, rf2.}
+\end{subtable}
+
+\small
+\begin{subtable}{\textwidth}
+\centering
+\begin{tabular}[t]{l c c c c }
+\midrule
+\textbf{Method} & \multicolumn{2}{c}{scm1d $(d=16,\, n=490)$} & \multicolumn{2}{c}{scm20d $(d=16,\, n=448)$} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+& Coverage & Volume & Coverage & Volume \\
+\midrule
+Unscaled Max & 0.900(0.016) & 2.74e+39(4.02e+39) & 0.901(0.016) & 2.70e+40(2.92e+40) \\
+Emp. copula & \color{red}{0.893(0.016)} & 1.09e+39(1.34e+39) & \color{red}{0.892(0.017)} & 1.178e+40(1.190e+40) \\
+Point CHR & 0.905(0.020) & 2.84e+39(5.43e+39) & 0.902(0.023) & 3.00e+40(8.00e+40) \\
+TSCP & 0.901(0.015) & \textbf{{1.52e+39(2.61e+39)}} & 0.901(0.016) & \textbf{{1.53e+40(1.50e+40)}} \\
+\midrule
+
+\end{tabular}
+%\subcaption{Second panel: scm1d, scm20d.}
+\end{subtable}
+
+\small
+\begin{subtable}{\textwidth}
+\centering
+\begin{tabular}[t]{l c c c c }
+\midrule
+
+\textbf{Method} & \multicolumn{2}{c}{Energy $(d=2,\, n=38)$} & \multicolumn{2}{c}{Student $(d=3,\, n=32)$} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+& Coverage & Volume & Coverage & Volume \\
+\midrule
+Unscaled Max & 0.917(0.049) & 1.58e+01(6.80e+00) & 0.904(0.055) & \textbf{{1.51e+02(1.27e+02)}} \\
+Emp. copula & \color{red}0.886(0.061) & 5.41e+00(4.49e+00) & \color{red}0.861(0.073) & 1.08e+02(7.19e+01) \\
+Point CHR & 0.899(0.069) & 8.81e+00(2.42e+01) & 0.939(0.057) & 6.89e+02(1.07e+03) \\
+TSCP & 0.922(0.048) & \textbf{{6.95e+00(4.43e+00)}} & 0.912(0.056) & 1.98e+02(1.77e+02) \\
+
+\bottomrule
+\end{tabular}
+%\subcaption{Third panel: Energy, Student.}
+\end{subtable}

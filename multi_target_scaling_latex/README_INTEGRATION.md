@@ -1,21 +1,18 @@
 # Integrated Manuscript
 
-## Main Files
+## Current Deliverables
 
-- `main.tex`: normal manuscript entry point; its content is unchanged.
-- `body.tex`: the numerical section inputs `experiments_body.tex`; the author's subsequent non-experimental edits are preserved.
-- `supplementary.tex`: algorithms and proofs are unchanged; the numerical section inputs `experiments_appendix.tex`.
-- `experiments_body.tex`: self-contained main experiments organized around coordinate adaptation, dependence, partial heteroskedasticity, CQR, real-data performance, and computation; includes the two-point energy illustration.
-- `experiments_appendix.tex`: one unified Appendix C containing all distribution benchmarks, sensitivity and stress studies, oracle/approximation comparisons, computational scaling, real-data coverage, and Monte Carlo uncertainty. Earlier experiments are integrated by topic, not isolated in a legacy appendix.
-- `figures`: 27 active experimental PDFs with consistent `fig_body_*` and `fig_app_*` names. Eight archived plots are redrawn in the newer style, and the four real-data diagnostic plots now share its style helpers. Original PDFs remain available in their subdirectories but are not referenced by the experiment sections. The two methodological schematics retain the R2.m1/R2.m3 annotations.
-- `experiment_data`: supporting CSV records for the new experiments; `real_diagnostics` contains the follow-up trial data, summaries, generated tables, dataset metadata, manifest, and validation report.
-- `response_to_reviewers.tex`: point-by-point response with actual manuscript references and explicit completion statuses.
-- `unresolved_reviewer_concerns.md`: author action queue, including non-experimental issues not changed here.
-- `revision_cover.tex`: section-by-section change summary relative to arXiv v1, with author-check labels.
-- `integration_audit.json`: machine-checked preservation and dependency inventory.
-- `publication_edit_audit.json`: preservation of experimental content during the latest author's ordering and figure-style pass, allowing the documented figure renaming and restyling.
-- `figure_style_audit.json`: source CSV hashes, plotted values, method styling, and old-to-new figure filename mapping.
-- `sampling_provenance.md`: unresolved reconciliation of archived CSV generation with the author's stated sampling design. This is author-facing, not part of the paper.
+- `main.tex` and `main.pdf`: manuscript, including the full supplement.
+- `body.tex` and `supplementary.tex`: theory and algorithm sources, now copyedited for language and vector/scalar notation.
+- `experiments_body.tex` and `experiments_appendix.tex`: the author's final experiment selection and order, copyedited without changing numerical results.
+- `response_to_reviewers.tex` and `.pdf`: 22 response blocks, including two editor requests, with current manuscript references and explicit completion statuses.
+- `revision_cover.tex` and `.pdf`: section-by-section comparison with arXiv:2512.15383v1. It first states the total of 12 added studies, then explains each study's purpose and finding.
+- `unresolved_reviewer_concerns.md`: the author decision queue, organized under 16 stable `AUTHOR-CHECK` tags.
+- `PUBLICATION_READINESS.md`: editorial assessment and remaining submission decisions.
+- `experiment_inventory.json`: the counting rules, data sources, and figure assignments for the added studies.
+- `final_editorial_audit.json`: current preservation, reference, asset, and document checks.
+
+The `figures` folder supplies all 25 active experimental PDFs and two methodological schematics. The experimental assets comprise 17 added PDFs and eight restyled original PDFs. The original assets and unused saved results remain available; compilation does not require them to be removed. `experiment_data` supplies the saved summaries and diagnostic records. All compilation inputs are local to this manuscript folder.
 
 ## Build
 
@@ -25,43 +22,48 @@ With TeX Live or MiKTeX and PowerShell:
 .\build.ps1 -Engine pdflatex
 ```
 
-Or run `pdflatex main`, `bibtex main`, and `pdflatex main` twice, followed by two LaTeX passes each for `response_to_reviewers.tex` and `revision_cover.tex`.
-
-The response imports labels from `main.aux` and `supplementary.aux`, so compile the manuscript first. The response and cover are standalone documents, not pages inserted into the manuscript.
-
 With a portable Tectonic executable:
 
 ```powershell
 .\build.ps1 -Engine tectonic -TectonicPath 'C:\path\to\tectonic.exe'
 ```
 
-`compile_main.tex` supplies engine-compatibility punctuation mappings and unique appendix hyperlink destinations without editing the manuscript sections. The script copies its compiled outputs to the conventional `main.*` names before building the response and cover. Tectonic may need network access to fetch standard TeX packages on its first run; it does not upload the manuscript. A compiler binary is not bundled in this manuscript folder.
+The script builds the manuscript before the response and cover because both import manuscript labels. The response and cover are standalone documents, not pages inserted into `main.pdf`. The manuscript uses `jmlr2e.sty`, standard LaTeX packages, and `biblio.bib`; a TeX compiler is not bundled.
 
-The entry point uses the supplied `jmlr2e.sty`, standard LaTeX packages, and `biblio.bib`. The only bibliography addition is the reference needed for the new shape-template experiment. No compile-time figure or source input points outside this folder.
+For Tectonic, `compile_main.tex` supplies compatibility mappings and unique appendix hyperlink destinations. The build script copies its outputs to `main.*` before building the letters. A first Tectonic run may need to download standard TeX packages; it does not upload the manuscript.
 
-## Interpretation and Preservation
+## Final Copyedit and Preservation
 
-No experiment was deleted. Both real-data table presentations are retained: the compact dataset-level table is in the unified appendix and the expanded table is in the main text. The original energy example remains in the body. Unused original figure assets and commented-out table source remain available. The contents of `experiments_legacy.tex` have been incorporated into the two experiment files; the pre-edit file is preserved in `../reviewer_update/pre_publication_experiments` and is no longer a compilation dependency. Revision-history explanations belong to the cover and response, not to the scientific narrative.
+The full author-edited source folder was preserved before this pass at `../reviewer_update/pre_final_editorial`. This is the baseline for the current audit. The copyedit covers the abstract, introduction, setup, methodology, discussion, algorithms, proofs, both experiment files, and active table captions. Numerical tables, CSVs, and all figure PDFs are unchanged. The only table-source wording change is capitalization of `Emp. Copula` in the energy illustration.
 
-The manuscript presents one synthetic sampling design: independent generation in each repetition, with sample sizes specified by experiment. The earlier two-protocol presentation is removed. The archived CSV provenance has not yet been reconciled with that declaration; the current notebook places its training/test generator outside the repetition loop. See `sampling_provenance.md` before submission. The uncertainty analysis retains its explicit scope of 58 settings and does not silently expand to all archived results. Heavy-tail and capped-score results are not claimed to extend the standing assumptions.
+The author's current omissions and appendix placement are preserved. In particular, the earlier standalone small-calibration stress study, additional heavy-tail stress study, uncertainty section, compact duplicate real-data table, and diagnostic joint-coverage table were not restored. Their saved assets were not deleted, and the response and cover no longer claim that these items appear in the current draft. All 127 existing author labels are retained; two section labels were added for precise references.
 
-The follow-up real-data cohort uses 200 reruns on each of the six fixed datasets, with the original 75%/5%/20% split proportions, hash seeds, and statistical model settings. It adds 40,800 split--method--coordinate records and a 6,000-configuration computational stress sweep. It is a new rerun, not a reconstruction of the original fitted models or timing environment. Its uncertainty statements concern random splits conditional on a fixed dataset. Reproduction instructions are in `../reviewer_update/real_diagnostics/README.md`; the cached data and residuals remain outside this compilation folder.
+The manuscript presents one synthetic sampling design. The provenance of the archived Gaussian/heavy-tail/oracle CSVs still needs reconciliation with that declaration: the saved notebook generates its training/test pool outside the repetition loop. This is an open author decision, not a newly endorsed second protocol. See `sampling_provenance.md` and `AUTHOR-CHECK DATA`.
 
-The response now records 13 addressed, six partially addressed, and one open reviewer point. The follow-up experiments resolve the missing backward-search, fallback-frequency, and aggregate real-data coordinate evidence. The Figure 1/Figure 2 annotations resolve R2.m1 and R2.m3. The latest author edits also correct the local conditional-coverage inference, remove the unqualified shift-invariance wording, and clarify that the intended tightness claim concerns coverage balance. The response and audit acknowledge these changes while retaining the outstanding balance, tie-handling, and piecewise-proof questions.
+The real-data diagnostic cohort uses 200 reruns on each of six fixed datasets and preserves the original 75%/5%/20% split proportions. These are new split/model reruns, not a reconstruction of the older fitted models or runtime environment. Its uncertainty descriptions concern random splits conditional on each fixed dataset. Reproduction details are in `../reviewer_update/real_diagnostics/README.md`; cached datasets and residuals are not compilation dependencies.
 
-Figure 1 now labels the right-panel marginal coverages as 92% for Y1 and 93% for Y2, with an explicit note that all coverage percentages are illustrative. Figure 2 labels the solid enclosure's residual thresholds, mathcal L_1 and mathcal L_2, at the existing axis endpoints. New annotations are blue. The original drawing geometry and all surrounding manuscript prose are retained; pre-edit PDFs and sources are preserved in `../reviewer_update/pre_schematic_labels`.
+The 12-study count consists of ten simulation study questions and two real-data diagnostic study questions. It is not a count of independent datasets or independently generated cohorts: the dependence overview and dependence sweep share an experiment family, and the two real-data diagnostics share their rerun cohort. Coordinate panels are not counted separately. The runtime plot of existing real-data records is an additional visualization, not an added experiment.
 
-The initial source snapshot is outside this folder at `../reviewer_update/pre_integration_latex`; subsequent snapshots are `pre_publication_experiments` and `pre_figure_unification`. The latest snapshot preserves the author's partially reordered experiment sections. The validators are `../reviewer_update/check_latex_integration.py`, `../reviewer_update/check_publication_experiments.py`, and `../reviewer_update/test_figure_unification.py`; none is needed to compile the paper.
+## Reviewer and Author Decisions
 
-`../reviewer_update/unify_experiment_figures.py` reproduces the eight renamed plots and four real-data diagnostic figures from saved summaries without running simulations. It shares the palette, marker mapping, font settings, and panel formatting in `build_experiment_update.py`. All joint-coverage plots use the range [0.6, 1.0]; values below the display range are explicitly marked. Error bars are omitted. Volumes keep their existing residual-space/outcome-space definitions, and construction times use milliseconds. No numerical source CSV or table was modified.
+The response records **14 addressed, five partially addressed, and one open reviewer point**. These statuses describe the requested evidence, not blanket validation of the theory. The editor's completeness and revision-color requests remain conditional on the author decisions.
 
-This folder is buildable, but the scientific revision is not submission-ready until the open/partial reviewer concerns and author-check labels are resolved. The provided response explicitly distinguishes these states.
+Stable `% AUTHOR-CHECK TAG:` comments identify substantive questions in the LaTeX sources without printing them in the scientific narrative. The response and cover display the relevant author notes. `unresolved_reviewer_concerns.md` explains each issue and possible resolution; the audit lists its current source line. Scientific concerns were not silently treated as grammar corrections.
 
-## Verification on September 4, 2026
+The language and presentation have been polished, but the folder should not be treated as unconditionally submission-ready while those checks remain. In particular, verify the scalarization terminology, piecewise coverage argument, search endpoint, zero-residual argument, related-work scope, and historical sampling provenance. The existing blue/brown revision colors and journal template metadata also need an author decision.
 
-- Normal and fresh source-only Tectonic 0.17.0 builds both pass, producing the 70-page manuscript, 12-page response, and one-page cover with no unresolved references or citations. The pdfLaTeX path is provided but was not tested because pdfLaTeX is not installed on this machine.
-- Both preservation audits and all five figure-style tests pass. The source audit resolves 134 manuscript labels and all citations, including the references in all 22 response blocks. The missing Figure 1 label was restored under the author's prior approval; no other body-source edits were made during this pass.
-- All document pages were rendered for layout review. The reorganized experiment sections, distribution tables, appendix transitions, updated response blocks, and one-page cover were checked visually. The two revised schematic PDFs and their placement in the manuscript were also checked at full-page scale. No experiment-section overflow warnings remain.
-- All 63 search-instrumentation tests passed. Full numerical replay verified the 1,200 real-data split partitions and exact TSCP rectangle equality against the pre-instrumentation implementation, as well as coordinate metrics and branch counts. The six new TSCP joint-coverage means all have 0.9 within one across-split standard deviation; this diagnostic is not a confidence interval for the mean.
-- The manuscript retains two overfull proof displays in the protected supplement (lines 349 and 410). They remain legible. Existing class/package and underfull-box warnings are non-blocking. Tectonic also attempts an unnecessary separate BibTeX pass on `supplementary.aux`; its missing-bibliography warnings do not affect the successful main bibliography build.
-- The local compiler used for verification is `E:\multi-target-scaling\tmp\tectonic-0.17.0\tectonic.exe`. It is outside the manuscript folder and is not required when using an existing TeX installation.
+## Verification
+
+Run the current validator from the project root:
+
+```powershell
+python reviewer_update/check_final_editorial.py
+```
+
+It checks the final copyedit against the author's latest snapshot, validates reference and citation targets, compares all figure/data assets and numerical tables, reconciles the study inventory and reviewer statuses, and checks the three compiled PDFs for unresolved references. It writes `final_editorial_audit.json`, including current page counts and PDF hashes.
+
+`reviewer_update/render_integration_qa.py` renders every page for visual inspection. Rendered pages and contact sheets are intermediates under `../tmp/pdfs/integration_qa`. The final pass also reflows the two previously overflowing proof displays. Remaining underfull-box and existing package warnings are nonblocking. The pdfLaTeX build path is supplied but was not tested because pdfLaTeX is not installed on this machine.
+
+On September 4, 2026, normal and fresh source-only Tectonic 0.17.0 builds passed. The current outputs are a 64-page manuscript, a 13-page response, and a two-page cover. The source audit resolves 129 labels with no missing reference or citation targets, and all document pages were rendered and checked for layout. The compiler is at `E:\multi-target-scaling\tmp\tectonic-0.17.0\tectonic.exe`, outside the manuscript folder.
+
+The earlier `integration_audit.json`, `publication_edit_audit.json`, and their validators document previous stages with different preservation boundaries and experiment selections. They are historical records, not the current audit. Figure restyling and numerical diagnostic tests from earlier stages remain relevant to the unchanged assets; no numerical experiments were rerun in this final copyedit.

@@ -1,0 +1,439 @@
+% Based on the integrated revised manuscript. Compile main.tex first.
+% Red author notes identify work still needed; they are not completed changes.
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,bm,booktabs,enumitem,xcolor,microtype,needspace}
+\usepackage{xr-hyper}
+\usepackage[colorlinks=true,linkcolor=black,urlcolor=blue,bookmarks=false]{hyperref}
+\IfFileExists{main.aux}{\externaldocument[M-]{main}[main.pdf]}{\externaldocument[M-]{../multi_target_scaling_latex/main}[../multi_target_scaling_latex/main.pdf]}
+\definecolor{ReviewerBlue}{RGB}{0,112,157}
+\definecolor{ActionRed}{RGB}{155,30,30}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\emergencystretch}{2em}
+\widowpenalty=10000
+\clubpenalty=10000
+\setlist{itemsep=0.25em,topsep=0.3em}
+\newcommand{\mssec}[1]{Section~\ref*{M-#1}}
+\newcommand{\msapp}[1]{Appendix~\ref*{M-#1}}
+\newcommand{\msfig}[1]{Figure~\ref*{M-#1}}
+\newcommand{\mstab}[1]{Table~\ref*{M-#1}}
+\newcommand{\action}[1]{\par{\small\color{ActionRed}\textbf{Author completion required.} #1\par}}
+\newcommand{\point}[3]{\par\Needspace{7\baselineskip}\medskip
+\noindent\parbox[t]{0.77\linewidth}{\textbf{#1}}\hfill
+\parbox[t]{0.21\linewidth}{\raggedleft\small\sffamily #2}\par\nopagebreak
+{\color{ReviewerBlue}\small\itshape #3\par}\textbf{Response.} }
+\begin{document}
+\begin{center}
+{\Large\bfseries Revision of\par
+Interpretable Multivariate Conformal Prediction\par
+with Fast Transductive Standardization\par}
+\vspace{0.7em}
+Manuscript ID: JMLR-25-3153-1\par
+Yunjie Fan and Matteo Sesia\par
+\vspace{0.5em}
+{\large\bfseries Response to the Editor and Reviewers}
+\end{center}
+We thank the Editor and reviewers for their feedback. Comments appear in
+blue italics, followed by responses with manuscript references and completion
+statuses. Red author notes identify decisions to resolve before submission.
+
+\section*{Summary of Revisions}
+The draft contains \textbf{12 added experimental studies}: ten simulation
+studies and two real-data diagnostic studies. Extra panels are not counted
+separately; the two real-data studies share a 200-split cohort. The new
+real-data runtime plot uses existing records and is not an added experiment.
+
+\begin{itemize}
+\item \textbf{Setup and methodology.} Sections 2--3 clarify joint
+exchangeability, simultaneous versus marginal coverage, the population and
+transductive oracles, and local working hypotheses. Vector/scalar notation
+is standardized throughout the main text and supplement. Figures 1 and 2
+now include the requested marginal-coverage and residual-boundary labels.
+\item \textbf{Main experiments.} The independent Gaussian benchmarks are
+followed by dependent heterogeneous noise, coordinate-length comparisons,
+partial heteroskedasticity, and native CQHR comparisons. The real-data
+section retains the six benchmarks and energy illustration, adds runtime
+evidence, and explains the infinite Point CHR intervals on \texttt{stock}.
+\item \textbf{Appendix experiments.} Dependence, heterogeneity, target-level,
+contamination, CQR base-interval and shift sensitivity, and shape-template
+comparisons supplement the retained distribution, oracle, enclosure, and
+dimension-scaling studies. All real-data coordinate and search diagnostics
+are now in \msapp{app:additional-real-experiments}.
+\item \textbf{Scope and presentation.} Heavy-tail and capped-CQR limitations
+are explicit, and volume comparisons account for coverage. The copyedit
+corrects language, units, notation, and references without changing numerical
+data or figure files.
+\end{itemize}
+
+\textbf{Reviewer audit:} 14 addressed, 5 partially addressed, and 1 open.
+The separate cover gives the section-by-section changes and the purpose of
+each added study. \path{unresolved_reviewer_concerns.md} lists the remaining
+author decisions using stable \texttt{AUTHOR-CHECK} tags.
+\action{\texttt{AUTHOR-CHECK DATA}: Verify the archived CSVs against the
+declared redraw design; see \path{sampling_provenance.md}. No simulations
+were rerun. Other substantive checks are listed at the end of this letter.}
+
+\clearpage
+\section*{Response to the Editor}
+
+\point{E1. Completeness of the revision and response}{Partially addressed}{The manuscript was sent to two expert Reviewers, who each noted several
+positive aspects of the work while also highlighting areas in which it
+could be improved. One Reviewer felt that the empirical assessment was
+incomplete and suggested additional results and baselines which could
+strengthen the work, while the other Reviewer was more positive about the
+methodology and empirical assessment but expressed some difficulty in
+digesting elements of the manuscript, suggesting areas for presentational
+improvement. I would therefore like to invite a resubmission which
+addresses the two Reviewers' feedback in full, together with a
+point-by-point response to the Reviewers' reports.}
+\label{response:E1}
+We thank the Editor for the opportunity to revise. The manuscript now includes the requested coordinate-length plots, CQHR and shape-template comparisons, partial heteroskedasticity, contamination stress tests, and main-text runtime evidence. Every previously included experiment is incorporated into the scientific narrative: supplementary comparisons are organized by topic in \msapp{app:additional-experiments}, while the original two-point energy example remains in the body. Revision-history explanations are confined to this response and the separate cover summary, rather than the experimental account.
+
+This letter distinguishes completed work from remaining actions. Of the twenty reviewer points, fourteen are addressed, five partly addressed, and one open. The previously missing real-data coordinate and search-branch diagnostics have now been measured in 200 new splits of each dataset, and the two requested schematic-label updates are complete. We do not claim that the revision is submission-ready until the non-experimental corrections listed below and in \path{unresolved_reviewer_concerns.md} have been considered.
+
+\point{E2. Highlighting modified manuscript sections}{Partially addressed}{For the convenience of the Reviewers, I kindly request that modified
+sections of the manuscript are indicated using a different colour font.}
+\label{response:E2}
+The experiment sections and schematic annotations are marked in blue, and the author has marked substantive revisions in Sections 2--3. The final language and notation pass also edits other passages. Because the original submission is available as a PDF rather than its full LaTeX source, a complete source-level color comparison cannot be certified. \action{\texttt{AUTHOR-CHECK COLOR}: Review the final marked manuscript to ensure that all intended changes are highlighted consistently before submission.}
+
+\clearpage
+\section*{Response to Reviewer 1}
+\subsection*{Main Concerns}
+
+\point{R1.C1. Intuition for the local construction and rectangular enclosure}{Partially addressed}{The paper is fairly dense, and the methodological core is harder to parse
+than it needs to be. The high-level intuition is good, but once the paper
+gets into the transductive oracle, link functions, worst-case
+constructions, and the indexing used in the local partition argument,
+the presentation becomes difficult to follow. I think the paper would
+benefit from more intuition in Section 3, especially around why the local
+worst-case construction is the ``right'' relaxation and how the
+rectangular enclosure affects efficiency in practice.}
+\label{response:R1.C1}
+We appreciate the request for a clearer conceptual progression. The supplied revision reorganizes the motivating constructions in \mssec{sec:preliminaries} and adopts a common set-valued notation for the population-standardized and transductive procedures. In \mssec{sec:method-oracle}, the link functions invert a scalar score threshold into coordinate-wise bounds; their monotonicity then permits replacing the unknown oracle threshold by an observable conservative bound. \mssec{sec:method-lwc} motivates local working hypotheses and separates partitioning, local bounding, and rectangular enclosure.
+
+The enclosure sacrifices some geometric detail for interpretability and tractability. It is not an unrestricted minimum-volume solution. The original comparison with the unenclosed local union is retained in \msapp{app:ours_simulation}, particularly \msfig{fig:approximation1}; these low-dimensional results are relevant evidence about enclosure tightness. The new coordinate-length plots instead describe informativeness of the final rectangle and do not isolate enclosure loss.
+
+Section 3.4.1 now states the pointwise implication: the local construction contains the outcome when both oracle acceptance and membership in the working region hold. This replaces the unsupported conditional-coverage inference.
+
+\action{\texttt{AUTHOR-CHECK EVENT}: Complete the corresponding common-event argument for both branches of Theorem~\ref*{M-thm:TSCP-coverage}, and review the remaining balance/tightness language. The local implication is now explicit, but the final piecewise proof still needs this justification.}
+
+\point{R1.C2. Assumptions, infinite-variance experiments, and negative residuals}{Partially addressed}{More discussion of the assumptions and how they relate to the experiments
+are needed. The theory assumes nonnegative residuals with finite first
+and second moments, but the appendix also emphasizes robustness under
+heavy-tailed settings where the population variance is infinite. That
+may be empirically true, but it creates some tension with the formal
+assumptions, and the paper should be more explicit about what exactly is
+proved versus what is only observed experimentally. Along similar
+lines, the treatment of negative residuals is deferred to workarounds
+and future work, which is understandable, but it does narrow the
+immediate scope of the method.}
+\label{response:R1.C2}
+We agree that empirical performance and theorem scope must be separated. The updated \mssec{sec:residuals} explicitly states nonnegativity, finite mean, finite positive variance, and almost-sure pairwise distinctness in Assumption~\ref*{M-eq:assumption-scores}. The final coverage theorem, Theorem~\ref*{M-thm:TSCP-coverage}, still invokes that assumption; no extension to arbitrary infinite-variance or tied residuals has been established in this revision.
+
+The integrated heavy-tail experiment in \msapp{app:heavy-tails} identifies $t_{1.5}$ and $t_2$ as outside that assumption, with $t_3$ as the finite-variance comparison. The displayed $n=30$ and $n=500$ comparisons are the original heavy-tail studies, restyled without changing their values. They are not counted as new experiments. Near-nominal empirical coverage does not imply robust efficiency.
+
+Signed residuals are studied through capped CQR in the body and constant shifts in the supplement. The experimental text acknowledges that capping creates ties and does not satisfy pairwise distinctness verbatim.
+
+\action{\texttt{AUTHOR-CHECK TIES}: Section 2.3 proposes coordinate jitter or randomized tie-breaking, but the saved implementation perturbs scalar upper-bound scores, not coordinate residuals. Reconcile the actual implementation, the theorem's distinctness condition, and zero empirical-scale cases, or retain an explicitly empirical scope for the capped study. Qualify broad robustness language consistently.}
+
+\point{R1.C3. Quadratic worst-case complexity and wall-clock evidence}{Addressed}{While the complexity discussion is appreciated, I am not fully convinced
+by the computational story yet. The worst-case complexity is still
+quadratic in the calibration size up to dimension factors, and it would
+help to see more direct runtime comparisons in the main paper, not only
+prediction-set volume comparisons. Since one of the selling points is
+tractability, clearer wall-clock evidence would strengthen the paper.}
+\label{response:R1.C3}
+\msfig{fig:body-abs-overview} now includes construction time as calibration size varies, and \msfig{fig:body-real-runtime} compares wall-clock times across all six retained real datasets. TSCP's mean time ranges from approximately $0.74$ to $7.46$ ms for calibration sizes $15$--$490$ and dimensions $2$--$16$. It is slower than Unscaled Max and Point CHR but faster than the empirical-copula implementation on the two 16-dimensional SCM datasets, where that baseline requires about $95$--$118$ ms.
+
+The timings exclude the shared regression fit and residual computation. The original comparison retains the historical measurements. A separate new diagnostic cohort in \msapp{app:real-data-diagnostics} adds serial, uninstrumented construction timings and directly records the search branches, answering R1.Q2 below. The theoretical range remains $O(d^2n\log n)$ to $O(d^2n^2)$, with thresholds reusable across test inputs. These measurements demonstrate observed cost at the tested sizes, not improved worst-case complexity.
+
+\point{R1.C4. Contamination and robust standardization}{Addressed}{The paper's robustness to outliers seems mixed. The authors acknowledge
+this in the discussion and point to rf2 as an example where influential
+observations can substantially enlarge the sets. That honesty is
+appreciated, but it also suggests that the current standardization
+scheme may be brittle in some realistic settings. I would have liked
+either a stronger empirical stress test on contamination/outliers or a
+small robust variant, even if only heuristic.}
+\label{response:R1.C4}
+We added the stronger stress test in \msapp{app:contamination}, shown in \msfig{fig:app-contamination}. With $d=10$, $n=100$, and 200 repetitions, each observation's Gaussian noise vector is multiplied by $10$ with probability $\varepsilon\in\{0,0.01,0.05,0.10\}$. The same mixture generates training, calibration, and test observations. This tests exchangeable contamination, not adversarial calibration-only corruption or distribution shift.
+
+Coverage changes from approximately $0.904$ without contamination to $0.902$ at $10\%$ contamination, but TSCP's median normalized volume increases from $5.38\times10^{10}$ to $1.10\times10^{17}$. Median volume is explicitly identified as the graphical summary. The study confirms efficiency sensitivity despite stable coverage, and the unfavorable \texttt{rf2} result remains visible.
+
+We do not claim an implemented or proved robust variant. Replacing mean/standard-deviation scaling would require reconsidering link functions and worst-case calculations; it remains future work, consistent with the retained discussion.
+
+\Needspace{11\baselineskip}
+\subsection*{Additional Questions}
+
+\point{R1.Q1. Formal assumptions versus infinite-variance experiments}{Addressed}{Can the authors clarify more explicitly the gap between the formal
+assumptions used in the validity results and the heavy-tailed
+experiments where variance may be infinite?}
+\label{response:R1.Q1}
+The integrated experiments make the distinction explicit. Assumption~\ref*{M-eq:assumption-scores} imposes finite variance and is still invoked by Theorem~\ref*{M-thm:TSCP-coverage}. Thus $t_{1.5}$ and $t_2$ in \msapp{app:heavy-tails} are empirical stress tests outside that theorem, not extensions of it. The original heavy-tail comparisons are retained with that qualification.
+
+Although a generic exchangeability-based rank argument does not itself require population moments, this alone does not remove assumptions from the full TSCP construction. No moment-relaxation theorem is inferred from the simulations.
+
+\point{R1.Q2. Frequency and cost of backward search}{Addressed}{How often does the algorithm fall into the less favorable
+backward-search regime in practice, and what are the actual runtime
+implications on the datasets considered?}
+\label{response:R1.Q2}
+We have now measured the actual branches in 200 new reruns of each of the six datasets. The study uses the original $75\%/5\%/20\%$ allocation, model hyperparameters, and hash-seeded split convention. This is a new diagnostic cohort because the original fitted models were not saved; it is presented in \msapp{app:additional-real-experiments}. All 1,200 returned TSCP rectangles were checked against the pre-instrumentation implementation and match exactly.
+
+At $\alpha=0.1$, backward search occurs in $0/200$ splits for every dataset; all 10,200 coordinate searches use the binary branch. \mstab{tab:real-search-diagnostics} reports the split and coordinate denominators separately. \msfig{fig:real-search-diagnostics} shows approximately $4.00$--$8.49$ inspected candidate cells per coordinate and mean whole-call construction times of $0.466$--$7.239$ ms across datasets. Each split is timed after warm-up using seven uninstrumented calls; its median is used in the average. Fitting, residual computation, and instrumentation are excluded, and timings are collected serially after all model fits finish.
+
+The unobserved backward regime has no estimable conditional runtime at the main target, so its entry is a dash, not zero. Zero events in 200 splits give a pointwise one-sided $95\%$ upper bound of about $1.49\%$ on a dataset's split-event probability; this is not a simultaneous guarantee or an analysis treating coordinates as independent.
+
+To exercise the exceptional branches, \msapp{app:real-data-diagnostics} reuses the same residuals at $\alpha=0.3,0.5,0.7,0.9$. On \texttt{energy} at $\alpha=0.5$, 3 splits use backward search, 140 fall back, and 57 use only binary search. Mean whole-call times conditional on these regimes are $0.295$, $0.121$, and $0.268$ ms. At $\alpha=0.7$ and $0.9$, backward search occurs in 10 of 200 energy splits. Each observed backward coordinate visits only one candidate, so the study does not demonstrate a long or worst-case backward scan. The changed targets are explicitly labeled as computational stress tests, not additional $90\%$-coverage benchmarks.
+
+\point{R1.Q3. Gains with quantile-regression residuals}{Addressed}{Do the authors expect the gains of TSCP to persist when using
+quantile-regression residuals rather than absolute mean-regression
+residuals?}
+\label{response:R1.Q3}
+The new study in \mssec{sec:cqr-experiments} provides empirical evidence. All methods share fitted quantile regressions in each repetition. TSCP uses $E_j=\max\{S_j,0\}$; Unscaled Max and Empirical Copula use signed scores; CQHR is native. The setting has three Gaussian outcomes, scales $(3,2,1)$, base-interval miscoverage $0.5$, final target $0.9$, and 30 fresh-data repetitions.
+
+At $n=100$, TSCP has mean coverage $0.9045$ and full outcome-space volume about $2.91\times10^4$, compared with $0.8973$ and $3.43\times10^4$ for Unscaled Max. Their mean full lengths are $(36.2,36.9,20.9)$ and $(33.3,33.8,29.0)$ (\msfig{fig:body-cqr-coordinate-bars}). The gain is width allocation, not shortening every interval.
+
+Across displayed sizes, TSCP coverage ranges from about $0.899$ to $0.922$. At $n=50$, the mean $0.8991$ has repetition-level SD $0.0457$ and is retained without adjustment. Base-width and shift sensitivities in \msapp{app:cqr-sensitivity} make clear that the observed gains are design-dependent, not universal.
+
+\clearpage
+\section*{Response to Reviewer 2}
+\subsection*{Major Comments}
+
+\point{R2.M1. Point CHR versus CQHR and additional data splitting}{Open}{In section 1.2 you discuss that Sampson and Chan (2024) require an
+additional independent dataset. This is true for their Point CHR
+method, but not for their quantile regression approach (CQHR).}
+\label{response:R2.M1}
+The reviewer is correct. Point CHR uses an auxiliary scale-estimation/calibration split, whereas CQHR obtains relative adjustments from fitted quantile widths without that additional split. CQHR still separates training from ordinary conformal calibration.
+
+The integrated experiment descriptions distinguish the procedures, but Section 1.2 still attributes the additional-dataset requirement to Sampson and Chan without restricting it to Point CHR, and groups the reference with flexible nonrectangular methods.
+
+\action{\texttt{AUTHOR-CHECK LIT}: Correct Section 1.2 and qualify the data-efficiency claim. Also check the sentence attributing a demonstrated comparison to Baheri and Amiri Shahbazi against the methods actually evaluated. The final copyedit fixes language but does not silently resolve this substantive attribution issue.}
+
+\point{R2.M2. Dimension-specific comparisons}{Addressed}{After Theorem 1 you discuss that the overall coverage cannot be used
+to determine if the dimension-specific coverage is tight. However,
+both the real data analyses and simulation studies lack
+dimension-specific comparisons (e.g., comparing prediction interval
+lengths or listing marginal coverages across the 10 dimensions in
+the first simulation study for TSCP). Adding these to your numerical
+comparisons would improve them greatly.}
+\label{response:R2.M2}
+\msfig{fig:body-abs-coordinate-bars} now reports coordinate-wise mean full lengths in the ten-dimensional heterogeneous Gaussian setting with $\rho=0.6$ and $n=100$. TSCP's lengths decrease from $49.4$ to $5.0$ across noise scales, whereas Unscaled Max assigns approximately $38.0$ to every coordinate. Joint coverage is about $0.907$ and $0.902$, respectively; the smaller copula bars are interpreted alongside its $0.873$ joint coverage.
+
+\msfig{fig:body-cqr-coordinate-bars} provides the quantile comparison: lengths are $(36.2,36.9,20.9)$ for TSCP, $(33.3,33.8,29.0)$ for Unscaled Max, and $(46.2,120.5,66.9)$ for CQHR. The partial-heteroskedasticity figure also identifies affected coordinates. All report outcome-space lengths, not transformed-score thresholds.
+
+We have also added the previously missing aggregate real-data analysis in \msapp{app:real-coordinate-audit}. \msfig{fig:body-real-coordinate-bars} covers all 51 output coordinates across the six real datasets, using 200 paired reruns and the same fitted model and test set for every method in each split. To compare different outcome units, bars report mean within-split ratios of full lengths to Unscaled Max. Raw full lengths, their standard deviations, and target names are retained in the supporting CSV files. Infinite Point CHR intervals on \texttt{stock} are explicitly marked rather than truncated or excluded from the averages.
+
+On \texttt{energy}, TSCP's mean full lengths are $(2.72,9.85)$ versus $(7.77,7.77)$ for Unscaled Max, with joint coverages $0.923$ and $0.917$. This is reallocation, not uniform shortening. On \texttt{student}, all TSCP length ratios exceed one, $(1.01,1.08,1.18)$, so the unfavorable comparison remains visible.
+
+\msfig{fig:real-marginal-coverage} reports coordinate-wise coverage and displays TSCP's matching joint coverage in each dataset panel. Joint coverages for all four methods remain available in the supporting \path{experiment_data/real_diagnostics/real_joint_summary.csv}; the diagnostic table is no longer included in the manuscript. For example, TSCP's stock marginals range from $0.972$ to $0.999$ while joint coverage is $0.956$. The supporting data contain all 40,800 split--method--coordinate records, across-split SDs, and pointwise Monte Carlo intervals. These quantify randomized-split variation conditional on each fixed dataset, not uncertainty over new populations or simultaneous coverage across all reported metrics. The original two-point illustration in \mstab{tab:toy} is preserved, but is no longer the sole real-data coordinate evidence.
+
+\point{R2.M3. Frequency of failure of the regularity condition}{Addressed}{In section 3.4.4 it is stated: ``Under the regularity condition
+$\mathcal Y_{\bm h^*}\ne\varnothing$, which can be immediately
+verified and typically holds in practice...'' How often did this
+not hold in the real data experiments, if at all?}
+\label{response:R2.M3}
+The new study directly instruments the mean-cell/global-rectangle intersection check that triggers fallback. At the main miscoverage level $\alpha=0.1$, the count is $0/200$ on each of \texttt{stock}, \texttt{rf2}, \texttt{scm1d}, \texttt{scm20d}, \texttt{energy}, and \texttt{student}. The measured counts are in \mstab{tab:real-search-diagnostics}, with sampling and timing definitions in \msapp{app:real-data-diagnostics}.
+
+The unit is one calibration split, not each test observation. We record the actual branch; equality between local and global output rectangles is not used as a proxy. Zero observed events do not imply impossibility: the pointwise one-sided $95\%$ upper bound on a fixed dataset's split-event probability is approximately $1.49\%$. This does not pool dependent coordinates or provide a simultaneous bound across datasets.
+
+The computational stress sweep in \msapp{app:real-data-diagnostics} and \msfig{fig:app-real-search-alpha} shows that fallback is observable at more extreme targets. At $\alpha=0.9$, the counts are 139, 185, 180, 186, 190, and 200 out of 200, respectively, in the dataset order above. This supports the restricted empirical observation at the main target, not a universal claim that the condition always holds. Fallback remains distinct from backward search throughout the tables and saved trial records.
+
+\point{R2.M4. Missing CQHR baseline}{Addressed}{The numerical studies do not include a comparison with CQHR from
+Sampson and Chan (2024), which performed better than Point CHR in
+their paper.}
+\label{response:R2.M4}
+Native CQHR is now a main-text comparator in \mssec{sec:cqr-experiments} and \msfig{fig:body-cqr}. Every method shares fitted lower/upper gradient-boosted quantile models, trained on 2,400 observations and evaluated on 600 fresh test observations. The models use 100 stages, depth $5$, learning rate $0.05$, and minimum leaf size $5$. We use 30 repetitions and calibration sizes $30,50,100,200$.
+
+Endpoints are ordered pointwise. CQHR uses signed scores, the first coordinate as reference, and a $10^{-12}$ floor on widths in scale ratios; these choices are disclosed. At $n=100$, its mean coverage is $0.8936$ (SD $0.0318$) and mean volume $1.29\times10^8$ (SD $3.79\times10^8$), versus coverage $0.9045$ (SD $0.0374$) and volume $2.91\times10^4$ for TSCP.
+
+Small empirical coverage differences are not treated as violations of a theoretical guarantee. The highly variable CQHR volumes are specific to the fitted models and width ratios, not evidence of universal inferiority. The coordinate plot and base-miscoverage sweep in \msfig{fig:app-cqr-base} provide additional context.
+
+\point{R2.M5. Missing convex shape-template baseline and related work}{Partially addressed}{The numerical studies and lit review also fail to compare TSCP with
+any of the approaches from Multi-Modal Conformal Prediction Regions
+with Simple Structures by Optimizing Convex Shape Templates
+(Tumu et al.\ 2024), which can be used to form convex (including
+hyper-rectangular) prediction regions.}
+\label{response:R2.M5}
+The requested family is now compared in \msapp{app:shape-template} and \msfig{fig:app-shape-template}. The implementation uses public conformal-region-designer components: KDE with 20 grid locations per dimension, mean-shift clustering, and rectangular templates. Calibration residuals are split equally between template learning and conformalization. Score-consistent inflation and a $0.05$ aspect-ratio floor are disclosed; this is not an undisclosed unmodified-package comparison.
+
+The two-dimensional Gaussian setting uses scales $(2,1)$, calibration sizes $30,50,100,200$, and 100 repetitions. At $n=100$, template coverage is about $0.904$, normalized volume $10.07$, and construction time $98.7$ ms, compared with $0.906$, $8.04$, and $0.80$ ms for TSCP. Restriction to low dimension reflects this implementation's $20^d$ Cartesian grid, not a limitation of every template approach. A unimodal Gaussian study does not fully test the advantages of multimodal regions.
+
+\action{\texttt{AUTHOR-CHECK LIT}: The citation is present in the new experiment and bibliography, but Section 1.2 still lacks the related-work discussion. Add it and qualify the suggestion that competing learned geometries are necessarily nonrectangular.}
+
+\point{R2.M6. Heteroskedasticity in only some coordinates}{Addressed}{Standardizing the residuals to be used as scores is done to address
+heterogeneity across dimensions. How does it work if some, but not
+all, dimensions have heteroskedastic errors? A simulation
+demonstrating this would make the numerical experiments more
+interesting.}
+\label{response:R2.M6}
+We added the main-text experiment in \msfig{fig:body-partial-hetero}, where only the first five of ten coordinates are heteroskedastic:
+\[
+ \sigma_j(x_1)=(11-j)\sqrt{\frac{1+1.5x_1^2}{2.5}}\ (j\leq5),
+ \qquad \sigma_j(x_1)=11-j\ (j>5).
+\]
+For $X_1\sim\mathcal N(0,1)$, this preserves $\mathbb E[\sigma_j^2(X_1)]=(11-j)^2$, separating input-dependent variability from a change in marginal noise variance.
+
+At $n=100$, mean coverage and normalized volume are approximately $0.904$ and $1.40\times10^{11}$ for TSCP, $0.902$ and $2.94\times10^{11}$ for Point CHR, and $0.900$ and $2.33\times10^{13}$ for Unscaled Max. The coordinate profile identifies the heteroskedastic outputs. The protocol matches the other new absolute-residual studies: 200 repetitions, 7,200 training observations, and 800 test observations.
+
+The text explicitly limits interpretation to joint marginal coverage. Global scaling does not estimate the local variance function or establish coverage conditional on every $X_1$.
+
+\point{R2.M7. Absolute-value CQR scores, constant shifts, and choosing the constant}{Partially addressed}{Above equation 9, you state one possible score is the absolute value
+of CQR. It seems like this score would lead to a larger adjustment
+than the standard CQR score, which cannot be used because of
+Assumption 1. Is that not the case? You mentioned earlier in the
+paper that a constant could be added to the standard CQR scores so
+they are non-negative, and not overly conservative when the
+quantile regression coverage is conservative. Would it not be
+beneficial to include this score instead of the absolute value of
+the CQR score, so that practitioners don't use an overly
+conservative approach? Along the same line, it would be nice to
+know how to choose such a constant in practice, so that this
+approach could be used with quantile regression.}
+\label{response:R2.M7}
+The experiments now distinguish the transformations. For signed CQR score
+\[
+ S_j(x,\boldsymbol y)=\max\{\widehat q_{\ell,j}(x)-y_j,
+ y_j-\widehat q_{u,j}(x)\},
+\]
+the body uses $E_j=\max\{S_j,0\}$, not $|S_j|$. At a nonnegative threshold $W_j$, it inverts to
+$[\widehat q_{\ell,j}(x)-W_j,\widehat q_{u,j}(x)+W_j]$.
+Capping avoids treating an observation deep inside the base interval as a large positive error, but cannot shrink a conservative base interval. The inequality $\max\{S_j,0\}\leq|S_j|$ is not asserted to order all adaptively standardized final volumes. The explicit absolute-value CQR example from the old Section 2.5 has been removed in the supplied general set-valued formulation.
+
+\paragraph{Shifted-score experiment.}
+\msapp{app:cqr-sensitivity} and \msfig{fig:app-cqr-shift} use $S_j+C$, apply TSCP, and subtract $C$ from its coordinate adjustment. With $C=100,300,1000$, $d=3$, $n=100$, and 30 repetitions, coverage is approximately $0.9077$ and mean volume $2.95\times10^4$. Within each trial and tested constant, recorded coordinate lengths equal shifted TSCP-GWC's. Across constants, the largest paired discrepancy is about $2.2\times10^{-12}$. This is a numerical finding for the tested design, not a universal invariance theorem.
+
+\paragraph{Selecting a shift.}
+For ordered base widths $w_j(x)$, $S_j(x,\boldsymbol y)\geq-w_j(x)/2$. A known uniform bound $w_j(x)\leq M$ permits $C\geq M/2$. It must be valid on the relevant input domain and independent of calibration/test responses, for example justified from the trained model and a domain bound. An observed calibration minimum alone is insufficient for future inputs. The fixed-constant sweep is not a validated general selector.
+
+Section 2.3 now describes truncation at zero and no longer makes the unqualified fixed-shift invariance claim. The fixed-shift experiment and its qualified interpretation remain in the appendix.
+
+\action{\texttt{AUTHOR-CHECK TIES/SHIFT}: The tie-breaking discussion still does not resolve the saved implementation's coordinate ties and zero-scale cases. Reconcile the exact convention with the standing assumption before treating this point as fully addressed. The experimental discussion already states the limitations.}
+
+\Needspace{11\baselineskip}
+\subsection*{Minor Comments}
+
+\point{R2.m1. Marginal coverage labels in Figure 1}{Addressed}{In Figure 1 it would be a nice addition to include the marginal
+coverage rates for the rightmost image. Making the marginal
+coverages be different (e.g., 92\% and 93\%) would also highlight
+early on that the marginal dimension coverages need not be the same.}
+\label{response:R2.m1}
+We added distinct marginal coverage labels to the rightmost panel of \msfig{fig:joint-prediction}: $92\%$ for the interval on $Y_1$ and $93\%$ for the interval on $Y_2$, while retaining the $90\%$ joint coverage. The labels sit beside the corresponding coordinate intervals. This makes explicit that the marginal coverages can differ from each other and both exceed the joint coverage.
+
+The figure now states that its coverage percentages are illustrative; they are not estimates from the experiments or claims that the method equalizes marginal coverage. The new labels and this clarification are blue to identify the revision. Both the editable TikZ source and the PDF used by the manuscript have been updated.
+
+\point{R2.m2. Meaning of ``uniformly tight'' in the population oracle}{Partially addressed}{In section 2.5 when discussing the oracle prediction set your
+second claim is: ``it tends to be uniformly tight across all
+output dimensions, because it operates with residuals whose
+components are all on the same scale''. Does tight here refer
+to the marginal coverage, or something else? If it is the
+coverage, would the error distribution shapes need to be the
+same for this to be true?}
+\label{response:R2.m2}
+Matching means and variances does not imply equal marginal coverage or equal tail shapes. The intended benefit is coordinate-adaptive width, not a distribution-free balance or minimum-volume guarantee. Identical standardized marginal distributions give identical coverage at a fixed common cutoff; a random data-dependent cutoff needs additional symmetry or an appropriate asymptotic argument.
+
+Sections 2.4 and 2.5 now replace \emph{uniformly tight} with \emph{balanced coordinate-wise coverage}, making the intended interpretation more explicit. The same-scale rationale, however, does not by itself establish that stronger coverage-balance claim.
+
+\action{\texttt{AUTHOR-CHECK BALANCE}: Qualify balanced coordinate-wise coverage as a motivation or state the requisite distributional assumptions and justification. A narrower statement about reducing inefficiency from heterogeneous residual location and scale is supported without claiming equal marginal coverage. The bar plots illustrate width allocation, not a coverage-balance theorem.}
+
+\point{R2.m3. Labeling the boundaries in Figure 2}{Addressed}{In section 3.4.4, after you introduce $L_j$, you discuss what
+$L_1$ and $L_2$ are with respect to Figure 2. Adding $L_1$ and
+$L_2$ to the margins (or with a dashed line across the plot)
+would be a helpful visualization.}
+\label{response:R2.m3}
+We added blue axis ticks and margin labels for $\mathcal L_1$ and $\mathcal L_2$ to \msfig{fig:global-to-local}. They align with the right and upper boundaries of the solid rectangular enclosure, respectively. The labels use the revised residual-threshold notation in Section 3.4.4; the axes remain $E_1$ and $E_2$, so they are not confused with outcome-space interval endpoints.
+
+The partition grid, local regions, global rectangle, and solid enclosure are retained. The editable TikZ source and manuscript PDF have both been updated. For absolute residuals, the corresponding full outcome-space interval lengths are $2\mathcal L_j$, not $\mathcal L_j$.
+
+\point{R2.m4. Runtime comparisons in the main text}{Addressed}{The authors discuss the computational cost of using TSCP as they
+introduce it. There are some plots in the appendices which compare
+the computational cost. They should either add a note in the
+numerical studies that computational cost comparisons can be
+found in the appendix, or (better) include similar plots in the
+main text.}
+\label{response:R2.m4}
+We followed the suggestion to place runtime evidence in the body. \msfig{fig:body-abs-overview} includes construction time, and \msfig{fig:body-real-runtime} compares all six real datasets in milliseconds on a logarithmic axis. Additional timings are in \msapp{app:dependence-sensitivity} and \msapp{app:shape-template}.
+
+The old approximation and dimension-scaling runtime studies are retained in \msapp{app:ours_simulation}; no prior runtime figure was deleted. Captions specify that common model fitting and residual computation are excluded. The text neither claims that TSCP beats every simpler baseline nor that empirical timings improve its worst-case complexity.
+
+\point{R2.m5. Infinite Point CHR volume on the stock dataset}{Addressed}{In the stock data analysis, the volume of Point CHR is infinite
+because of the size of the training/calibration sets along with
+the coverage rate. One would not split their data in such a way
+in practice, which should be stated. The comparison does make
+the point that Point CHR does not use the data as efficiently,
+but it should be clarified that the infinite prediction sets
+are caused by how small the last calibration set size is, and
+not the method.}
+\label{response:R2.m5}
+The main real-data discussion now attributes the infinite Point CHR volume on \texttt{stock} to the chosen allocation, not an intrinsic failure of the method. The common $75\%/5\%/20\%$ split leaves only 15 calibration observations before the additional Point CHR split. Its final subset is too small for a finite $0.9$ conformal quantile.
+
+With $m$ final-stage observations, the rank is $\lceil(1-\alpha)(m+1)\rceil$; if it exceeds $m$, the augmented $+\infty$ is selected. At $\alpha=0.1$, a finite rank needs at least $m=9$. A practitioner would allocate more data to that stage, at a cost elsewhere.
+
+The final manuscript keeps the allocation explanation alongside \mstab{tab:real-data}. It does not present a retuned Point CHR experiment, and we do not claim that the common allocation is optimal for that method. The expanded table replaces the compact presentation of the same original six-dataset results; its numerical values are preserved. The earlier standalone small-calibration stress study is not included in the author's final selection.
+
+\point{R2.m6. Vector and scalar notation}{Addressed}{Readability would be improved if vectors were bolded while
+scalars were not.}
+\label{response:R2.m6}
+The revised notation distinguishes vector inputs, outcomes, residuals,
+location/scale parameters, and multi-indices from scalar coordinates.
+The final pass makes the mean-index vector $\mathbf h^*$ and related
+multi-indices bold throughout Section 3, the algorithms, and the proofs,
+while leaving components such as $h_j$ unbolded. Population coordinates
+$\mu_j^*$ and $\sigma_j^*$ are now scalar, and algorithm inputs consistently
+use the observed vector statistics
+$(\hat{\boldsymbol\mu}^{\mathrm{obs}},\hat{\boldsymbol\sigma}^{\mathrm{obs}})$.
+Outcome endpoints $L_j,U_j$ remain distinct from residual thresholds
+$\mathcal L_j$. These are typographic corrections, not changes to the method.
+
+
+\clearpage
+\section*{Author Decision Checklist}
+\textit{These notes are for the authors, not responses claiming completed
+scientific changes. The matching source comments do not print in the paper.
+Resolve or explicitly accept the relevant limitations, then remove these
+notes before submission.}
+
+\begin{description}[style=nextline,leftmargin=0pt,font=\normalfont\bfseries]
+\item[AUTHOR-CHECK DATA]
+The archived synthetic summaries do not establish the stated fresh-sampling
+design. Reconcile their generating code and sample counts, provide corrected
+results, or authorize reruns. Details are in \path{sampling_provenance.md}.
+\item[AUTHOR-CHECK LIT]
+Section 1.2 still needs the Point CHR/CQHR distinction, a discussion of
+Tumu et al., and a check of the empirical attribution to Baheri and Amiri
+Shahbazi. The new experiment citations do not themselves revise the literature review.
+\item[AUTHOR-CHECK MAP]
+In Sections 2.4--2.5 the max-based scalarization is called invertible.
+It is not injective for $d>1$; the intended object is a coordinate threshold
+characterization of its sublevel sets. State $\theta_j>0$ explicitly.
+\item[AUTHOR-CHECK BALANCE]
+Equal means and variances do not imply equal standardized tails or marginal
+coverage. Qualify the coverage-balance and unproved asymptotic-enclosure claims.
+\item[AUTHOR-CHECK EVENT / ENDPOINT / BOUNDARY]
+The final coverage proof needs a common oracle-acceptance event for both
+branches, not just two separate marginal bounds. The search lemma's
+non-strict endpoint includes its maximizer. Half-open
+partition cells, closed enclosure bounds, and the asserted unique mean
+index also need consistent boundary and tie conventions.
+\item[AUTHOR-CHECK DOMAIN / ZERO / ALGEBRA / DS]
+Check the missing $n\geq2$ condition, the GWC formula at
+$t_j=\hat\mu_j^{\mathrm{obs}}$, and the claim that pairwise distinctness
+implies zero residuals have probability zero under exchangeability.
+In the link-function proof, expanding $A(x-\mu)^2$ gives a linear
+coefficient $-2A\mu$, whereas the displayed coefficient has the opposite
+sign. The data-splitting algorithm's quantile should be indexed by its
+calibration subset, but is written over all $n$ observations.
+\item[AUTHOR-CHECK TIES / SHIFT]
+Capped scores can have coordinate ties and zero empirical scales; the saved
+scalar-score perturbation is not coordinate jitter. The shifted-score
+study supports an observed equality with GWC, not a general mechanism or
+shift-invariance theorem. A shift-selection rule must ensure nonnegativity
+for future inputs, not just observed calibration residuals.
+\item[AUTHOR-CHECK REPRO / COLOR / METADATA]
+Confirm the run environment for the historical timing comparison, complete
+revision highlighting, and replace or confirm the editor and publication
+metadata still present in the template. No public repository release or
+journal metadata was changed during this copyedit.
+\end{description}
+
+\end{document}

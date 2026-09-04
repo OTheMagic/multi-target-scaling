@@ -1,0 +1,15 @@
+{
+  "pre_edit_assets_preserved_unchanged": 110,
+  "real_figures_restyled_from_unchanged_summaries": 4,
+  "older_figures_restyled_under_new_names": 8,
+  "experimental_graphic_inclusions_preserved": 27,
+  "experimental_data_inputs_preserved": 9,
+  "pre_edit_experimental_labels_preserved": 59,
+  "inline_result_tables_unchanged": true,
+  "all_experiments_in_two_tex_files": true,
+  "all_active_experiment_figure_names_unified": true,
+  "nonexperimental_prose_unchanged": true,
+  "only_body_edit_is_previously_authorized_figure_label_restoration": true,
+  "revision_log_framing_removed": true,
+  "scope": "Narrative and plot-style edit; numerical source files and tables unchanged. Sampling provenance requires a separate audit."
+}

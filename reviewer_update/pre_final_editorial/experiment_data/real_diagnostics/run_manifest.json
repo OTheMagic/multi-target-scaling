@@ -1,0 +1,48 @@
+{
+  "datasets": [
+    "stock",
+    "rf2",
+    "scm1d",
+    "scm20d",
+    "energy",
+    "student"
+  ],
+  "trials_per_dataset": 200,
+  "alpha": 0.1,
+  "train_cal_test_fractions": [
+    0.75,
+    0.05,
+    0.2
+  ],
+  "split_seed": "utility.exps._stable_hash(trial), trial=0,...,R-1; same seed in both splits",
+  "fitting": "original model hyperparameters; all estimator/transformer n_jobs set to one; independent splits fitted in parallel",
+  "timing": "serial, no concurrent fits; one warm-up; median of seven uninstrumented calls",
+  "stress_timing": "median of three uninstrumented calls; same cached residuals",
+  "stress_alpha": [
+    0.1,
+    0.3,
+    0.5,
+    0.7,
+    0.9
+  ],
+  "interval_lengths": "full outcome-space length, 2 * residual half-width",
+  "inference_scope": "random splits conditional on each fixed dataset, not independent new datasets",
+  "package_versions": {
+    "numpy": "2.5.2",
+    "pandas": "2.3.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.0",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.1",
+    "ucimlrepo": "0.0.7"
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "logical_cpus": 16,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "source_sha256": {
+    "reviewer_update\\run_real_diagnostics.py": "a2a996eb8fdd95404d0d46199b75dcfc3eac5acccbc79a06fffc80e369d94035",
+    "utility\\res_rescaled.py": "ed7e511b3749f98e324732474f7052bc5536219bad9a4d570396b37caf95b3a5",
+    "utility\\exps.py": "6ad07cbc5a933d50d4da8712e49b6993e2e7eb66c2004d06c5152b573f548df8"
+  }
+}

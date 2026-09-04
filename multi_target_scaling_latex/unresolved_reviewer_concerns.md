@@ -1,141 +1,145 @@
-# Reviewer Audit and Author Actions
+# Final Reviewer Audit and Author Decisions
 
-This audit compares the revised LaTeX sources, the integrated experiments, the original arXiv v1 PDF, and the two reviewer reports. It is not a certification of every proof. The author's latest non-experimental edits have been preserved and the affected audit entries updated on September 4, 2026. No non-experimental prose was rewritten during the experiment editing. At the author's request, Figures 1 and 2 have been annotated to address R2.m1 and R2.m3; their previous PDFs and drawing sources are preserved in `../reviewer_update/pre_schematic_labels`.
+Reviewed against the author's final LaTeX sources, arXiv:2512.15383v1, both reviewer reports, the editor's decision, and the saved experiment summaries. The latest pre-copyedit manuscript is preserved in `../reviewer_update/pre_final_editorial`.
 
-The earlier publication-style editorial pass consolidated every experimental study into `experiments_body.tex` and `experiments_appendix.tex`, organized by scientific topic, without changing experimental data, settings, or figure/table assets. Revision history is confined to the cover, response, and project documentation. The latest preservation checks are recorded in `publication_edit_audit.json`.
+The language and notation pass is complete, but this is **not a certification of scientific submission readiness**. The items below are author decisions. They do not all require new experiments: several can be resolved by precise definitions, a short proof argument, or narrower claims.
 
-The subsequent figure-standardization pass preserves the author's ordering through Section 4.2, removes the two-protocol presentation, and redraws eight archived figures plus four real-data diagnostic figures in the common style. Numerical summaries and tables are unchanged. The sampling provenance of the archived summaries is **not yet verified against the author's stated independent-redraw design**; see item 0 below and `sampling_provenance.md`. This new source-verification item is separate from the twenty reviewer points.
+Stable tags appear as nonprinting `% AUTHOR-CHECK TAG:` comments in the manuscript sources and as visible author notes in the response and cover. They deliberately do not appear in the scientific narrative. `final_editorial_audit.json` records their exact current file and line locations.
 
-The follow-up diagnostic study has now completed 200 new splits of each of the six real datasets. It closes the three previously missing empirical items below; it does not resolve the separate theoretical and editorial issues.
+## Reviewer Status
 
-## Status Overview
-
-| Point | Status | Evidence or remaining action |
+| Point | Status | Current evidence or remaining decision |
 |---|---|---|
-| R1.C1: methodological intuition/enclosure | Partial | Revised Sections 2--3, local-union comparison, and corrected local pointwise implication; finish the common-event justification for the final piecewise proof. |
-| R1.C2: assumptions and negative residuals | Partial | Explicit heavy-tail caveats and CQR studies; reconcile ties, zero scales, and implementation with Assumption 1. |
-| R1.C3: main-text runtime evidence | Addressed | New synthetic runtime panel and six-dataset wall-clock figure. |
-| R1.C4: contamination/outliers | Addressed | Exchangeable contamination stress test; efficiency inflation is disclosed. |
-| R1.Q1: infinite variance versus validity theorem | Addressed | Both new and retained heavy-tail descriptions explicitly limit the theoretical claim. |
-| R1.Q2: backward-search frequency/cost | Addressed | Actual branch counts, candidate counts, and serial timings on 1,200 real-data splits; additional targets exercise the backward branch. |
-| R1.Q3: quantile-residual gains | Addressed | Main CQR comparison, coordinate bars, and sensitivity studies. |
-| R2.M1: Point CHR versus CQHR in related work | Open | The overgeneralization remains in Section 1.2. |
-| R2.M2: coordinate comparisons | Addressed | Existing synthetic bars plus all 51 real-data coordinates, paired length ratios, raw lengths, and marginal coverage over 200 splits per dataset. |
-| R2.M3: regularity-condition failure frequency | Addressed | Actual fallback indicators: 0/200 per dataset at the main target, with finite-sample qualifications and a target-level stress sweep. |
-| R2.M4: CQHR comparison | Addressed | Native CQHR using common fitted quantile models and disclosed width-ratio choices. |
-| R2.M5: Tumu baseline and related work | Partial | Low-dimensional comparison and bibliography entry added; Section 1.2 still needs discussion. |
-| R2.M6: partial heteroskedasticity | Addressed | Main-text experiment with five of ten affected coordinates. |
-| R2.M7: CQR transformation and constant shift | Partial | Capped and shifted studies and a sufficient shift bound are explained; theoretical/implementation qualifications remain. |
-| R2.m1: marginal labels in Figure 1 | Addressed | Right panel now shows 92% for Y1 and 93% for Y2, alongside 90% joint coverage; percentages are explicitly illustrative. |
-| R2.m2: meaning of uniformly tight | Partial | Replaced by balanced coordinatewise coverage in Sections 2.4 and 2.5; equal moments alone still do not justify coverage balance. |
-| R2.m3: boundary labels in Figure 2 | Addressed | Blue axis ticks and labels identify the solid enclosure's residual thresholds, mathcal L_1 and mathcal L_2. |
-| R2.m4: main-text runtime plots | Addressed | Main synthetic and real-data runtime plots; old runtime plots also retained. |
-| R2.m5: infinite Point CHR volume | Addressed | Allocation explanation and finite-sample quantile caveat now accompany the comparison. |
-| R2.m6: vector/scalar typography | Partial | Many vectors are now bold; multi-indices and some scalar coordinates remain inconsistent. |
+| R1.C1: methodological intuition and enclosure | Partial | Revised oracle/link/local narrative and retained enclosure comparison; EVENT, ENDPOINT, BOUNDARY, and related proof checks remain. |
+| R1.C2: assumptions and negative residuals | Partial | Nonnegativity, moments, distinctness, heavy-tail limitations, and capped CQR are explicit; TIES and ZERO remain. |
+| R1.C3: main-text wall-clock evidence | Addressed | Dependent-Gaussian runtime panel and six-dataset runtime figure. |
+| R1.C4: contamination/outliers | Addressed | Exchangeable contamination sweep, with severe volume inflation retained. |
+| R1.Q1: infinite variance versus theorem scope | Addressed | Original heavy-tail studies explicitly lie outside the finite-variance assumption for degrees of freedom 1.5 and 2. |
+| R1.Q2: backward-search frequency/cost | Addressed | Actual split/coordinate counts and serial construction timings in the appendix; larger miscoverage levels exercise the exceptional branches. |
+| R1.Q3: quantile-residual gains | Addressed | Native CQHR comparison, coordinate lengths, and base-interval/shift sensitivities. |
+| R2.M1: Point CHR versus CQHR in related work | Open | LIT: Section 1.2 still generalizes the extra-split requirement to the entire Sampson and Chan reference. |
+| R2.M2: coordinate comparisons | Addressed | Synthetic length bars and all 51 real-data coordinates, paired length ratios, and marginal coverage. |
+| R2.M3: frequency of regularity-condition failure | Addressed | Actual fallback counts, including 0/200 per dataset at miscoverage 0.1, not inferred from equality of returned rectangles. |
+| R2.M4: CQHR comparison | Addressed | Native CQHR, common fitted quantile models, explicit reference coordinate and width floor. |
+| R2.M5: Tumu comparison and related work | Partial | The two-dimensional shape-template experiment is included; LIT remains for Section 1.2. |
+| R2.M6: partial heteroskedasticity | Addressed | Five of ten coordinates depend on the input, with marginal second moments preserved. |
+| R2.M7: CQR transformation and constant shift | Partial | Capped and shifted studies are included; TIES and SHIFT remain. |
+| R2.m1: marginal labels in Figure 1 | Addressed | Distinct illustrative 92%/93% marginal labels and 90% joint coverage. |
+| R2.m2: meaning of uniformly tight | Partial | The wording now identifies coverage balance, but BALANCE remains substantively unsupported by equal moments alone. |
+| R2.m3: boundary labels in Figure 2 | Addressed | Residual boundaries are labeled without changing the drawing geometry. |
+| R2.m4: runtime plots in main text | Addressed | Both synthetic and real-data wall-clock comparisons are in the body. |
+| R2.m5: infinite Point CHR volume | Addressed | The final calibration allocation, rather than an intrinsic method failure, is explained. |
+| R2.m6: vector/scalar typography | Addressed | The final pass standardizes multi-indices, scalar population coordinates, and algorithmic mean/scale vectors throughout the main text and supplement. |
 
-Total: **13 addressed, 6 partially addressed, 1 open**. The editor's overall completion and manuscript-wide color-marking requests remain partial until the open items are resolved and the final submission is audited.
+**Total: 14 addressed, 5 partially addressed, 1 open.** These statuses describe the requested response evidence, not blanket validation of the method. The editor's completeness and color-marking requests remain conditional on author decisions.
 
-## Highest-Priority Scientific Checks
+## Scientific Checks
 
-### 0. Archived sampling provenance: open
+### AUTHOR-CHECK LIT: related-work attribution and scope
 
-- The author specifies independently generated training/calibration/test observations in every synthetic repetition, with 7,200/800 training/test observations for absolute residuals.
-- The saved `exps.ipynb` generator in code cell 11 instead generates its 8,000-observation training/test data outside the repetition loop and splits it 80%/20% inside that loop. Calibration is redrawn. The archived CSVs lack run-level sampling metadata, so their exact generation history needs reconciliation rather than assumption.
-- The restyled figures preserve the archived numerical values. Restyling does not validate the sampling design or convert those summaries into a new experiment.
-- Required: generating-code/run provenance supporting the stated settings, corrected summaries, or authorization to rerun the affected studies and update matching tables. Details and all affected figure families are listed in `sampling_provenance.md`.
-- The paper now uses the single stated design rather than describing two alternatives. The discrepancy is recorded here and on the cover/response, not embedded as revision commentary in the experiment narrative. Do not treat the draft as submission-ready until it is resolved.
+Location: Section 1.2; reviewer points R2.M1 and R2.M5.
 
-### 1. Local conditional-coverage inference: corrected by the author
+The extra residual-scale split belongs to Point CHR, not native CQHR. Restrict that criticism accordingly; CQHR still uses ordinary model-training and calibration separation. Discuss the rectangular shape-template family of Tumu et al., which is now compared experimentally, and qualify the claim that competing learned constructions are necessarily nonrectangular. Also check the sentence asserting an empirical comparison with Baheri and Amiri Shahbazi: the displayed primary comparisons are Unscaled Max, Point CHR, Emp. Copula, and CQHR, not a separately identified implementation of that method.
 
-- Location: Section 3.4.1, immediately after `eq:lwc-local-containment`.
-- The latest author edit replaces the conditional `1-alpha` claim with a pointwise implication when oracle acceptance and membership in the working region hold simultaneously. The previous objection to this sentence is therefore closed.
-- Related response: R1.C1 remains partial because the final piecewise proof still needs a shared-event justification; see item 3. No cell-conditional or covariate-conditional guarantee is inferred.
+### AUTHOR-CHECK DATA: synthetic sampling provenance
 
-### 2. Contradictory endpoint condition in the search-reduction lemma
+Location: Section 4.2; details in `sampling_provenance.md`.
 
-- Location: Section 3.4.4, Lemma `lem:reduction-search`, sentence immediately after the maximization display.
-- The latest author edit removes the explicit `> 0` after the maximizing value. The subsequent sentence still says `B_j` is zero at every index greater than **or equal to** the maximizer, including the maximizer itself. This would force the maximum to be zero, so the endpoint relation still needs verification for nonzero enclosures.
-- Suggested direction: verify whether the intended relation is strictly greater, and check ties, the choice of maximizer, and the matching proof before changing it. This appears to be inherited from the old draft, not introduced by the experiment integration.
+The manuscript specifies fresh training/calibration/test observations per synthetic repetition, with 7,200/800 training/test observations for the absolute-residual comparisons. The saved `exps.ipynb` instead generates 8,000 training/test observations outside the repetition loop and repeatedly splits them 80%/20%, giving 6,400/1,600. Calibration is regenerated inside the loop.
 
-### 3. Piecewise coverage proof needs a shared event argument
+The archived CSVs have no run-level sampling metadata. This does not prove that this exact notebook generated every CSV, but prevents verifying the declared design. The newer summaries explicitly record redraws and sample counts. Provide the correct generating records, corrected summaries, or authorize replacement runs. **No simulations, numerical CSVs, or figure PDFs were changed during this copyedit.**
 
-- Location: proof of Theorem `thm:TSCP-coverage`.
-- Selecting between two data-dependent procedures does not inherit their marginal coverage merely because each procedure separately has a lower bound. The intended construction may admit a common oracle-acceptance/containment argument, but that argument should be explicit for both branches.
-- Suggested direction: verify and state the common pointwise event inclusion. This is a proof-exposition issue to check, not a claim here that the implemented procedure is invalid.
+### AUTHOR-CHECK MAP: the scalarization is not an invertible map
 
-## Empirical Work Now Completed
+Locations: Sections 2.4--2.5, around `eq:joint-prediction-scalar` and `eq:residual-transformation`.
 
-### 4. Backward-search and fallback audit: addressed
+For d > 1, taking the maximum of standardized coordinates loses information: with zero location and unit scales, (1,0) and (0,1) both map to 1. The displayed threshold formula is therefore not a literal inverse. Describe a coordinate-wise characterization of sublevel sets, and explicitly require positive scale parameters. This is a terminology/definition correction, not a reason to abandon the construction.
 
-- Related points: R1.Q2 and R2.M3; methodology at `body.tex:652` and `body.tex:658`.
-- The new study uses the original hash-seeded splits, 75%/5%/20% allocation, and statistical model settings. It is labeled a new rerun, not a recovery of the original fitted models or historical timing environment.
-- At miscoverage 0.1, both backward search and fallback occurred in **0/200 splits on every dataset**. All 10,200 coordinate searches used the binary branch. These are measured zeros, not missing values inferred from returned rectangles.
-- The new body table `tab:real-search-diagnostics` reports split and coordinate denominators, with conditional runtimes. `fig:body-real-search-diagnostics` reports candidate counts and construction time. Means range from 0.466 to 7.239 ms under the new serial timing protocol; unobserved conditional runtimes are marked unavailable, not zero.
-- For each dataset and either split event, the pointwise one-sided 95% zero-count upper bound is about 1.49%. It does not treat coordinates as independent or give simultaneous guarantees across datasets.
-- The supplementary stress sweep (`app:real-search-stress`) observes both branches at other targets. For energy at miscoverage 0.5: 3 backward, 140 fallback, and 57 binary-only splits; conditional whole-call means are 0.295, 0.121, and 0.268 ms, respectively. All observed backward coordinates visited only one candidate, so these are not worst-case scans.
-- The main-target result supports a qualified empirical statement that the condition held in the tested runs. It is not a theorem that the event is impossible, and does not repair the proof issues above.
+### AUTHOR-CHECK EVENT: final piecewise coverage proof
 
-### 5. Real-data coordinate comparisons: addressed
+Location: Theorem `thm:TSCP-coverage`.
 
-- Related point: R2.M2. Main-text `tab:toy` is the original pair of energy examples.
-- The new body figure `fig:body-real-coordinate-bars` covers all six datasets and all 51 target coordinates using 200 paired reruns per dataset. It reports mean per-split ratios of full interval lengths to Unscaled Max; raw full lengths and their standard deviations are also saved.
-- The appendix adds all coordinate-wise marginal coverages (`fig:app-real-marginal-coverage`) and matching joint coverages (`tab:real-diagnostic-coverage`). The supporting data contain 40,800 split--method--coordinate records, target names, standard deviations, and pointwise Monte Carlo summaries.
-- The comparisons retain unfavorable results: TSCP is wider than Unscaled Max in all three student coordinates, and some energy/stock coordinates are wider despite volume gains. Infinite Point CHR stock intervals are explicitly labeled and retained in the summaries.
-- All six new TSCP joint-coverage means have 0.9 within one across-split standard deviation. This is not a confidence interval for a mean or a proof of validity; uncertainty from repeated splits is conditional on the fixed dataset.
+Two procedures each having marginal coverage does not alone establish coverage after a data-dependent choice between them. The preceding local-union proof already gives the intended route: use a single oracle-acceptance event, and show that on this event the final set contains the test outcome in either branch. State that common event inclusion explicitly. The earlier erroneous cell-conditional inference was corrected by the author and is no longer an open item.
 
-## Non-Experimental Edits for the Author
+### AUTHOR-CHECK ENDPOINT: search-lemma contradiction
 
-### 6. Correct and expand Section 1.2
+Location: Lemma `lem:reduction-search`.
 
-- Related points: R2.M1 and R2.M5; `body.tex:44` and `body.tex:46`.
-- Restrict the additional-split criticism of Sampson and Chan to Point CHR. Explain that native CQHR has the ordinary training/calibration split but no auxiliary residual-scale split.
-- Discuss Tumu et al. and rectangular shape templates. The experiment and its new bibliography entry do not constitute a revision of the literature review.
-- Check the attribution of a demonstrated comparison to Baheri and Amiri Shahbazi against the actual evaluated methods. Qualify broad claims that all alternative learned geometries must be nonrectangular or have the same data/computation requirements.
+The sentence says that all indices greater than or equal to the maximizing index have zero boundary value. This includes the maximizer itself and therefore forces the maximum to be zero. Check whether the intended relation is strictly greater, specify a rightmost maximizer if necessary, and reconcile ties with the proof and search algorithm. The inequality was not silently changed during a language edit.
 
-### 7. Reconcile capped CQR, ties, and fixed shifts
+### AUTHOR-CHECK BOUNDARY: partition and mean-index conventions
 
-- Related points: R1.C2 and R2.M7; Section 2.3 and Assumption `eq:assumption-scores`.
-- The supplied revision recognizes ties and suggests coordinate jitter. The saved TSCP code adds a reproducible perturbation to scalar upper-bound scores, which is not the same operation and does not remove coordinate zeros or handle all zero empirical scales.
-- The integrated experiments explicitly say that the capped study does not meet pairwise distinctness verbatim. Either justify the exact implemented convention, modify it with a corresponding analysis and rerun if needed, or retain the empirical qualification.
-- The main score is `max(S_j,0)`, not `abs(S_j)`. Its region expands the fitted interval and cannot shrink an already conservative interval.
-- The appendix uses fixed shifts 100, 300, and 1000, with inversion by subtracting the shift. Its near-invariance is an observed property of this design, not a general theorem for the local approximation.
-- A uniform fitted-width bound `w_j(x) <= M` gives the sufficient shift `C >= M/2`. An observed calibration minimum alone does not guarantee nonnegativity for future inputs. The latest author edit removes the unqualified shift-invariance assertion from Section 2.3; that wording objection is closed. The appendix retains the fixed-shift study with explicit qualifications.
+Locations: `eq:rectangle-explicit`, `eq:rect-wise-bounds`, and the mean-index definition.
 
-### 8. Define or weaken the tightness/balance claim
+The partition cells are half-open at their upper ends, but the global rectangle is closed, so literal equality of their union with the global rectangle omits its upper boundary. The subsequent local characterization uses closed upper bounds. Also, two weak inequalities around the empirical mean do not define a unique index when the mean equals an order statistic. Pairwise distinct observations alone do not rule out this equality. Choose consistent half-open/closed conventions or justify ignoring the relevant events under explicit assumptions.
 
-- Related point: R2.m2; Sections 2.4 and 2.5.
-- The latest author edit replaces "uniformly tight" with "balanced coordinatewise coverage", clarifying the intended quantity. Equal first and second moments, however, do not imply equal standardized tail shapes or equal marginal coverage. The substantive justification remains incomplete.
-- Suggested wording: coordinate-adaptive intervals that reduce inefficiency due to heterogeneous residual location/scale. Stronger balance or asymptotic claims require their own conditions and proof.
+### AUTHOR-CHECK ZERO: pairwise distinctness does not imply no atom at zero
 
-### 9. Schematic figure labels: addressed
+Location: end of the link-function proof in Appendix B.
 
-- R2.m1: `figures/joint_prediction.pdf` and its TikZ source now show distinct right-panel marginal coverages: 92% for Y1 and 93% for Y2, while retaining 90% joint coverage. A note explicitly identifies the percentages as illustrative, not experimental estimates.
-- R2.m3: `figures/partition.pdf` and its TikZ source now label the solid rectangle's horizontal and vertical residual thresholds with `mathcal L_1` and `mathcal L_2`. The ticks are tied directly to the existing rectangle endpoints; the E1/E2 axes and partition geometry are unchanged in the drawing source.
-- New annotations are blue. These two updates were explicitly authorized after the initial experiment-only integration; no other non-experimental manuscript content was changed.
+The proof replaces an empty solution set by the singleton residual zero and calls that event probability zero under Assumption 1. Under exchangeability alone, the implication is false. A uniformly random permutation of residuals (0,1,2) is exchangeable, nonnegative, pairwise distinct, and has positive finite marginal variance, but the test residual equals zero with probability 1/3.
 
-### 10. Finish the notation pass
+Thus the stated assumptions do not justify the asserted equivalence on that event. An appropriate additional condition or a one-sided containment argument may suffice; verify it. This is separate from the practical tied-score issue.
 
-- Related point: R2.m6.
-- `body.tex:264`: the coordinate quantities for population mean and standard deviation are bold even though they are scalars.
-- Section 3.4.4 and Algorithm 2: the vector multi-index `h*` and some vector mean/scale symbols remain unbolded. Check the appendix algorithms and proofs as well.
-- Preserve the useful distinction between outcome interval endpoints `L_j,U_j` and residual thresholds `mathcal L_j`.
+### AUTHOR-CHECK DOMAIN: sample size and degenerate formulas
 
-### 11. Final editorial consistency
+Locations: Section 2.2, Lemmas `lem:solution-key-ineq`, `lem:finite-prediction-guarantee`, `lem:gwc-rescaling`, and Lemma S3.
 
-- Section 5 is unchanged. Consider cross-referencing the new contamination and CQR studies while distinguishing a fully signed method from the present capped/fixed-shift experiments.
-- Check that all changed non-experimental passages are colored for the editor. A full source-level diff against v1 was not possible because v1 was provided as a PDF.
-- Hardware provenance of historical real-data timings is not reconstructed by the current machine specification; add verified run information if available.
-- Two pre-existing overfull displayed equations remain in `supplementary.tex:349` and `supplementary.tex:410`. They compile and remain legible, but should be rewrapped by the author if desired. No mathematical content was changed to suppress these warnings.
+The original setup explicitly required n > 1; the revised setup no longer states it. For n = 1 the observed variance is zero and strict standardized-score bounds do not follow from distinctness. Restore the intended n >= 2 domain where needed. Also define the GWC candidate at test coordinate t_j equal to the observed mean; the displayed formula divides by zero there, although the proof separately treats that case.
 
-## Verified Preservation and Integration
+### AUTHOR-CHECK ALGEBRA: linear coefficient in the link-function proof
 
-- `main.tex`, `abstract.tex`, and `jmlr2e.sty` are unchanged from the supplied folder.
-- The author's latest edits to Sections 2--3 are preserved in `../reviewer_update/pre_figure_unification/body.tex`. Discussion/Software/Acknowledgments and the algorithm/proof portions of the supplement remain unchanged from the supplied source. The validator distinguishes author edits from this editorial pass rather than reverting them to the initial snapshot.
-- The missing `fig:joint-prediction` label was restored with the author's permission. This is the only body-source change made during the publication edit; the current text is otherwise identical to the latest author snapshot.
-- All 95 original active labels, 10 original graphic inclusions, and seven original table labels are retained. Of the 26 original figure-directory files, 22 are unchanged; the two schematic PDFs and their two drawing sources are intentionally updated for R2.m1/R2.m3. Their pre-edit copies are preserved, and the source audit checks that only the annotation blocks were added.
-- Of the 19 previously added experimental PDFs, 15 are unchanged and four real-data diagnostic figures have been restyled. Eight archived experimental plots are redrawn under unified filenames, giving 27 active experimental PDFs; their original PDFs remain available at the old paths. Supporting CSV files are unchanged in `experiment_data`, with the follow-up records in `experiment_data/real_diagnostics`.
-- Passive branch instrumentation passed 63 regression tests. A full replay verified all 1,200 split-index partitions, coordinate metrics, branch counts, and exact equality with the pre-instrumentation TSCP rectangles. No zero empirical-scale coordinate or fitting warning occurred in these reruns; this does not resolve general tie/degeneracy assumptions.
-- `integration_audit.json` records structural checks; `publication_edit_audit.json` now compares against the author's latest files in `../reviewer_update/pre_figure_unification`, checks all 59 pre-edit experimental labels, 27 graphic inclusions with the authorized filename mapping, nine table inputs, the inline numerical table, and preservation of 110 existing assets. Four real-data PDFs are restyled and eight renamed PDFs are added. `figure_style_audit.json` records plotted values and source hashes. `reviewer_update/pre_integration_latex` preserves the initial supplied folder for comparison.
-- A separate compilation wrapper handles Unicode punctuation and appendix hyperlink destinations under Tectonic; it changes neither the manuscript's scientific text nor printed numbering.
-- The figure-style unit checks verify exact correspondence with source summaries, runtime conversion to milliseconds, canonical method styling, the coverage display range, retained local-union dimensions, vector PDF fonts, and legend labels. These checks do not certify archived sampling provenance.
-- Both preservation audits and all five figure-style tests pass. Normal and fresh source-only Tectonic builds produce the 70-page manuscript, 12-page response, and one-page cover with resolved references and citations. All 27 experimental figures and the compiled document pages were rendered for visual review; no experiment-section overflow warnings remain.
+Location: Appendix B, immediately after the quadratic is expanded as A x^2 + B x + K.
+
+Expanding A(x-mu)^2 gives B = -2 A mu. The displayed B instead equals +2 A mu. The subsequent root formula is centered at +mu, so check and reconcile the expansion. The degenerate A = 0 branch also deserves checking: if the variance term is zero, the polynomial can vanish identically rather than only at x = mu. The sign was tagged for mathematical confirmation rather than disguised as a purely grammatical change.
+
+### AUTHOR-CHECK DS: data-splitting algorithm's quantile index
+
+Location: Appendix A, Algorithm `alg:std-ds`.
+
+The algorithm defines scores only for indices in I_2, then takes a quantile of scores indexed 1,...,n. Use the final calibration subset and its size consistently. The empirical experiments were not rerun or altered.
+
+### AUTHOR-CHECK TIES: capped-score implementation versus assumptions
+
+Locations: Sections 2.3 and 4.3; standing Assumption 1.
+
+Capping a signed score at zero guarantees nonnegativity, not pairwise distinctness or positive empirical scale. The saved TSCP implementation perturbs scalar upper-bound scores; this is not the coordinate jitter described in the theoretical discussion. Reconcile the convention and degenerate scales with the theorem or keep an explicitly empirical scope. The final copyedit restores the short capped-score qualification in the experiment section.
+
+### AUTHOR-CHECK BALANCE: coverage balance and asymptotic shape claims
+
+Locations: Sections 2.4--2.5 and 3.4.
+
+Matching marginal means and variances does not equalize standardized tail shapes or marginal coverages. A defensible narrower description is coordinate-adaptive width that reduces inefficiency caused by heterogeneous scales. A coverage-balance claim needs additional conditions, and a random data-dependent cutoff needs more care than a fixed cutoff. The statement that the local union becomes rectangular in the large-sample limit also needs stated conditions/proof or an explicitly empirical qualification.
+
+### AUTHOR-CHECK SHIFT: explanation and practical shift selection
+
+Location: Appendix C, shifted CQR scores; response R2.M7.
+
+The saved results support equality between shifted TSCP and shifted GWC within each tested run and near-invariance across the three constants, not a universal shift-invariance theorem or direct observation of the proposed bound-inflation mechanism. The copyedit identifies the mechanism as a proposed explanation.
+
+A shift must ensure nonnegativity for future inputs, not just calibration residuals. For ordered quantile endpoints with width w_j(x), the signed score is bounded below by -w_j(x)/2. A verified uniform bound w_j(x) <= M gives the sufficient choice C >= M/2. The response explains this possibility; the current manuscript has no validated general shift selector. Decide whether to add a justified bound or explicitly retain the study as a fixed-constant sensitivity analysis.
+
+## Submission Checks
+
+### AUTHOR-CHECK REPRO: timing provenance and reproduction details
+
+The diagnostic run manifest records the machine, package versions, serial timing convention, and thread limits. This does not establish the environment of the older six-dataset timing records used for the main comparison. Confirm the relevant run environment and that the public repository includes the files needed to reproduce the final selection. No network publication or repository release was performed here.
+
+### AUTHOR-CHECK COLOR: revision highlighting
+
+The experiments and many author revisions are blue; some non-experimental content is brown and the final grammar/notation corrections also affect previously unmarked passages. Confirm the editor-facing highlighting convention and apply it consistently. An exact source-level diff against v1 is unavailable because only its PDF was supplied.
+
+### AUTHOR-CHECK METADATA: journal template fields
+
+`main.tex` still contains the editor placeholder and provisional volume/year/date/paper-ID fields. The preprint style may suppress some of them. Confirm the appropriate submission values or leave only intentional template metadata; no factual publication information was invented.
+
+## Changes and Verification
+
+- Full language review includes the abstract, introduction, setup, methodology, discussion, algorithms, proofs, both experiment files, and active table captions.
+- Fixed spelling, grammar, duplicated words, informal revision-style phrasing, coverage/volume descriptions, CQR outcome-space units, the extra parenthesis in the timing formula, and a figure-versus-appendix reference.
+- Corrected the real-data caption's flag description: the red entries indicate undercoverage by more than two Monte Carlo standard errors, not any departure on either side of 0.9. Values and coloring are unchanged.
+- Standardized vector multi-indices and parameter vectors while keeping scalar coordinates unbolded; R2.m6 is now addressed.
+- Preserved the author's current order, appendix placement, omitted studies, 25 experimental PDF inclusions, all numerical tables, CSVs, and figure PDFs. Only the empirical-copula capitalization changes in the energy table source.
+- Reconciled the cover to 12 added studies and 17 added figure assets; original studies and extra panels are not counted again. See `experiment_inventory.json`.
+- The earlier dedicated small-calibration stress study, additional heavy-tail stress study, uncertainty section, compact duplicate real-data table, and diagnostic joint-coverage table are no longer claimed to appear in the current manuscript. Their saved files are not deleted.
+- The final audit is `../reviewer_update/check_final_editorial.py`. Older integration/publication audits refer to earlier, narrower editing stages and are not current submission certificates.
