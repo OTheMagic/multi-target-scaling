@@ -1,0 +1,41 @@
+{
+  "dataset": "energy",
+  "rows": 768,
+  "features": 8,
+  "outputs": 2,
+  "target_names": [
+    "Y1",
+    "Y2"
+  ],
+  "feature_hash": "153297c2e7ef9f274a5b3cea0fbb1a6098a73271a9c398f9829e742a698c7b35",
+  "target_hash": "803b10516da870700ab6465de3440c4ab29a106b267ecb7c380a4b2d31a00d7d",
+  "model_params": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "criterion": "squared_error",
+    "max_depth": null,
+    "max_features": 1.0,
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 1,
+    "min_samples_split": 2,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": null,
+    "n_estimators": 200,
+    "n_jobs": -1,
+    "oob_score": false,
+    "random_state": 77,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "package_versions": {
+    "numpy": "2.5.2",
+    "pandas": "2.3.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.0",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.1",
+    "ucimlrepo": "0.0.7"
+  }
+}

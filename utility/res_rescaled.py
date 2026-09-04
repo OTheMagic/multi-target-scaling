@@ -489,7 +489,7 @@ def standardized_threshold(upperbound, mu, std, size, dim = None):
         return zeros if upperbound < 0 else infs
 
 
-def standardized_prediction(scores, alpha=0.2, method = "LWC", short_cut=True):
+def standardized_prediction(scores, alpha=0.2, method = "LWC", short_cut=True, *, diagnostics=None):
     """
     Construct a conformal prediction region using standardized rectangular
     partitioning and (optionally) a local-worst-case refinement.
@@ -513,6 +513,10 @@ def standardized_prediction(scores, alpha=0.2, method = "LWC", short_cut=True):
         a single LWC rectangle. If False, enumerates a collection of
         candidate rectangles and returns their union along with an overall
         bounding rectangle.
+    diagnostics : dict or None, keyword-only
+        Optional output dictionary of executed search branches and candidate
+        evaluations. Does not change the returned region. Time the function
+        without this argument when measuring construction cost.
 
     Returns
     -------
@@ -525,6 +529,17 @@ def standardized_prediction(scores, alpha=0.2, method = "LWC", short_cut=True):
     """
     # Compute shape, mean, std, and mean indices
     n, d = scores.shape
+    if diagnostics is not None:
+        diagnostics.clear()
+        diagnostics.update(
+            n_cal=n,
+            n_dim=d,
+            mode="global" if method == "GWC" else ("shortcut" if short_cut else "enumeration"),
+            fallback=False,
+            coordinate_branch=["not_searched"] * d,
+            binary_evaluations=[0] * d,
+            backward_evaluations=[0] * d,
+        )
     scores_mean = np.mean(scores, axis = 0)
     scores_std = np.std(scores, axis = 0)
     mean_index = mean_index_solver(scores)+1
@@ -553,6 +568,9 @@ def standardized_prediction(scores, alpha=0.2, method = "LWC", short_cut=True):
 
     # Perform binary search along dim_along
     def binary_search_dimension(fixed_indices, dim_along, max_bounds, start, end):
+
+        if diagnostics is not None:
+            diagnostics["binary_evaluations"][dim_along] += 1
 
         # Edge case: the last rectangle along dim_along to be evaluated
         if start >= end-1:
@@ -615,6 +633,8 @@ def standardized_prediction(scores, alpha=0.2, method = "LWC", short_cut=True):
         # Initialize the boundary and get the starting rectangle (mean rectangle)
         mean_rectangle = create_hyper_rectangle(scores_sorted, mean_index)
         if mean_rectangle.intersection(global_rectangle) is None:
+            if diagnostics is not None:
+                diagnostics["fallback"] = True
             return global_rectangle
 
         # Start searching, compute the quantile corresponds to the mean rectangle first
@@ -636,13 +656,19 @@ def standardized_prediction(scores, alpha=0.2, method = "LWC", short_cut=True):
 
             # Binary search
             if L_temp >= mean_rectangle.lower[idx]:
+                if diagnostics is not None:
+                    diagnostics["coordinate_branch"][idx] = "binary"
                 max_bounds[idx] = min(L_temp, mean_rectangle.upper[idx])
                 binary_search_dimension(mean_index, idx, max_bounds, mean_index[idx], n + 1)
 
             # Backward search
             else:
+                if diagnostics is not None:
+                    diagnostics["coordinate_branch"][idx] = "backward"
                 current = mean_index[idx]
                 while current >= 2:
+                    if diagnostics is not None:
+                        diagnostics["backward_evaluations"][idx] += 1
                     current = current - 1
                     indices = np.copy(mean_index)
                     indices[idx] = current

@@ -1,0 +1,30 @@
+{
+  "protected_nonexperimental_sections_unchanged": true,
+  "protected_main_abstract_style_unchanged": true,
+  "original_labels_preserved": 95,
+  "total_unique_labels": 126,
+  "original_graphic_inclusions_preserved": 10,
+  "new_figures_copied_unchanged": 15,
+  "original_figure_files_unchanged": 26,
+  "original_table_labels_preserved": [
+    "tab:gamma",
+    "tab:gaussian-heter",
+    "tab:gaussian-homo",
+    "tab:laplace",
+    "tab:mixed",
+    "tab:real",
+    "tab:toy"
+  ],
+  "missing_tex_inputs": [],
+  "missing_graphics": [],
+  "unresolved_internal_references": [],
+  "unresolved_citations": [],
+  "response_blocks": 22,
+  "reviewer_point_statuses": {
+    "Partially addressed": 6,
+    "Addressed": 8,
+    "Open": 6
+  },
+  "unresolved_response_manuscript_references": [],
+  "scope": "Static integration audit; compilation and visual QA are checked separately."
+}

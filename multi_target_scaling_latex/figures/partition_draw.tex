@@ -64,6 +64,12 @@
   \def\vtwo{3.6}
   \draw[rect] (0,0) rectangle (\vone,\vtwo);  
 
+% BEGIN SCHEMATIC ANNOTATION R2m3
+  \draw[blue, thick] (\vone,-0.12) -- (\vone,0.12);
+  \node[below=3pt, text=blue, font=\normalsize] at (\vone,-0.12) {$\mathcal{L}_1$};
+  \draw[blue, thick] (-0.12,\vtwo) -- (0.12,\vtwo);
+  \node[left=3pt, text=blue, font=\normalsize] at (-0.12,\vtwo) {$\mathcal{L}_2$};
+% END SCHEMATIC ANNOTATION R2m3
 
   %----- Candidate test residual point E^{n+1} -----
   %\fill[black] ($( \xL+0.55, \yB+0.55 )$) circle (1.2pt) node[above right] {$E^{n+1}$};

@@ -1,0 +1,48 @@
+PAGE 1
+Summary of Revisions
+Interpretable Multivariate Conformal Prediction
+with F ast Transductive Standardization
+JMLR-25-3153-1
+This summary compares the integrated revision with the original arXiv v1 submission. It distinguishes the supplied
+author’s edits from the newly integrated experiments; it does not certify new theoretical results.
+• Abstract and Section 1: motivation and related work. The central motivation and contribution statement
+are retained; no substantive rewrite is claimed. Author check: Correct the Point CHR/CQHR distinction and
+add shape-template related work. These changes are necessary for accurate positioning of the new comparisons.
+• Section 2: setup and motivating constructions. The supplied revision renames and reorganizes the preliminar-
+ies, clariﬁes joint exchangeability and simultaneous versus marginal coverage, strengthens vector/scalar distinctions,
+discusses ties, and introduces a common parameterized population-oracle formulation. This makes the statistical
+target and the role of standardization more explicit. Author check: Reconcile capped-score ties and shift claims
+with the actual implementation; deﬁne or weaken the remaining “uniformly tight” wording.
+• Section 3: methodology . The supplied edit uses a common threshold-indexed prediction-set map, separates
+observed and oracle scaling statistics, rewrites the global/local construction in that notation, and corrects the
+exceptional empty-cell sign. This improves traceability of the conservative approximations. Author check: Review
+the new working-hypothesis conditional-coverage claim, the search-lemma endpoint inequality, and the piecewise
+coverage proof.
+• Section 4: numerical experiments. New main-text material includes dependent heterogeneous Gaussian noise,
+coordinate-length bar plots, partial heteroskedasticity, native CQHR, and real-data wall-clock comparisons. New
+200-split real-data reruns add all coordinate lengths and direct backward-search/fallback counts. Fresh-draw proto-
+cols and CQR model settings are explicit. The original energy example remains in the body. These changes answer
+requests for coordinate detail, broader baselines, and computational evidence; the Point CHR inﬁnite-volume case
+is now explained by its allocation.
+• Section 5: discussion. The existing discussion is retained without alteration. Author check: Connect it to
+the new contamination and CQR evidence while retaining the distinction between empirical robustness and proved
+validity.
+• Appendix A: algorithms and complexity . The supplied algorithmic material is retained. No faster worst-case
+bound is claimed. The new Section 4 diagnostics measure actual search branches and their observed costs, rather
+than inferring branch frequency from overall runtime.
+• Appendix B: proofs. The supplied proof section is preserved, including its updated notation. No new moment-
+relaxation or tie-handling theorem is claimed. Author check: Check mathematical consistency with the revised
+main text; this integration did not perform a complete proof-equivalence audit.
+• Appendix C: new sensitivity and stress tests. The added analyses cover uncertainty, dependence, heterogene-
+ity, target level, small samples, heavy tails, contamination, CQR base widths and constant shifts, and a disclosed
+low-dimensional shape-template implementation. New real-data marginal-coverage and search-regime stress studies
+complete the diagnostic evidence. These analyses identify where the empirical beneﬁts persist and where eﬃciency
+or theoretical scope is limited.
+• Appendix D: retained original experiments. The original Gaussian ﬁgures, distribution tables, oracle/local-
+union and dimension-scaling studies, heavy-tail ﬁgures, and original real-data table are retained here, rather than
+deleted. Their historical pool-resampling protocol is distinguished from the new independent draws. This preserves
+earlier evidence while keeping reviewer-focused comparisons in the body.
+• Figures, bibliography , and remaining completion. All original experimental assets and labels are retained; 19
+new PDF ﬁgures and the Tumu et al. reference are added. Figures 1 and 2 now show illustrative marginal coverage
+rates and residual-boundary labels, respectively, to clarify their interpretation. Author check: Finish notation
+consistency and manuscript-wide color marking. The separate reviewer audit lists the remaining items.

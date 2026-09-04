@@ -1,0 +1,19 @@
+% Optional XeTeX/Tectonic wrapper. The manuscript sources stay unchanged.
+% Standard pdfLaTeX users can compile main.tex directly.
+\ifdefined\XeTeXversion
+  \RequirePackage{newunicodechar}
+  \newunicodechar{^^^^2013}{\textendash}
+  \newunicodechar{^^^^2014}{\textemdash}
+  \newunicodechar{^^^^2018}{\textquoteleft}
+  \newunicodechar{^^^^2019}{\textquoteright}
+  \newunicodechar{^^^^201c}{\textquotedblleft}
+  \newunicodechar{^^^^201d}{\textquotedblright}
+\fi
+\AddToHook{begindocument/before}{%
+  \setlength{\emergencystretch}{2em}%
+  \AddToHook{cmd/appendix/after}{%
+    \renewcommand{\theHalgorithm}{appendix.\arabic{algorithm}}%
+    \renewcommand{\theHtheorem}{appendix.\arabic{theorem}}%
+  }%
+}
+\input{main}

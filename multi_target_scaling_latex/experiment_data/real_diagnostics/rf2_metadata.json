@@ -1,0 +1,47 @@
+{
+  "dataset": "rf2",
+  "rows": 7679,
+  "features": 576,
+  "outputs": 8,
+  "target_names": [
+    "CHSI2_48H__0",
+    "NASI2_48H__0",
+    "EADM7_48H__0",
+    "SCLM7_48H__0",
+    "CLKM7_48H__0",
+    "VALI2_48H__0",
+    "NAPM7_48H__0",
+    "DLDI4_48H__0"
+  ],
+  "feature_hash": "23c089193c6614c3de61fd80d52fb6fc4f8eee5716d7ba32baff68357f2dfef9",
+  "target_hash": "889da46ca471c68939c6d31b6728baffbe1d6744208ba13aecfca67e1ddb8b07",
+  "model_params": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "criterion": "squared_error",
+    "max_depth": 16,
+    "max_features": "sqrt",
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 2,
+    "min_samples_split": 5,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": null,
+    "n_estimators": 200,
+    "n_jobs": -1,
+    "oob_score": false,
+    "random_state": 42,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "package_versions": {
+    "numpy": "2.5.2",
+    "pandas": "2.3.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.0",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.1",
+    "ucimlrepo": "0.0.7"
+  }
+}
