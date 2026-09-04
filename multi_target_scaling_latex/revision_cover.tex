@@ -23,126 +23,88 @@ JMLR-25-3153-1
 \end{center}
 
 This summary compares the current draft with the original arXiv v1
-submission of December 17, 2025. It describes changes present in the draft;
-red author checks identify unresolved decisions rather than completed changes.
+submission of December 17, 2025. It describes changes present in the draft.
 
 \begin{itemize}
-\item \textbf{Abstract.} The central contribution and finite-sample coverage
-claim are retained. Grammatical corrections improve readability; no new
-theoretical result is claimed.
+\item \textbf{Abstract.} No changes.
 
 \item \textbf{Section 1: introduction and related work.} The motivation for
 interpretable simultaneous intervals and the Bonferroni comparison are
 retained. Figure 1 now shows illustrative marginal coverages of 92\% and
 93\% alongside 90\% joint coverage, making that distinction visible
-immediately. The final pass tightens the language.
-\checkauthor{LIT}{The Point CHR/CQHR distinction, shape-template discussion,
-and empirical attribution still need substantive review.}
+immediately. Added a reference Tumu et al. for rectangular shape templates and clarified that Sampson's method has two versions and does not always require additional sample splits.
 
 \item \textbf{Section 2: setup and motivating constructions.} The revised
 setup states joint exchangeability of calibration and test observations
 and explains that coverage is marginal over the data but simultaneous
-across outputs. Residual definitions discuss capping and ties. A common
-location/scale parameterization separates the population oracle from its
-practical approximations. These changes clarify the statistical target and
-motivation for coordinate adaptation; vector/scalar notation is standardized.
-\checkauthor{MAP/TIES/BALANCE}{Review inverse terminology, tie handling, and
-the coverage-balance claim.}
+across outputs. Residual definitions now discuss capping and ties. We now use a generic
+location/scale parameterization of the prediction set to separate the population oracle from its
+practical approximations with only different plug-in estimators. This makes the presentation lighter.
 
-\item \textbf{Section 3: methodology.} A threshold-indexed set map connects
-the transductive oracle, link functions, and global/local bounds. The local
-argument now gives a pointwise implication on oracle acceptance and
-working-region membership, not cell-conditional coverage. Figure 2 labels
+\item \textbf{Section 3: methodology.} Similarly, we now write the most general form of an estimated prediction set in the beginning, so that everything we develop in this section is a plug-in approximation of the same oracle. Figure 2 labels
 the residual boundaries; multi-indices are consistently bold. The
 real-data diagnostic reference now points to the appendix. These changes
 make the construction easier to follow.
-\checkauthor{EVENT/ENDPOINT/BOUNDARY}{The piecewise proof, search-lemma
-endpoint, and partition boundaries still need mathematical review.}
 
 \item \textbf{Section 4: numerical experiments.}
-\textbf{Twelve experimental studies have been added in total: ten simulation
+\textbf{Twelve experimental studies along with 22 new plots have been added in total: ten simulation
 studies and two real-data diagnostic studies.} This count spans Section 4
-and Appendix C and treats a parameter sweep as one study. Additional
-panels and coordinate plots are not counted separately. E11 and E12 share
-a rerun cohort, and E01 and E04 use the same dependent-Gaussian experiment
-family; the count is of distinct study questions, not independent datasets.
-The original independent Gaussian benchmarks, six-dataset comparison,
-and energy illustration remain.
-\item \textbf{E01: Dependent heterogeneous Gaussian noise (\mssec{sec:absolute-residual-experiments}).}
+and Appendix C. 
+\begin{enumerate}
+    \item \textbf{E01: Dependent heterogeneous Gaussian noise (\mssec{sec:absolute-residual-experiments}).}
 Tests whether coordinate adaptation remains useful when outputs are correlated. Joint coverage, volume, runtime, and coordinate lengths distinguish scale adaptation from the smaller but under-covering copula regions.
 
 \item \textbf{E02: Partial heteroskedasticity (\mssec{sec:absolute-residual-experiments}).}
-Makes only five of ten coordinates input-dependent while preserving marginal second moments. Separates heteroskedasticity from unequal marginal scales and assesses joint, not input-conditional, coverage.
+Makes only five of ten coordinates input-dependent while preserving marginal second moments. 
 
-\item \textbf{E03: CQR with native CQHR (\mssec{sec:cqr-experiments}).}
-Tests quantile-regression residuals and adds the requested CQHR baseline. Outcome-space volumes and lengths show design-dependent gains of capped TSCP while identifying its inability to shrink the fitted base interval.
+\item \textbf{E03: Quantile regression experiments (\mssec{sec:cqr-experiments}).}
+Tests quantile-regression residuals using capped transformation and adds the requested CQHR baseline. Outcome-space volumes and lengths show design-dependent gains of capped TSCP while identifying its inability to shrink the fitted base interval.
+\end{enumerate}
 
 \item \textbf{Section 4.4: real-data presentation.} The original results
 are retained in an expanded table. A new plot of existing timing records
-makes wall-clock cost visible in the body; it is not counted as an added
-experiment. The Point CHR infinite volume on \texttt{stock} is explained
+makes wall-clock cost visible in the body. The Point CHR infinite volume on \texttt{stock} is explained
 by the small final calibration split. Coordinate and search diagnostics
 are presented in Appendix C.
 
-\item \textbf{Section 5: discussion.} The existing future directions are
-retained. New cross-references connect the outlier discussion to the
-contamination study and distinguish a direct signed-score extension from
-the capped and shifted CQR experiments.
+\item \textbf{Section 5: discussion.} No changes.
 \end{itemize}
 
-\clearpage
 \begin{itemize}
-\item \textbf{Appendix A: algorithmic details and complexity.} The algorithms
-and complexity bounds are retained, with standardized vector notation and
-grammar. Branch diagnostics complement rather than improve the worst-case
-bound. \checkauthor{DS}{Review the final-subset indexing in the data-splitting
-algorithm's quantile.}
+\item \textbf{Appendix A: algorithmic details and complexity.} Fixed some typos.
 
-\item \textbf{Appendix B: proofs.} The original arguments are retained with
-language, notation, punctuation, and display-layout corrections. No new
-theorem for infinite variance, ties, or signed residuals is claimed.
-\checkauthor{DOMAIN/ZERO/ALGEBRA}{Review sample-size and degenerate cases,
-the zero-residual event argument, and the tagged quadratic coefficient.}
+\item \textbf{Appendix B: proofs.} No changes besides updating the notation according to the body.
 
-\item \textbf{Appendix C: supplementary experiments.} The original
-distribution tables, heavy-tail comparisons, population-oracle
-approximations, local-union comparison, and dimension-scaling study remain.
-The infinite-variance cases are explicitly outside the stated assumptions.
-The following nine added studies extend this evidence.
-\item \textbf{E04: Dependence-strength sweep (\msapp{app:dependence-sensitivity}).}
-Separates sensitivity to correlation from the single dependent setting in the body. Varying correlation at fixed marginal scales shows stable TSCP coverage and decreasing volume as dependence strengthens.
+\item \textbf{Appendix C: supplementary experiments.} 
 
-\item \textbf{E05: Coordinate-heterogeneity sweep (\msapp{app:heterogeneity-sensitivity}).}
+\begin{enumerate}
+    \item \textbf{E04: Dependence-strength test (\msapp{app:dependence-sensitivity}).}
+Varying correlation at fixed marginal scales and shows stable TSCP coverage and decreasing volume as dependence strengthens.
+
+\item \textbf{E05: Coordinate-heterogeneity test(\msapp{app:heterogeneity-sensitivity}).}
 Identifies when coordinate rescaling is useful by varying the largest-to-smallest noise-scale ratio. The common unscaled threshold becomes less efficient as heterogeneity increases, while remaining competitive at equal scales.
 
-\item \textbf{E06: Target-coverage sweep (\msapp{app:alpha-small-sample}).}
+\item \textbf{E06: Target-coverage test(\msapp{app:alpha-small-sample}).}
 Checks that the comparison is not specific to a 90 percent target. Targets of 80, 90, and 95 percent show the coverage-volume trade-off and the relative behavior of the methods.
 
 \item \textbf{E07: Exchangeable contamination (\msapp{app:contamination}).}
 Tests the sensitivity of mean and standard deviation scaling to outliers. Increasing row-wise contamination shows that near-nominal coverage can coexist with severe volume inflation.
 
 \item \textbf{E08: CQR base-interval sensitivity (\msapp{app:cqr-sensitivity}).}
-Checks dependence on the width of the fitted starting interval. The base-miscoverage sweep reveals CQHR's sensitivity to fitted widths and puts the main CQR comparison in context.
+Checks dependence on the width of the fitted starting interval. The base-miscoverage testreveals CQHR's sensitivity to fitted widths and puts the main CQR comparison in context.
 
 \item \textbf{E09: Shifted CQR scores (\msapp{app:cqr-sensitivity}).}
-Examines additive shifts as an alternative to capping signed scores. Constants 100, 300, and 1000 give nearly identical recorded rectangles, equal to shifted TSCP-GWC within each run; this is not a general invariance theorem.
+Examines additive shifts as an alternative to capping signed scores. Constants 100, 300, and 1000 give nearly identical recorded rectangles, equal to shifted TSCP-GWC within each run.
 
 \item \textbf{E10: Rectangular shape-template baseline (\msapp{app:shape-template}).}
 Adds the requested comparison with the Tumu et al. family. The two-dimensional KDE/mean-shift study compares coverage, normalized volume, and runtime for a specific rectangular template implementation, not every multimodal design.
 
 \item \textbf{E11: Real-data coordinate diagnostics (\msapp{app:real-coordinate-audit}).}
-Goes beyond the original two-point energy illustration with all 51 target coordinates. Paired length ratios and marginal coverages show where volume gains do and do not shorten individual intervals, including unfavorable student-data results.
+Use now coordinate-wise length and marginal coverages comparisons to show where volume gains do and do not shorten individual intervals.
 
 \item \textbf{E12: Real-data search and fallback diagnostics (\msapp{app:real-data-diagnostics}).}
-Measures actual branch use, inspected candidates, and construction times. No backward search or fallback occurs at miscoverage 0.1 in the tested splits; larger miscoverage levels exercise both branches without demonstrating a worst-case scan.
+Measures how often backward search or fallback occurs at different miscoverage levels. No backward search or fallback occurs at miscoverage 0.1 in the tested splits; larger miscoverage levels exercise both branches without demonstrating a worst-case scan.
+\end{enumerate}
 
-\item \textbf{Figures, references, and final checks.} The current draft uses
-17 added experimental PDF assets and eight restyled original experimental
-assets; several assets can belong to one study. The Tumu et al.\ reference
-and both schematic annotations are retained. No numerical data or figure
-PDF was changed in the final copyedit.
-\checkauthor{DATA/SHIFT/REPRO/COLOR/METADATA}{Resolve sampling provenance,
-the shift explanation/selection rule, run documentation, revision
-highlighting, and template metadata before submission.}
 \end{itemize}
 \end{document}

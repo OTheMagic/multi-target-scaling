@@ -81,8 +81,7 @@
             \end{align*}
         \EndFor
         \State Compute $S^i_{\mathrm{ds}} \gets \Phi(\mathbf{E}^i; \hat{\boldsymbol\mu}^{\mathrm{ds}},\hat{\boldsymbol\sigma}^{\mathrm{ds}})$ for $i \in \mathcal I_2$, using $\Phi$ defined in~\eqref{eq:residual-transformation}.
-        % AUTHOR-CHECK DS: Scores are defined only on I_2, but this quantile still indexes all n observations.
-        \State Compute $\hat{Q}^\mathrm{ds}_{1-\alpha}\gets \hat{Q}_{1-\alpha}(S^1_\mathrm{ds},\dots, S^n_\mathrm{ds}).$
+        \State Compute $\hat{Q}^\mathrm{ds}_{1-\alpha}\gets \hat{Q}_{1-\alpha}(\{S^i_\mathrm{ds}\}_{i \in \mathcal{I}_2}).$
         \State \Return $\hat{C}^{\mathrm{ds}}(\mathbf{X}^{n+1}) \gets \left\{\mathbf y \in \R^d: 0 \leq E_j(\mathbf{X}^{n+1}, y_j) \leq \hat{Q}^\mathrm{ds}_{1-\alpha}\cdot \hat{\sigma}^\mathrm{ds}_j + \hat{\mu}^\mathrm{ds}_j, \forall j \in [d]\right\}$.
     \end{algorithmic}
 \end{algorithm}
@@ -320,8 +319,7 @@ h(x)= Ax^2+Bx +K = 0,
 where
 \begin{align*}
  A & = \left(\frac{n}{n+1}\right)^2 - \frac{c^2}{n+1}, \\
- % AUTHOR-CHECK ALGEBRA: Expanding A(x-mu)^2 gives B = -2 A mu; verify the displayed sign.
- B & = 2\hat{\mu}^\mathrm{obs}_j\left(\frac{n}{n+1}\right)^2-2\hat{\mu}^\mathrm{obs}_j \frac{c^2}{n+1}, \\
+ B & = -2\hat{\mu}^\mathrm{obs}_j\left(\frac{n}{n+1}\right)^2+2\hat{\mu}^\mathrm{obs}_j \frac{c^2}{n+1}, \\
  K & = \left(\frac{n}{n+1}\right)^2(\hat{\mu}^\mathrm{obs}_j)^2-\frac{c^2}{n+1}(\hat{\mu}^\mathrm{obs}_j)^2-c^2(\hat{\sigma}^\mathrm{obs}_j)^2.
 \end{align*}
 The solution set is:
@@ -349,7 +347,7 @@ Analyzing the sign of $h(x)$ in the two cases shows that~\eqref{eq:coordinte-wis
     \text{no solution}, & c \leq - \tfrac{n}{\sqrt{n+1}}.
     \end{cases}
 \end{align*}
-% AUTHOR-CHECK ZERO: Pairwise distinctness under exchangeability does not imply P(E_j^{n+1}=0)=0.
+
 Interpreting the ``no-solution'' case as $E^{n+1}_j = 0$, we obtain precisely the expression for $\omega_j(c)$ given in the statement of the lemma. This notation adjustment is harmless because both $E^{n+1}_j = 0$ and $S^{n+1}_{\mathrm{oracle}} \leq -n/\sqrt{n+1}$ are probability-zero events by our Assumption~\ref{eq:assumption-scores} and Lemma~\ref{lem:3}, respectively.
 The monotonicity of $\omega_j(c)$ follows immediately from the construction.
 \end{proof}

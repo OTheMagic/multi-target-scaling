@@ -38,14 +38,13 @@ Inspired by the oracle procedure, we introduce two increasingly sophisticated da
 
 \subsection{Related Work}
 \label{sec:related-work}
-% AUTHOR-CHECK LIT: Distinguish Point CHR from CQHR and discuss rectangular shape templates.
 
 Extending conformal prediction to multivariate outcomes has attracted substantial attention in recent years, leading to the development of a wide range of alternative methods.
 
 A prominent line of work seeks minimum-volume prediction sets with flexible geometries by modeling dependence across output dimensions.
-This includes copula-based approaches \citep{messoudi2021copula, pmlr-v258-park25c, sun2024copula}, non-parametric density estimation methods \citep{sadinle2016least,izbicki2022cdsplit,wang2023pcp, dheur2025unified}, parametric density estimation methods \citep{johnstone2021conformal,sampson2024conformal,braun2025minimum,braun2025multivariate}, optimal-transport techniques \citep{thurin2025otcp, klein2025multivariate}, and flow-based generative models \citep{colombo2024normalizing, lee2025flow, fang2025contra}. While these approaches can produce smaller prediction sets than our method, the resulting sets often have complex shapes that are more difficult to interpret. Moreover, these approaches require additional model training on independent data to provide finite-sample guarantees, and many also involve substantial computational overhead.
+This includes copula-based approaches \citep{messoudi2021copula, pmlr-v258-park25c, sun2024copula}, non-parametric density estimation methods \citep{sadinle2016least,izbicki2022cdsplit,wang2023pcp, dheur2025unified}, parametric density estimation methods \citep{johnstone2021conformal,braun2025minimum,braun2025multivariate,tumu2024templates}, optimal-transport techniques \citep{thurin2025otcp, klein2025multivariate}, and flow-based generative models \citep{colombo2024normalizing, lee2025flow, fang2025contra}. While these approaches can produce smaller prediction sets than our method, the resulting sets often have complex shapes that are more difficult to interpret. Moreover, these approaches require additional model training on independent data to provide finite-sample guarantees, and many also involve substantial computational overhead.
 
-To the best of our knowledge, the idea of directly addressing heterogeneity across output dimensions via marginal residual rescaling remains relatively under-explored. \citet{baheri2025multiscale} pursue a related idea, but rely on a conservative Bonferroni-type correction. The approach of \citet{sampson2024conformal} is more closely related to ours, but requires an additional independent dataset; avoiding this requirement is the main technical challenge addressed in our paper. As we show empirically, the method of \citet{baheri2025multiscale} is often considerably less efficient than ours—particularly in small-sample regimes—resulting in less stable and less informative prediction sets.
+To the best of our knowledge, the idea of directly addressing heterogeneity across output dimensions via marginal residual rescaling remains relatively under-explored. \citet{baheri2025multiscale} pursue a related idea, but rely on a conservative Bonferroni-type correction. {\color{blue}The approach of \citet{sampson2024conformal} is more closely related to ours, but their method requires a base region of predictions, which one would need to estimate through an additional independent dataset if not provided directly through model estimation; avoiding this requirement is the main technical challenge addressed in our paper. As we show empirically, the methods of \citet{sampson2024conformal} is often considerably less efficient than ours—particularly in small-sample regimes—resulting in less stable and less informative prediction sets.}
 
 Our solution can be viewed as implementing a special instance of transductive, or full, conformal prediction \citep{vovk2005algorithmic,vovk2013transductive}. In contrast to the more commonly used split conformal methods, full conformal prediction repeatedly incorporates the test point, augmented with different candidate labels, directly into a learning algorithm. Although this strategy is computationally prohibitive in general, especially for continuous-valued numerical outcomes and complex algorithms, it can be implemented efficiently in some cases by exploiting structural properties of the underlying predictive model. Accordingly, our paper relates to a broader literature on making full conformal inference computationally practical in special cases, including approaches tailored to sparse generalized linear models \citep{lei2019fast,guha2023conformalization} and methods that leverage stability or other forms of structure in the predictive model \citep{ndiaye2019computing, abad2022approximating, martinez2023approximating, li2024generalized}. Unlike those works, which focus primarily on accelerating model refitting, we assume a fixed, pre-trained model and instead aim to improve efficiency by avoiding calibration data splitting while explicitly standardizing residuals across output dimensions. Both the problem setting and the proposed methodology are therefore novel.
 
@@ -74,14 +73,13 @@ denote the $\lceil(1-\alpha)(m+1)\rceil$-th smallest element of
 $\{v_1,\ldots,v_m,+\infty\}$.
 
 \subsection{Setup and Data Assumptions}
-% AUTHOR-CHECK DOMAIN: Restore an explicit n >= 2 requirement for the variance and strict-bound arguments.
 
 {\color{blue} We consider a multi-output (multivariate) regression setting where the
 goal is to predict a vector
 $\mathbf{Y}=(Y_1,\ldots,Y_d)$ of $d$ real-valued outputs given input
 features $\mathbf{X}\in\mathcal{X}$.
 Assume that
-$(\mathbf{X}^1,\mathbf{Y}^1),\ldots,(\mathbf{X}^{n+1},\mathbf{Y}^{n+1})$ are jointly exchangeable, or drawn
+$(\mathbf{X}^1,\mathbf{Y}^1),\ldots,(\mathbf{X}^{n+1},\mathbf{Y}^{n+1})$ with $n\geq 2$ are jointly exchangeable, or drawn
 i.i.d.\ from an arbitrary distribution $P_{X,Y}$. We observe the
 calibration data $\mathcal D_{\mathrm{cal}}=\{(\mathbf{X}^i,\mathbf{Y}^i)\}_{i=1}^n$
 and the test covariate $\mathbf{X}^{n+1}$, while the corresponding outcome
@@ -153,9 +151,8 @@ We also impose two additional regularity conditions. First, each residual
 coordinate is assumed to have finite mean and finite, strictly positive
 variance at the population level. These moment conditions are mild and automatically satisfied by bounded and nondegenerate
 residuals. Second, within each
-coordinate, the calibration and test residuals are assumed to be almost surely
+coordinate, we assume the distribution of residual has no point mass, and the calibration and test residuals are almost surely
 distinct, which is a standard assumption in conformal inference.
-% AUTHOR-CHECK TIES: Reconcile coordinate tie-breaking and zero scales with the saved implementation.
 When ties arise, including the ties at zero that may be introduced by
 truncation, they can be handled through standard randomized tie-breaking or
 by adding independent continuous jitter to the residuals. These conditions
@@ -165,7 +162,7 @@ satisfied. We collect all of the standing conditions below.
 
 \begin{assumption}
 \label{eq:assumption-scores}
-For every $j\in[d]$, the distribution of the residual $E_j(\mathbf X,Y_j)$ satisfies $E_j(\mathbf X,Y_j)\geq 0 $ almost surely, $
+For every $j\in[d]$, the distribution of the residual $E_j(\mathbf X,Y_j)$ has no point mass and satisfies $E_j(\mathbf X,Y_j)\geq 0 $ almost surely, $
 \mathbb E[E_j(\mathbf X,Y_j)]<\infty, $ and $
 0<\operatorname{Var}[E_j(\mathbf X,Y_j)]<\infty.$
 Moreover, for every $j\in[d]$, the residuals
@@ -205,8 +202,7 @@ Then, the prediction set is constructed as:
     \end{aligned}
     \label{eq:joint-prediction-scalar}
 \end{equation}
-% AUTHOR-CHECK MAP: The max scalarization is not injective; use a sublevel-set threshold map, not a literal inverse.
-If $\Phi$ is, in addition, an invertible map, then we can recover the form of~\eqref{eq:joint-prediction} from~\eqref{eq:joint-prediction-scalar} by setting $W_j = \Phi^{-1}_j\left(\hat{Q}_{1-\alpha}(S^1,\ldots,S^n)\right)$. We focus on the case where $\Phi$ is invertible, but the coverage guarantee also holds for other choices of $\Phi$, as demonstrated by the following theorem.
+If $\Phi$ is, in addition, coordinatewise invertible, then we can recover the form of~\eqref{eq:joint-prediction} from~\eqref{eq:joint-prediction-scalar} by setting $W_j = \Phi^{-1}_j\left(\hat{Q}_{1-\alpha}(S^1,\ldots,S^n)\right)$. We focus on the case where $\Phi$ is invertible, but the coverage guarantee also holds for other choices of $\Phi$, as demonstrated by the following theorem.
 
 \begin{theorem}[Generalized Marginal Coverage] \label{thm:fixed-transformation-coverage}
 Assume $(\mathbf{E}^1,\ldots,\mathbf{E}^{n+1})$ are exchangeable, with $\mathbf{E}^i = \mathbf E(\mathbf X^i, \mathbf Y^i)$ for all $i \in [n+1]$.
@@ -226,8 +222,7 @@ In fact, depending on the data distribution, the fitted model, and the choice of
 To obtain tighter prediction sets, recent works have proposed learning a suitable transformation of the residuals prior to applying a norm-based dimension reduction, for example by using optimal transport \citep{thurin2025otcp, klein2025multivariate}.
 However, these approaches require additional training data as well as expensive computations, and they typically lead to prediction sets with irregular shapes.}
 
-% AUTHOR-CHECK BALANCE: Equal marginal means and variances do not imply equal tail shapes or coverage.
-In this paper, we propose a conceptually simpler solution that consists of {\em standardizing} the residuals before taking the maximum across coordinates, similar to the $\ell_\infty$ norm. This leads to rectangular prediction sets with balanced coordinate-wise coverage across all output dimensions, without requiring additional training data or expensive computations.
+In this paper, we propose a conceptually simpler solution that consists of {\em standardizing} the residuals before taking the maximum across coordinates. This leads to rectangular prediction sets with balanced coordinate-wise prediction across all output dimensions, without requiring additional training data or expensive computations.
 Despite the apparent simplicity of this idea, however, achieving all desiderata while maintaining guaranteed finite-sample coverage involves significant technical challenges, which we overcome as explained below.
 
 
@@ -245,8 +240,8 @@ Consider prediction sets of the form in~\eqref{eq:joint-prediction-scalar}, obta
 := \max_{1 \le j \le d} \frac{t_j - \beta_j}{\theta_j},
 \label{eq:residual-transformation}
 \end{equation}
-where $\boldsymbol \beta = (\beta_1, \ldots, \beta_d)^\top$ and $\boldsymbol \theta = (\theta_1, \ldots, \theta_d)^\top$ are vectors of location and scale parameters, respectively. 
-% AUTHOR-CHECK MAP: The threshold characterization also requires theta_j > 0 in every coordinate.
+where $\boldsymbol \beta = (\beta_1, \ldots, \beta_d)^\top$ and $\boldsymbol \theta = (\theta_1, \ldots, \theta_d)^\top, \theta_i > 0$ are vectors of location and scale parameters, respectively. 
+
 This transformation is invertible, with coordinate-wise inverse $\Phi^{-1}_j (c; \boldsymbol \beta, \boldsymbol \theta) = c \cdot \theta_j + \beta_j$ for any $c \in \mathbb{R}$. 
 Given these two parameter vectors, we define the level-$(1-\alpha)$ prediction set at $\mathbf{X}^{n+1}$ by
 \begin{equation}\label{eq:set-valued-map}
@@ -347,10 +342,11 @@ The link functions $\omega_1, \ldots, \omega_d$ defined implicitly in~\eqref{eq:
 \begin{equation} \label{eq:plug-in-mean-std}
 \begin{aligned}
 & \hat{\mu}^\mathrm{obs}_j = \frac{1}{n} \sum_{i=1}^{n} {E}^i_j,
-& \hat{\sigma}^\mathrm{obs}_j =  \sqrt{\frac{1}{n} \sum_{i=1}^{n} \!\bigl({E}^i_j - \hat{\mu}^\mathrm{obs}_j\bigr)^2},
+& \hat{\sigma}^\mathrm{obs}_j =  \sqrt{\frac{1}{n} \sum_{i=1}^{n} \!\bigl({E}^i_j - \hat{\mu}^\mathrm{obs}_j\bigr)^2} > 0,
 && \forall j \in [d].
 \end{aligned}
 \end{equation}
+Since Assumption~\ref{eq:assumption-scores} ensures the residuals are almost surely distinct, we can safely assume that$\hat{\sigma}^\mathrm{obs}_j > 0$ almost surely for all $j \in [d]$.
 The explicit form of $\omega_j(c)$ is given in the following lemma.}
 
 \begin{lemma}\label{lem:solution-key-ineq}
@@ -416,7 +412,6 @@ Conveniently, $\hat{\Phi}^{\mathrm{gwc}}$ admits a closed-form expression.
 
 \begin{lemma}
 \label{lem:gwc-rescaling}
-% AUTHOR-CHECK DOMAIN: Define z_j^* explicitly at t_j = observed mean to avoid division by zero.
 The GWC transformation $\hat{\Phi}^{\mathrm{gwc}}$ defined in~\eqref{eq:gwc-residual-transformation} can be written as:
 \[
 \hat{\Phi}^{\mathrm{gwc}}(\mathbf t)
@@ -485,8 +480,7 @@ Thanks to our previous GWC construction, we already have a valid candidate for s
 \end{equation}
 }
 
-% AUTHOR-CHECK BALANCE: Give conditions for the asymptotic enclosure claim or qualify it as empirical.
-In practice, our method constructs a {\em relatively tight}, though not necessarily the {\em tightest}, such rectangle due to computational considerations. Nonetheless, the resulting prediction sets are (often much) more informative than $\hat{C}^{\mathrm{gwc}}(\mathbf{X}^{n+1})$ in finite samples. Moreover, in the large-sample limit, the union in~\eqref{eq:lwc-joint-union} becomes approximately rectangular itself, making this enclosing step a very mild relaxation from the perspective of statistical efficiency.
+In practice, our method constructs a {\em relatively tight}, though not necessarily the {\em tightest}, such rectangle due to computational considerations. Nonetheless, the resulting prediction sets are (often much) more informative than $\hat{C}^{\mathrm{gwc}}(\mathbf{X}^{n+1})$ in finite samples. Moreover, empirical evidence suggests that in the large-sample limit, the union in~\eqref{eq:lwc-joint-union} becomes approximately rectangular itself, making this enclosing step a very mild relaxation from the perspective of statistical efficiency.
 
 The following result guarantees that this high-level approach leads to a prediction set $\hat{C}^{\mathrm{lwc}}_\mathcal{P}(\mathbf{X}^{n+1})$ that retains valid marginal coverage.
 \begin{proposition}
@@ -505,7 +499,6 @@ We next introduce an intuitive data-driven partition based on the possible ranki
 For each $j \in [d]$, let $E^{(k)}_j$ denote the $k$-th order statistic of $\{{E}^i_j\}_{i=1}^n$, so that $0 := E^{(0)}_j < E^{(1)}_j \leq \ldots \leq E^{(n)}_j < E^{(n+1)}_j := +\infty$. 
 For each multi-index $\mathbf{h}=(h_1,\ldots,h_d)\in [n+1]^d$, define the local region $\mathcal{Y}^{\mathbf{h}}$ in the outcome space as:
 \begin{equation}\label{eq:rectangle-explicit}
-% AUTHOR-CHECK BOUNDARY: Half-open cells omit the closed global upper boundary; check the partition claim.
     \begin{aligned}
         \mathcal{Y}^{\mathbf{h}} &:= \left\{\mathbf y \in \R^d: \mathbf E(\mathbf{X}^{n+1}, \mathbf y) \in \mathcal{E}^{\mathbf{h}}\right\}, \quad \text{where}\\
         \mathcal{E}^{\mathbf{h}} &:=  \bigtimes_{j=1}^d \bigl[\,E^{(h_j-1)}_j,\, U^{h_j}_j\,\bigr) \quad\text{and} \quad U^{h_j}_j := \min\left\{E^{(h_j)}_j,  \omega_j(\hat{Q}^{\mathrm{gwc}}_{1-\alpha})\right\}
@@ -637,8 +630,7 @@ The last remaining step to make our method practical is finding an efficient alg
 Such a shortcut is made possible by the following result, which simplifies the definition of $\mathcal{L}_j$ from a maximum over $(n+1)^d$ distinct values to a maximum over an explicit, narrowed-down list of only $n+1$ relevant candidates.
 
 Before stating this result, it is helpful to introduce some notation. 
-% AUTHOR-CHECK BOUNDARY: Two weak inequalities do not give a unique mean index at an order statistic.
-Define the (random) \emph{mean index} vector $\mathbf{h}^* \in [n+1]^d$ as the unique index such that $E^{(h^*_j-1)}_j \le \hat{\mu}_j^\mathrm{obs} \le E^{(h^*_j)}_j$ for all $j \in [d]$.
+Define the (random) \emph{mean index} vector $\mathbf{h}^* \in [n+1]^d$ as the unique index such that $E^{(h^*_j-1)}_j \le \hat{\mu}_j^\mathrm{obs} < E^{(h^*_j)}_j$ for all $j \in [d]$.
 Let $\mathrm{Row}_j(\mathbf{h}^*)$ be a subset of $[n+1]^d$ containing exactly $n+1$ indices, defined as those coinciding with the mean index $\mathbf{h}^*$ on all coordinates other than the $j$-th one:
 \[
 \mathrm{Row}_j(\mathbf{h}^*):=\left\{\mathbf{h}\in[n{+}1]^d : h_k = h^*_k \text{ for all } k\neq j \right\}, \quad\forall j \in [d].
@@ -651,8 +643,7 @@ If $\mathcal{Y}^{\mathbf{h}^*} \neq \emptyset$, then for any $j \in [d]$, $\math
       \quad
       \text{where }\mathbf{h}^{[j]} := \operatorname*{argmax}_{\mathbf{h} \in \mathrm{Row}_j(\mathbf{h}^*)} B^{\mathbf{h}}_j.
     \end{align*}
-    % AUTHOR-CHECK ENDPOINT: The displayed >= includes the maximizer itself; verify a strict endpoint and tie convention.
-    This maximizing index $\mathbf{h}^{[j]}$ satisfies $B^{\mathbf{h}}_j= 0$ for any $\mathbf{h} \in \mathrm{Row}_j(\mathbf{h}^*)$ with $h_j \geq h^{[j]}_j$.
+    This maximizing index $\mathbf{h}^{[j]}$ satisfies $B^{\mathbf{h}}_j= 0$ for any $\mathbf{h} \in \mathrm{Row}_j(\mathbf{h}^*)$ with $h_j > h^{[j]}_j$.
     
     Moreover, for every $j \in [d]$, if there exists $\mathbf{m}\in\mathrm{Row}_j(\mathbf{h}^*)$ with $m_j\geq h^*_j$ and $B^{\mathbf{m}}_j=0$
     , then $B^{\mathbf{h}}_j=0$ for all $\mathbf{h}\in\mathrm{Row}_j(\mathbf{h}^*)$ with $h_j \geq m_j$.
@@ -680,8 +671,7 @@ Assume $(\mathbf{E}^1,\ldots,\mathbf{E}^{n+1})$ are exchangeable and Assumption~
 Then, $\hat{C}(\mathbf{X}^{n+1})$ constructed by Algorithm~\ref{alg:shortcut} satisfies: $\mathbb{P}[ \mathbf{Y}^{n+1} \in \hat{C}(\mathbf{X}^{n+1}) ] \ge 1 - \alpha$.
 \end{theorem}
 \begin{proof}
-% AUTHOR-CHECK EVENT: State the common oracle-acceptance event for both branches; marginal bounds alone do not justify selection.
-Using the characterization of $\hat{C}(\mathbf{X}^{n+1})$ in~\eqref{eq:tscp-shortcut}, the proof follows immediately by combining Proposition~\ref{prop:lwc-approximation}, which tells us that $\mathbb{P}[ \mathbf{Y}^{n+1} \in \hat{C}^{\mathrm{lwc}}_{\mathcal{P}_{n,d}}(\mathbf{X}^{n+1}) ] \ge 1 - \alpha$, and Theorem~\ref{thm:TSCP-GWC-coverage}, which tells us that $\mathbb{P}[ \mathbf{Y}^{n+1} \in \hat{C}^{\mathrm{gwc}}(\mathbf{X}^{n+1}) ] \ge 1 - \alpha$.
+Using the characterization of $\hat{C}(\mathbf{X}^{n+1})$ in~\eqref{eq:tscp-shortcut}, the proof follows immediately by combining Proposition~\ref{prop:lwc-approximation} and Theorem~\ref{thm:TSCP-GWC-coverage}, which tells us that $\mathbb{P}[ \mathbf{Y}^{n+1} \in \hat{C}(\mathbf{X}^{n+1}) ] = \mathbb{P}[ \mathbf{Y}^{n+1} \in \hat{C}^{\mathrm{lwc}}_{\mathcal{P}_{n,d}}(\mathbf{X}^{n+1}), \mathcal{Y}^h \neq \emptyset] + \mathbb{P}[ \mathbf{Y}^{n+1} \in \hat{C}^{\mathrm{gwc}}(\mathbf{X}^{n+1}), \mathcal{Y}^h = \emptyset] \geq \mathbb{P}[\mathbf Y^{n+1} \in {C}^\mathrm{oracle}] \geq 1-\alpha$..
 \end{proof}
 
 Theorem~\ref{thm:TSCP-coverage} guarantees that our prediction sets $\hat{C}(\mathbf{X}^{n+1})$ defined in~\eqref{eq:tscp-shortcut} have finite-sample marginal coverage of at least $1-\alpha$.

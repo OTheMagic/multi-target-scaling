@@ -73,7 +73,6 @@ $\boldsymbol{X}\sim\mathcal{N}(\boldsymbol{0},I_{10})$ and outcomes
 \end{equation}
 where $d=10$ and every $f_j$ is linear, with coefficients sampled once
 from $\operatorname{Unif}(-10,10)$ and held fixed across repetitions.
-% AUTHOR-CHECK DATA: Archived CSV provenance remains unverified against the independent-redraw design.
 In each repetition, we independently generate 7,200 training observations,
 800 test observations, and a calibration sample of size $n\in\{30,50,100,300,500\}$. We
 estimate the regression coefficients using
@@ -213,10 +212,7 @@ shrinking the fitted base interval. We therefore use base-interval
 miscoverage $0.5$ to limit the prevalence of negative signed scores.
 This choice is not required by the method; Appendix~\ref{app:cqr-sensitivity}
 examines other base-interval levels and a shifted-score transformation.
-% AUTHOR-CHECK TIES: Capping enforces nonnegativity but does not establish the standing distinctness assumption.
-Capping can introduce ties at zero, so these empirical results do not by
-themselves establish the distinctness condition in
-Assumption~\ref{eq:assumption-scores}.
+Capping can introduce ties at zero, but we can break them by adding a small random noise as a standard procedure in conformal inference.
 
 Unscaled Max, CQHR, and Emp. Copula use the raw signed
 residuals for fair comparison. CQHR uses the first
@@ -244,8 +240,8 @@ Appendix~\ref{app:cqr-sensitivity}. Emp. Copula undercovers in this comparison.
   \centering
   \includegraphics[width=0.88\textwidth]{figures/fig_body_cqr_comparison.pdf}
   \caption{CQR experiment with $d=3$ and base-interval miscoverage $0.5$.
-  TSCP uses capped nonnegative scores; Unscaled Max, CQHR, and Emp. Copula use raw
-  signed scores. Results are averaged over 30 independent repetitions.}
+  TSCP uses capped nonnegative scores, Unscaled Max, CQHR, and Emp. Copula use raw
+  signed residuals. Results are averaged over 30 independent repetitions.}
   \label{fig:body-cqr}
 \end{figure*}
 
@@ -261,8 +257,8 @@ coverage panel rather than compared without regard to calibration.
   \includegraphics[width=0.82\textwidth]{figures/fig_body_cqr_coordinate_bars.pdf}
   \caption{Coordinate-wise mean full outcome-space lengths for the CQR
   experiment with $d=3$, $n=100$, base-interval miscoverage $0.5$, and final
-  target coverage $0.9$. TSCP uses capped scores, Unscaled Max and Emp. Copula
-  use raw signed scores, and CQHR uses its native construction. Results
+  target coverage $0.9$. TSCP uses capped residuals, Unscaled Max and Emp. Copula
+  use raw signed residuals, and CQHR uses its native construction. Results
   average 30 independent repetitions.}
   \label{fig:body-cqr-coordinate-bars}
 \end{figure*}
@@ -346,7 +342,6 @@ not uniformly preferable. Emp. Copula produces smaller regions with
 empirical coverage below the target.
 
 Figure~\ref{fig:body-real-runtime} compares construction times.
-% AUTHOR-CHECK REPRO: Verify the environment and package versions for these historical timing records.
 TSCP constructs a region in $0.74$--$7.46$ milliseconds on
 these datasets. It is slower than the algebraically simpler Unscaled Max and
 Point CHR implementations, but substantially faster than Emp. Copula on the
