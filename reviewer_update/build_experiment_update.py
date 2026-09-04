@@ -79,6 +79,10 @@ METHOD_LABELS = {
     "Empirical copula": "Emp. Copula",
     "CQHR": "CQHR",
     "ShapeTemplate": "Shape Template",
+    "TSCP_S": "TSCP-S",
+    "TSCP_LWC": "TSCP-LWC",
+    "Population_oracle": "Pop. Oracle",
+    "Naive": "Naive",
 }
 
 COLORS = {
@@ -89,6 +93,10 @@ COLORS = {
     "Emp. Copula": "#8C8C8C",
     "CQHR": "#7B61A8",
     "Shape Template": "#59A14F",
+    "TSCP-S": "#59A14F",
+    "TSCP-LWC": "#3E9A9A",
+    "Pop. Oracle": "#333333",
+    "Naive": "#7B61A8",
 }
 
 MARKERS = {
@@ -99,6 +107,10 @@ MARKERS = {
     "Emp. Copula": "P",
     "CQHR": "s",
     "Shape Template": "^",
+    "TSCP-S": "^",
+    "TSCP-LWC": "X",
+    "Pop. Oracle": "s",
+    "Naive": "P",
 }
 
 mpl.rcParams.update(

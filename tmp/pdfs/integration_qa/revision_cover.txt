@@ -21,10 +21,10 @@ acceptance implication, improving mathematical precision. Author check: Review t
 inequality and complete the common-event argument in the piecewise coverage proof.
 • Section 4: numerical experiments. New main-text material includes dependent heterogeneous Gaussian noise,
 coordinate-length bar plots, partial heteroskedasticity, native CQHR, and real-data wall-clock comparisons. New
-200-split real-data reruns add all coordinate lengths and direct backward-search/fallback counts. Independent-noise
-benchmarks now lead into the dependence studies; the original energy example remains in the body. Sampling
-protocols and CQR settings are explicit. These changes answer requests for coordinate detail, broader baselines,
-and computational evidence; the Point CHR inﬁnite-volume case is now explained by its allocation.
+200-split real-data reruns add all coordinate lengths and direct backward-search/fallback counts. Independent-
+noise benchmarks now lead into the dependence studies; the original energy example remains in the body. Sample
+sizes and CQR settings are explicit. These changes answer requests for coordinate detail, broader baselines, and
+computational evidence; the Point CHR inﬁnite-volume case is now explained by its allocation.
 • Section 5: discussion. The existing discussion is retained without alteration. Author check: Connect it to
 the new contamination and CQR evidence while retaining the distinction between empirical robustness and proved
 validity.
@@ -38,11 +38,11 @@ main text; this integration did not perform a complete proof-equivalence audit.
 calibration size, heavy tails, contamination, CQR transformations, shape templates, oracle approximation, compu-
 tational scaling, and real-data results are now organized by scientiﬁc topic. The earlier and added studies jointly
 show where eﬃciency gains persist and where they are limited.
-• Experimental presentation and preservation. The separate legacy appendix has been folded into Appendix
-C. experiments_body.tex and experiments_appendix.tex now contain the complete account, without a revision-
-log narrative. All experimental settings, numerical results, ﬁgures, and tables are unchanged by this editorial pass.
-Fixed-pool and independent-draw protocols remain explicitly distinguished so the reorganization does not obscure
-their scope.
+• Experimental presentation and preservation. The two experiment ﬁles now contain the complete account
+without a revision-log narrative. Eight earlier plots have been redrawn in the newer visual style, and the author’s
+order through Section 4.2 is preserved. Numerical results and tables are unchanged. Author check: Reconcile
+the archived CSV provenance with the speciﬁed fresh sampling before submission; restyling does not establish how
+those runs were sampled.
 • Figures, bibliography , and remaining completion. All original experimental assets and labels are retained; 19
 new PDF ﬁgures and the Tumu et al. reference are added. Figures 1 and 2 now show illustrative marginal coverage
 rates and residual-boundary labels, respectively, to clarify their interpretation. Author check: Finish notation

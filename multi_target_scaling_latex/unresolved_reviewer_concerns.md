@@ -2,7 +2,9 @@
 
 This audit compares the revised LaTeX sources, the integrated experiments, the original arXiv v1 PDF, and the two reviewer reports. It is not a certification of every proof. The author's latest non-experimental edits have been preserved and the affected audit entries updated on September 4, 2026. No non-experimental prose was rewritten during the experiment editing. At the author's request, Figures 1 and 2 have been annotated to address R2.m1 and R2.m3; their previous PDFs and drawing sources are preserved in `../reviewer_update/pre_schematic_labels`.
 
-The publication-style editorial pass consolidates every experimental study into `experiments_body.tex` and `experiments_appendix.tex`, organized by scientific topic. Revision history is confined to the cover, response, and project documentation. Experimental data, settings, and figure/table assets are unchanged by this pass; `publication_edit_audit.json` records the preservation checks.
+The earlier publication-style editorial pass consolidated every experimental study into `experiments_body.tex` and `experiments_appendix.tex`, organized by scientific topic, without changing experimental data, settings, or figure/table assets. Revision history is confined to the cover, response, and project documentation. The latest preservation checks are recorded in `publication_edit_audit.json`.
+
+The subsequent figure-standardization pass preserves the author's ordering through Section 4.2, removes the two-protocol presentation, and redraws eight archived figures plus four real-data diagnostic figures in the common style. Numerical summaries and tables are unchanged. The sampling provenance of the archived summaries is **not yet verified against the author's stated independent-redraw design**; see item 0 below and `sampling_provenance.md`. This new source-verification item is separate from the twenty reviewer points.
 
 The follow-up diagnostic study has now completed 200 new splits of each of the six real datasets. It closes the three previously missing empirical items below; it does not resolve the separate theoretical and editorial issues.
 
@@ -35,6 +37,14 @@ Total: **13 addressed, 6 partially addressed, 1 open**. The editor's overall com
 
 ## Highest-Priority Scientific Checks
 
+### 0. Archived sampling provenance: open
+
+- The author specifies independently generated training/calibration/test observations in every synthetic repetition, with 7,200/800 training/test observations for absolute residuals.
+- The saved `exps.ipynb` generator in code cell 11 instead generates its 8,000-observation training/test data outside the repetition loop and splits it 80%/20% inside that loop. Calibration is redrawn. The archived CSVs lack run-level sampling metadata, so their exact generation history needs reconciliation rather than assumption.
+- The restyled figures preserve the archived numerical values. Restyling does not validate the sampling design or convert those summaries into a new experiment.
+- Required: generating-code/run provenance supporting the stated settings, corrected summaries, or authorization to rerun the affected studies and update matching tables. Details and all affected figure families are listed in `sampling_provenance.md`.
+- The paper now uses the single stated design rather than describing two alternatives. The discrepancy is recorded here and on the cover/response, not embedded as revision commentary in the experiment narrative. Do not treat the draft as submission-ready until it is resolved.
+
 ### 1. Local conditional-coverage inference: corrected by the author
 
 - Location: Section 3.4.1, immediately after `eq:lwc-local-containment`.
@@ -44,7 +54,7 @@ Total: **13 addressed, 6 partially addressed, 1 open**. The editor's overall com
 ### 2. Contradictory endpoint condition in the search-reduction lemma
 
 - Location: Section 3.4.4, Lemma `lem:reduction-search`, sentence immediately after the maximization display.
-- The statement first says that the maximizing value `B_j` is positive, then says it is zero for every index greater than **or equal to** the maximizer, including that same maximizer.
+- The latest author edit removes the explicit `> 0` after the maximizing value. The subsequent sentence still says `B_j` is zero at every index greater than **or equal to** the maximizer, including the maximizer itself. This would force the maximum to be zero, so the endpoint relation still needs verification for nonzero enclosures.
 - Suggested direction: verify whether the intended relation is strictly greater, and check ties, the choice of maximizer, and the matching proof before changing it. This appears to be inherited from the old draft, not introduced by the experiment integration.
 
 ### 3. Piecewise coverage proof needs a shared event argument
@@ -120,11 +130,12 @@ Total: **13 addressed, 6 partially addressed, 1 open**. The editor's overall com
 ## Verified Preservation and Integration
 
 - `main.tex`, `abstract.tex`, and `jmlr2e.sty` are unchanged from the supplied folder.
-- The author's subsequent edits to Sections 2--3 are preserved in `../reviewer_update/pre_publication_experiments/author_body.tex`. Discussion/Software/Acknowledgments and the algorithm/proof portions of the supplement remain unchanged from the supplied source. The validator distinguishes author edits from this editorial pass rather than reverting them to the initial snapshot.
+- The author's latest edits to Sections 2--3 are preserved in `../reviewer_update/pre_figure_unification/body.tex`. Discussion/Software/Acknowledgments and the algorithm/proof portions of the supplement remain unchanged from the supplied source. The validator distinguishes author edits from this editorial pass rather than reverting them to the initial snapshot.
 - The missing `fig:joint-prediction` label was restored with the author's permission. This is the only body-source change made during the publication edit; the current text is otherwise identical to the latest author snapshot.
 - All 95 original active labels, 10 original graphic inclusions, and seven original table labels are retained. Of the 26 original figure-directory files, 22 are unchanged; the two schematic PDFs and their two drawing sources are intentionally updated for R2.m1/R2.m3. Their pre-edit copies are preserved, and the source audit checks that only the annotation blocks were added.
-- All 19 new PDFs (15 earlier figures plus four real-data diagnostic figures) are copied without alteration. New supporting CSV files are in `experiment_data`, with the follow-up records in `experiment_data/real_diagnostics`.
+- Of the 19 previously added experimental PDFs, 15 are unchanged and four real-data diagnostic figures have been restyled. Eight archived experimental plots are redrawn under unified filenames, giving 27 active experimental PDFs; their original PDFs remain available at the old paths. Supporting CSV files are unchanged in `experiment_data`, with the follow-up records in `experiment_data/real_diagnostics`.
 - Passive branch instrumentation passed 63 regression tests. A full replay verified all 1,200 split-index partitions, coordinate metrics, branch counts, and exact equality with the pre-instrumentation TSCP rectangles. No zero empirical-scale coordinate or fitting warning occurred in these reruns; this does not resolve general tie/degeneracy assumptions.
-- `integration_audit.json` records structural checks; `publication_edit_audit.json` checks all 61 pre-edit experimental labels, 27 graphic inclusions, nine table inputs, the inline numerical table, and 114 figure/data file hashes against the pre-publication snapshot. `reviewer_update/pre_integration_latex` outside this folder preserves the complete supplied folder for comparison.
+- `integration_audit.json` records structural checks; `publication_edit_audit.json` now compares against the author's latest files in `../reviewer_update/pre_figure_unification`, checks all 59 pre-edit experimental labels, 27 graphic inclusions with the authorized filename mapping, nine table inputs, the inline numerical table, and preservation of 110 existing assets. Four real-data PDFs are restyled and eight renamed PDFs are added. `figure_style_audit.json` records plotted values and source hashes. `reviewer_update/pre_integration_latex` preserves the initial supplied folder for comparison.
 - A separate compilation wrapper handles Unicode punctuation and appendix hyperlink destinations under Tectonic; it changes neither the manuscript's scientific text nor printed numbering.
-- September 4 verification: both preservation audits passed, as did the normal and source-only Tectonic builds. The manuscript has 70 pages, the response 12, and the cover one. All 136 labels and all citations resolve; no experiment-section overflow warnings remain. All pages were rendered for layout review.
+- The figure-style unit checks verify exact correspondence with source summaries, runtime conversion to milliseconds, canonical method styling, the coverage display range, retained local-union dimensions, vector PDF fonts, and legend labels. These checks do not certify archived sampling provenance.
+- Both preservation audits and all five figure-style tests pass. Normal and fresh source-only Tectonic builds produce the 70-page manuscript, 12-page response, and one-page cover with resolved references and citations. All 27 experimental figures and the compiled document pages were rendered for visual review; no experiment-section overflow warnings remain.

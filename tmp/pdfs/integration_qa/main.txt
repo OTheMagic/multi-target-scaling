@@ -1141,7 +1141,7 @@ Lj = max
 h∈Rowj (h∗)
 Bh
 j = Bh[j]
-j > 0, where h[j] := argmax
+j , where h[j] := argmax
 h∈Rowj (h∗)
 Bh
 j .
@@ -1262,27 +1262,28 @@ o
 4 Numerical Experiments
 We evaluate Transductively Standardized Conformal Prediction (TSCP) on simulated and
 real multivariate regression problems, studying joint coverage, coordinate-wise interval
-length, prediction-set volume, and computational cost. Independent-noise benchmarks es-
-tablish the eﬀect of unequal outcome scales; dependent and partially heteroskedastic mod-
-els examine how this behavior changes with cross-output and input-dependent variation.
-We then consider quantile-regression scores and six real datasets. Appendix C provides
-distribution-speciﬁc comparisons, sensitivity analyses, heavy-tail and contamination stress
-tests, and comparisons with the population oracle, the unenclosed local union, and a convex
-shape-template method.
+length, prediction-set volume, and computational cost. We ﬁrst consider absolute-residual
+scores under independent Gaussian noise to establish the eﬀect of unequal outcome scales,
+followed by dependent and partially heteroskedastic noise to examine cross-output and
+input-dependent variation. We then study quantile-regression scores and six real datasets.
+Appendix C provides additional noise-distribution comparisons, sensitivity analyses, heavy-
+tail and contamination stress tests, and comparisons with the oracle and alternative con-
+structions introduced in the paper.
 4.1 Methods and Evaluation Metrics
 The primary comparisons use four methods. Unscaled Max applies split conformal pre-
-diction to the maximum coordinate-wise residual. Point CHR estimates coordinate scales
-using an additional data split. Emp. Copula estimates a dependence model from the cali-
-bration residuals and then uses the same observations for calibration; this implementation
-does not have the ﬁnite-sample guarantee enjoyed by the other methods. TSCP denotes the
-rectangular local-worst-case construction proposed in this paper. For quantile-regression ex-
-periments, we additionally compare with the native CQHR method of Sampson and Chan
-(2024). Appendix C.9 contains a separate low-dimensional comparison with the hyperrect-
-angular shape-template method of Tumu et al. (2024).
+diction to the maximum coordinate-wise residual without additional scaling. Point CHR
+estimates coordinate scales using an additional data split ( Sampson and Chan , 2024). Emp.
+Copula estimates a dependence model from the calibration residuals and then uses the same
+observations for calibration; this implementation does not have the ﬁnite-sample guaran-
+tee enjoyed by the other methods ( Messoudi et al. , 2021). TSCP denotes the rectangular
+local-worst-case construction proposed in this paper. For quantile-regression experiments,
+we replace Point CHR with the native quantile-hyperrectangle method CQHR of Sampson
 19
 
 PAGE 20
 F an and Sesia
+and Chan (2024). Appendix C.8 contains a separate low-dimensional comparison with the
+hyperrectangular shape-template method of Tumu et al. (2024).
 For a test sample of size m, we report the empirical joint coverage
 dCov = 1
 m
@@ -1293,48 +1294,91 @@ n
 Y i ∈ bC(X i)
 o
 .
-For absolute residual scores, all methods return a rectangle with residual half-widths
+For absolute-residual experiments, all methods return a rectangle with residual half-widths
 (L1, . . . ,Ld). We therefore report the normalized residual-space volume Qd
 j=1 Lj, which
-equals 2−d times the full rectangular volume, and the full coordinate-wise interval lengths
-2Lj. For CQR, the base interval depends on the test covariates, so volume and coordinate
-lengths are averaged in the original outcome space. Runtime is the wall-clock time needed
-to construct the conformal region after residuals have been computed; ﬁtting the common
-regression model is excluded. Unless stated otherwise, absolute-residual results are averaged
-over 200 repetitions and the target coverage is 1 − α = 0 .9. All methods in a comparison
-share the ﬁtted regression model and the calibration and test observations. Synthetic
-regression coeﬃcients are ﬁxed across repetitions. Sampling protocols are speciﬁed for each
-study and summarized in Appendix C.1. Across-repetition variability and Monte Carlo
-uncertainty are reported in Appendix C.13.
+equals 2−d times the full rectangular volume in the outcome space, and the full coordinate-
+wise interval lengths 2Lj. For quantile-regression experiments, the base interval depends on
+the test covariates, so volume and coordinate lengths are averaged over the test observations
+in outcome space. Runtime is the wall-clock time needed to construct the conformal region
+after residuals have been computed; ﬁtting the underlying regression model is excluded.
+Unless stated otherwise, absolute-residual results are averaged over 200 repetitions and the
+target coverage is 1 − α = 0.9. All methods in each repetition use the same ﬁtted regression
+model and the calibration and test observations. Sample sizes and model settings are
+speciﬁed below. Across-repetition variability and Monte Carlo uncertainty are reported in
+Appendix C.12.
 4.2 Absolute-Residual Experiments
 We ﬁrst generate 10-dimensional features X ∼ N (0, I10) and outcomes
-Yj = fj(X) + ϵj, j ∈ [10],
-where every fj is linear and its coeﬃcients are sampled once from Unif(−10, 10).
-Independent noise and coordinate heterogeneity . Under independent Gaussian
-noise with scales (10, 9, . . . ,1), TSCP combines near-nominal joint coverage with smaller
-prediction-set volumes than Point CHR and Unscaled Max. With unit noise scale in
-every coordinate, Unscaled Max is the most eﬃcient, while TSCP remains competitive.
-Figures S1 and S2, together with the Laplace, mixture, and Gamma comparisons in
-Appendix C.2, show that the beneﬁt of standardization depends on the distribution of
-variation across outcomes. These independent-noise benchmarks use randomized splits of
-a ﬁxed simulated training/test pool, as speciﬁed in Appendix C.1.
-Heterogeneous and dependent noise. To study dependence and input-dependent vari-
-ation with independently replicated datasets, each repetition draws 7,200 observations to
-ﬁt ordinary least squares, 800 test observations, and a separate calibration sample of size
-n ∈ { 30, 50, 100, 300, 500}. The dependent-noise experiment uses ϵ ∼ N (0, DRD), where
-D = diag(10 , 9, . . . ,1) and R is equicorrelated with ρ = 0 .6. This simultaneously tests
-heterogeneous coordinate scales and cross-output dependence. Figure 3 reports joint cover-
-age, residual-space volume, and construction time; the coordinate-wise lengths are reported
-separately in Figure 4. At n = 100 , TSCP attains coverage 0.907 with average volume
-3.57 × 1010, compared with coverage 0.904 and volume 5.24 × 1010 for Point CHR. Un-
-scaled Max has coverage 0.902 but a volume of 7.42 × 1012. Emp. Copula is smaller but
-undercovers, with coverage 0.873.
-Figure 4 makes the dimension-speciﬁc behavior explicit at n = 100 . The mean TSCP
-full interval length decreases from 49.4 on the noisiest coordinate to 5.0 on the quietest
+Yj = fj(X) + ϵj, j ∈ [d], (27)
+where d = 10 and every fj is linear, with coeﬃcients sampled once from Unif(−10, 10) and
+held ﬁxed across repetitions. In each repetition, we independently generate 7,200 training ob-
+servations, 800 test observations, and a calibration sample of size n ∈ {30, 50, 100, 300, 500}.
+We estimate the regression coeﬃcients using ordinary least squares, and all methods in each
+repetition share the same ﬁtted predictor.
+4.2.1 Independent Gaussian Noise
+Figure 3 reports results under independent Gaussian noise with ϵj ∼ N (0, (11 − j)2) for
+j ∈ [10]. TSCP combines near-nominal joint coverage with smaller prediction-set volumes
+than Point CHR and Unscaled Max. The volume penalty for Point CHR is particularly
+pronounced when n < 100, where its additional split reduces the observations available for
+calibration. Unscaled Max assigns one residual threshold to outputs with unequal noise
+scales and therefore produces substantially larger rectangles. Emp. Copula yields smaller
+regions but undercovers; its reuse of calibration observations for dependence estimation
+precludes the split-conformal guarantee enjoyed by the other benchmarks.
+Figure 4 reports the corresponding homogeneous setting, with ϵj ∼ N (0, 1) for all j ∈
+[10]. Unscaled Max is the most eﬃcient method with near-nominal coverage, while TSCP
+remains competitive. Together, these two settings show that coordinate adaptation is useful
+when noise scales diﬀer, whereas unscaled calibration can be more eﬃcient when a common
+scale is appropriate.
 20
 
 PAGE 21
 Interpretable Multivariate Conformal Prediction
+100 200 300 400 500
+Calibration sample size
+0.6
+0.7
+0.8
+0.9
+1.0
+Mean
+Joint coverage
+100 200 300 400 500
+Calibration sample size
+1011
+1012
+1013
+Mean
+Residual-space volume
+Emp. Copula Unscaled Max Point CHR TSCP (Ours)
+Figure 3: Absolute-residual experiment with d = 10 , independent Gaussian noise, and
+heterogeneous scales (10, 9, . . . ,1). Panels report mean joint coverage and residual-space
+volume over 200 repetitions. The dashed line marks the target coverage 0.9; numerical
+results and standard deviations are reported in Table S4.
+100 200 300 400 500
+Calibration sample size
+0.6
+0.7
+0.8
+0.9
+1.0
+Mean
+Joint coverage
+100 200 300 400 500
+Calibration sample size
+104
+105
+106
+Mean
+Residual-space volume
+Emp. Copula Unscaled Max Point CHR TSCP (Ours)
+Figure 4: Absolute-residual experiment with d = 10, independent Gaussian noise, and unit
+scale in every coordinate. Panels report mean joint coverage and residual-space volume
+over 200 repetitions. The dashed line marks the target coverage 0.9; numerical results and
+standard deviations are reported in Table S5.
+21
+
+PAGE 22
+F an and Sesia
 200 400
 Calibration sample size
 0.6
@@ -1358,9 +1402,42 @@ Calibration sample size
 Milliseconds
 Construction time
 Emp. Copula Unscaled Max Point CHR TSCP (Ours)
-Figure 3: Absolute-residual experiment with d = 10 , heterogeneous Gaussian scales
-(10, 9, . . . ,1), and equicorrelation ρ = 0 .6. Curves report averages over 200 repetitions;
-the dashed line marks the target joint coverage. Runtime excludes the common model ﬁt.
+Figure 5: Absolute-residual experiment with d = 10 , heterogeneous Gaussian scales
+(10, 9, . . . ,1), and equicorrelation ρ = 0 .6. Panels report mean joint coverage, residual-
+space volume, and construction time over 200 repetitions. The dashed line marks the target
+coverage 0.9. Runtime excludes model ﬁtting and residual computation.
+4.2.2 Heterogeneous and Dependent Noise
+The dependent-noise experiment uses ϵ ∼ N (0, DRD), where D = diag(10, 9, . . . ,1) and R
+is equicorrelated with ρ = 0 .6. This simultaneously tests heterogeneous coordinate scales
+and cross-output dependence. Figure 5 reports joint coverage, residual-space volume, and
+construction time; the coordinate-wise lengths are reported separately in Figure 6. At
+n = 100 , TSCP attains coverage 0.907 with average volume 3.57 × 1010, compared with
+coverage 0.904 and volume 5.24 × 1010 for Point CHR. Unscaled Max has coverage 0.902
+but a volume of 7.42 × 1012. Emp. Copula is smaller but undercovers, with coverage 0.873.
+Figure 6 makes the dimension-speciﬁc behavior explicit at n = 100 . The mean TSCP
+full interval length decreases from 49.4 on the noisiest coordinate to 5.0 on the quietest
+coordinate. In contrast, Unscaled Max assigns the same length, approximately 38.0, to every
+coordinate. Thus, similar overall coverage does not imply similar marginal informativeness:
+TSCP allocates width according to coordinate scale instead of allowing the noisiest output
+to determine all ten intervals. The smaller Emp. Copula bars must be read together with
+its joint undercoverage in Figure 5.
+4.2.3 Partial Heteroskedasticity
+To distinguish heterogeneity across coordinates from heteroskedasticity with respect to the
+input, we next make only the ﬁrst ﬁve coordinates heteroskedastic. For j ≤ 5, conditional
+on X1 = x1, the noise standard deviation is
+σj(x1) = (11 − j)
+r
+1 + 1.5x2
+1
+2.5 ,
+while σj(x1) = 11 − j for j > 5. The normalization preserves E[σ2
+j (X1)] = (11 − j)2, so
+the comparison isolates input-dependent variance rather than changing the marginal second
+moments.
+22
+
+PAGE 23
+Interpretable Multivariate Conformal Prediction
 1 2 3 4 5 6 7 8 9 10
 Outcome coordinate
 0
@@ -1372,21 +1449,10 @@ Outcome coordinate
 Mean full length
 Coordinate-wise interval length
 Emp. Copula Unscaled Max Point CHR TSCP (Ours)
-Figure 4: Coordinate-wise mean full interval lengths for the absolute-residual experiment
+Figure 6: Coordinate-wise mean full interval lengths for the absolute-residual experiment
 with d = 10 , n = 100 , heterogeneous Gaussian scales (10, 9, . . . ,1), and equicorrelation
 ρ = 0 .6. Residual-space half-widths are multiplied by two to report full outcome intervals.
 Results average 200 independent repetitions.
-coordinate. In contrast, Unscaled Max assigns the same length, approximately 38.0, to every
-coordinate. Thus, similar overall coverage does not imply similar marginal informativeness:
-TSCP allocates width according to coordinate scale instead of allowing the noisiest output
-to determine all ten intervals. The smaller Emp. Copula bars must be read together with
-its joint undercoverage in Figure 3.
-Partial heteroskedasticity . To distinguish heterogeneity across coordinates from het-
-eroskedasticity with respect to the input, we next make only the ﬁrst ﬁve coordinates
-21
-
-PAGE 22
-F an and Sesia
 200 400
 Calibration sample size
 0.6
@@ -1416,25 +1482,20 @@ Mean full length
 Coordinate-wise length
 heteroskedastic
 Emp. Copula Unscaled Max Point CHR TSCP (Ours)
-Figure 5: Performance when only the ﬁrst ﬁve of ten outcomes are heteroskedastic in X1.
+Figure 7: Performance when only the ﬁrst ﬁve of ten outcomes are heteroskedastic in X1.
 The shaded coordinates in the right panel are the heteroskedastic ones; full interval lengths
-are shown for n = 100. Results are averaged over 200 independent repetitions.
-heteroskedastic. For j ≤ 5, conditional on X1 = x1, the noise standard deviation is
-σj(x1) = (11 − j)
-r
-1 + 1.5x2
-1
-2.5 ,
-while σj(x1) = 11 − j for j > 5. The normalization preserves E[σ2
-j (X1)] = (11 − j)2, so
-the comparison isolates input-dependent variance rather than changing the marginal second
-moments.
-Figure 5 shows that TSCP remains close to the target across calibration sizes and
+are shown for n = 100. Results are averaged over 200 repetitions, and the dashed line marks
+the target joint coverage 0.9.
+Figure 7 shows that TSCP remains close to the target across calibration sizes and
 continues to adapt coordinate-wise. At n = 100, TSCP obtains coverage 0.904 and average
 volume 1.40×1011; Point CHR obtains coverage 0.902 and volume 2.94×1011, while Unscaled
 Max obtains coverage 0.900 and volume 2.33×1013. This is a marginal-coverage experiment.
 It does not assert conditional coverage at each value of X1, nor does the present global
 coordinate standardization attempt to estimate the local variance function.
+23
+
+PAGE 24
+F an and Sesia
 4.3 Quantile-Regression Scores and CQHR
 We next replace absolute mean-regression residuals with coordinate-wise CQR scores. Let
 bqℓ,j(x) andbqu,j(x) denote ﬁtted lower and upper conditional quantiles. The signed score is
@@ -1447,9 +1508,39 @@ magnitude, as an absolute-value transformation would. It cannot shrink an alread
 vative base interval. Capping also creates ties at zero, so this experiment does not satisfy
 the pairwise-distinctness condition of Assumption 1 verbatim. We report its empirical per-
 formance without claiming an extension of the theorem to all tied or degenerate residual
-22
+conﬁgurations. Unscaled Max and Emp. Copula use the raw signed scores, while CQHR is
+applied in its native form. Predicted lower and upper quantiles are ordered pointwise for
+all methods. CQHR uses the ﬁrst coordinate as reference and a numerical ﬂoor of 10−12 on
+base-interval lengths when forming width ratios.
+We use the same linear signal and ten-dimensional Gaussian features with d = 3 Gaus-
+sian outcomes and independent noise scales (3, 2, 1), ﬁt separate gradient-boosted quantile
+regressions using 2,400 training observations, and evaluate on 600 test observations. Each
+quantile model uses 100 boosting stages, maximum tree depth 5, learning rate 0.05, and
+minimum leaf size 5. The base-interval miscoverage is 0.5 and the ﬁnal target miscoverage
+is 0.1. Each of the 30 repetitions uses fresh training, test, and calibration samples. Figure 8
+shows that TSCP’s empirical coverage ﬂuctuates around the target, ranging from 0.899 to
+0.922 over the displayed calibration sizes, while its mean outcome-space volume remains
+between 2.62 × 104 and 3.62 × 104. CQHR attains empirical coverage between 0.894 and
+0.909 but is much larger and more variable in this design; at n = 100 , its mean volume is
+1.29 × 108. This comparison is speciﬁc to the stated base quantile models and is not a claim
+that one method uniformly dominates CQHR. Base-interval and shifted-score sensitivity
+analyses are in Appendix C.7.
+Figure 9 reports the corresponding coordinate-wise comparison at n = 100 . TSCP’s
+mean full lengths are (36.2, 36.9, 20.9), compared with (33.3, 33.8, 29.0) for Unscaled Max
+and (46.2, 120.5, 66.9) for CQHR. In particular, TSCP preserves a substantially shorter
+third-coordinate interval than Unscaled Max, while CQHR is much wider on the second
+and third coordinates in this ﬁtted-quantile design. As above, the coordinate-wise lengths
+should be interpreted together with the joint coverage panel rather than compared without
+regard to calibration.
+4.4 Real Data and Wall-Clock Runtime
+We evaluate six real-data benchmarks: rf2 (Tsoumakas et al. , 2022), scm1d (Contributors,
+2019a), scm20d (Contributors, 2019b), stock (Yeh, 2015), student (Cortez, 2008), and
+energy (Tsanas and Xifara , 2012). The table and runtime ﬁgure use the order stock,
+rf2, scm1d, scm20d, energy, and student. Each result averages 200 random train-
+ing/calibration/test splits using proportions 75%/5%/20%. The calibration sizes therefore
+24
 
-PAGE 23
+PAGE 25
 Interpretable Multivariate Conformal Prediction
 50 100 150 200
 Calibration sample size
@@ -1470,38 +1561,10 @@ Calibration sample size
 Mean
 Outcome-space volume
 Emp. Copula Unscaled Max CQHR TSCP (Ours)
-Figure 6: CQR experiment with d = 3 and base-interval miscoverage 0.5. TSCP uses
+Figure 8: CQR experiment with d = 3 and base-interval miscoverage 0.5. TSCP uses
 capped nonnegative scores, Unscaled Max and Emp. Copula use raw signed scores, and
 CQHR uses its native quantile-hyperrectangle construction. Results are averaged over 30
 independent repetitions.
-conﬁgurations. Unscaled Max and Emp. Copula use the raw signed scores, while CQHR is
-applied in its native form. Predicted lower and upper quantiles are ordered pointwise for
-all methods. CQHR uses the ﬁrst coordinate as reference and a numerical ﬂoor of 10−12 on
-base-interval lengths when forming width ratios.
-We use the same linear signal and ten-dimensional Gaussian features with d = 3 Gaus-
-sian outcomes and independent noise scales (3, 2, 1), ﬁt separate gradient-boosted quantile
-regressions using 2,400 training observations, and evaluate on 600 test observations. Each
-quantile model uses 100 boosting stages, maximum tree depth 5, learning rate 0.05, and
-minimum leaf size 5. The base-interval miscoverage is 0.5 and the ﬁnal target miscoverage
-is 0.1. Each of the 30 repetitions uses fresh training, test, and calibration samples. Figure 6
-shows that TSCP’s empirical coverage ﬂuctuates around the target, ranging from 0.899 to
-0.922 over the displayed calibration sizes, while its mean outcome-space volume remains
-between 2.62 × 104 and 3.62 × 104. CQHR attains empirical coverage between 0.894 and
-0.909 but is much larger and more variable in this design; at n = 100 , its mean volume is
-1.29 × 108. This comparison is speciﬁc to the stated base quantile models and is not a claim
-that one method uniformly dominates CQHR. Base-interval and shifted-score sensitivity
-analyses are in Appendix C.8.
-Figure 7 reports the corresponding coordinate-wise comparison at n = 100 . TSCP’s
-mean full lengths are (36.2, 36.9, 20.9), compared with (33.3, 33.8, 29.0) for Unscaled Max
-and (46.2, 120.5, 66.9) for CQHR. In particular, TSCP preserves a substantially shorter
-third-coordinate interval than Unscaled Max, while CQHR is much wider on the second
-and third coordinates in this ﬁtted-quantile design. As above, the coordinate-wise lengths
-should be interpreted together with the joint coverage panel rather than compared without
-regard to calibration.
-23
-
-PAGE 24
-F an and Sesia
 1 2 3
 Outcome coordinate
 0
@@ -1514,16 +1577,10 @@ Outcome coordinate
 Mean full length
 Coordinate-wise outcome-space length
 Emp. Copula Unscaled Max CQHR TSCP (Ours)
-Figure 7: Coordinate-wise mean full outcome-space lengths for the CQR experiment with
+Figure 9: Coordinate-wise mean full outcome-space lengths for the CQR experiment with
 d = 3 , n = 100 , base-interval miscoverage 0.5, and ﬁnal target coverage 0.9. TSCP uses
 capped scores, Unscaled Max and Emp. Copula use raw signed scores, and CQHR uses its
 native construction. Results average 30 independent repetitions.
-4.4 Real Data and Wall-Clock Runtime
-We evaluate six real-data benchmarks: rf2 (Tsoumakas et al. , 2022), scm1d (Contributors,
-2019a), scm20d (Contributors, 2019b), stock (Yeh, 2015), student (Cortez, 2008), and
-energy (Tsanas and Xifara , 2012). The table and runtime ﬁgure use the order stock,
-rf2, scm1d, scm20d, energy, and student. Each result averages 200 random train-
-ing/calibration/test splits using proportions 75%/5%/20%. The calibration sizes therefore
 range from 15 on stock to 490 on scm1d. A multitask lasso with regularization parameter
 10−4 is used for stock; random forests are used for the other datasets. Table 1 reports
 coverage and residual-space volume for the four primary methods.
@@ -1532,23 +1589,12 @@ on stock, scm1d, scm20d, and energy. Point CHR is more eﬃcient on rf2, while U
 Max has the smallest volume on student. Thus, the coordinate-adaptive construction is
 beneﬁcial in several datasets but is not uniformly preferable. Emp. Copula produces smaller
 regions with empirical coverage below the target.
-Figure 8 compares construction times. TSCP constructs a region in 0.74– 7.46 millisec-
-onds on these datasets. It is slower than the algebraically simpler Unscaled Max and
-Point CHR implementations, but substantially faster than Emp. Copula on the two 16-
-dimensional SCM datasets, where Emp. Copula requires approximately 95– 118 millisec-
-onds. These measurements include the complete conformal region construction but exclude
-ﬁtting the shared regression model.
-The inﬁnite Point CHR volume on stock should not be interpreted as an intrinsic failure
-of the method. With only n = 15 calibration observations, its additional split leaves too few
-observations for a ﬁnite 0.9 conformal quantile. A practitioner committed to Point CHR
-would allocate a larger fraction of the data to its ﬁnal calibration stage, at the cost of fewer
-observations for model and scale estimation.
-Coordinate-wise interpretation. To emphasize their interpretability, Table 2 displays
-the rectangular prediction sets produced by diﬀerent methods for two representative test
-24
+Figure 10 compares construction times. TSCP constructs a region in 0.74– 7.46 mil-
+liseconds on these datasets. It is slower than the algebraically simpler Unscaled Max and
+25
 
-PAGE 25
-Interpretable Multivariate Conformal Prediction
+PAGE 26
+F an and Sesia
 Dataset Method d Coverage Volume
 stock Unscaled Max 6 0.940 (0.057) 6 .03e−2 (1.57e−1)
 Emp. Copula 6 0.727 (0.113) 1 .01e−5 (9.80e−6)
@@ -1578,21 +1624,22 @@ Table 1: Performance on real datasets, averaged over 200 random splits. One stan
 deviation is reported in parentheses. Bold volume denotes the smallest average volume
 among the methods with empirical coverage at or above the target, up to Monte Carlo
 variation. The calibration sizes are 15, 384, 490, 448, 38, and 32 in the order shown.
+Point CHR implementations, but substantially faster than Emp. Copula on the two 16-
+dimensional SCM datasets, where Emp. Copula requires approximately 95– 118 millisec-
+onds. These measurements include the complete conformal region construction but exclude
+ﬁtting the shared regression model.
+The inﬁnite Point CHR volume on stock should not be interpreted as an intrinsic failure
+of the method. With only n = 15 calibration observations, its additional split leaves too few
+observations for a ﬁnite 0.9 conformal quantile. A practitioner committed to Point CHR
+would allocate a larger fraction of the data to its ﬁnal calibration stage, at the cost of fewer
+observations for model and scale estimation.
+Coordinate-wise interpretation. To emphasize their interpretability, Table 2 displays
+the rectangular prediction sets produced by diﬀerent methods for two representative test
 points from the energy dataset, where d = 2 . In this setting, rectangular prediction sets
-consist of pairs of simultaneous prediction intervals that aim to jointly contain the true
-outcomes with probability 90%.
-4.5 Coordinate Adaptation and Search Complexity
-To examine coordinate-wise informativeness and the computational branches of TSCP, we
-use a separate evaluation batch of 200 splits per real dataset. The data allocation, regression
-hyperparameters, and deterministic split-seed rule are the same as in Section 4.4; models are
-reﬁtted for this batch. All four methods share the ﬁtted model and the calibration and test
-observations within each split. Matching joint coverages for these coordinate comparisons
-are reported in Table S10. The two evaluation batches are summarized separately rather
-than pooled.
-25
+26
 
-PAGE 26
-F an and Sesia
+PAGE 27
+Interpretable Multivariate Conformal Prediction
 stock rf2 scm1d scm20d energy student
 Dataset
 10−2
@@ -1603,9 +1650,11 @@ Dataset
 Milliseconds
 Wall-clock construction time on real data
 Emp. Copula Unscaled Max Point CHR TSCP (Ours)
-Figure 8: A verage wall-clock time for conformal region construction on the six real datasets.
+Figure 10: A verage wall-clock time for conformal region construction on the six real datasets.
 The vertical axis is logarithmic and reports milliseconds. All methods use the same ﬁtted
 regression model in each split; model ﬁtting and residual computation are excluded.
+consist of pairs of simultaneous prediction intervals that aim to jointly contain the true
+outcomes with probability 90%.
 T est 1/Methods Outcome 1 Outcome 2 Volume Ground Truth
 Unscaled Max [31.70, 38.94] [34.74, 41.98] 13.09
 (35.40, 39.22)Emp. copula [34.36, 36.28] [34.74, 41.98] 3.47
@@ -1623,11 +1672,23 @@ residual space. Intervals that fail to cover the corresponding true outcomes are
 in red; smallest interval that covers the ground truth is highlighted in bold. This example
 is included for illustration only: the coverage guarantees of conformal prediction hold on
 average, not for individual test points.
+4.5 Coordinate Adaptation and Search Complexity
+To examine coordinate-wise informativeness and the computational branches of TSCP, we
+use a separate evaluation batch of 200 splits per real dataset. The data allocation, regression
+hyperparameters, and deterministic split-seed rule are the same as in Section 4.4; models are
+reﬁtted for this batch. All four methods share the ﬁtted model and the calibration and test
+27
+
+PAGE 28
+F an and Sesia
+observations within each split. Matching joint coverages for these coordinate comparisons
+are reported in Table S10. The two evaluation batches are summarized separately rather
+than pooled.
 Coordinate-wise interval lengths. Let ℓ(r)
 j,m = 2L(r)
 j,m be the full outcome-space interval
 length for coordinate j, method m, and split r. To compare outputs with diﬀerent units,
-Figure 9 reports the paired length ratio
+Figure 11 reports the paired length ratio
 Aj,m = 1
 200
 200X
@@ -1639,10 +1700,6 @@ j,Unscaled
 .
 Thus, a bar below one indicates a shorter interval on average relative to Unscaled Max on
 the same splits. Ratios are formed before averaging; they are not ratios of mean interval
-26
-
-PAGE 27
-Interpretable Multivariate Conformal Prediction
 lengths. Raw full lengths and their across-split standard deviations are provided in the
 supplementary data. The inﬁnite Point CHR intervals on stock are explicitly marked, not
 truncated or omitted from the numerical summaries.
@@ -1653,7 +1710,7 @@ On stock, TSCP’s ratios range from 0.20 to 1.36, and on the two SCM datasets t
 from about 0.74 to 1.24. By contrast, on student all three TSCP ratios exceed one, namely
 (1.01, 1.08, 1.18), consistent with Unscaled Max’s smaller volume. The heterogeneous rf2
 proﬁle likewise accompanies a volume advantage for Point CHR. Marginal and joint coverage
-for the same evaluation batch are reported in Appendix C.11.
+for the same evaluation batch are reported in Appendix C.10.
 Search regimes and construction cost. We instrument the executed branches of the
 shortcut algorithm. A fallback occurs when the mean cell has empty intersection with the
 global rectangle; a backward-search run is a non-fallback run that enters the backward
@@ -1673,13 +1730,13 @@ construction times range from 0.466 to 7.239 ms. Observing zero events does not 
 that their probability is zero: for either split-level event on a given ﬁxed dataset, zero
 occurrences in 200 randomized splits give a pointwise one-sided 95% binomial upper limit
 of 1 − 0.051/200 ≃ 1.49%. This limit is not simultaneous across datasets and does not treat
-coordinates within a split as independent. Appendix C.12 examines more extreme targets
+coordinates within a split as independent. Appendix C.11 examines more extreme targets
 where both exceptional branches are observed. These measurements describe the tested
 implementation and do not improve its worst-case complexity bound.
-27
+28
 
-PAGE 28
-F an and Sesia
+PAGE 29
+Interpretable Multivariate Conformal Prediction
 1 2 3 4 5 6
 Outcome coordinate
 0.0
@@ -1687,8 +1744,8 @@ Outcome coordinate
 1.0
 1.5
 Mean paired length ratio
-Point CHR: infinite
 stock
+Point CHR: infinite
 1 2 3 4 5 6 7 8
 Outcome coordinate
 0.0
@@ -1734,15 +1791,15 @@ Outcome coordinate
 Mean paired length ratio
 student
 Emp. Copula Unscaled Max Point CHR TSCP (Ours)
-Figure 9: Coordinate-wise full interval lengths on all six real datasets, normalized within
+Figure 11: Coordinate-wise full interval lengths on all six real datasets, normalized within
 each split by the corresponding Unscaled Max length and then averaged over 200 splits. The
 dashed line marks a ratio of one. Point CHR is inﬁnite on stock. These width comparisons
 should be read with the matching joint coverage in Table S10 and the marginal coverage in
-Figure S16, not as an unconditional ranking of calibrated performance.
-28
+Figure S14, not as an unconditional ranking of calibrated performance.
+29
 
-PAGE 29
-Interpretable Multivariate Conformal Prediction
+PAGE 30
+F an and Sesia
 Dataset n
 Backward
 splits
@@ -1792,15 +1849,15 @@ scm1d scm20d energy student
 Mean of per-split medians (ms)
 Construction time conditional on regime
 Binary only
-Figure 10: TSCP search work and construction time for 200 splits per real dataset at target
+Figure 12: TSCP search work and construction time for 200 splits per real dataset at target
 coverage 0.9. Left: candidate cells inspected per coordinate, averaged over non-fallback runs.
 Counts include cells rejected by intersection checks. Right: whole-call construction times
 conditional on the observed regime, using the timing convention in Table 3. Unobserved
 regimes have no bars.
-29
+30
 
-PAGE 30
-F an and Sesia
+PAGE 31
+Interpretable Multivariate Conformal Prediction
 5 Discussion and Future Work
 The core idea underlying the method presented in this paper is the explicit standardization
 of residuals, which contributes both to the transparency and to the computational eﬃciency
@@ -1836,10 +1893,10 @@ A. Baheri and M. Amiri Shahbazi. Multi-scale conformal prediction: A theoretical
 work with coverage guarantees. arXiv preprint arXiv:2502.05565 , 2025.
 S. Braun, L. Aolaritei, M. I. Jordan, and F. Bach. Minimum volume conformal sets for
 multivariate regression. arXiv preprint arXiv:2503.19068 , 2025a.
-30
+31
 
-PAGE 31
-Interpretable Multivariate Conformal Prediction
+PAGE 32
+F an and Sesia
 S. Braun, E. Berta, M. I. Jordan, and F. Bach. Multivariate conformal prediction via
 conformalized gaussian scoring. arXiv preprint arXiv:2507.20941 , 2025b.
 N. Colombo. Normalizing ﬂows for conformal regression. In Proceedings of the 40th Con-
@@ -1875,10 +1932,10 @@ optimal transport. In Proceedings of the 42nd International Conference on Machin
 Learning (ICML), 2025.
 J. Lee, C. Xu, and Y. Xie. Flow-based conformal prediction for multi-dimensional time
 series. arXiv preprint arXiv:2502.05709 , 2025.
-31
+32
 
-PAGE 32
-F an and Sesia
+PAGE 33
+Interpretable Multivariate Conformal Prediction
 J. Lei. Fast exact conformalization of the lasso using piecewise linear homotopy. Biometrika,
 106(4):749–764, 2019.
 J. Lei, M. G’Sell, A. Rinaldo, R. Tibshirani, and L. Wasserman. Distribution-free predictive
@@ -1914,10 +1971,10 @@ M. Sesia and Y. Romano. Conformal prediction using conditional histograms. In Ad
 in Neural Information Processing Systems , volume 34, 2021.
 S. H. Sun and R. Yu. Copula conformal prediction for multi-step time series prediction. In
 Proceedings of the Twelfth International Conference on Learning Representations , 2023.
-32
+33
 
-PAGE 33
-Interpretable Multivariate Conformal Prediction
+PAGE 34
+F an and Sesia
 G. Thurin, K. Nadjahi, and C. Boyer. Optimal transport-based conformal prediction. In
 Proceedings of the 42nd International Conference on Machine Learning (ICML) , 2025.
 A. Tsanas and A. Xifara. Energy eﬃciency [dataset]. https://doi.org/10.24432/C51307,
@@ -1943,10 +2000,10 @@ Y. Zhang and E. Candès. Posterior conformal prediction. arXiv preprint arXiv:24
 Y. Zhou and M. Sesia. Conformal classiﬁcation with equalized coverage for adaptively
 selected groups. In Advances in Neural Information Processing Systems 37 (NeurIPS) ,
 2024.
-33
+34
 
-PAGE 34
-F an and Sesia
+PAGE 35
+Interpretable Multivariate Conformal Prediction
 Appendix: Algorithms, Proofs, and Numerical Results
 Appendix A. Additional Algorithmic Details
 A.1 Implementation of Alternative Methods
@@ -2017,10 +2074,10 @@ o
 ,
 which is hyper-rectangular for the standard choices of E discussed in Section 2.4.
 7: return Prediction set ˆCpi(Xn+1).
-34
+35
 
-PAGE 35
-Interpretable Multivariate Conformal Prediction
+PAGE 36
+F an and Sesia
 Algorithm S4 Standardization with Data Splitting
 Input: Calibration residuals {Ei}n
 i=1; target miscoverage level α ∈ (0, 1); test input Xn+1.
@@ -2096,10 +2153,10 @@ j > 0 then
 4: return h[j] = h.
 5: end if
 6: end for
-35
+36
 
-PAGE 36
-F an and Sesia
+PAGE 37
+Interpretable Multivariate Conformal Prediction
 Algorithm S7 Binary Search in Algorithm 2
 Input: Calibration residuals {Ei}n
 i=1; global bounds ω1( ˆQgwc
@@ -2165,10 +2222,10 @@ requires O(nd).
 2. Sorting {Ei
 j}n
 i=1 for all j ∈ [d] costs O(dn log n);
-36
+37
 
-PAGE 37
-Interpretable Multivariate Conformal Prediction
+PAGE 38
+F an and Sesia
 3. Computing Y h∗
 relies on computing h∗, which requires masking all values below ˆµobs
 and reporting the index of the lowest value from the sorted residuals list {Ei
@@ -2198,10 +2255,10 @@ j costs O(dn) for each h. The number of indices h
 encountered in this algorithm is O(log2 n) because we split and continue in only half of the
 current indices sequence at each step. This is a standard binary search. Therefore, the total
 computational complexity of Algorithm S7 never exceeds O(dn log n).
-37
+38
 
-PAGE 38
-F an and Sesia
+PAGE 39
+Interpretable Multivariate Conformal Prediction
 Appendix B. Mathematical Proofs
 B.1 Auxiliary Lemmas
 Lemma S1 Let x1, . . . , xn ∈ R and ¯xn = 1
@@ -2282,10 +2339,10 @@ Let X n+1 and ˜X n+1 be another two random variables such that
 Then,
 ˆσ(X n+1) ≤ ˆσ( ˜X n+1) a.s.,
 where ˆσ(X n+1) is the sample standard deviation of {X 1, . . . , Xn, Xn+1}, as in Lemma S1.
-38
+39
 
-PAGE 39
-Interpretable Multivariate Conformal Prediction
+PAGE 40
+F an and Sesia
 Proof This is a direct application of Lemma S1:
 ˆσ2(X n+1) = (X n+1 − ¯X n)2
 n + 1 + 1
@@ -2350,10 +2407,10 @@ B.2 Proofs of Main Results
 Proof [of Theorem 1] This is a well-known result, whose proof is included for completeness.
 By deﬁnition of ˆC(Xn+1) in ( 5),
 Yn+1 /∈ ˆC(Xn+1) ⇐ ⇒Sn+1 > ˆQ1−α(S1, . . . , Sn).
-39
+40
 
-PAGE 40
-F an and Sesia
+PAGE 41
+Interpretable Multivariate Conformal Prediction
 Moreover, S1, . . . , Sn+1 are exchangeable because E1, . . . ,En+1 are exchangeable and Φ is
 ﬁxed. Therefore, the proof is complete by applying the fundamental “quantile inﬂation
 lemma” of conformal prediction (e.g., see Angelopoulos et al. (2024)), which states
@@ -2512,10 +2569,10 @@ j
 j )2
 
 .
-40
+41
 
-PAGE 41
-Interpretable Multivariate Conformal Prediction
+PAGE 42
+F an and Sesia
 The solution in both cases relies on solving a quadratic equality in the form h(x) = 0 , where:
 h(x) :=
  n
@@ -2640,10 +2697,10 @@ n2−(n+1)c2
 , − n√n+1 < c < 0,
 no solution , c ≤ − n√n+1 .
 almost surely
-41
+42
 
-PAGE 42
-F an and Sesia
+PAGE 43
+Interpretable Multivariate Conformal Prediction
 Interpreting the “no-solution” case as En+1
 j = 0 , we obtain precisely the expression for
 ωj(c) given in the statement of the lemma. This notation adjustment is harmless because
@@ -2752,10 +2809,10 @@ tj − ˆµobs
 j
 .
 There are three cases here for any ﬁxed tj ≥ 0:
-42
+43
 
-PAGE 43
-Interpretable Multivariate Conformal Prediction
+PAGE 44
+F an and Sesia
 • Case 1: if g(tj, z∗
 j ) is indeed the global maximum and z∗
 j > 0, then we can just take
@@ -2831,10 +2888,10 @@ R∈P
 !
 = ˆClwc
 P (Xn+1),
-43
+44
 
-PAGE 44
-F an and Sesia
+PAGE 45
+Interpretable Multivariate Conformal Prediction
 where the last implication holds because RectP (A) ⊇ A by deﬁnition. Since we already
 know that P[Yn+1 ∈ ˜C(Xn+1)] ≥ 1 − α, by Theorem 1 and the dual relation ( 12), this
 proves that
@@ -2941,10 +2998,10 @@ g(zj) = inf
 zj ∈[0,ωj ( ˆQgwc
 1−α)]
 g(zj).
-44
+45
 
-PAGE 45
-Interpretable Multivariate Conformal Prediction
+PAGE 46
+F an and Sesia
 Diﬀerentiating g(zj) in zj, we get
 g′(zj) =
 1
@@ -3059,10 +3116,10 @@ j (j, k) = k
 and h∗
 l (j, k) = h∗
 l for all l ̸= j.
-45
+46
 
-PAGE 46
-F an and Sesia
+PAGE 47
+Interpretable Multivariate Conformal Prediction
 Part I. We aim to prove
 sup
 h∈[n+1]d
@@ -3193,10 +3250,10 @@ j ,
 0, otherwise,
 = Bh∗(j,k)
 j .
-46
+47
 
-PAGE 47
-Interpretable Multivariate Conformal Prediction
+PAGE 48
+F an and Sesia
 This completes the proof of ( S3).
 The second equality in ( S2) is trivial. We can easily see that for any k ∈ [n], if
 Bh∗(j,k+1)
@@ -3279,142 +3336,26 @@ h∗(j,N )(t), ∀t
 =⇒ ωj( ˆQlwc
 1−α(Y h∗(j,N ))) ≤ ωj( ˆQlwc
 1−α(Y h∗(j,mj ))).
-47
+48
 
-PAGE 48
-F an and Sesia
+PAGE 49
+Interpretable Multivariate Conformal Prediction
 Appendix C. Additional Numerical Results
 We examine how coordinate heterogeneity, dependence, calibration size, noise tails, and
 residual transformations aﬀect the coverage and eﬃciency of TSCP. Comparisons with the
 population oracle and the unenclosed local union separate the statistical and computational
 eﬀects of its approximations. Real-data marginal coverage and search-regime measurements
 complement the results in Section 4.
-C.1 Experimental Protocols
-Synthetic features have ten independent standard normal coordinates, and the outcome
-model is
-Yj = fj(X) + ϵj, j ∈ [d], (S4)
-where each fj is linear with coeﬃcients drawn from Unif(−10, 10) and ﬁxed across repeti-
-tions. Noise laws and output dimension are speciﬁed below. Ordinary least squares is used
-for absolute-residual comparisons, and all methods in each repetition share the ﬁtted pre-
-dictor. Coverage, normalized residual-space volume, full interval lengths, and construction
-time follow the deﬁnitions in Section 4.1. Unless speciﬁed otherwise, d = 10 , the target
-coverage is 0.9, and results average 200 repetitions.
-Independent-observation protocol. The dependence, heterogeneity, calibration-size,
-target-level, and contamination sweeps independently generate 7,200 training observations,
-800 test observations, and a calibration sample in each repetition. The same protocol is used
-for Figure S7. The CQR experiments instead use 2,400 training and 600 test observations
-over 30 repetitions; the shape-template comparison uses these sample sizes over 100 repeti-
-tions. Calibration data are generated separately from training and test data. Conditional
-on the ﬁxed regression coeﬃcients, these repetitions are independent population draws.
-Fixed-pool protocol. The independent-noise distribution benchmarks in Appendix C.2,
-the oracle and approximation comparisons in Appendix C.10, and Figure S8 use a simulated
-pool of 8,000 observations for each setting. Each repetition randomly splits this pool into
-6,400 training and 1,600 test observations and generates a separate calibration sample. The
-distribution benchmarks use n ∈ { 30, 50, 100, 300, 500}; other calibration sizes and repeti-
-tion counts are speciﬁed with their results. Variation under this protocol includes random
-splitting and calibration sampling conditional on the simulated pool, rather than variation
-over independently generated training/test datasets. Results from the two protocols are
-not pooled.
-The real-data studies use the training/calibration/test allocations and models in Sec-
-tion 4.4. Coordinate-wise and search-regime results share the evaluation batch described in
-Section 4.5.
-C.2 Independent-Noise Distribution Benchmarks
-The following comparisons use the ﬁxed-pool protocol with independent noise coordinates
-and calibration sizes n ∈ {30, 50, 100, 300, 500}.
-48
-
-PAGE 49
-Interpretable Multivariate Conformal Prediction
-Figure S1 and Table S4 examine independent Gaussian noise with heterogeneous vari-
-ance across dimensions:
-ϵheter
-j ∼ N
- 
-0, (10 − j + 1)2
-, ∀j ∈ [10].
-/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
-/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
-/uni00000013/uni00000011/uni00000019
-/uni00000013/uni00000011/uni0000001a
-/uni00000013/uni00000011/uni0000001b
-/uni00000013/uni00000011/uni0000001c
-/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
-/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
-/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
-/uni00000014/uni00000013/uni00000014/uni00000014
-/uni00000014/uni00000013/uni00000014/uni00000015
-/uni00000014/uni00000013/uni00000014/uni00000016
-/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
-/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
-/uni00000028/uni00000050/uni00000053/uni00000011/uni00000003/uni00000026/uni00000052/uni00000053/uni00000058/uni0000004f/uni00000044
-/uni00000038/uni00000051/uni00000056/uni00000046/uni00000044/uni0000004f/uni00000048/uni00000047/uni00000003/uni00000030/uni00000044/uni0000005b
-/uni00000033/uni00000052/uni0000004c/uni00000051/uni00000057/uni00000003/uni00000026/uni0000002b/uni00000035
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
-Figure S1: A verage performance of the proposed TSCP method and alternative conformal
-prediction approaches on simulated data with d = 10 outcome variables and heterogeneous
-noise variances. The target coverage level is 90%. TSCP consistently attains near-nominal
-coverage while producing the smallest prediction sets on average. Numerical results and
-corresponding standard deviations are reported in Table S4.
-TSCP has near-nominal empirical coverage across calibration sizes and smaller volumes
-than Point CHR and Unscaled Max. The volume penalty for Point CHR is particularly
-pronounced when n < 100, where its additional split reduces the observations available for
-calibration. Unscaled Max assigns one residual threshold to outputs with unequal noise
-scales and therefore produces substantially larger rectangles. Emp. Copula yields smaller
-regions but undercovers; its reuse of calibration observations for dependence estimation
-precludes the split-conformal guarantee enjoyed by the other benchmarks.
-Figure S2 reports results from analogous experiments in which the noise distribution
-has equal variance across dimensions, with ϵhomo
-j ∼ N (0, 1) for all j ∈ [10]. This setting
-strongly favors the Unscaled Max approach; nevertheless, our TSCP still performs as a close
-second. Together, these two settings show that coordinate adaptation is useful when noise
-scales diﬀer, whereas unscaled calibration can be more eﬃcient when a common scale is
-appropriate.
-The distributional comparisons below extend this analysis to Laplace, mixture, and
-Gamma errors. The dependence and heterogeneity sweeps in Appendices C.3 and C.4 vary
-these features separately under the independent-observation protocol.
-49
-
-PAGE 50
-F an and Sesia
-/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
-/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
-/uni00000013/uni00000011/uni00000019
-/uni00000013/uni00000011/uni0000001a
-/uni00000013/uni00000011/uni0000001b
-/uni00000013/uni00000011/uni0000001c
-/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
-/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
-/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
-/uni00000014/uni00000013/uni00000017
-/uni00000014/uni00000013/uni00000018
-/uni00000014/uni00000013/uni00000019
-/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
-/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
-/uni00000028/uni00000050/uni00000053/uni00000011/uni00000003/uni00000026/uni00000052/uni00000053/uni00000058/uni0000004f/uni00000044
-/uni00000038/uni00000051/uni00000056/uni00000046/uni00000044/uni0000004f/uni00000048/uni00000047/uni00000003/uni00000030/uni00000044/uni0000005b
-/uni00000033/uni00000052/uni0000004c/uni00000051/uni00000057/uni00000003/uni00000026/uni0000002b/uni00000035
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
-Figure S2: A verage performance of the proposed TSCP method and alternative conformal
-prediction approaches in numerical experiments similar to those of Figure S1. Here, the
-outcome variables have homogeneous variance across their d = 10 dimensions, which gives
-an advantage to the Unscaled Max approach. The target coverage level is 0.9. TSCP
-attains near-nominal coverage and is competitive, while Unscaled Max is the most eﬃcient
-in this homogeneous setting. Numerical results and corresponding standard deviations are
-reported in Table S5.
-50
-
-PAGE 51
-Interpretable Multivariate Conformal Prediction
-C.2.1 Distribution-Specific Tables
+C.1 Additional Noise-Distribution Experiments
 Tables S4– S8 report coverage and normalized residual-space volume for ﬁve noise laws.
 Gaussian errors contrast unequal and equal coordinate scales; Laplace, mixture, and Gamma
 errors vary the tail shape and symmetry under heterogeneous scaling. The Laplace distri-
 butions are centered at zero, with the stated scale parameter; the Gamma parameterization
 speciﬁes shape followed by scale.
+49
+
+PAGE 50
+F an and Sesia
 Gaussian Noise (heterogeneous)
 (n, d, Noise) Method Coverage Volume
 (30, 10, Gaussian)
@@ -3443,15 +3384,15 @@ Point CHR 0.900 (0.022) 5.13e+10(1.49e+10)
 TSCP (Ours) 0.901 (0.016) 4.81e+10(9.67e+09)
 Unscaled Max 0.903 (0.016) 8.54e+12(2.46e+12)
 Table S4: Performance of the proposed TSCP method and alternative conformal prediction
-approaches on simulated data with d = 10 outcome variables, as in Figure S1. All results
+approaches on simulated data with d = 10 outcome variables, as in Figure 3. All results
 are averaged over 200 trials with their one standard deviation reported in parenthesis. The
 target coverage level is 0.9. Coverage below this target is highlighted in red. For volume,
 lower is better. Smallest volume size (among those with valid theoretical coverage) is
 highlighted in bold. TSCP yields the tightest volume while maintaining valid coverage.
-51
+50
 
-PAGE 52
-F an and Sesia
+PAGE 51
+Interpretable Multivariate Conformal Prediction
 Gaussian Noise (homogeneous)
 (n, d, Noise) Method Coverage Volume
 (30, 10, Unit Gaussian)
@@ -3480,13 +3421,13 @@ Point CHR 0.900 (0.022) 1.41e+04(4.11e+03)
 TSCP (Ours) 0.901 (0.016) 1.33e+04(2.67e+03)
 Unscaled Max 0.899 (0.017) 1.26e+04(2.50e+03)
 Table S5: Performance of the proposed TSCP method and alternative conformal prediction
-approaches on simulated data with d = 10 outcome variables, as in Figure S2. Other details
+approaches on simulated data with d = 10 outcome variables, as in Figure 4. Other details
 are as in Table S4. In this case, Unscaled Max yields the tightest volume while maintaining
 valid coverage, while TSCP remains a competitive second.
-52
+51
 
-PAGE 53
-Interpretable Multivariate Conformal Prediction
+PAGE 52
+F an and Sesia
 Laplace Noise
 (n, d, Noise) Method Coverage Volume
 (30, 10, Laplace)
@@ -3517,10 +3458,10 @@ Unscaled Max 0.897 (0.017) 1.36e+15(5.51e+14)
 Table S6: Performance of the proposed TSCP method and alternative conformal prediction
 approaches on simulated data with d = 10 outcome variables, and noise following a Laplace
 distribution; i.e., ϵj ∼ Laplace(10 − j + 1) for all j ∈ [10]. Other details are as in Table S4.
-53
+52
 
-PAGE 54
-F an and Sesia
+PAGE 53
+Interpretable Multivariate Conformal Prediction
 Mixture Noise
 (n, d, Noise) Method Coverage Volume
 (30, 10, Mixed)
@@ -3554,10 +3495,10 @@ distribution; i.e., ϵj ∼ 1
 2 Laplace(10 − j + 1) + 1
 2 N (0, (10 − j + 1)2) for all j ∈ [10]. Other
 details are as in Table S4.
-54
+53
 
-PAGE 55
-Interpretable Multivariate Conformal Prediction
+PAGE 54
+F an and Sesia
 Gamma Noise
 (n, d, Noise) Method Coverage Volume
 (30, 10, Gamma)
@@ -3588,9 +3529,9 @@ Unscaled Max 0.893 (0.015) 6.37e+14(2.53e+14)
 Table S8: Performance of the proposed TSCP method and alternative conformal prediction
 approaches on simulated data with d = 10 outcome variables, and noise following a Gamma
 distribution; i.e., ϵj ∼ Gamma(1, 10−j + 1) for all j ∈ [10]. Other details are as in Table S4.
-C.3 Dependence Strength
+C.2 Dependence Strength
 We vary the equicorrelation of the Gaussian noise over ρ ∈ {0, 0.3, 0.6, 0.9} while retaining
-marginal standard deviations (10, 9, . . . ,1) and a calibration size of n = 100 . Figure S3
+marginal standard deviations (10, 9, . . . ,1) and a calibration size of n = 100 . Figure S1
 shows that TSCP’s empirical joint coverage is stable across this range: 0.905, 0.905, 0.907,
 and 0.908, respectively. Its average residual-space volume decreases from 6.37×1010 at ρ = 0
 to 9.47 × 109 at ρ = 0 .9. Point CHR and Unscaled Max also remain close to the target.
@@ -3598,10 +3539,10 @@ Emp. Copula improves as the correlation strengthens but remains below the nomina
 throughout the sweep. The experiment therefore does not indicate a coverage failure of
 TSCP under strong equicorrelation, while also showing that dependence materially changes
 region size.
-55
+54
 
-PAGE 56
-F an and Sesia
+PAGE 55
+Interpretable Multivariate Conformal Prediction
 0.00 0.25 0.50 0.75
 Equicorrelation
 0.6
@@ -3626,13 +3567,13 @@ Equicorrelation
 Milliseconds
 Construction time
 Emp. Copula Unscaled Max Point CHR TSCP (Ours)
-Figure S3: Sensitivity to equicorrelated Gaussian noise at d = 10 and n = 100 . The three
+Figure S1: Sensitivity to equicorrelated Gaussian noise at d = 10 and n = 100 . The three
 panels report joint coverage, mean residual-space volume, and mean construction time.
 Results average 200 repetitions; the dashed line marks the target coverage.
-C.4 Severity of Coordinate Heterogeneity
+C.3 Severity of Coordinate Heterogeneity
 To isolate heterogeneity across outcomes, we use independent Gaussian noise and choose
 ten coordinate scales geometrically spaced between r and 1, where r ∈ {1, 2, 5, 10, 20}. The
-calibration size is ﬁxed at n = 100. Figure S4 shows that the coverage of TSCP, Point CHR,
+calibration size is ﬁxed at n = 100. Figure S2 shows that the coverage of TSCP, Point CHR,
 and Unscaled Max is essentially unchanged as r grows. At r = 1, Unscaled Max is slightly
 smaller than TSCP, with mean volumes 1.43 × 104 and 1.80 × 104. At r = 20 , their mean
 volumes are 3.44 × 1015 and 5.75 × 1010, respectively. This widening gap is the expected
@@ -3660,15 +3601,15 @@ Largest/smallest noise scale
 Mean
 Residual-space volume
 Emp. Copula Unscaled Max Point CHR TSCP (Ours)
-Figure S4: Sensitivity to the ratio between the largest and smallest outcome noise scales,
+Figure S2: Sensitivity to the ratio between the largest and smallest outcome noise scales,
 with independent Gaussian errors and n = 100 . The scales are geometrically spaced, and
 both axes of the volume panel are logarithmic. Results average 200 repetitions.
-56
+55
 
-PAGE 57
-Interpretable Multivariate Conformal Prediction
-C.5 Target Level and Small Calibration Samples
-Figure S5 repeats the dependent Gaussian experiment at nominal coverage levels 0.8, 0.9,
+PAGE 56
+F an and Sesia
+C.4 Target Level and Small Calibration Samples
+Figure S3 repeats the dependent Gaussian experiment at nominal coverage levels 0.8, 0.9,
 and 0.95, with n = 100 and ρ = 0 .6. TSCP achieves empirical coverages 0.811, 0.907,
 and 0.954. As expected, increasing the target level increases all region volumes. The
 relative ordering is stable: TSCP is smaller than Point CHR and dramatically smaller than
@@ -3692,11 +3633,11 @@ Nominal coverage
 Mean
 Residual-space volume
 Emp. Copula Unscaled Max Point CHR TSCP (Ours)
-Figure S5: Sensitivity to the nominal coverage level in the d = 10 equicorrelated Gaussian
+Figure S3: Sensitivity to the nominal coverage level in the d = 10 equicorrelated Gaussian
 experiment with n = 100 and ρ = 0 .6. The dashed diagonal in the left panel is exact
 nominal calibration. Results average 200 repetitions.
 We separately examine n ∈ {10, 20, 30, 50, 100} under independent Gaussian noise. Fig-
-ure S6 distinguishes ﬁnite volumes from the frequency of inﬁnite output. At n = 10, Point
+ure S4 distinguishes ﬁnite volumes from the frequency of inﬁnite output. At n = 10, Point
 CHR has coverage one and inﬁnite volume in every repetition. This is a ﬁnite-sample quan-
 tile eﬀect, not evidence of a superior region: Point CHR divides the calibration sample and
 its ﬁnal subset is too small to supply a ﬁnite 0.9 conformal quantile. Point CHR is ﬁnite
@@ -3704,10 +3645,10 @@ in all repetitions once n ≥ 20. TSCP and Unscaled Max are ﬁnite throughout; 
 conservative at the smallest sample sizes, as expected from the discrete conformal rank.
 Emp. Copula severely undercovers when n is small because it estimates dependence and
 calibrates on the same limited sample.
-57
+56
 
-PAGE 58
-F an and Sesia
+PAGE 57
+Interpretable Multivariate Conformal Prediction
 25 50 75 100
 Calibration sample size
 0.6
@@ -3737,29 +3678,29 @@ Calibration sample size
 Fraction
 Infinite-volume frequency
 Emp. Copula Unscaled Max Point CHR TSCP (Ours)
-Figure S6: Small-calibration-sample stress test with independent Gaussian noise and scales
+Figure S4: Small-calibration-sample stress test with independent Gaussian noise and scales
 (10, 9, . . . ,1). The middle panel averages only ﬁnite residual-space volumes; the right panel
 reports the fraction of repetitions with inﬁnite volume. A downward triangle at the lower
 plotting boundary marks the Emp. Copula mean below 0.6. Results average 200 repetitions.
-C.6 Heavy-T ailed Noise and the Role of Moment Conditions
+C.5 Heavy-T ailed Noise and the Role of Moment Conditions
 We examine independent Student t noise with d = 10 , a common unit scale across coordi-
 nates, and degrees of freedom ν ∈ { 1.5, 2, 3}. The cases ν = 1 .5 and ν = 2 have inﬁnite
 variance and therefore lie outside Assumption 1, which is invoked by the validity theorem
 as well as the moment-based motivation; ν = 3 has ﬁnite variance but remains heavy-tailed.
 These results should be read as an empirical stress test, not as an extension of the stated
 theory to inﬁnite-variance distributions.
-C.6.1 Independent-Observation Evaluation
-Figure S7 uses the independent-observation protocol of Appendix C.1.
+C.5.1 Coverage and Volume
+Figure S5 compares calibration sizes n = 30 and n = 500 across the three degrees of freedom.
 TSCP remains near the target in the displayed cases. For example, at n = 30 its
 coverages are 0.909, 0.908, and 0.912 as ν increases, while at n = 500 they are 0.898, 0.901,
 and 0.900. Eﬃciency is much less stable. At n = 30 , the mean TSCP volume falls from
 1.59 × 1020 for ν = 1 .5 to 5.92 × 1013 for ν = 3 ; at n = 500 , it falls from 8.42 × 1013 to
 6.07 × 107. The explosive volumes make clear that empirical coverage alone is not evidence
 of practically useful behavior under very heavy tails.
-58
+57
 
-PAGE 59
-Interpretable Multivariate Conformal Prediction
+PAGE 58
+F an and Sesia
 0.6
 0.7
 0.8
@@ -3797,62 +3738,65 @@ Degrees of freedom
 Mean
 Volume, n=500
 Emp. Copula Point CHR TSCP (Ours)
-Figure S7: Coverage and mean residual-space volume under independent, common-scale
+Figure S5: Coverage and mean residual-space volume under independent, common-scale
 Student t noise for d = 10. The top row uses n = 30 calibration examples and the bottom
 row uses n = 500. Results average 200 repetitions; volume is shown on a logarithmic scale.
-59
+58
 
-PAGE 60
-F an and Sesia
-C.6.2 Fixed-Pool Evaluation
-Figure S8 evaluates the same unit-scale Student’s- t noise family with d = 10 , DF ∈
-{1.5, 2, 3}, and calibration sizes n ∈ {30, 500} under the ﬁxed-pool protocol. Results average
-200 repetitions. Coverage remains near the target while interval volumes grow substantially
-as the degrees of freedom decrease. Point CHR is less eﬃcient at the smaller calibration
-size but can outperform TSCP at the larger size. As in the independent-observation evalu-
-ation, the inﬁnite-variance cases lie outside Assumption 1 and do not extend the coverage
-theorem.
-/uni00000014/uni00000011/uni00000018/uni00000015/uni00000011/uni00000013/uni00000016/uni00000011/uni00000013
-/uni00000027/uni00000048/uni0000004a/uni00000055/uni00000048/uni00000048/uni00000003/uni00000052/uni00000049/uni00000003/uni00000029/uni00000055/uni00000048/uni00000048/uni00000047/uni00000052/uni00000050/uni00000056
-/uni00000013/uni00000011/uni00000019
-/uni00000013/uni00000011/uni0000001a
-/uni00000013/uni00000011/uni0000001b
-/uni00000013/uni00000011/uni0000001c
-/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
-/uni00000014/uni00000011/uni00000018/uni00000015/uni00000011/uni00000013/uni00000016/uni00000011/uni00000013
-/uni00000027/uni00000048/uni0000004a/uni00000055/uni00000048/uni00000048/uni00000003/uni00000052/uni00000049/uni00000003/uni00000029/uni00000055/uni00000048/uni00000048/uni00000047/uni00000052/uni00000050/uni00000056
-/uni00000014/uni00000013/uni00000014/uni00000015
-/uni00000014/uni00000013/uni00000014/uni0000001b
-/uni00000014/uni00000013/uni00000015/uni00000017
-/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
-/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
-/uni00000028/uni00000050/uni00000053/uni00000011/uni00000003/uni00000026/uni00000052/uni00000053/uni00000058/uni0000004f/uni00000044
-/uni00000033/uni00000052/uni0000004c/uni00000051/uni00000057/uni00000003/uni00000026/uni0000002b/uni00000035
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
-(a) Small sample, |Dcal| = 30. Output dimensions d = 10.
-/uni00000014/uni00000011/uni00000018/uni00000015/uni00000011/uni00000013/uni00000016/uni00000011/uni00000013
-/uni00000027/uni00000048/uni0000004a/uni00000055/uni00000048/uni00000048/uni00000003/uni00000052/uni00000049/uni00000003/uni00000029/uni00000055/uni00000048/uni00000048/uni00000047/uni00000052/uni00000050/uni00000056
-/uni00000013/uni00000011/uni00000019
-/uni00000013/uni00000011/uni0000001a
-/uni00000013/uni00000011/uni0000001b
-/uni00000013/uni00000011/uni0000001c
-/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
-/uni00000014/uni00000011/uni00000018/uni00000015/uni00000011/uni00000013/uni00000016/uni00000011/uni00000013
-/uni00000027/uni00000048/uni0000004a/uni00000055/uni00000048/uni00000048/uni00000003/uni00000052/uni00000049/uni00000003/uni00000029/uni00000055/uni00000048/uni00000048/uni00000047/uni00000052/uni00000050/uni00000056
-/uni00000014/uni00000013/uni0000001c
-/uni00000014/uni00000013/uni00000014/uni00000014
-/uni00000014/uni00000013/uni00000014/uni00000016
-/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
-/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
-/uni00000028/uni00000050/uni00000053/uni00000011/uni00000003/uni00000026/uni00000052/uni00000053/uni00000058/uni0000004f/uni00000044
-/uni00000033/uni00000052/uni0000004c/uni00000051/uni00000057/uni00000003/uni00000026/uni0000002b/uni00000035
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
-(b) Large sample, |Dcal| = 500. Output dimensions d = 10.
-Figure S8: Performance of the proposed TSCP method and other approaches on simulated
+PAGE 59
+Interpretable Multivariate Conformal Prediction
+C.5.2 Additional Comparison with Point CHR
+Figure S6 evaluates the same unit-scale Student’s- t noise family with d = 10 , DF ∈
+{1.5, 2, 3}, and calibration sizes n ∈ { 30, 500}. Results average 200 repetitions. Cover-
+age remains near the target while interval volumes grow substantially as the degrees of
+freedom decrease. Point CHR is less eﬃcient at the smaller calibration size but can out-
+perform TSCP at the larger size. As in Figure S5, the inﬁnite-variance cases lie outside
+Assumption 1 and do not extend the coverage theorem.
+1.5 2.0 3.0
+Degrees of freedom
+0.6
+0.7
+0.8
+0.9
+1.0
+Mean
+Joint coverage
+1.5 2.0 3.0
+Degrees of freedom
+109
+1012
+1015
+1018
+1021
+1024
+1027
+Mean
+Residual-space volume
+Emp. Copula Point CHR TSCP (Ours)
+(a) Calibration size n = 30.
+1.5 2.0 3.0
+Degrees of freedom
+0.6
+0.7
+0.8
+0.9
+1.0
+Mean
+Joint coverage
+1.5 2.0 3.0
+Degrees of freedom
+108
+109
+1010
+1011
+1012
+1013
+1014
+Mean
+Residual-space volume
+Emp. Copula Point CHR TSCP (Ours)
+(b) Calibration size n = 500.
+Figure S6: Performance of the proposed TSCP method and other approaches on simulated
 data with noise following a Student’s- t distribution with varying degrees of freedom, using
 small (a) and large (b) sample sizes. The target coverage level is 0.9. All methods except
 Emp. Copula have near-nominal coverage in all settings. TSCP has near-nominal empirical
@@ -3860,18 +3804,18 @@ coverage in these displayed heavy-tail cases; the inﬁnite-variance cases are o
 assumptions. In the small sample setting, Point CHR suﬀers more in terms of prediction
 set size due to its ineﬃcient use of calibration data, although it can outperform TSCP in
 large samples.
-C.7 Exchangeable Contamination Stress T est
+59
+
+PAGE 60
+F an and Sesia
+C.6 Exchangeable Contamination Stress T est
 To test sensitivity to atypically large residuals, we contaminate the Gaussian experiment at
 rates ε ∈ {0, 0.01, 0.05, 0.10}. Independently for each observation, all ten noise coordinates
 are multiplied by 10 with probability ε; the same exchangeable mechanism is used for
-60
-
-PAGE 61
-Interpretable Multivariate Conformal Prediction
 training, calibration, and test data. The calibration size is n = 100 . We report median
 rather than mean volume because the contaminated distribution produces a small number
 of extreme regions.
-Figure S9 shows that TSCP coverage changes from 0.904 without contamination to 0.902
+Figure S7 shows that TSCP coverage changes from 0.904 without contamination to 0.902
 at 10% contamination, but its median volume grows from 5.38 × 1010 to 1.10 × 1017. Point
 CHR and Unscaled Max exhibit the same qualitative inﬂation, and Emp. Copula under-
 covers at every contamination level. Thus, the conformal calibration is comparatively stable
@@ -3897,12 +3841,12 @@ Contamination fraction
 Median
 Residual-space volume
 Emp. Copula Unscaled Max Point CHR TSCP (Ours)
-Figure S9: Row-wise contamination stress test with d = 10 and n = 100 . A contaminated
+Figure S7: Row-wise contamination stress test with d = 10 and n = 100 . A contaminated
 observation has every noise coordinate multiplied by 10. The right panel reports median
 residual-space volume over 200 repetitions on a logarithmic scale.
-C.8 Additional CQR Sensitivity Analyses
+C.7 Additional CQR Sensitivity Analyses
 Base-interval width. The main CQR comparison uses base-interval miscoverage 0.5. We
-repeat it at 0.3, 0.5, 0.7, and 0.9, ﬁxing n = 100 and ﬁnal miscoverage 0.1. Figure S10 shows
+repeat it at 0.3, 0.5, 0.7, and 0.9, ﬁxing n = 100 and ﬁnal miscoverage 0.1. Figure S8 shows
 that capped-score TSCP has empirical coverage between 0.903 and 0.906 and mean outcome-
 space volume between 2.80 × 104 and 3.77 × 104 across the sweep. Unscaled Max behaves
 similarly, while Emp. Copula undercovers. CQHR remains close to nominal coverage but its
@@ -3911,15 +3855,10 @@ the moderate 0.5 base interval for the primary comparison and cautions against d
 conclusions from one extreme base-quantile choice.
 Shifted scores. An alternative way to enforce nonnegativity is to replace the signed CQR
 score Sj by Sj + C, apply TSCP, and subtract C from the ﬁnal coordinate adjustment. We
-test C ∈ {100, 300, 1000}. As shown in Figure S11, the recorded TSCP rectangle is invariant
-to C in this range up to numerical roundoﬀ and agrees exactly, to recorded numerical
-precision, with the TSCP-GWC rectangle: the maximum coordinate-length diﬀerence is
-zero in all 30 repetitions for every C. Consequently, this experiment does not identify a
-practically meaningful shift constant and the shifted construction does not provide a distinct
-61
+60
 
-PAGE 62
-F an and Sesia
+PAGE 61
+Interpretable Multivariate Conformal Prediction
 0.3 0.4 0.5 0.6 0.7 0.8 0.9
 Base-interval miscoverage
 0.6
@@ -3940,9 +3879,14 @@ Base-interval miscoverage
 Mean
 Outcome-space volume
 Emp. Copula Unscaled Max CQHR TSCP (Ours)
-Figure S10: CQR sensitivity to the base-interval miscoverage with d = 3 , n = 100 , and
-ﬁnal target coverage 0.9. TSCP uses capped scores, CQHR uses its native construction,
-and results average 30 independent repetitions.
+Figure S8: CQR sensitivity to the base-interval miscoverage with d = 3, n = 100, and ﬁnal
+target coverage 0.9. TSCP uses capped scores, CQHR uses its native construction, and
+results average 30 independent repetitions.
+test C ∈ {100, 300, 1000}. As shown in Figure S9, the recorded TSCP rectangle is invariant
+to C in this range up to numerical roundoﬀ and agrees exactly, to recorded numerical
+precision, with the TSCP-GWC rectangle: the maximum coordinate-length diﬀerence is
+zero in all 30 repetitions for every C. Consequently, this experiment does not identify a
+practically meaningful shift constant and the shifted construction does not provide a distinct
 local reﬁnement in this design. This is an empirical ﬁnding, not a translation-invariance
 theorem for arbitrary data. A ﬁxed shift is justiﬁed by a bound on the score over the
 relevant input domain, not only its observed calibration minimum: for ordered base intervals
@@ -3950,6 +3894,10 @@ of width wj(x), Sj(x, y) ≥ − wj(x)/2, so a known uniform width bound wj(x) �
 the suﬃcient choice C ≥ M/2. The experiment uses ﬁxed constants and is not a general
 selector for C. The primary comparison uses capped nonnegative scores; the ﬁxed-constant
 sweep does not supply a data-adaptive tuning rule for C.
+61
+
+PAGE 62
+F an and Sesia
 250 500 750 1000
 Shift constant C
 0.6
@@ -3979,15 +3927,11 @@ Shift constant C
 Max. absolute difference
 TSCP/TSCP-GWC length gap
 Unscaled Max CQHR TSCP-GWC TSCP (Ours)
-Figure S11: Sensitivity of shifted CQR scores to the additive constant C. The ﬁrst two
+Figure S9: Sensitivity of shifted CQR scores to the additive constant C. The ﬁrst two
 panels report coverage and mean outcome-space volume; the third reports the maximum
 coordinate-length diﬀerence between shifted TSCP and TSCP-GWC. Results use d = 3 ,
 n = 100, and 30 independent repetitions.
-62
-
-PAGE 63
-Interpretable Multivariate Conformal Prediction
-C.9 Low-Dimensional Shape-T emplate Baseline
+C.8 Low-Dimensional Shape-T emplate Baseline
 We compare with the convex shape-template approach of Tumu et al. (2024). We use the
 public conformal-region-designer components: a kernel density estimate on a grid of
 size 20 per dimension, mean-shift clustering, and an axis-aligned hyperrectangular template.
@@ -3997,18 +3941,24 @@ and impose an aspect-ratio ﬂoor of 0.05 when a very small ﬁtted cluster is d
 one coordinate. This detail keeps the conformal inﬂation ﬁnite and is stated here because
 it diﬀers from calling the released rectangle class without modiﬁcation.
 We use d = 2 with independent Gaussian scales (2, 1) and calibration sizes n ∈
-{30, 50, 100, 200}. Shape-template volume is divided by 2d to match the residual-space
-volume convention used for the symmetric rectangular methods. Figure S12 shows broadly
-comparable coverage. At n = 100 , the shape-template method has coverage 0.904, mean
-normalized volume 10.07, and mean construction time 98.7 milliseconds; TSCP has cov-
-erage 0.906, mean volume 8.04, and mean construction time 0.80 milliseconds. For each
-sample size shown, TSCP has a smaller mean normalized volume. Its construction time is
-also over two orders of magnitude shorter for this implementation.
+{30, 50, 100, 200}. Each of the 100 repetitions uses 2,400 training observations, 600 test
+observations, and a separately generated calibration sample. Shape-template volume is
+divided by 2d to match the residual-space volume convention used for the symmetric
+rectangular methods. Figure S10 shows broadly comparable coverage. At n = 100 , the
+shape-template method has coverage 0.904, mean normalized volume 10.07, and mean
+construction time 98.7 milliseconds; TSCP has coverage 0.906, mean volume 8.04, and
+mean construction time 0.80 milliseconds. For each sample size shown, TSCP has a smaller
+mean normalized volume. Its construction time is also over two orders of magnitude shorter
+for this implementation.
 This is deliberately a low-dimensional comparison. A Cartesian KDE grid has 20d
 locations and is therefore not computationally meaningful at the d = 10 scale of the main
 synthetic experiment. The experiment establishes a comparison with a ﬂexible convex
 template where the released computational strategy is applicable; it is not evidence that
 either method dominates all shape-template choices in higher dimensions.
+62
+
+PAGE 63
+Interpretable Multivariate Conformal Prediction
 50 100 150 200
 Calibration sample size
 0.6
@@ -4032,138 +3982,150 @@ Calibration sample size
 Milliseconds
 Construction time
 Unscaled Max Point CHR Shape T emplate TSCP (Ours)
-Figure S12: Comparison with a KDE/mean-shift hyperrectangular shape template for d = 2
+Figure S10: Comparison with a KDE/mean-shift hyperrectangular shape template for d = 2
 Gaussian residuals with scales (2, 1). Volume follows the same 2−d normalization as the
 other residual-space experiments. Results average 100 independent repetitions, and runtime
 excludes the common regression ﬁt.
-C.10 Oracle Approximation and Computational Scaling
-These comparisons use the ﬁxed-pool protocol in Appendix C.1.
-63
-
-PAGE 64
-F an and Sesia
+C.9 Oracle Approximation and Computational Scaling
+We examine how the practical constructions approximate the population oracle under in-
+dependent Laplace noise with coordinate scales (d, d − 1, . . . ,1) and varying calibration
+size.
 The additional methods considered in this section include (i) Naive, the heuristic plug-
 in rescaling method that uses location and scale parameters estimated directly from the
 calibration data without further adjustments, summarized in Algorithm S3; (ii) TSCP-S,
 the ineﬃcient data-splitting variant summarized in Algorithm S4; (iii) TSCP-GWC, our
 conservative global-worst-case method summarized in Algorithm S5; (iv) TSCP-L WC, the
 aggregated union described in Section 3.4 but not enclosed by a rectangle.
-/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
-/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
-/uni00000013/uni00000011/uni0000001b/uni00000018
-/uni00000013/uni00000011/uni0000001c/uni00000013
-/uni00000013/uni00000011/uni0000001c/uni00000018
-/uni00000014/uni00000011/uni00000013/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
-/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
-/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
-/uni00000015/uni00000013
-/uni00000016/uni00000013
-/uni00000017/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
-/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
-/uni00000033/uni00000052/uni00000053/uni00000011/uni00000003/uni00000032/uni00000055/uni00000044/uni00000046/uni0000004f/uni00000048
-/uni00000031/uni00000044/uni0000004c/uni00000059/uni00000048
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni00000036
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
-/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
-/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
-/uni00000013/uni00000011/uni0000001b/uni00000018
-/uni00000013/uni00000011/uni0000001c/uni00000013
-/uni00000013/uni00000011/uni0000001c/uni00000018
-/uni00000014/uni00000011/uni00000013/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
-/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
-/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
-/uni00000014/uni0000001b
-/uni00000015/uni00000013
-/uni00000015/uni00000015
-/uni00000015/uni00000017/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
-/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
-/uni00000033/uni00000052/uni00000053/uni00000011/uni00000003/uni00000032/uni00000055/uni00000044/uni00000046/uni0000004f/uni00000048
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni0000002a/uni0000003a/uni00000026
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni0000002f/uni0000003a/uni00000026
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
-Figure S13: Performance of TSCP and alternative approaches on simulated data with
+All methods compared in Figure S11 tend to approximate Pop. Oracle well as n increases,
+with TSCP and TSCP-L WC being the two most stable and fastest approximations among
+all methods with theoretical coverage. These results also show that TSCP encloses the
+aggregated union TSCP-L WC very tightly, and that TSCP-GWC is conservative, though it
+still performs better than the data-splitting variant TSCP-S. Despite lacking a ﬁnite-sample
+coverage guarantee, the Naive approach performs well, as also shown in Figure S12.
+Figure S13 better highlights the prohibitive computational cost of TSCP-L WC, by re-
+porting on the results of similar experiments where a small sample size is ﬁxed, |Dcal| = 30,
+while the outcome dimensions are gradually increased: d ∈ {2, 3, 4, 5, 10, 20, 30}.
+63
+
+PAGE 64
+F an and Sesia
+100 200 300 400 500
+Calibration sample size
+0.6
+0.7
+0.8
+0.9
+1.0
+Mean
+Joint coverage
+100 200 300 400 500
+Calibration sample size
+2 × 101
+3 × 101
+4 × 101
+Mean
+Residual-space volume
+Pop. Oracle Naive TSCP-S TSCP (Ours)
+100 200 300 400 500
+Calibration sample size
+0.6
+0.7
+0.8
+0.9
+1.0
+Mean
+Joint coverage
+100 200 300 400 500
+Calibration sample size
+1.8 × 101
+1.9 × 101
+2 × 101
+2.1 × 101
+2.2 × 101
+2.3 × 101
+2.4 × 101
+2.5 × 101
+Mean
+Residual-space volume
+Pop. Oracle TSCP-GWC TSCP-LWC TSCP (Ours)
+Figure S11: Performance of TSCP and alternative approaches on simulated data with
 d = 2 targets and heterogeneous Laplace noise. The target coverage level is 90%. Results
 are averaged over 200 trials. All methods achieve near-nominal coverage and approximate
 Pop. Oracle as the calibration sample size increases. TSCP tracks TSCP-L WC closely, with
 an almost indistinguishable average volume, highlighting the tightness of its rectangular
 enclosure.
-All methods compared in Figure S13 tend to approximate Pop. Oracle well as n increases,
-with TSCP and TSCP-L WC being the two most stable and fastest approximations among
-all methods with theoretical coverage. These results also show that TSCP encloses the
-aggregated union TSCP-L WC very tightly, and that TSCP-GWC is conservative, though it
-still performs better than the data-splitting variant TSCP-S. Despite lacking a ﬁnite-sample
-coverage guarantee, the Naive approach performs well, as also shown in Figure S14.
-Figure S15 better highlights the prohibitive computational cost of TSCP-L WC, by re-
-porting on the results of similar experiments where a small sample size is ﬁxed, |Dcal| = 30,
-while the outcome dimensions are gradually increased: d ∈ {2, 3, 4, 5, 10, 20, 30}.
 64
 
 PAGE 65
 Interpretable Multivariate Conformal Prediction
-/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
-/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
-/uni00000013/uni00000011/uni0000001a
-/uni00000013/uni00000011/uni0000001b
-/uni00000013/uni00000011/uni0000001c
-/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
-/uni00000016/uni00000013/uni00000018/uni00000013/uni00000014/uni00000013/uni00000013/uni00000016/uni00000013/uni00000013/uni00000018/uni00000013/uni00000013
-/uni00000026/uni00000044/uni0000004f/uni0000004c/uni00000045/uni00000055/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000036/uni00000044/uni00000050/uni00000053/uni0000004f/uni00000048/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048
-/uni00000014/uni00000013/uni00000014/uni00000016
-/uni00000014/uni00000013/uni00000014/uni00000017
-/uni00000014/uni00000013/uni00000014/uni00000018
-/uni00000014/uni00000013/uni00000014/uni00000019
-/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
-/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
-/uni00000033/uni00000052/uni00000053/uni00000011/uni00000003/uni00000032/uni00000055/uni00000044/uni00000046/uni0000004f/uni00000048
-/uni00000031/uni00000044/uni0000004c/uni00000059/uni00000048
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni00000036
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni0000002a/uni0000003a/uni00000026
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni0000002f/uni0000003a/uni00000026
-/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
-Figure S14: Performance of TSCP and alternative approaches on simulated data with d = 10
-targets. Other details are as in Figure S13. TSCP-L WC is omitted from this ﬁgure due to
+100 200 300 400 500
+Calibration sample size
+0.6
+0.7
+0.8
+0.9
+1.0
+Mean
+Joint coverage
+100 200 300 400 500
+Calibration sample size
+1013
+1014
+1015
+1016
+Mean
+Residual-space volume
+Pop. Oracle
+Naive
+TSCP-S
+TSCP-GWC
+TSCP (Ours)
+Figure S12: Performance of TSCP and alternative approaches on simulated data with d = 10
+targets. Other details are as in Figure S11. TSCP-L WC is omitted from this ﬁgure due to
 its prohibitive cost with even moderately high-dimensional outcomes.
-/uni00000015/uni00000016/uni00000017/uni00000018/uni00000014/uni00000013/uni00000015/uni00000013/uni00000016/uni00000013
-/uni00000027/uni0000004c/uni00000050/uni00000048/uni00000051/uni00000056/uni0000004c/uni00000052/uni00000051/uni00000056
-/uni00000013/uni00000011/uni00000015
-/uni00000013/uni00000011/uni00000017
-/uni00000013/uni00000011/uni00000019
-/uni00000013/uni00000011/uni0000001b
-/uni00000014/uni00000011/uni00000013/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000026/uni00000052/uni00000059/uni00000048/uni00000055/uni00000044/uni0000004a/uni00000048
-/uni00000015/uni00000016/uni00000017/uni00000018/uni00000014/uni00000013/uni00000015/uni00000013/uni00000016/uni00000013
-/uni00000027/uni0000004c/uni00000050/uni00000048/uni00000051/uni00000056/uni0000004c/uni00000052/uni00000051/uni00000056
-/uni00000014/uni00000013/uni00000014/uni00000018
-/uni00000014/uni00000013/uni00000016/uni00000015
-/uni00000014/uni00000013/uni00000017/uni0000001c
-/uni00000030/uni00000048/uni00000044/uni00000051
-/uni00000039/uni00000052/uni0000004f/uni00000058/uni00000050/uni00000048
-/uni00000015/uni00000016/uni00000017/uni00000018/uni00000014/uni00000013/uni00000015/uni00000013/uni00000016/uni00000013
-/uni00000027/uni0000004c/uni00000050/uni00000048/uni00000051/uni00000056/uni0000004c/uni00000052/uni00000051/uni00000056
-/uni00000015
-/uni00000013
-log10 /uni0000000b/uni00000030/uni00000048/uni00000044/uni00000051/uni0000000c
-/uni00000035/uni00000058/uni00000051/uni00000057/uni0000004c/uni00000050/uni00000048
-/uni00000030/uni00000048/uni00000057/uni0000004b/uni00000052/uni00000047
-/uni00000028/uni00000050/uni00000053/uni00000011/uni00000003/uni00000026/uni00000052/uni00000053/uni00000058/uni0000004f/uni00000044/uni00000033/uni00000052/uni0000004c/uni00000051/uni00000057/uni00000003/uni00000026/uni0000002b/uni00000035/uni00000037/uni00000036/uni00000026/uni00000033/uni00000010/uni0000002f/uni0000003a/uni00000026/uni00000037/uni00000036/uni00000026/uni00000033/uni00000003/uni0000000b/uni00000032/uni00000058/uni00000055/uni00000056/uni0000000c
-Figure S15: Performance of TSCP and alternative approaches on simulated data with ﬁxed
-sample size |Dcal| = 30, as a function of the number of output dimensions d. Other details
-are as in Figure S13. These results are averaged over 30 repetitions under the ﬁxed-pool
-protocol. The runtime results are presented in seconds on a log10 scale. The runtime of
-all methods except TSCP-L WC scales well with number of dimensions. TSCP-L WC is only
-applied when d ∈ {2, 3, 4} due to the exponential growth of its runtime.
+2 3 4 5 10 20 30
+Output dimension
+0.6
+0.7
+0.8
+0.9
+1.0
+Mean
+Joint coverage
+2 3 4 5 10 20 30
+Output dimension
+100
+109
+1018
+1027
+1036
+1045
+1054
+1063
+Mean
+Residual-space volume
+2 3 4 5 10 20 30
+Output dimension
+100
+101
+102
+103
+104
+Milliseconds
+Construction time
+Emp. Copula Point CHR TSCP-LWC TSCP (Ours)
+Figure S13: Absolute-residual experiment with Laplace noise, calibration size n = 30 , and
+varying output dimension d. Results are averaged over 30 repetitions. Panels report mean
+joint coverage, residual-space volume, and construction time in milliseconds. Volume and
+runtime use logarithmic axes. The dashed line marks target coverage 0.9; downward trian-
+gles identify coverage means below the displayed lower limit 0.6. TSCP-L WC is evaluated
+only at d ∈ {2, 3, 4} because of its rapidly increasing computational cost.
 65
 
 PAGE 66
 F an and Sesia
-C.11 Real-Data Coverage and Eﬃciency
-C.11.1 Dataset-Level Coverage and Volume
+C.10 Real-Data Coverage and Eﬃciency
+C.10.1 Dataset-Level Coverage and Volume
 Table S9 presents dataset-level coverage and normalized volume for the benchmark evalu-
 ation in Section 4.4, including the across-split standard deviations. Each dataset uses 200
 random 75%/5%/20% training/calibration/test splits, with multitask lasso at regulariza-
@@ -4202,17 +4164,17 @@ and the smallest volume among methods achieving valid coverage is highlighted in
 
 PAGE 67
 Interpretable Multivariate Conformal Prediction
-C.11.2 Coordinate-Wise Coverage
+C.10.2 Coordinate-Wise Coverage
 The coordinate-analysis batch in Section 4.5 uses the split proportions, calibration sizes,
 and model settings in Section 4.4. In each of the 200 splits we record full interval lengths
 and marginal test coverage for all 51 output coordinates across the six datasets, for all four
 methods. Together this gives 40,800 split–method–coordinate records. Comparisons are
 paired on common ﬁtted models and test observations.
-Figure S16 reports all coordinate-wise coverage means, and Table S10 reports the match-
+Figure S14 reports all coordinate-wise coverage means, and Table S10 reports the match-
 ing joint coverage. The 0.9 line is the joint target used for calibration, not an assertion that
 every marginal should equal 0.9. For a rectangular region, each coordinate’s empirical cov-
 erage is at least the empirical joint coverage on the same test set, but the marginal rates
-can diﬀer substantially. Thus, shorter intervals in Figure 9 must be interpreted alongside
+can diﬀer substantially. Thus, shorter intervals in Figure 11 must be interpreted alongside
 both kinds of coverage.
 TSCP’s mean joint coverages are 0.956, 0.902, 0.901, 0.901, 0.923, and 0.912 on stock,
 rf2, scm1d, scm20d, energy, and student, respectively. The target lies within one across-
@@ -4231,7 +4193,7 @@ energy 0.887 (0.061) 0 .917 (0.048) 0 .899 (0.069) 0 .923 (0.048)
 student 0.861 (0.073) 0 .904 (0.055) 0 .939 (0.057) 0 .912 (0.056)
 Table S10: Joint test coverage for the real-data coordinate-analysis batch. Entries are
 the mean and one across-split standard deviation over 200 splits. These measurements
-correspond to the interval lengths in Figure 9 and the marginal coverages in Figure S16.
+correspond to the interval lengths in Figure 11 and the marginal coverages in Figure S14.
 Supplementary data include coordinate lengths, paired length ratios, marginal and joint
 coverages, and across-split standard deviations. Standard errors obtained by dividing the
 across-split standard deviation by
@@ -4252,8 +4214,8 @@ Outcome coordinate
 0.9
 1.0
 Marginal coverage
-TSCP joint: 0.956
 stock
+TSCP joint: 0.956
 1 2 3 4 5 6 7 8
 Outcome coordinate
 0.6
@@ -4262,8 +4224,8 @@ Outcome coordinate
 0.9
 1.0
 Marginal coverage
-TSCP joint: 0.902
 rf2
+TSCP joint: 0.902
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
 Outcome coordinate
 0.6
@@ -4272,8 +4234,8 @@ Outcome coordinate
 0.9
 1.0
 Marginal coverage
-TSCP joint: 0.901
 scm1d
+TSCP joint: 0.901
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
 Outcome coordinate
 0.6
@@ -4282,8 +4244,8 @@ Outcome coordinate
 0.9
 1.0
 Marginal coverage
-TSCP joint: 0.901
 scm20d
+TSCP joint: 0.901
 1 2
 Outcome coordinate
 0.6
@@ -4292,8 +4254,8 @@ Outcome coordinate
 0.9
 1.0
 Marginal coverage
-TSCP joint: 0.923
 energy
+TSCP joint: 0.923
 1 2 3
 Outcome coordinate
 0.6
@@ -4302,10 +4264,10 @@ Outcome coordinate
 0.9
 1.0
 Marginal coverage
-TSCP joint: 0.912
 student
+TSCP joint: 0.912
 Emp. Copula Unscaled Max Point CHR TSCP (Ours)
-Figure S16: Coordinate-wise marginal coverage over 200 splits of each real dataset. The
+Figure S14: Coordinate-wise marginal coverage over 200 splits of each real dataset. The
 dashed line is the 0.9 joint target, and each panel also reports TSCP’s mean joint coverage.
 Across-split standard deviations and pointwise Monte Carlo intervals are provided in the
 supplementary data. Coordinates follow the target-column order of each dataset.
@@ -4313,7 +4275,7 @@ supplementary data. Coordinates follow the target-column order of each dataset.
 
 PAGE 69
 Interpretable Multivariate Conformal Prediction
-C.12 Search-Regime Sensitivity to the T arget Level
+C.11 Search-Regime Sensitivity to the T arget Level
 To explore regimes beyond the main 90% target, we reuse the same 200 calibration residual
 matrices per dataset and vary the miscoverage level over α ∈ { 0.1, 0.3, 0.5, 0.7, 0.9}. This
 is a computational diagnostic, not an additional 90%-coverage experiment: the nominal
@@ -4358,17 +4320,13 @@ GWC fallback
 0.1 0.3 0.5 0.7 0.9
 Miscoverage level
 0
-1
 2
-3
 4
-5
 6
-7
 Mean of per-split medians (ms)
 Overall construction time
 stock rf2 scm1d scm20d energy student
-Figure S17: Computational stress sweep on the cached real-data calibration residuals. Each
+Figure S15: Computational stress sweep on the cached real-data calibration residuals. Each
 point summarizes 200 splits. The ﬁrst two panels show the fractions of splits using any
 backward search or the global fallback; their vertical ranges diﬀer. The ﬁnal panel reports
 construction time. Additional miscoverage levels use the median of three uninstrumented
@@ -4382,25 +4340,29 @@ PAGE 70
 F an and Sesia
 diagnostic logging. These measurements characterize computation on the evaluated residual
 samples, not worst-case search complexity.
-C.13 Monte Carlo Uncertainty
-We quantify uncertainty for 58 TSCP settings comprising the independent-observation syn-
-thetic studies and the real-data benchmark in Table 1. This calculation excludes the ﬁxed-
-pool studies and the separate real-data coordinate-analysis batch. The corresponding nomi-
-nal target lies within one across-repetition standard deviation of every reported mean. Only
-four synthetic means are below their targets: partial heteroskedasticity at n = 500 gives
-0.8996 (0.0164); capped-score CQR at n = 50 gives 0.8991 (0.0457); 5% contamination gives
-0.8995 (0.0297); and Student t1.5 noise at n = 500 gives 0.8976 (0.0173). Parentheses in this
-paragraph contain one standard deviation across repetitions.
-For the independent-observation synthetic experiments, training, test, and calibration
-observations are independently redrawn, so the repetitions are independent conditional on
-the ﬁxed regression coeﬃcients. This interpretation does not turn repeated splits of a ﬁxed
-real dataset into fresh population draws. Dividing the preceding standard deviations by
-the square root of the number of repetitions therefore gives a Monte Carlo standard er-
-ror. The resulting normal-approximation 95% intervals are, respectively, [0.89734, 0.90189],
-[0.88271, 0.91541], [0.89536, 0.90360], and [0.89522, 0.90003]; each contains the target 0.9.
-Thus, the small displayed shortfalls are consistent with ﬁnite Monte Carlo averaging and do
-not reveal a systematic coverage defect in these experiments. Supplementary data provide
-the trial-level measurements and pointwise uncertainty summaries. These normal approx-
-imations are not simultaneous conﬁdence intervals or proofs of coverage. Uncertainty for
-the real-data coordinate-analysis batch is reported separately in Appendix C.11.
+C.12 Monte Carlo Uncertainty
+We quantify uncertainty for 58 TSCP settings from the dependence, heteroskedasticity,
+CQR, sensitivity, contamination, and shape-template comparisons, the heavy-tail compar-
+ison in Figure S5, and the real-data benchmark in Table 1. This calculation excludes the
+distribution tables in Appendix C.1, the oracle and dimension-scaling comparisons in Ap-
+pendix C.9, Figure S6, and the separate real-data coordinate-analysis batch. Within these
+58 settings, the corresponding nominal target lies within one across-repetition standard de-
+viation of every reported mean. Only four synthetic means are below their targets: partial
+heteroskedasticity at n = 500 gives 0.8996 (0.0164); capped-score CQR at n = 50 gives
+0.8991 (0.0457); 5% contamination gives 0.8995 (0.0297); and Student t1.5 noise at n = 500
+gives 0.8976 (0.0173). Parentheses in this paragraph contain one standard deviation across
+repetitions.
+For the synthetic experiments included in this uncertainty analysis, training, test, and
+calibration observations are independently redrawn, so the repetitions are independent con-
+ditional on the ﬁxed regression coeﬃcients. This interpretation does not turn repeated
+splits of a ﬁxed real dataset into fresh population draws. Dividing the preceding stan-
+dard deviations by the square root of the number of repetitions therefore gives a Monte
+Carlo standard error. The resulting normal-approximation 95% intervals are, respectively,
+[0.89734, 0.90189], [0.88271, 0.91541], [0.89536, 0.90360], and [0.89522, 0.90003]; each con-
+tains the target 0.9. Thus, the small displayed shortfalls are consistent with ﬁnite Monte
+Carlo averaging and do not reveal a systematic coverage defect in these experiments. Sup-
+plementary data provide the trial-level measurements and pointwise uncertainty summaries.
+These normal approximations are not simultaneous conﬁdence intervals or proofs of cov-
+erage. Uncertainty for the real-data coordinate-analysis batch is reported separately in
+Appendix C.10.
 70

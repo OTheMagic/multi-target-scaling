@@ -20,30 +20,21 @@ import pandas as pd
 from scipy.stats import beta
 
 from reviewer_update.run_real_diagnostics import DATASETS, METHODS, OUT, TABLES
+from reviewer_update.build_experiment_update import (
+    COLORS as DISPLAY_COLORS, MARKERS, METHOD_LABELS, _style_axis,
+)
 
 FIGURES = ROOT / "reviewer_update/figures"
 LATEX = ROOT / "multi_target_scaling_latex"
-LABELS = {"Empirical_copula": "Emp. Copula", "Unscaled": "Unscaled Max",
-          "Point_CHR": "Point CHR", "TSCP_R": "TSCP (Ours)"}
-COLORS = {"Empirical_copula": "#8C8C8C", "Unscaled": "#9C755F",
-          "Point_CHR": "#4E79A7", "TSCP_R": "#E15759"}
+LABELS = {method: METHOD_LABELS[method] for method in METHODS}
+COLORS = {method: DISPLAY_COLORS[LABELS[method]] for method in METHODS}
 DATA_COLORS = ["#4E79A7", "#E15759", "#59A14F", "#7B61A8", "#B07A26", "#3E9A9A"]
 FIGURE_NAMES = ["fig_body_real_coordinate_bars", "fig_body_real_search_diagnostics",
                 "fig_app_real_marginal_coverage", "fig_app_real_search_alpha"]
 
-plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 8,
-    "axes.labelsize": 8, "xtick.labelsize": 7, "ytick.labelsize": 7,
-    "legend.fontsize": 7, "axes.linewidth": 0.7, "lines.linewidth": 1.4,
-    "lines.markersize": 3.5, "pdf.fonttype": 42, "ps.fonttype": 42})
-
-
 def clean_axis(ax, title):
-    ax.set_facecolor("white")
-    ax.grid(axis="y", color="#d0d0d0", linewidth=0.55)
-    ax.set_axisbelow(True)
-    for spine in ax.spines.values():
-        spine.set_color("#b0b0b0")
-    ax.set_title(title, fontsize=8, pad=6, backgroundcolor="#e6e6e6")
+    _style_axis(ax, title)
+    ax.grid(axis="x", visible=False)
 
 
 def save(fig, name):
@@ -171,10 +162,11 @@ def marginal_coverage(cs, js):
     fig, axes = plt.subplots(3, 2, figsize=(7.25, 6.15), squeeze=False)
     for ax, dataset in zip(axes.flat, DATASETS):
         part = cs.loc[cs.dataset == dataset]
-        for method, marker in zip(METHODS, ["+", "<", "o", "D"]):
+        for method in METHODS:
             rows = part.loc[part.method == method].sort_values("coordinate")
             ax.plot(rows.coordinate, rows.marginal_coverage_mean, color=COLORS[method],
-                    marker=marker, label=LABELS[method], clip_on=False)
+                    marker=MARKERS[LABELS[method]], markeredgecolor="white",
+                    markeredgewidth=0.45, label=LABELS[method], clip_on=False)
         clean_axis(ax, dataset)
         ax.axhline(0.9, color="#333333", linewidth=0.7, linestyle="--")
         ax.set_ylim(0.6, 1.0)

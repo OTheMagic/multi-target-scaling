@@ -51,12 +51,12 @@ The original two-point energy illustration remains in the body.
 \item \textbf{Supplementary experiments.} Dependence, heterogeneity, target-level,
 small-sample, heavy-tail, contamination, base-quantile, constant-shift, and
 shape-template analyses appear in \msapp{app:additional-experiments}.
-\item \textbf{Integration of earlier evidence.} All original Gaussian plots,
-distribution tables, oracle/local-union comparisons, dimension-scaling timings,
-heavy-tail plots, and the original real-data table are incorporated by topic in
-\msapp{app:additional-experiments}. Sampling protocols are specified in
-\msapp{app:experimental-protocols}; no experimental values or assets were
-changed during this narrative reorganization.
+\item \textbf{Integration of earlier evidence.} The independent Gaussian
+comparisons now lead \mssec{sec:absolute-residual-experiments}, followed by
+dependence and partial heteroskedasticity. Earlier distribution, oracle,
+local-union, runtime, and real-data results are integrated by topic in
+\msapp{app:additional-experiments}. Redrawn plots use consistent method names,
+colors, and formatting; numerical values are preserved.
 \item \textbf{Scope and uncertainty.} The experimental text separates observed
 coverage from the assumptions of the theorems, retains actual means below
 target, and reports pointwise Monte Carlo uncertainty without treating one
@@ -69,8 +69,10 @@ not edited during integration. At the author's subsequent request, Figures 1
 and 2 now include the requested schematic coverage and residual-boundary labels.
 \end{itemize}
 \textbf{Reviewer audit:} 13 addressed, 6 partially addressed, and 1 open.
-The separate \path{unresolved_reviewer_concerns.md} lists remaining
-actions and other source-level issues requiring author review.
+See \path{unresolved_reviewer_concerns.md} for remaining actions.
+\action{Reconcile the archived CSVs with the declared fresh-sampling design:
+the saved notebook generates training/test data outside the repetition loop.
+Restyling does not verify sampling history; see \path{sampling_provenance.md}.}
 
 \clearpage
 \section*{Response to the Editor}

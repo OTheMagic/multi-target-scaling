@@ -49,7 +49,7 @@ before_supp = read(BEFORE / "supplementary.tex")
 current_supp = read(CURRENT / "supplementary.tex")
 start = r"\section{Numerical Experiments}"
 end = r"\section{Discussion and Future Work}"
-author_snapshot = ROOT / "reviewer_update/pre_publication_experiments/author_body.tex"
+author_snapshot = ROOT / "reviewer_update/pre_figure_unification/body.tex"
 author_body = read(author_snapshot)
 figure_label = "    " + r"\label{fig:joint-prediction}" + "\n"
 # The author revised Sections 2--3 after integration. Preserve that newer text;
@@ -80,7 +80,10 @@ assert references <= set(labels) | {"LastPage"}, f"Missing references: {referenc
 image_pattern = r"\\includegraphics(?:\[[^]]*\])?\{([^}]+)\}"
 original_images = Counter(re.findall(image_pattern, original))
 images = Counter(re.findall(image_pattern, combined))
-assert all(images[k] >= v for k, v in original_images.items()), "An original image was removed"
+style_audit = json.loads(read(CURRENT / "figure_style_audit.json"))
+renamed_figures = {"figures/" + item["replaces"]: "figures/" + item["figure"]
+                   for item in style_audit["figures"]}
+assert all(images[renamed_figures.get(k, k)] >= v for k, v in original_images.items()), "An original experiment figure was removed"
 for relative in images:
     path = CURRENT / relative
     if not path.suffix:
@@ -154,6 +157,7 @@ report = {
     "original_labels_preserved": len(original_labels),
     "total_unique_labels": len(label_counts),
     "original_graphic_inclusions_preserved": sum(original_images.values()),
+    "experimental_figures_restyled_and_renamed": renamed_figures,
     "new_figures_copied_unchanged": len(list((ROOT / "reviewer_update/figures").glob("*.pdf"))),
     "original_figure_files_unchanged": sum(p.is_file() for p in old_figure_files) - len(authorized_figure_updates),
     "authorized_schematic_updates": sorted(authorized_figure_updates),

@@ -1,21 +1,21 @@
 """Render reviewer figure PDFs and assemble contact sheets for visual QA."""
 
 from pathlib import Path
+import subprocess
 
-import pymupdf
 from PIL import Image, ImageDraw
 
 
 ROOT = Path(__file__).resolve().parent
 FIGURE_DIR = ROOT / "figures"
 OUT_DIR = ROOT / "qa_renders"
+POPPLER = Path.home() / ".cache/codex-runtimes/codex-primary-runtime/dependencies/native/poppler/Library/bin/pdftoppm.exe"
 
 
 def render_pdf(path: Path) -> Image.Image:
-    document = pymupdf.open(path)
-    pixmap = document[0].get_pixmap(dpi=160, alpha=False)
     output = OUT_DIR / f"{path.stem}.png"
-    pixmap.save(output)
+    subprocess.run([str(POPPLER), "-r", "160", "-singlefile", "-png",
+                    str(path), str(output.with_suffix(""))], check=True)
     return Image.open(output).convert("RGB")
 
 
@@ -53,8 +53,10 @@ def main() -> None:
     rendered = {path.stem: render_pdf(path) for path in paths}
     body = [path.stem for path in paths if path.stem.startswith("fig_body_")]
     appendix = [path.stem for path in paths if path.stem.startswith("fig_app_")]
-    make_sheet(body, rendered, "contact_body.png", columns=2)
-    make_sheet(appendix, rendered, "contact_appendix.png", columns=3)
+    for prefix, names in [("body", body), ("appendix", appendix)]:
+        for offset in range(0, len(names), 6):
+            make_sheet(names[offset:offset + 6], rendered,
+                       f"contact_{prefix}_{offset // 6 + 1}.png", columns=2)
     print(f"Rendered {len(paths)} PDFs")
 
 
