@@ -214,9 +214,9 @@ The same results hold with $\Phi$ random, if $(S^1,\ldots,S^{n+1})$ are exchange
 If the induced scalar scores $S^1,\ldots,S^{n+1}$ are almost surely
 distinct, Theorem~\ref{thm:fixed-transformation-coverage} guarantees the prediction sets defined in~\eqref{eq:joint-prediction-scalar} achieve marginal coverage {\em tightly} from above, as long as the sample size $n$ is not too small.
 A limitation of Theorem~\ref{thm:fixed-transformation-coverage}, however, is that it cannot tell us whether the coverage is equally tight across different outcome dimensions.
-In fact, depending on the data distribution, the fitted model, and the choice of $\Phi$, it could happen that $\hat{C}(\mathbf{X}^{n+1})$ achieves the desired marginal coverage while being much wider than necessary along certain directions, thereby providing uncertainty estimates that are potentially much less informative than ideal.
-Moreover, depending on $\Phi$, the prediction set $\hat{C}(\mathbf{X}^{n+1})$ may have a difficult-to-interpret shape.
+In fact, depending on the data distribution, the fitted model, and the choice of $\Phi$, it could happen that $\hat{C}(\mathbf{X}^{n+1})$ achieves the desired marginal coverage while being much wider than necessary along certain directions, thereby providing uncertainty estimates that are potentially much less informative than ideal (See Figure~\ref{fig:body-abs-coordinate-bars} for an example).
 }
+
 {\color{brown}Several recent works propose residual transformations based on $\ell_p$-norms, i.e., $\Phi(\cdot) = \|\cdot\|_p$ for different $1\leq p \leq \infty$ \citep{johnstone2022exact}. Although conceptually and computationally simple, these can be heavily affected by the noisiest output dimension. A single high-variance dimension may dominate the scalar score and inflate the resulting prediction set uniformly across all coordinates. 
 To obtain tighter prediction sets, recent works have proposed learning a suitable transformation of the residuals prior to applying a norm-based dimension reduction, for example by using optimal transport \citep{thurin2025otcp, klein2025multivariate}.
 However, these approaches require additional training data as well as expensive computations, and they typically lead to prediction sets with irregular shapes.}
@@ -653,7 +653,10 @@ backward search over $h \in \mathrm{Row}_j(h^*)$ with $h_j = n+1,\ldots,1$ and s
 Moreover, if $h^{[j]}_j \geq h^*_j$, which can be determined by simply checking whether $B^{h^*}_j > 0$,
 we can find $h^{[j]}$ even more effectively through a binary search that checks whether $B^m_j=0$ at each intermediate split step $m \in \mathrm{Row}_j(h^*)$ with $m_j \in [h^*_j,...,n+1]$ and assigns $h^{[j]}_j$ to be the largest $m_j$ such that $B^{m}_j > 0$.
 
-The special case $\mathcal{Y}^{h^*} = \emptyset$ corresponds to an extreme situation where even the conservative GWC prediction set $\hat{C}^\mathrm{gwc}(\mathbf{X}^{n+1})$ does not contain the empirical mean $\hat{\boldsymbol\mu}^\mathrm{obs}$ of the calibration residuals. Typically, this should not occur at moderate miscoverage levels $\alpha$, unless the data are extremely heavy-tailed. Such cases can be handled by simply falling back to the conservative GWC prediction set $\hat{C}^\mathrm{gwc}(\mathbf{X}^{n+1})$ itself, which we know to have valid marginal coverage. In conclusion, the procedure described above, summarized in Algorithm~\ref{alg:shortcut}, produces:
+The special case $\mathcal{Y}^{h^*} = \emptyset$ corresponds to an extreme situation where even the conservative GWC prediction set $\hat{C}^\mathrm{gwc}(\mathbf{X}^{n+1})$ does not contain the empirical mean $\hat{\boldsymbol\mu}^\mathrm{obs}$ of the calibration residuals. Typically, this should not occur at moderate miscoverage levels $\alpha$, unless the data are extremely heavy-tailed. Such cases can be handled by simply falling back to the conservative GWC prediction set $\hat{C}^\mathrm{gwc}(\mathbf{X}^{n+1})$ itself, which we know to have valid marginal coverage. 
+We have shown empirically in Appendix~\ref{fig:real-search-diagnostics} using the real data that this fallback is rare in practice for small $\alpha$ values.
+
+In conclusion, the procedure described above, summarized in Algorithm~\ref{alg:shortcut}, produces:
 \begin{align} \label{eq:tscp-shortcut}
   \hat{C}(\mathbf{X}^{n+1}) = \begin{cases}
   \hat{C}^\mathrm{lwc}_{\mathcal{P}_{n,d}}(\mathbf{X}^{n+1}), &\text{if }\mathcal{Y}^{h^*} \neq \emptyset, \\

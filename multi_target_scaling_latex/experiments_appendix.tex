@@ -74,23 +74,23 @@ parameter; the Gamma parameterization specifies shape followed by scale.
     \input{figures/baselines/gamma_10d_table}
     \caption{Performance of the proposed TSCP method and alternative conformal prediction approaches on simulated data with $d=10$ outcome variables, and noise following a \emph{Gamma} distribution; i.e., $\epsilon_j \sim  \mathrm{Gamma}(1, 10-j+1)$ for all $j \in [10]$. Other details are as in Table~\ref{tab:gaussian-heter}.}
     \label{tab:gamma}
-  \end{table}
+\end{table}
 
-\FloatBarrier
+
+\clearpage
 \subsection{Dependence Strength}
 \label{app:dependence-sensitivity}
 
 We vary the equicorrelation of the Gaussian noise over
 $\rho\in\{0,0.3,0.6,0.9\}$ while retaining marginal standard deviations
 $(10,9,\ldots,1)$ and a calibration size of $n=100$. Figure~\ref{fig:app-dependence}
-shows that TSCP's empirical joint coverage is stable across this range:
-$0.905$, $0.905$, $0.907$, and $0.908$, respectively. Its average
+shows that TSCP's empirical joint coverage is stable across different values of $\rho$. Its average
 residual-space volume decreases from $6.37\times10^{10}$ at $\rho=0$ to
 $9.47\times10^9$ at $\rho=0.9$. Point CHR and Unscaled Max also remain close
 to the target. Emp. Copula improves as the correlation strengthens but remains
-below the nominal level throughout the sweep. The experiment therefore does
+below the nominal level throughout this test. The experiment therefore does
 not indicate a coverage failure of TSCP under strong equicorrelation, while
-also showing that dependence materially changes region size.
+also showing that our method adapts well to varying dependence structures.
 
 \begin{figure*}[!htbp]
   \centering
@@ -102,22 +102,18 @@ also showing that dependence materially changes region size.
   \label{fig:app-dependence}
 \end{figure*}
 
-\FloatBarrier
 \subsection{Severity of Coordinate Heterogeneity}
 \label{app:heterogeneity-sensitivity}
 
 To isolate heterogeneity across outcomes, we use independent Gaussian noise
 and choose ten coordinate scales geometrically spaced between $r$ and $1$,
 where $r\in\{1,2,5,10,20\}$. The calibration size is fixed at $n=100$.
-Figure~\ref{fig:app-heterogeneity} shows that the coverage of TSCP, Point CHR,
+Figure~\ref{fig:app-heterogeneity} plots the joint coverage, mean residual-space volume against the scale ratio $r$ and shows that the coverage of TSCP, Point CHR,
 and Unscaled Max is essentially unchanged as $r$ grows. At $r=1$, Unscaled
-Max is slightly smaller than TSCP, with mean volumes $1.43\times10^4$ and
-$1.80\times10^4$. At $r=20$, their mean volumes are
-$3.44\times10^{15}$ and $5.75\times10^{10}$, respectively. This widening gap
+Max is slightly smaller than TSCP, aligning the unit scale story in Figure~\ref{fig:gaussian-homo}. As $r$ grows, Unscaled Max has its residual-space volume increase exponentially while others remain relatively stable and linear. This widening gap
 is the expected benefit of coordinate adaptation: a single maximum-residual
 threshold becomes increasingly inefficient when one scale must be used for
-all coordinates. Emp. Copula remains smaller but has average coverage about
-$0.821$ in this experiment.
+all coordinates. 
 
 \begin{figure*}[!htbp]
   \centering
@@ -130,7 +126,7 @@ $0.821$ in this experiment.
 \end{figure*}
 
 \FloatBarrier
-\subsection{Target Level and Small Calibration Samples}
+\subsection{Change of Target Level}
 \label{app:alpha-small-sample}
 
 Figure~\ref{fig:app-alpha} repeats the dependent Gaussian experiment at
@@ -151,31 +147,7 @@ coverage at every displayed target.
   \label{fig:app-alpha}
 \end{figure*}
 
-We separately examine $n\in\{10,20,30,50,100\}$ under independent Gaussian
-noise. Figure~\ref{fig:app-small-calibration} distinguishes finite volumes
-from the frequency of infinite output. At $n=10$, Point CHR has coverage one
-and infinite volume in every repetition. This is a finite-sample quantile
-effect, not evidence of a superior region: Point CHR divides the calibration
-sample and its final subset is too small to supply a finite $0.9$ conformal
-quantile. Point CHR is finite in all repetitions once $n\geq20$. TSCP and
-Unscaled Max are finite throughout; both are conservative at the smallest
-sample sizes, as expected from the discrete conformal rank. Emp. Copula
-severely undercovers when $n$ is small because it estimates dependence and
-calibrates on the same limited sample.
-
-\begin{figure*}[!htbp]
-  \centering
-  \includegraphics[width=0.92\textwidth]{figures/fig_app_small_calibration.pdf}
-  \caption{Small-calibration-sample stress test with independent Gaussian
-  noise and scales $(10,9,\ldots,1)$. The middle panel averages only finite
-  residual-space volumes; the right panel reports the fraction of repetitions
-  with infinite volume. A downward triangle at the lower plotting boundary
-  marks the Emp. Copula mean below $0.6$. Results average 200 repetitions.}
-  \label{fig:app-small-calibration}
-\end{figure*}
-
-\FloatBarrier
-\subsection{Heavy-Tailed Noise and the Role of Moment Conditions}
+\subsection{Heavy-Tailed Noise}
 \label{app:heavy-tails}
 
 We examine independent Student $t$ noise with
@@ -183,48 +155,12 @@ $d=10$, a common unit scale across coordinates, and degrees of freedom
 $\nu\in\{1.5,2,3\}$. The cases $\nu=1.5$ and $\nu=2$ have infinite variance
 and therefore lie outside Assumption~\ref{eq:assumption-scores}, which is
 invoked by the validity theorem as well as the moment-based motivation;
-$\nu=3$ has finite variance but remains heavy-tailed. These results should be
-read as an empirical stress test, not as an extension of the stated
-theory to infinite-variance distributions.
+$\nu=3$ has finite variance but remains heavy-tailed. .
 
-\subsubsection{Coverage and Volume}
-Figure~\ref{fig:app-heavy-tails} compares calibration sizes $n=30$ and
-$n=500$ across the three degrees of freedom.
-
-TSCP remains near the target in the displayed cases. For example, at $n=30$
-its coverages are $0.909$, $0.908$, and $0.912$ as $\nu$ increases, while at
-$n=500$ they are $0.898$, $0.901$, and $0.900$. Efficiency is much less
-stable. At $n=30$, the mean TSCP volume falls from $1.59\times10^{20}$ for
-$\nu=1.5$ to $5.92\times10^{13}$ for $\nu=3$; at $n=500$, it falls from
-$8.42\times10^{13}$ to $6.07\times10^7$. The explosive volumes make clear
-that empirical coverage alone is not evidence of practically useful behavior
-under very heavy tails.
-
-\begin{figure*}[!htbp]
-  \centering
-  \includegraphics[width=0.86\textwidth]{figures/fig_app_heavy_tail_stress.pdf}
-  \caption{Coverage and mean residual-space volume under independent,
-  common-scale Student $t$ noise for $d=10$. The top row uses $n=30$
-  calibration examples and the bottom row uses $n=500$. Results average 200
-  repetitions; volume is shown on a logarithmic scale.}
-  \label{fig:app-heavy-tails}
-\end{figure*}
-
-\FloatBarrier
-\subsubsection{Additional Comparison with Point CHR}
-\label{app:hevy_tailed_simulation}
-
-
-Figure~\ref{fig:t} evaluates the same unit-scale Student's-$t$ noise family
-with $d=10$, $\mathrm{DF}\in\{1.5,2,3\}$, and calibration sizes
-$n\in\{30,500\}$. Results average 200
+Figure~\ref{fig:t} presents the results averaged over 200
 repetitions. Coverage remains near the target while interval volumes grow
-substantially as the degrees of freedom decrease. Point CHR is less
-efficient at the smaller calibration size but can outperform TSCP at the
-larger size. As in Figure~\ref{fig:app-heavy-tails}, the
-infinite-variance cases lie outside Assumption~\ref{eq:assumption-scores}
-and do not extend the coverage theorem.
-
+substantially as the degrees of freedom decrease. Point CHR has larger volume at the smaller calibration size but can outperform TSCP at the
+larger size. 
 
 \begin{figure}[!htbp]
      \centering
@@ -244,24 +180,7 @@ and do not extend the coverage theorem.
         \caption{Performance of the proposed TSCP method and other approaches on simulated data with noise following a Student's-$t$ distribution with varying degrees of freedom, using small (a) and large (b) sample sizes. The target coverage level is 0.9. All methods except \emph{Emp.~Copula} have near-nominal coverage in all settings. TSCP has near-nominal empirical coverage in these displayed heavy-tail cases; the infinite-variance cases are outside the stated assumptions. In the small sample setting, Point CHR suffers more in terms of prediction set size due to its inefficient use of calibration data, although it can outperform TSCP in large samples.}
         \label{fig:t}
 \end{figure}
- 
-% \begin{table}
-%     \centering
-%     \input{figures/t/t_n30_10d}
-%     \caption{Performance on Student's-$t$ distribution with varying degree of freedoms on small sample size $|\mathcal{D}_{\mathrm{cal}}|=30$. This table contains all data used to generate Figure~\ref{fig:t-n30-10d} along with one standard deviation of the test coverage and volume over $200$ trials. Target coverage is $0.9$. Coverage below this target is highlighted in \textcolor{red}{red}. For volume, lower is better. Smallest volume size (among those with valid coverage) is highlighted in \textcolor{red}{red}. }
-%     \label{tab:t-n30-10d}
-% \end{table}
 
-% \begin{table}
-%     \centering
-%     \input{figures/t/t_n500_10d}
-%     \caption{Performance on Student's-$t$ distribution with varying degree of freedoms on large sample size $|\dataset_{\mathrm{cal}}|=500$. This table contains all data used to generate Figure~\ref{fig:t-n500-10d} along with one standard deviation of the test coverage and volume over $200$ trials. Target coverage is $0.9$. Coverage below this target is highlighted in \textcolor{red}{red}. For volume, lower is better. Smallest volume size (among those with valid coverage) is highlighted in \textcolor{red}{red}. Point CHR has the smallest volume while maintaing valid coverage when the degree of freedom is less than $3$, but when systematic outliers getting removed as the degree of freedom increases, our TSCP becomes the one with the smallest volume while maintaining valid coverage. }
-%     \label{tab:t-n500-10d}
-% \end{table}
-
-
-
-\FloatBarrier
 \subsection{Exchangeable Contamination Stress Test}
 \label{app:contamination}
 
@@ -274,8 +193,7 @@ data. The calibration size is $n=100$. We report median rather than mean
 volume because the contaminated distribution produces a small number of
 extreme regions.
 
-Figure~\ref{fig:app-contamination} shows that TSCP coverage changes from
-$0.904$ without contamination to $0.902$ at $10\%$ contamination, but its
+Figure~\ref{fig:app-contamination} shows that TSCP coverage stays near nominal regardless of contamination, but its
 median volume grows from $5.38\times10^{10}$ to $1.10\times10^{17}$. Point CHR
 and Unscaled Max exhibit the same qualitative inflation, and Emp. Copula
 under-covers at every contamination level. Thus, the conformal calibration is
@@ -301,14 +219,10 @@ analysis and requires a separate validity argument.
 \paragraph{Base-interval width.}
 The main CQR comparison uses base-interval miscoverage $0.5$. We repeat it at
 $0.3$, $0.5$, $0.7$, and $0.9$, fixing $n=100$ and final miscoverage $0.1$.
-Figure~\ref{fig:app-cqr-base} shows that capped-score TSCP has empirical
-coverage between $0.903$ and $0.906$ and mean outcome-space volume between
-$2.80\times10^4$ and $3.77\times10^4$ across the sweep. Unscaled Max behaves
+Figure~\ref{fig:app-cqr-base} shows that TSCP with truncated residuals and Unscaled Max behaves
 similarly, while Emp. Copula undercovers. CQHR remains close to nominal
 coverage but its volume is highly sensitive to the fitted base interval in
-this design. The result supports using the moderate $0.5$ base interval for
-the primary comparison and cautions against drawing conclusions from one
-extreme base-quantile choice.
+this design.
 
 \begin{figure*}[!htbp]
   \centering
@@ -320,23 +234,13 @@ extreme base-quantile choice.
 \end{figure*}
 
 \paragraph{Shifted scores.}
-An alternative way to enforce nonnegativity is to replace the signed CQR score
-$S_j$ by $S_j+C$, apply TSCP, and subtract $C$ from the final coordinate
+An alternative way to enforce nonnegativity is to replace the signed CQR residuals
+$E_j$ by $E_j+C$, apply TSCP, and subtract $C$ from the final coordinate
 adjustment. We test $C\in\{100,300,1000\}$. As shown in
 Figure~\ref{fig:app-cqr-shift}, the recorded TSCP rectangle is invariant to
-$C$ in this range up to numerical roundoff and agrees exactly, to recorded numerical precision, with
+$C$ and, more importantly, agrees exactly with
 the TSCP-GWC rectangle: the maximum coordinate-length difference is zero in
-all 30 repetitions for every $C$. Consequently, this experiment does not
-identify a practically meaningful shift constant and the shifted construction
-does not provide a distinct local refinement in this design. This is an
-empirical finding, not a translation-invariance theorem for arbitrary data.
-A fixed shift is justified by a bound on the score over the relevant input
-domain, not only its observed calibration minimum: for ordered base intervals
-of width $w_j(x)$, $S_j(x,y)\geq-w_j(x)/2$, so a known uniform width bound
-$w_j(x)\leq M$ gives the sufficient choice $C\geq M/2$. The experiment uses
-fixed constants and is not a general selector for $C$. The primary comparison
-uses capped nonnegative scores; the fixed-constant sweep
-does not supply a data-adaptive tuning rule for $C$.
+all 30 repetitions for every $C$. We retested the theory and found out that this happens because the LWC map used in TSCP, as defined in Section~\ref{sec:method-lwc}, would actually inflate heavily in the presence of a large additive constant $C$, resulting in the final TSCP rectangle being determined by the global worst-case bound. We therefore recommend using the capped residuals $\max\{E_j,0\}$ for practical implementation, as it is more efficient and avoids the need to choose a constant $C$.
 
 \begin{figure*}[!htbp]
   \centering
@@ -360,28 +264,17 @@ calibration residuals are divided equally between fitting the density and
 template and conformalizing its inflation. We use a score-consistent
 hyperrectangle implementation and impose an aspect-ratio floor of $0.05$ when
 a very small fitted cluster is degenerate along one coordinate. This detail
-keeps the conformal inflation finite and is stated here because it differs
-from calling the released rectangle class without modification.
+keeps the conformal inflation finite.
 
 We use $d=2$ with independent Gaussian scales $(2,1)$ and calibration
 sizes $n\in\{30,50,100,200\}$. Each of the 100 repetitions uses 2,400
 training observations, 600 test observations, and a separately generated
 calibration sample. Shape-template volume is divided by $2^d$ to match
 the residual-space volume convention used for the symmetric rectangular
-methods. Figure~\ref{fig:app-shape-template} shows broadly comparable coverage.
-At $n=100$, the shape-template method has coverage $0.904$, mean normalized
-volume $10.07$, and mean construction time $98.7$ milliseconds; TSCP has
-coverage $0.906$, mean volume $8.04$, and mean construction time $0.80$
-milliseconds. For each sample size shown, TSCP has a smaller mean normalized
-volume. Its construction time is also over two orders of magnitude shorter
-for this implementation.
+methods. Figure~\ref{fig:app-shape-template} shows shows that TSCP has smaller volume than the shape-template method for every calibration size, and its construction time is over two orders of magnitude shorter for this implementation. 
 
 This is deliberately a low-dimensional comparison. A Cartesian KDE grid has
-$20^d$ locations and is therefore not computationally meaningful at the
-$d=10$ scale of the main synthetic experiment. The experiment establishes a
-comparison with a flexible convex template where the released computational
-strategy is applicable; it is not evidence that either method dominates all
-shape-template choices in higher dimensions.
+$20^d$ locations and is therefore not computationally meaningful at our popular $d=10$ scale. 
 
 \begin{figure*}[!htbp]
   \centering
@@ -389,8 +282,7 @@ shape-template choices in higher dimensions.
   \caption{Comparison with a KDE/mean-shift hyperrectangular shape template
   for $d=2$ Gaussian residuals with scales $(2,1)$. Volume follows the same
   $2^{-d}$ normalization as the other residual-space experiments. Results
-  average 100 independent repetitions, and runtime excludes the common
-  regression fit.}
+  average 100 independent repetitions. The shape-template method is slower and has larger volume than TSCP at every calibration size.}
   \label{fig:app-shape-template}
 \end{figure*}
 
@@ -402,7 +294,7 @@ We examine how the practical constructions approximate the population
 oracle under independent Laplace noise with coordinate scales
 $(d,d-1,\ldots,1)$ and varying calibration size.
 
-The additional methods considered in this section include (i) \emph{Naive}, the heuristic plug-in rescaling method that uses location and scale parameters estimated directly from the calibration data without further adjustments, summarized in Algorithm~\ref{alg:std-plug-in}; (ii) \emph{TSCP-S}, the inefficient data-splitting variant summarized in Algorithm~\ref{alg:std-ds}; (iii) \emph{TSCP-GWC}, our conservative global-worst-case method summarized in Algorithm~\ref{alg:global}; (iv) \emph{TSCP-LWC}, the aggregated union described in Section~\ref{sec:method-lwc} but not enclosed by a rectangle. 
+The additional methods considered in this section include (i) \emph{Naive}, the heuristic plug-in rescaling method that uses location and scale parameters estimated directly from the calibration data without further adjustments, summarized in Algorithm~\ref{alg:std-plug-in}; (ii) \emph{TSCP-S}, the inefficient data-splitting variant summarized in Algorithm~\ref{alg:std-ds}; (iii) \emph{TSCP-GWC}, our conservative global-worst-case method summarized in Algorithm~\ref{alg:global}; (iv) \emph{TSCP-LWC}, the aggregated union described in Section~\ref{sec:method-lwc} but not enclosed by a rectangle.
 
 
 \begin{figure}[!htbp]
@@ -434,196 +326,119 @@ Figure~\ref{fig:runtime} better highlights the prohibitive computational cost of
     \includegraphics[width=\textwidth]{figures/fig_app_dimension_scaling.pdf}
     \caption{Absolute-residual experiment with Laplace noise, calibration
     size $n=30$, and varying output dimension $d$. Results are averaged
-    over 30 repetitions. Panels report mean joint coverage, residual-space
-    volume, and construction time in milliseconds. Volume and runtime use
-    logarithmic axes. The dashed line marks target coverage $0.9$;
-    downward triangles identify coverage means below the displayed lower
-    limit $0.6$. TSCP-LWC is evaluated only at $d\in\{2,3,4\}$ because of
+    over 30 repetitions. The dashed line marks target coverage $0.9$. TSCP-LWC is evaluated only at $d\in\{2,3,4\}$ because of
     its rapidly increasing computational cost.}
     \label{fig:runtime}
 \end{figure}
 
 \FloatBarrier
-\subsection{Real-Data Coverage and Efficiency}
+\subsection{Addditional Real Experiments}
+
+\subsubsection{Coordinate-wise Marginal Coverage and Interval Lengths}
 \label{app:real-coordinate-audit}
-
-\subsubsection{Dataset-Level Coverage and Volume}
-
-Table~\ref{tab:real} presents dataset-level coverage and normalized volume
-for the benchmark evaluation in Section~\ref{sec:real-data-experiments},
-including the across-split standard deviations. Each dataset uses 200
-random $75\%/5\%/20\%$ training/calibration/test splits, with multitask
-lasso at regularization $10^{-4}$ on \texttt{stock} and random forests
-elsewhere. The four larger benchmark datasets follow related multivariate
-regression studies \citep{pmlr-v258-park25c,dheur2025unified}; the
-\texttt{student} and \texttt{energy} datasets emphasize smaller
-calibration samples.
-
-TSCP's volume advantage on four of the six datasets coexists with larger
-volumes than Point CHR on \texttt{rf2} and Unscaled Max on
-\texttt{student}. Point CHR's additional split makes its final
-\texttt{stock} calibration sample too small for a finite $0.9$ conformal
-quantile. Emp. Copula undercovers on these datasets. The coordinate-level
-analysis below examines how such joint-coverage and volume comparisons
-relate to the informativeness of individual intervals.
-
-\begin{table}[!htbp]
-\input{figures/realdata_table_highlighted}
-\caption{Performance of the proposed TSCP method and alternative conformal prediction approaches on real datasets. Results are averaged over $200$ random splits of the data into training/calibration/and test subsets, with one standard deviation reported in parentheses. The target coverage level is $0.9$. Coverage values below the target are highlighted in \textcolor{red}{red}, and the smallest volume among methods achieving valid coverage is highlighted in \textbf{bold}.}
-\label{tab:real}
-\end{table}
-
-\FloatBarrier
-
-\subsubsection{Coordinate-Wise Coverage}
-The coordinate-analysis batch in Section~\ref{sec:real-data-diagnostics}
-uses the split proportions, calibration sizes, and model settings in
-Section~\ref{sec:real-data-experiments}. In each of the 200 splits we record
-full interval lengths and marginal test coverage for all 51 output
-coordinates across the six datasets, for all four methods. Together this
-gives 40,800 split--method--coordinate records. Comparisons are paired on
-common fitted models and test observations.
-
-Figure~\ref{fig:app-real-marginal-coverage} reports all coordinate-wise
-coverage means, and Table~\ref{tab:real-diagnostic-coverage} reports the
-matching joint coverage. The $0.9$ line is the joint target used for
-calibration, not an assertion that every marginal should equal $0.9$.
-For a rectangular region, each coordinate's empirical coverage is at least
-the empirical joint coverage on the same test set, but the marginal rates
-can differ substantially. Thus, shorter intervals in
-Figure~\ref{fig:body-real-coordinate-bars} must be interpreted alongside
-both kinds of coverage.
-
-TSCP's mean joint coverages are $0.956$, $0.902$, $0.901$, $0.901$,
-$0.923$, and $0.912$ on \texttt{stock}, \texttt{rf2}, \texttt{scm1d},
-\texttt{scm20d}, \texttt{energy}, and \texttt{student}, respectively.
-The target lies within one across-split standard deviation of each mean;
-this is a variability diagnostic, not a confidence interval for the mean.
-The coordinate means are not equal: for example, TSCP's marginal coverages
-range from about $0.972$ to $0.999$ on \texttt{stock}, while its joint
-coverage is $0.956$. On \texttt{energy}, the two marginal coverages are
-$0.962$ and $0.954$, with joint coverage $0.923$. This illustrates why
-interval-length allocation and marginal balance cannot be read off from a
-single joint-coverage number.
-
-\begin{table}[!htbp]
-  \centering
-  \small
-  \input{experiment_data/real_diagnostics/real_joint_table}
-  \caption{Joint test coverage for the real-data coordinate-analysis batch.
-  Entries are the mean and one across-split standard deviation over 200
-  splits. These measurements correspond to the interval lengths in
-  Figure~\ref{fig:body-real-coordinate-bars} and the marginal coverages in
-  Figure~\ref{fig:app-real-marginal-coverage}.}
-  \label{tab:real-diagnostic-coverage}
-\end{table}
+Figure~\ref{fig:real-marginal-coverage} reports coordinate-wise marginal coverage for each of the six real datasets. The dashed line indicates the target joint coverage of $0.9$, and each panel also reports TSCP's mean joint coverage. The coordinates follow the target-column order of each dataset, allowing for a clear comparison of how well each method performs across different dimensions of the outcome space.
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.96\textwidth]{figures/fig_app_real_marginal_coverage.pdf}
   \caption{Coordinate-wise marginal coverage over 200 splits of each
   real dataset. The dashed line is the $0.9$ joint target, and each panel
-  also reports TSCP's mean joint coverage. Across-split standard deviations
-  and pointwise Monte Carlo intervals are provided in the supplementary
-  data. Coordinates follow the target-column order of each dataset.}
-  \label{fig:app-real-marginal-coverage}
+  also reports TSCP's mean joint coverage. Coordinates follow the target-column order of each dataset.}
+  \label{fig:real-marginal-coverage}
 \end{figure}
 
-Supplementary data include coordinate lengths, paired length ratios,
-marginal and joint coverages, and across-split standard deviations.
-Standard errors obtained by dividing
-the across-split standard deviation by $\sqrt{200}$ quantify Monte Carlo
-variation over randomized splits of each fixed dataset. They do not measure
-uncertainty over independently sampled populations, and the reported
-pointwise intervals are not simultaneous statements over all coordinates.
+To compare
+the marginal lengths, Figure~\ref{fig:body-real-coordinate-bars}
+reports the paired length ratio
+\[
+ A_{j,m}=\frac{1}{200}\sum_{r=1}^{200}
+ \frac{\ell_{j,m}^{(r)}}{\ell_{j,\mathrm{Unscaled}}^{(r)}}.
+\] 
+where $\ell_{j,m}^{(r)}=2\mathcal L_{j,m}^{(r)}$ is the full outcome-space
+interval length for coordinate $j$, method $m$, and split $r$. 
+Thus, a bar below one indicates a shorter interval on average relative to
+Unscaled Max on the same splits. Ratios are formed before averaging; they
+are not ratios of mean interval lengths. 
 
-\FloatBarrier
-\subsection{Search-Regime Sensitivity to the Target Level}
-\label{app:real-search-stress}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig_body_real_coordinate_bars.pdf}
+  \caption{Coordinate-wise full interval lengths on all six real datasets,
+  normalized within each split by the corresponding Unscaled Max length
+  and then averaged over 200 splits. The dashed line marks a ratio of one.
+  Point CHR is infinite on \texttt{stock}. These width comparisons should
+  be read with the matching joint coverage and the marginal coverage in
+  Figure~\ref{fig:real-marginal-coverage}.}
+  \label{fig:body-real-coordinate-bars}
+\end{figure}
 
-To explore regimes beyond the main $90\%$ target, we reuse the same 200
+\clearpage
+\subsubsection{Backward-Search and Fallback Diagnostics}
+\label{app:real-data-diagnostics}
+
+In this section, we investigate the fallback and backward-search behaviors of our TSCP implementation summarized in Algorithm~\ref{alg:shortcut}. A fallback
+occurs when the mean cell has empty intersection with the global rectangle;
+a backward-search when the mean cell has nonempty intersection but the binary condition fails
+for at least one coordinate. We also record the number of coordinates using
+that branch and the number of candidate cells inspected before finding the boundary. 
+
+Table~\ref{tab:real-search-diagnostics} reports the count of trials that we encountered the fallback or backward-search scenarios, and Figure~\ref{fig:real-search-diagnostics} demonstrates the number of candidate regions inspected before finding the boundary and the average construction time of Binary and Backward search. The metric \emph{Mean of per-split medians} evaluates
+\[
+\frac{1}{200}\sum_{s=1}^{200} \text{median}(T_{s1},\ldots,T_{sr}))
+\]
+where the $r$ is the number of times that we repeated the experiment within each split and $T_{sj}$ is the runtime for the $j$-th repetitions in the $s$-th split. We use $r=7$ for $\alpha = 0.1$ and $r=3$ for $\alpha \in \{0.3,0.5,0.7,0.9\}$.
+
+\begin{table}[!htbp]
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \input{experiment_data/real_diagnostics/real_search_table}
+  \caption{Executed TSCP search regimes at target coverage $0.9$ on the
+  six real datasets. Each split-count denominator is 200. The coordinate
+  denominator is $d$ times the number of non-fallback splits. Conditional
+  times summarize the full TSCP call, not just the backward loop; a dash
+  denotes an unobserved regime. $n$ is the calibration size.}
+  \label{tab:real-search-diagnostics}
+\end{table}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\textwidth]{figures/fig_body_real_search_diagnostics.pdf}
+  \caption{TSCP search work and construction time for 200 splits
+  per real dataset at target coverage $0.9$. Left: candidate cells inspected
+  per coordinate, averaged over non-fallback runs. Counts include cells
+  rejected by intersection checks. Right: construction times
+  of the observed regime. Unobserved scenarios have no bars.}
+  \label{fig:real-search-diagnostics}
+\end{figure}
+
+At the main target $\alpha=0.1$, neither backward search nor fallback occurs
+in any of the 200 splits for any dataset. All 10,200 coordinate searches use
+the binary branch, with about $4.00$--$8.49$ candidate-cell inspections per
+coordinate on average across datasets. 
+
+To explore further, we reuse the same 200
 calibration residual matrices per dataset and vary the miscoverage level over
-$\alpha\in\{0.1,0.3,0.5,0.7,0.9\}$. This is a computational diagnostic,
-not an additional $90\%$-coverage experiment: the nominal coverage changes
-with $\alpha$. No model is refitted or selected based on the branch outcomes.
-The sweep records 6,000 dataset--split--level configurations. It separates
-runs entering any backward search from those taking the global fallback.
-
-Unlike the main target, the sweep reaches both exceptional branches.
+$\alpha\in\{0.1,0.3,0.5,0.7,0.9\}$. 
+In this experiment, we observe that backward search and fallback occur more frequently at higher miscoverage levels.
 On \texttt{energy} at $\alpha=0.5$, backward search occurs in $3/200$
 splits ($1.5\%$), while fallback occurs in $140/200$ ($70\%$). The
-remaining 57 splits use only binary search. Mean whole-call times
-conditional on these three regimes are $0.295$, $0.121$, and $0.268$ ms,
-respectively. At $\alpha=0.7$ and $0.9$, 10 energy splits use backward
+remaining 57 splits use only binary search. At $\alpha=0.7$ and $0.9$, 10 energy splits use backward
 search and 190 fall back. In every observed backward-search case, each of
-the two coordinates inspects only one backward candidate. These examples
-therefore exercise the branch without exhibiting a long backward scan.
-
-At $\alpha=0.9$, fallback counts are 139, 185, 180, 186, 190, and 200 out
-of 200 for \texttt{stock}, \texttt{rf2}, \texttt{scm1d}, \texttt{scm20d},
-\texttt{energy}, and \texttt{student}, respectively. No backward search
+the two coordinates inspects only \emph{one} backward candidate. 
+No backward search
 is observed in the other five datasets over the displayed levels.
 Fallback is often faster because it returns the already computed global
 rectangle, so a lower average runtime at an extreme target need not
-indicate a more efficient local search. Supplementary data include counts,
-coordinate denominators, candidate-cell counts, and conditional times for
-every dataset--level pair; an unobserved conditional time remains missing.
+indicate a more efficient local search. 
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.98\textwidth]{figures/fig_app_real_search_alpha.pdf}
-  \caption{Computational stress sweep on the cached real-data calibration
+  \caption{Computational stress test on the cached real-data calibration
   residuals. Each point summarizes 200 splits. The first two panels show
-  the fractions of splits using any backward search or the global fallback;
-  their vertical ranges differ. The final panel reports construction time.
-  Additional miscoverage levels use the median of three uninstrumented
-  calls per split; the main $\alpha=0.1$ results use seven. All timing
-  summaries average these per-split medians.}
+  the fractions of splits using any backward search or the global fallback. The final panel reports construction time.}
   \label{fig:app-real-search-alpha}
 \end{figure}
 
-Branch frequencies are measured from the executed algorithm: equality
-between TSCP and TSCP-GWC output is not used as a proxy for fallback.
-Conditional timings exclude diagnostic logging. These measurements
-characterize computation on the evaluated residual samples, not worst-case
-search complexity.
-
-\FloatBarrier
-\subsection{Monte Carlo Uncertainty}
-\label{app:coverage-uncertainty}
-
-We quantify uncertainty for 58 TSCP settings from the dependence,
-heteroskedasticity, CQR, sensitivity, contamination, and shape-template
-comparisons, the heavy-tail comparison in Figure~\ref{fig:app-heavy-tails},
-and the real-data benchmark in Table~\ref{tab:real-data}. This calculation
-excludes the distribution tables in
-Appendix~\ref{app:additional-distribution-experiments}, the oracle and
-dimension-scaling comparisons in Appendix~\ref{app:ours_simulation},
-Figure~\ref{fig:t}, and the separate real-data coordinate-analysis batch.
-Within these 58 settings, the corresponding
-nominal target lies within one
-across-repetition standard deviation of every reported mean. Only four
-synthetic means are below their targets: partial heteroskedasticity at
-$n=500$ gives $0.8996\,(0.0164)$; capped-score CQR at $n=50$ gives
-$0.8991\,(0.0457)$; $5\%$ contamination gives $0.8995\,(0.0297)$; and
-Student $t_{1.5}$ noise at $n=500$ gives $0.8976\,(0.0173)$. Parentheses in
-this paragraph contain one standard deviation across repetitions.
-
-For the synthetic experiments included in this uncertainty analysis, training, test, and calibration
-observations are independently redrawn, so the repetitions are independent
-conditional on the fixed regression coefficients. This interpretation does
-not turn repeated splits of a fixed real dataset into fresh population draws. Dividing
-the preceding standard deviations by the square root of the number of
-repetitions therefore gives a Monte Carlo standard error. The resulting
-normal-approximation $95\%$ intervals are, respectively,
-$[0.89734,0.90189]$, $[0.88271,0.91541]$, $[0.89536,0.90360]$, and
-$[0.89522,0.90003]$; each contains the target $0.9$. Thus, the small displayed
-shortfalls are consistent with finite Monte Carlo averaging and do not reveal
-a systematic coverage defect in these experiments. Supplementary data
-provide the trial-level measurements and pointwise uncertainty summaries.
-These normal approximations are not simultaneous confidence intervals or
-proofs of coverage. Uncertainty for the real-data coordinate-analysis batch
-is reported separately in Appendix~\ref{app:real-coordinate-audit}.
-
-\FloatBarrier
 \endgroup
