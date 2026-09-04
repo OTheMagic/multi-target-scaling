@@ -1,0 +1,36 @@
+\begin{tabular}{l l c c c}
+\toprule
+(n, d, Noise) & Method & Coverage & Volume & Runtime \\
+\midrule
+\multirow{4}{*}{(30, 10, Cauchy)} & Emp. Copula & \textcolor{blue}{0.704 (0.076)} & 1.447e+21(2.039e+22) & 0.001 \\
+ & Point CHR & 0.931 (0.068) & 4.666e+48(6.599e+49) & 0.000 \\
+ & TSCP-R & 0.899 (0.060) & 2.095e+30(2.075e+31) & 0.002 \\
+ & Unscaled Max & 0.898 (0.054) & \textcolor{red}{5.170e+24(5.017e+25)} & 0.000 \\
+\midrule
+\multirow{4}{*}{(50, 10, Cauchy)} & Emp. Copula & \textcolor{blue}{0.815 (0.048)} & 7.034e+20(6.602e+21) & 0.001 \\
+ & Point CHR & 0.921 (0.051) & 1.449e+35(2.044e+36) & 0.000 \\
+ & TSCP-R & 0.900 (0.044) & 8.088e+24(8.512e+25) & 0.002 \\
+ & Unscaled Max & 0.897 (0.042) & \textcolor{red}{1.639e+21(8.546e+21)} & 0.000 \\
+\midrule
+\multirow{4}{*}{(100, 10, Cauchy)} & Emp. Copula & \textcolor{blue}{0.816 (0.039)} & 1.614e+18(5.139e+18) & 0.003 \\
+ & Point CHR & 0.900 (0.042) & 1.313e+23(8.464e+23) & 0.000 \\
+ & TSCP-R & 0.897 (0.033) & 6.995e+22(6.065e+23) & 0.003 \\
+ & Unscaled Max & 0.897 (0.029) & \textcolor{red}{3.831e+20(1.558e+21)} & 0.000 \\
+\midrule
+\multirow{4}{*}{(300, 10, Cauchy)} & Emp. Copula & \textcolor{blue}{0.871 (0.021)} & 4.837e+18(2.570e+19) & 0.025 \\
+ & Point CHR & 0.901 (0.028) & 1.192e+21(7.549e+21) & 0.000 \\
+ & TSCP-R & 0.898 (0.020) & 7.951e+21(6.495e+22) & 0.004 \\
+ & Unscaled Max & 0.899 (0.019) & \textcolor{red}{9.396e+19(1.279e+20)} & 0.000 \\
+\midrule
+\multirow{4}{*}{(500, 10, Cauchy)} & Emp. Copula & \textcolor{blue}{0.882 (0.015)} & 2.592e+18(3.855e+18) & 0.080 \\
+ & Point CHR & 0.897 (0.020) & \textcolor{red}{5.476e+19(2.847e+20)} & 0.001 \\
+ & TSCP-R & 0.897 (0.015) & 2.211e+21(9.508e+21) & 0.005 \\
+ & Unscaled Max & 0.896 (0.015) & 6.681e+19(6.051e+19) & 0.000 \\
+\midrule
+\multirow{4}{*}{(1000, 10, Cauchy)} & Emp. Copula & 0.891 (0.013) & 2.801e+18(2.742e+18) & 0.375 \\
+ & Point CHR & 0.899 (0.015) & \textcolor{red}{2.171e+19(4.056e+19)} & 0.001 \\
+ & TSCP-R & 0.896 (0.012) & 1.449e+22(1.046e+23) & 0.008 \\
+ & Unscaled Max & 0.897 (0.011) & 6.298e+19(4.412e+19) & 0.000 \\
+\midrule
+\bottomrule
+\end{tabular}

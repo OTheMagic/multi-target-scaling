@@ -1,0 +1,233 @@
+\begin{thebibliography}{44}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abad et~al.(2022)Abad, Bhatt, Weller, and Cherubin]{abad2022approximating}
+J.~Abad, U.~Bhatt, A.~Weller, and G.~Cherubin.
+\newblock Approximating full conformal prediction at scale via influence functions.
+\newblock \emph{arXiv preprint arXiv:2202.01315}, 2022.
+
+\bibitem[Angelopoulos and Bates(2023)]{angelopoulos2023conformal}
+A.~N. Angelopoulos and S.~Bates.
+\newblock Conformal prediction: A gentle introduction.
+\newblock \emph{Foundations and Trends® in Machine Learning}, 16\penalty0 (4):\penalty0 494--591, 2023.
+
+\bibitem[Angelopoulos et~al.(2024)Angelopoulos, Barber, and Bates]{angelopoulos2025theoreticalfoundationsconformalprediction}
+A.~N. Angelopoulos, R.~F. Barber, and S.~Bates.
+\newblock Theoretical foundations of conformal prediction.
+\newblock \emph{arXiv preprint arXiv:2411.11824}, 2024.
+
+\bibitem[Baheri and Amiri~Shahbazi(2025)]{baheri2025multiscale}
+A.~Baheri and M.~Amiri~Shahbazi.
+\newblock Multi-scale conformal prediction: A theoretical framework with coverage guarantees.
+\newblock \emph{arXiv preprint arXiv:2502.05565}, 2025.
+
+\bibitem[Braun et~al.(2025{\natexlab{a}})Braun, Aolaritei, Jordan, and Bach]{braun2025minimum}
+S.~Braun, L.~Aolaritei, M.~I. Jordan, and F.~Bach.
+\newblock Minimum volume conformal sets for multivariate regression.
+\newblock \emph{arXiv preprint arXiv:2503.19068}, 2025{\natexlab{a}}.
+
+\bibitem[Braun et~al.(2025{\natexlab{b}})Braun, Berta, Jordan, and Bach]{braun2025multivariate}
+S.~Braun, E.~Berta, M.~I. Jordan, and F.~Bach.
+\newblock Multivariate conformal prediction via conformalized gaussian scoring.
+\newblock \emph{arXiv preprint arXiv:2507.20941}, 2025{\natexlab{b}}.
+
+\bibitem[Colombo(2024)]{colombo2024normalizing}
+N.~Colombo.
+\newblock Normalizing flows for conformal regression.
+\newblock In \emph{Proceedings of the 40th Conference on Uncertainty in Artificial Intelligence (UAI)}, 2024.
+
+\bibitem[Contributors(2019{\natexlab{a}})]{scm1d}
+O.~Contributors.
+\newblock Dataset 41485 on openml.
+\newblock \url{https://www.openml.org/d/41485}, 2019{\natexlab{a}}.
+\newblock OpenML dataset ID 41485.
+
+\bibitem[Contributors(2019{\natexlab{b}})]{scm20d}
+O.~Contributors.
+\newblock Dataset 41486 on openml, 2019{\natexlab{b}}.
+\newblock URL \url{https://www.openml.org/d/41486}.
+\newblock OpenML dataset ID 41486.
+
+\bibitem[Cortez(2008)]{cortez2008student}
+P.~Cortez.
+\newblock Student performance [dataset].
+\newblock \url{https://doi.org/10.24432/C5TG7T}, 2008.
+\newblock UCI Machine Learning Repository.
+
+\bibitem[Dheur et~al.(2025)Dheur, Fontana, Estievenart, Desobry, and Ben~Taieb]{dheur2025unified}
+V.~Dheur, M.~Fontana, Y.~Estievenart, N.~Desobry, and S.~Ben~Taieb.
+\newblock A unified comparative study with generalized conformity scores for multi-output conformal regression.
+\newblock \emph{arXiv preprint arXiv:2501.10533}, 2025.
+
+\bibitem[Fang et~al.(2025)Fang, Tan, and Huang]{fang2025contra}
+Z.~Fang, A.~Tan, and J.~Huang.
+\newblock Contra: Conformal prediction region via normalizing flow transformation.
+\newblock In \emph{Proceedings of the 13th International Conference on Learning Representations (ICLR)}, 2025.
+
+\bibitem[Foygel~Barber et~al.(2021)Foygel~Barber, Cand{`e}s, Ramdas, and Tibshirani]{foygel2021limits}
+R.~Foygel~Barber, E.~Cand{`e}s, A.~Ramdas, and R.~J. Tibshirani.
+\newblock The limits of distribution-free conditional predictive inference.
+\newblock \emph{Information and Inference: A Journal of the IMA}, 10\penalty0 (2):\penalty0 455--482, 2021.
+
+\bibitem[Gibbs et~al.(2025)Gibbs, Cherian, and Cand{\`e}s]{gibbs2025conformal}
+I.~Gibbs, J.~J. Cherian, and E.~Cand{\`e}s.
+\newblock Conformal prediction with conditional guarantees.
+\newblock \emph{Journal of the Royal Statistical Society Series B: Statistical Methodology}, page qkaf008, 2025.
+
+\bibitem[Guha et~al.(2023)Guha, Ndiaye, and Huo]{guha2023conformalization}
+E.~K. Guha, E.~Ndiaye, and X.~Huo.
+\newblock Conformalization of sparse generalized linear models.
+\newblock In \emph{International Conference on Machine Learning}, pages 11871--11887. PMLR, 2023.
+
+\bibitem[Izbicki et~al.(2022)Izbicki, Shimizu, and Stern]{izbicki2022cdsplit}
+R.~Izbicki, G.~Shimizu, and R.~B. Stern.
+\newblock {CD}-split and {HPD}-split: Efficient conformal regions in high dimensions.
+\newblock \emph{Journal of Machine Learning Research}, 23\penalty0 (87):\penalty0 1--32, 2022.
+
+\bibitem[Johnstone and Cox(2021)]{johnstone2021conformal}
+C.~Johnstone and B.~Cox.
+\newblock Conformal uncertainty sets for robust optimization.
+\newblock In \emph{Conformal and Probabilistic Prediction and Applications}, pages 72--90. PMLR, 2021.
+
+\bibitem[Johnstone and Ndiaye(2022)]{johnstone2022exact}
+C.~Johnstone and E.~Ndiaye.
+\newblock Exact and approximate conformal inference for multi-output regression.
+\newblock \emph{arXiv preprint arXiv:2210.17405}, 2022.
+
+\bibitem[Klein et~al.(2025)Klein, B{\'e}thune, Ndiaye, and Cuturi]{klein2025multivariate}
+M.~Klein, L.~B{\'e}thune, E.~Ndiaye, and M.~Cuturi.
+\newblock Multivariate conformal prediction using optimal transport.
+\newblock In \emph{Proceedings of the 42nd International Conference on Machine Learning (ICML)}, 2025.
+
+\bibitem[Lee et~al.(2025)Lee, Xu, and Xie]{lee2025flow}
+J.~Lee, C.~Xu, and Y.~Xie.
+\newblock Flow-based conformal prediction for multi-dimensional time series.
+\newblock \emph{arXiv preprint arXiv:2502.05709}, 2025.
+
+\bibitem[Lei(2019)]{lei2019fast}
+J.~Lei.
+\newblock Fast exact conformalization of the lasso using piecewise linear homotopy.
+\newblock \emph{Biometrika}, 106\penalty0 (4):\penalty0 749--764, 2019.
+
+\bibitem[Lei et~al.(2018)Lei, G'Sell, Rinaldo, Tibshirani, and Wasserman]{lei2018distribution}
+J.~Lei, M.~G'Sell, A.~Rinaldo, R.~Tibshirani, and L.~Wasserman.
+\newblock Distribution-free predictive inference for regression.
+\newblock \emph{Journal of the American Statistical Association}, 113\penalty0 (523):\penalty0 1094--1111, 2018.
+
+\bibitem[Li(2024)]{li2024generalized}
+D.~Li.
+\newblock Generalized fast exact conformalization.
+\newblock \emph{Advances in Neural Information Processing Systems}, 37:\penalty0 65699--65716, 2024.
+
+\bibitem[Liang et~al.(2023)Liang, Zhou, and Sesia]{liang2023conformal}
+Z.~Liang, Y.~Zhou, and M.~Sesia.
+\newblock Conformal inference is (almost) free for neural networks trained with early stopping.
+\newblock In \emph{Proceedings of the 40th International Conference on Machine Learning}, volume 202 of \emph{Proceedings of Machine Learning Research}, pages 21188--21216. PMLR, 2023.
+
+\bibitem[Martinez et~al.(2023)Martinez, Bhatt, Weller, and Cherubin]{martinez2023approximating}
+J.~A. Martinez, U.~Bhatt, A.~Weller, and G.~Cherubin.
+\newblock Approximating full conformal prediction at scale via influence functions.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, volume~37, pages 6631--6639, 2023.
+
+\bibitem[Messoudi et~al.(2021)Messoudi, Destercke, and Rousseau]{messoudi2021copula}
+S.~Messoudi, S.~Destercke, and S.~Rousseau.
+\newblock Copula-based conformal prediction for multi-target regression.
+\newblock \emph{Pattern Recognition}, 120:\penalty0 108101, 2021.
+
+\bibitem[Ndiaye and Takeuchi(2019)]{ndiaye2019computing}
+E.~Ndiaye and I.~Takeuchi.
+\newblock Computing full conformal prediction set with approximate homotopy.
+\newblock \emph{Advances in Neural Information Processing Systems}, 32, 2019.
+
+\bibitem[Neeven and Smirnov(2018)]{neeven2018conformal}
+J.~Neeven and E.~Smirnov.
+\newblock Conformal stacked weather forecasting.
+\newblock In \emph{Conformal and Probabilistic Prediction and Applications}, pages 220--233. PMLR, 2018.
+
+\bibitem[Park and Cho(2025)]{pmlr-v258-park25c}
+J.~W. Park and K.~Cho.
+\newblock Semiparametric conformal prediction.
+\newblock In \emph{Proceedings of The 28th International Conference on Artificial Intelligence and Statistics}, volume 258 of \emph{Proceedings of Machine Learning Research}, pages 3880--3888. PMLR, 2025.
+
+\bibitem[Romano et~al.(2019)Romano, Patterson, and Cand{\`e}s]{romano2019conformalized}
+Y.~Romano, E.~Patterson, and E.~Cand{\`e}s.
+\newblock Conformalized quantile regression.
+\newblock \emph{Advances in Neural Information Processing Systems}, 32, 2019.
+
+\bibitem[Romano et~al.(2020)Romano, Barber, Sabatti, and Cand{\` e}s]{Romano2020With}
+Y.~Romano, R.~F. Barber, C.~Sabatti, and E.~Cand{\` e}s.
+\newblock With {Malice} {Toward} {None}: Assessing {Uncertainty} via {Equalized} {Coverage}.
+\newblock \emph{Harvard Data Science Review}, 2\penalty0 (2), apr 30 2020.
+
+\bibitem[Sadinle et~al.(2019)Sadinle, Lei, and Wasserman]{sadinle2016least}
+M.~Sadinle, J.~Lei, and L.~Wasserman.
+\newblock Least ambiguous set-valued classifiers with bounded error levels.
+\newblock \emph{Journal of the American Statistical Association}, 114\penalty0 (525):\penalty0 223--234, 2019.
+
+\bibitem[Sampson and Chan(2024)]{sampson2024conformal}
+M.~Sampson and K.-S. Chan.
+\newblock Conformal multi-target hyperrectangles.
+\newblock \emph{Statistical Analysis and Data Mining: The ASA Data Science Journal}, 17\penalty0 (1):\penalty0 3--21, 2024.
+
+\bibitem[Sesia and Romano(2021)]{sesia2021conformal}
+M.~Sesia and Y.~Romano.
+\newblock Conformal prediction using conditional histograms.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~34, 2021.
+
+\bibitem[Sun and Yu(2023)]{sun2024copula}
+S.~H. Sun and R.~Yu.
+\newblock Copula conformal prediction for multi-step time series prediction.
+\newblock In \emph{Proceedings of the Twelfth International Conference on Learning Representations}, 2023.
+
+\bibitem[Thurin et~al.(2025)Thurin, Nadjahi, and Boyer]{thurin2025otcp}
+G.~Thurin, K.~Nadjahi, and C.~Boyer.
+\newblock Optimal transport-based conformal prediction.
+\newblock In \emph{Proceedings of the 42nd International Conference on Machine Learning (ICML)}, 2025.
+
+\bibitem[Tsanas and Xifara(2012)]{tsanas2012energy}
+A.~Tsanas and A.~Xifara.
+\newblock Energy efficiency [dataset].
+\newblock \url{https://doi.org/10.24432/C51307}, 2012.
+\newblock UCI Machine Learning Repository.
+
+\bibitem[Tsoumakas et~al.(2022)Tsoumakas, Spyromitros-Xioufis, Groves, and Vlahavas]{grigorios_tsoumakas_eleftherios_spyromitros-xioufis_william_groves_ioannis_vlahavas_2022}
+G.~Tsoumakas, E.~Spyromitros-Xioufis, W.~Groves, and I.~Vlahavas.
+\newblock River flow-rf2, 2022.
+\newblock URL \url{https://www.kaggle.com/ds/2172526}.
+
+\bibitem[Vovk(2013)]{vovk2013transductive}
+V.~Vovk.
+\newblock Transductive conformal predictors.
+\newblock In \emph{IFIP International Conference on Artificial Intelligence Applications and Innovations}, pages 348--360. Springer, 2013.
+
+\bibitem[Vovk et~al.(2005)Vovk, Gammerman, and Shafer]{vovk2005algorithmic}
+V.~Vovk, A.~Gammerman, and G.~Shafer.
+\newblock \emph{Algorithmic Learning in a Random World}.
+\newblock Springer, 2005.
+
+\bibitem[Wang et~al.(2023)Wang, Cauchois, and Duchi]{wang2023pcp}
+Z.~Wang, M.~Cauchois, and J.~C. Duchi.
+\newblock Probabilistic conformal prediction using conditional random samples.
+\newblock In \emph{International Conference on Artificial Intelligence and Statistics}, pages 8814--8836. PMLR, 2023.
+
+\bibitem[Yeh(2015)]{stock_portfolio_performance_390}
+I.-C. Yeh.
+\newblock {Stock Portfolio Performance}.
+\newblock UCI Machine Learning Repository, 2015.
+\newblock {DOI}: https://doi.org/10.24432/C5SC7G.
+
+\bibitem[Zhang and Cand{\`e}s(2024)]{zhang2024posterior}
+Y.~Zhang and E.~Cand{\`e}s.
+\newblock Posterior conformal prediction.
+\newblock \emph{arXiv preprint arXiv:2409.19712}, 2024.
+
+\bibitem[Zhou and Sesia(2024)]{zhou2024conformal}
+Y.~Zhou and M.~Sesia.
+\newblock Conformal classification with equalized coverage for adaptively selected groups.
+\newblock In \emph{Advances in Neural Information Processing Systems 37 (NeurIPS)}, 2024.
+
+\end{thebibliography}
