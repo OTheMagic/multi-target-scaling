@@ -13,28 +13,27 @@
 
 We evaluate Transductively Standardized Conformal Prediction (TSCP) on
 simulated and real multivariate regression problems, studying joint coverage,
-coordinate-wise interval length, prediction-set volume, and computational
-cost. Independent-noise benchmarks establish the effect of unequal outcome
-scales; dependent and partially heteroskedastic models examine how this
+coordinate-wise interval length, prediction-set volume, and computational cost. 
+We first consider absolute-residual scores and models generated under (1) independent-noise to establish the effect of unequal outcome
+scales and (2) dependent and partially heteroskedastic noise to examine how this
 behavior changes with cross-output and input-dependent variation. We then
-consider quantile-regression scores and six real datasets.
-Appendix~\ref{app:additional-experiments} provides distribution-specific
-comparisons, sensitivity analyses, heavy-tail and contamination stress tests,
-and comparisons with the population oracle, the unenclosed local union, and
-a convex shape-template method.
+consider a variation with quantile-regression scores and six real datasets.
+Appendix~\ref{app:additional-experiments} provides additional experiments on 
+comparisons with different noise distribution, sensitivity analyses, heavy-tail and contamination stress tests,
+and comparisons of variations of our methods mentioned in the paper.
 
 \subsection{Methods and Evaluation Metrics}
 \label{sec:experiment-methods}
 
 The primary comparisons use four methods. \emph{Unscaled Max} applies split
-conformal prediction to the maximum coordinate-wise residual. \emph{Point
-CHR} estimates coordinate scales using an additional data split. \emph{Emp.
+conformal prediction to the maximum of each coordinate-wise residual without any additional scaling. \emph{Point
+CHR} estimates coordinate scales using an additional data split \citet{sampson2024conformal}. \emph{Emp.
 Copula} estimates a dependence model from the calibration residuals and then
 uses the same observations for calibration; this implementation does not have
-the finite-sample guarantee enjoyed by the other methods. \emph{TSCP} denotes
+the finite-sample guarantee enjoyed by the other methods \cite{messoudi2021copula}. \emph{TSCP} denotes
 the rectangular local-worst-case construction proposed in this paper. For
-quantile-regression experiments, we additionally compare with the native CQHR
-method of \citet{sampson2024conformal}. Appendix~\ref{app:shape-template} contains a
+quantile-regression experiments, we substitute Point CHR with its quantile regression variation
+\emph{CQHR} \citet{sampson2024conformal}. Appendix~\ref{app:shape-template} contains a
 separate low-dimensional comparison with the hyperrectangular shape-template
 method of \citet{tumu2024templates}.
 
@@ -45,17 +44,17 @@ For a test sample of size $m$, we report the empirical joint coverage
     \mathbf{1}\!\left\{\boldsymbol{Y}_i
     \in \widehat{C}(\boldsymbol{X}_i)\right\}.
 \]
-For absolute residual scores, all methods return a rectangle with residual
+For absolute residual scores experiments, all methods return a rectangle with residual
 half-widths $(\mathcal{L}_1,\ldots,\mathcal{L}_d)$. We therefore report the normalized
 residual-space volume $\prod_{j=1}^{d}\mathcal{L}_j$, which equals $2^{-d}$ times the
-full rectangular volume, and the full coordinate-wise interval lengths
-$2\mathcal{L}_j$. For CQR, the base interval depends on the test covariates, so volume
-and coordinate lengths are averaged in the original outcome space. Runtime is
+full rectangular volume in the outcome space, and the full coordinate-wise interval lengths
+$2\mathcal{L}_j$. For quantile regression scores experiments, the base interval depends on the test covariates, so volume
+and coordinate lengths are averaged in the original outcome space across multiple test points. Runtime is
 the wall-clock time needed to construct the conformal region after residuals
-have been computed; fitting the common regression model is excluded. Unless
+have been computed; fitting time of the underlying regression model is excluded. Unless
 stated otherwise, absolute-residual results are averaged over 200 repetitions
-and the target coverage is $1-\alpha=0.9$. All methods in a comparison share
-the fitted regression model and the calibration and test observations.
+and the target coverage is $1-\alpha=0.9$. All methods in each repetition use
+the same fitted regression model and the calibration and test observations.
 Synthetic regression coefficients are fixed across repetitions. Sampling
 protocols are specified for each study and summarized in
 Appendix~\ref{app:experimental-protocols}. Across-repetition variability and
@@ -66,30 +65,53 @@ Monte Carlo uncertainty are reported in Appendix~\ref{app:coverage-uncertainty}.
 
 We first generate $10$-dimensional features
 $\boldsymbol{X}\sim\mathcal{N}(\boldsymbol{0},I_{10})$ and outcomes
-\[
-  Y_j = f_j(\boldsymbol{X}) + \epsilon_j,
-  \qquad j\in[10],
-\]
-where every $f_j$ is linear and its coefficients are sampled once
-from $\operatorname{Unif}(-10,10)$.
+\begin{equation}
+  Y_j=f_j(\boldsymbol X)+\epsilon_j,\qquad j\in[d],
+  \label{eq:data-generator}
+\end{equation}
+where every $f_j$ is linear and its coefficients are sampled
+from $\operatorname{Unif}(-10,10)$. In each repetition, we independently generate 7,200 training observations,
+800 test observations, and a calibration sample of size $n\in\{30,50,100,300,500\}$. We
+estimate the regression coefficients using
+ordinary least squares, and all methods in each repetition share the same fitted predictor. 
 
-\paragraph{Independent noise and coordinate heterogeneity.}
-Under independent Gaussian noise with scales $(10,9,\ldots,1)$, TSCP
+\subsubsection{Independent Gaussian Noise}
+
+We first consider experiments with independent Gaussian noise. 
+Figure~\ref{fig:gaussian-heter} reports results from experiments with independent Gaussian noise with $\epsilon_j \sim \mathcal{N}\left(0, (10 - j + 1)^2\right)$ for all $j \in [d]$, TSCP
 combines near-nominal joint coverage with smaller prediction-set volumes
-than Point CHR and Unscaled Max. With unit noise scale in every coordinate,
-Unscaled Max is the most efficient, while TSCP remains competitive.
-Figures~\ref{fig:gaussian-heter} and~\ref{fig:gaussian-homo}, together with
-the Laplace, mixture, and Gamma comparisons in
-Appendix~\ref{app:simulations}, show that the benefit of standardization
-depends on the distribution of variation across outcomes. These
-independent-noise benchmarks use randomized splits of a fixed simulated
-training/test pool, as specified in Appendix~\ref{app:experimental-protocols}.
+than Point CHR and Unscaled Max. The volume penalty for
+Point CHR is particularly pronounced when $n<100$, where its additional
+split reduces the observations available for calibration. Unscaled Max
+assigns one residual threshold to outputs with unequal noise scales and
+therefore produces substantially larger rectangles. Emp. Copula yields
+smaller regions but undercovers; its reuse of calibration observations for
+dependence estimation precludes the split-conformal guarantee enjoyed by
+the other benchmarks.
 
-\paragraph{Heterogeneous and dependent noise.}
-To study dependence and input-dependent variation with independently
-replicated datasets, each repetition draws 7,200 observations to fit ordinary
-least squares, 800 test observations, and a separate calibration sample of
-size $n\in\{30,50,100,300,500\}$. The dependent-noise experiment uses
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/baselines/gaussian_10d.pdf} 
+\caption{Absolute-residual experiment with $d=10$, heterogeneous Gaussian scales $(10,9,\ldots,1)$. The target coverage level is $90\%$. TSCP attains near-nominal coverage while producing the smallest prediction sets on average. Results are averaged over 200 independent repetitions. }
+\label{fig:gaussian-heter}
+\end{figure}
+
+Figure~\ref{fig:gaussian-homo} reports results from analogous experiments in which the noise distribution has equal variance across dimensions, with $\epsilon_j \sim \mathcal{N}(0, 1)$ for all $j \in [10]$. This setting strongly favors the \emph{Unscaled Max} approach; nevertheless, our TSCP still performs as a close second.
+Together, these two settings show that coordinate adaptation is useful when
+noise scales differ, whereas unscaled calibration can be more efficient
+when a common scale is appropriate.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/baselines/unit_gaussian_10d.pdf}
+\caption{Absolute-residual experiment with $d=10$, homogeneous Gaussian scales $(1,1,\ldots,1)$. The target coverage level is $90\%$. TSCP attains near-nominal coverage and is competitive, while Unscaled Max is the most efficient in this homogeneous setting. Results
+are averaged over 200 independent repetitions.}
+\label{fig:gaussian-homo}
+\end{figure}
+
+\subsubsection{Heterogeneous and dependent noise}
+
+The dependent-noise experiment uses
 $\boldsymbol{\epsilon}\sim\mathcal{N}(\boldsymbol{0},DRD)$, where
 $D=\operatorname{diag}(10,9,\ldots,1)$ and $R$ is equicorrelated with
 $\rho=0.6$. This simultaneously tests heterogeneous coordinate scales and
@@ -105,9 +127,8 @@ coverage $0.873$.
   \centering
   \includegraphics[width=0.94\textwidth]{figures/fig_body_abs_residual_overview.pdf}
   \caption{Absolute-residual experiment with $d=10$, heterogeneous Gaussian
-  scales $(10,9,\ldots,1)$, and equicorrelation $\rho=0.6$. Curves report
-  averages over 200 repetitions; the dashed line marks the target joint
-  coverage. Runtime excludes the common model fit.}
+  scales $(10,9,\ldots,1)$, and equicorrelation $\rho=0.6$. The target coverage level is $90\%$. TSCP attains near-nominal coverage while producing the smallest prediction sets on average. Results
+  are averaged over 200 independent repetitions.}
   \label{fig:body-abs-overview}
 \end{figure*}
 
@@ -132,7 +153,7 @@ Figure~\ref{fig:body-abs-overview}.
   \label{fig:body-abs-coordinate-bars}
 \end{figure*}
 
-\paragraph{Partial heteroskedasticity.}
+\subsubsection{Partial heteroskedasticity}
 To distinguish heterogeneity across coordinates from heteroskedasticity with
 respect to the input, we next make only the first five coordinates
 heteroskedastic. For $j\leq5$, conditional on $X_1=x_1$, the noise standard
@@ -160,13 +181,25 @@ function.
   \includegraphics[width=0.94\textwidth]{figures/fig_body_partial_heteroskedasticity.pdf}
   \caption{Performance when only the first five of ten outcomes are
   heteroskedastic in $X_1$. The shaded coordinates in the right panel are the
-  heteroskedastic ones; full interval lengths are shown for $n=100$. Results
+  heteroskedastic ones; full interval lengths are shown for $n=100$. The target coverage level is $90\%$. TSCP consistently attains near-nominal coverage while producing the smallest prediction sets on average. Results
   are averaged over 200 independent repetitions.}
   \label{fig:body-partial-hetero}
 \end{figure*}
 
 \subsection{Quantile-Regression Scores and CQHR}
 \label{sec:cqr-experiments}
+
+The CQR experiments instead use 2,400 training and 600 test observations
+over 30 repetitions; the shape-template comparison uses these sample sizes
+over 100 repetitions. Calibration data are generated separately from
+training and test data. Conditional on the fixed regression coefficients,
+these repetitions are independent population draws.
+
+
+The real-data studies use the training/calibration/test allocations and
+models in Section~\ref{sec:real-data-experiments}. Coordinate-wise and
+search-regime results share the evaluation batch described in
+Section~\ref{sec:real-data-diagnostics}.
 
 We next replace absolute mean-regression residuals with coordinate-wise CQR
 scores. Let $\widehat q_{\ell,j}(x)$ and $\widehat q_{u,j}(x)$ denote fitted

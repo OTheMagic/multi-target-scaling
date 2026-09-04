@@ -1,36 +1,20 @@
 \relax 
 \providecommand\hyper@newdestlabel[2]{}
-\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
-\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
-\global\let\oldcontentsline\contentsline
-\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
-\global\let\oldnewlabel\newlabel
-\gdef\newlabel#1#2{\newlabelxx{#1}#2}
-\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
-\AtEndDocument{\ifx\hyper@anchor\@undefined
-\let\contentsline\oldcontentsline
-\let\newlabel\oldnewlabel
-\fi}
-\fi}
-\global\let\hyper@last\relax 
-\gdef\HyperFirstAtBeginDocument#1{#1}
-\providecommand*\HyPL@Entry[1]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
 \bibstyle{abbrvnat}
-\providecommand\babel@aux[2]{}
+\providecommand \babel@aux [2]{\global \let \babel@toc \@gobbletwo }
 \@nameuse{bbl@beforestart}
 \citation{vovk2005algorithmic,angelopoulos2023conformal}
 \citation{lei2018distribution,romano2019conformalized,sesia2021conformal}
-\HyPL@Entry{0<</S/D>>}
 \babel@aux{english}{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
 \newlabel{sec:intro}{{1}{1}{}{section.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Motivation and Preview of Contributions}{1}{subsection.1.1}\protected@file@percent }
-\newlabel{sec:intro-motivation}{{1.1}{1}{Motivation and Preview of Contributions}{subsection.1.1}{}}
+\newlabel{sec:intro-motivation}{{1.1}{1}{}{subsection.1.1}{}}
 \citation{dheur2025unified}
 \citation{neeven2018conformal}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Two-dimensional toy example depicting graphically the main objective of this work: constructing \emph  {informative} and \emph  {interpretable} hyper-rectangular conformal prediction sets for multivariate outcomes. Left: univariate approaches can produce marginal prediction intervals for each output separately, which do not guarantee joint coverage. Center: a Bonferroni correction can easily restore valid joint coverage, at the cost of being overly conservative. Right: our goal is to efficiently construct hyper-rectangular prediction sets that are easy to interpret and retain valid coverage; doing so involves technical challenges.\relax }}{2}{figure.caption.1}\protected@file@percent }
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:joint-prediction}{{1}{2}{Two-dimensional toy example depicting graphically the main objective of this work: constructing \emph {informative} and \emph {interpretable} hyper-rectangular conformal prediction sets for multivariate outcomes. Left: univariate approaches can produce marginal prediction intervals for each output separately, which do not guarantee joint coverage. Center: a Bonferroni correction can easily restore valid joint coverage, at the cost of being overly conservative. Right: our goal is to efficiently construct hyper-rectangular prediction sets that are easy to interpret and retain valid coverage; doing so involves technical challenges.\relax }{figure.caption.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Two-dimensional toy example depicting graphically the main objective of this work: constructing \emph  {informative} and \emph  {interpretable} hyper-rectangular conformal prediction sets for multivariate outcomes. Left: univariate approaches can produce marginal prediction intervals for each output separately, which do not guarantee joint coverage. Center: a Bonferroni correction can easily restore valid joint coverage, at the cost of being overly conservative. Right: our goal is to efficiently construct hyper-rectangular prediction sets that are easy to interpret and retain valid coverage; doing so involves technical challenges.}}{2}{figure.caption.1}\protected@file@percent }
 \citation{messoudi2021copula,pmlr-v258-park25c,sun2024copula}
 \citation{sadinle2016least,izbicki2022cdsplit,wang2023pcp,dheur2025unified}
 \citation{johnstone2021conformal,sampson2024conformal,braun2025minimum,braun2025multivariate}
@@ -49,135 +33,143 @@
 \citation{foygel2021limits}
 \citation{Romano2020With,gibbs2025conformal}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Problem Setup and Motivating Constructions}{5}{section.2}\protected@file@percent }
-\newlabel{sec:preliminaries}{{2}{5}{Outline}{section.2}{}}
+\newlabel{sec:preliminaries}{{2}{5}{}{section.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Notation}{5}{subsection.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Setup and Data Assumptions}{5}{subsection.2.2}\protected@file@percent }
-\newlabel{eq:joint-coverage}{{1}{5}{Setup and Data Assumptions}{equation.2.1}{}}
-\newlabel{eq:rectangle}{{2}{5}{Setup and Data Assumptions}{equation.2.2}{}}
+\newlabel{eq:joint-coverage}{{1}{5}{}{equation.1}{}}
+\newlabel{eq:rectangle}{{2}{5}{}{equation.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Coordinate-Wise Generalized Residuals}{5}{subsection.2.3}\protected@file@percent }
+\newlabel{sec:residuals}{{2.3}{5}{}{subsection.2.3}{}}
 \citation{lei2018distribution}
 \citation{romano2019conformalized}
 \citation{romano2019conformalized}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Coordinate-Wise Generalized Residuals}{6}{subsection.2.3}\protected@file@percent }
-\newlabel{sec:residuals}{{2.3}{6}{Coordinate-Wise Generalized Residuals}{subsection.2.3}{}}
-\newlabel{eq:assumption-scores}{{1}{6}{Coordinate-Wise Generalized Residuals}{assumption.1}{}}
+\newlabel{eq:assumption-scores}{{1}{6}{}{assumption.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Conformal Calibration with Marginal Coverage}{6}{subsection.2.4}\protected@file@percent }
+\newlabel{sec:calibration}{{2.4}{6}{}{subsection.2.4}{}}
+\newlabel{eq:joint-prediction}{{3}{6}{}{equation.3}{}}
 \citation{johnstone2022exact}
 \citation{thurin2025otcp,klein2025multivariate}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Conformal Calibration with Marginal Coverage}{7}{subsection.2.4}\protected@file@percent }
-\newlabel{sec:calibration}{{2.4}{7}{Conformal Calibration with Marginal Coverage}{subsection.2.4}{}}
-\newlabel{eq:joint-prediction}{{3}{7}{Conformal Calibration with Marginal Coverage}{equation.2.3}{}}
-\newlabel{eq:coordinate-threshold}{{4}{7}{Conformal Calibration with Marginal Coverage}{equation.2.4}{}}
-\newlabel{eq:joint-prediction-scalar}{{5}{7}{Conformal Calibration with Marginal Coverage}{equation.2.5}{}}
+\newlabel{eq:coordinate-threshold}{{4}{7}{}{equation.4}{}}
+\newlabel{eq:joint-prediction-scalar}{{5}{7}{}{equation.5}{}}
 \newlabel{thm:fixed-transformation-coverage}{{1}{7}{Generalized Marginal Coverage}{theorem.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5}A Population-Standardized Oracle}{8}{subsection.2.5}\protected@file@percent }
-\newlabel{sec:pop-oracle}{{2.5}{8}{A Population-Standardized Oracle}{subsection.2.5}{}}
-\newlabel{eq:residual-transformation}{{6}{8}{A Population-Standardized Oracle}{equation.2.6}{}}
-\newlabel{eq:set-valued-map}{{7}{8}{A Population-Standardized Oracle}{equation.2.7}{}}
-\newlabel{eq:oracle-mean-std}{{8}{9}{A Population-Standardized Oracle}{equation.2.8}{}}
+\newlabel{sec:pop-oracle}{{2.5}{8}{}{subsection.2.5}{}}
+\newlabel{eq:residual-transformation}{{6}{8}{}{equation.6}{}}
+\newlabel{eq:set-valued-map}{{7}{8}{}{equation.7}{}}
+\newlabel{eq:oracle-mean-std}{{8}{8}{}{equation.8}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Simple but Unsatisfactory Practical Approaches}{9}{subsection.2.6}\protected@file@percent }
-\newlabel{sec:data-splitting}{{2.6}{9}{Simple but Unsatisfactory Practical Approaches}{subsection.2.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{10}{section.3}\protected@file@percent }
-\newlabel{sec:methods}{{3}{10}{Simple but Unsatisfactory Practical Approaches}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}A Transductive Rescaling Oracle and High-Level Method Blueprint}{10}{subsection.3.1}\protected@file@percent }
-\newlabel{sec:method-oracle}{{3.1}{10}{A Transductive Rescaling Oracle and High-Level Method Blueprint}{subsection.3.1}{}}
-\newlabel{eq:transductive-oracle-mean-std}{{9}{10}{A Transductive Rescaling Oracle and High-Level Method Blueprint}{equation.3.9}{}}
-\newlabel{eq:key-ineq}{{10}{10}{A Transductive Rescaling Oracle and High-Level Method Blueprint}{equation.3.10}{}}
-\newlabel{eq:hat-set-valued-map}{{11}{10}{A Transductive Rescaling Oracle and High-Level Method Blueprint}{equation.3.11}{}}
-\newlabel{eq:oracle-dual}{{12}{10}{A Transductive Rescaling Oracle and High-Level Method Blueprint}{equation.3.12}{}}
-\newlabel{eq:trans-oracle-upper-bound}{{13}{10}{A Transductive Rescaling Oracle and High-Level Method Blueprint}{equation.3.13}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Explicit Form of the Link Functions}{11}{subsection.3.2}\protected@file@percent }
-\newlabel{eq:plug-in-mean-std}{{14}{11}{Explicit Form of the Link Functions}{equation.3.14}{}}
-\newlabel{lem:solution-key-ineq}{{2}{11}{A Transductive Rescaling Oracle and High-Level Method Blueprint}{theorem.2}{}}
-\newlabel{lem:finite-prediction-guarantee}{{3}{11}{A Transductive Rescaling Oracle and High-Level Method Blueprint}{theorem.3}{}}
+\newlabel{sec:data-splitting}{{2.6}{9}{}{subsection.2.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{9}{section.3}\protected@file@percent }
+\newlabel{sec:methods}{{3}{9}{}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}A Transductive Rescaling Oracle and High-Level Method Blueprint}{9}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:method-oracle}{{3.1}{9}{}{subsection.3.1}{}}
+\newlabel{eq:transductive-oracle-mean-std}{{9}{10}{}{equation.9}{}}
+\newlabel{eq:key-ineq}{{10}{10}{}{equation.10}{}}
+\newlabel{eq:hat-set-valued-map}{{11}{10}{}{equation.11}{}}
+\newlabel{eq:oracle-dual}{{12}{10}{}{equation.12}{}}
+\newlabel{eq:trans-oracle-upper-bound}{{13}{10}{}{equation.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Explicit Form of the Link Functions}{10}{subsection.3.2}\protected@file@percent }
+\newlabel{eq:plug-in-mean-std}{{14}{10}{}{equation.14}{}}
+\newlabel{lem:solution-key-ineq}{{2}{11}{}{lemma.2}{}}
+\newlabel{lem:finite-prediction-guarantee}{{3}{11}{}{lemma.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}A Conservative Global-Worst-Case Approach}{11}{subsection.3.3}\protected@file@percent }
-\newlabel{sec:method-gwc}{{3.3}{11}{A Conservative Global-Worst-Case Approach}{subsection.3.3}{}}
-\newlabel{eq:placeholder-mean-std}{{15}{12}{A Conservative Global-Worst-Case Approach}{equation.3.15}{}}
-\newlabel{eq:gwc-residual-transformation}{{16}{12}{A Conservative Global-Worst-Case Approach}{equation.3.16}{}}
-\newlabel{lem:gwc-rescaling}{{4}{12}{A Conservative Global-Worst-Case Approach}{theorem.4}{}}
-\newlabel{thm:TSCP-GWC-coverage}{{5}{12}{A Conservative Global-Worst-Case Approach}{theorem.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}A Tighter Local-Worst-Case Method}{13}{subsection.3.4}\protected@file@percent }
-\newlabel{sec:method-lwc}{{3.4}{13}{A Tighter Local-Worst-Case Method}{subsection.3.4}{}}
+\newlabel{sec:method-gwc}{{3.3}{11}{}{subsection.3.3}{}}
+\newlabel{eq:placeholder-mean-std}{{15}{11}{}{equation.15}{}}
+\newlabel{eq:gwc-residual-transformation}{{16}{11}{}{equation.16}{}}
+\newlabel{lem:gwc-rescaling}{{4}{12}{}{lemma.4}{}}
+\newlabel{thm:TSCP-GWC-coverage}{{5}{12}{}{theorem.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}A Tighter Local-Worst-Case Method}{12}{subsection.3.4}\protected@file@percent }
+\newlabel{sec:method-lwc}{{3.4}{12}{}{subsection.3.4}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Method Overview}{13}{subsubsection.3.4.1}\protected@file@percent }
-\newlabel{eq:lwc-upperbound}{{17}{13}{Method Overview}{equation.3.17}{}}
-\newlabel{eq:lwc-prediction}{{18}{13}{Method Overview}{equation.3.18}{}}
-\newlabel{eq:lwc-local-containment}{{19}{13}{Method Overview}{equation.3.19}{}}
-\newlabel{eq:lwc-joint-union}{{20}{14}{Method Overview}{equation.3.20}{}}
-\newlabel{prop:lwc-approximation}{{6}{14}{Method Overview}{theorem.6}{}}
+\newlabel{eq:lwc-upperbound}{{17}{13}{}{equation.17}{}}
+\newlabel{eq:lwc-prediction}{{18}{13}{}{equation.18}{}}
+\newlabel{eq:lwc-local-containment}{{19}{13}{}{equation.19}{}}
+\newlabel{eq:lwc-joint-union}{{20}{13}{}{equation.20}{}}
+\newlabel{prop:lwc-approximation}{{6}{13}{}{proposition.6}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Step 1: A Data-Driven Partition Based on Sample Order Statistics}{14}{subsubsection.3.4.2}\protected@file@percent }
-\newlabel{eq:rectangle-explicit}{{21}{14}{Step 1: A Data-Driven Partition Based on Sample Order Statistics}{equation.3.21}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Illustration of the construction of transductively standardized conformal prediction sets using the method outlined in~\textup  {\hbox {\mathsurround \z@ \normalfont  (\ignorespaces \ref  {eq:lwc-joint-union}\unskip \@@italiccorr )}}, with the data-driven partition $\mathcal  {P}_{n,d}$ of the outcome space defined in~\textup  {\hbox {\mathsurround \z@ \normalfont  (\ignorespaces \ref  {eq:rectangle-explicit}\unskip \@@italiccorr )}}, in a toy example with a two-dimensional outcome variable. The gray grid lines indicate the partition $\mathcal  {P}_{n,d}$ in the residual space, as determined by the order statistics $E^{(k)}_j$ of the calibration residuals. The shaded rectangles represent local prediction sets $\hat  {C}^\mathrm  {lwc}(\mathbf  {X}^{n+1}; \mathcal  {R})$ corresponding to different hypothesized rectangles $\mathcal  {R} \in \mathcal  {P}_{n,d}$. The solid rectangle shows the projection, in residual space, of their rectangular enclosure defined in~\textup  {\hbox {\mathsurround \z@ \normalfont  (\ignorespaces \ref  {eq:lwc-joint-union}\unskip \@@italiccorr )}}, which constitutes our final prediction set. For comparison, the larger dashed rectangle shows the corresponding projection of the more conservative prediction set $\hat  {C}^\mathrm  {gwc}(\mathbf  {X}^{n+1})$ from Section~\ref  {sec:method-gwc}.\relax }}{15}{figure.caption.2}\protected@file@percent }
-\newlabel{fig:global-to-local}{{2}{15}{Illustration of the construction of transductively standardized conformal prediction sets using the method outlined in~\eqref {eq:lwc-joint-union}, with the data-driven partition $\mathcal {P}_{n,d}$ of the outcome space defined in~\eqref {eq:rectangle-explicit}, in a toy example with a two-dimensional outcome variable. The gray grid lines indicate the partition $\mathcal {P}_{n,d}$ in the residual space, as determined by the order statistics $E^{(k)}_j$ of the calibration residuals. The shaded rectangles represent local prediction sets $\hat {C}^\mathrm {lwc}(\mathbf {X}^{n+1}; \mathcal {R})$ corresponding to different hypothesized rectangles $\mathcal {R} \in \mathcal {P}_{n,d}$. The solid rectangle shows the projection, in residual space, of their rectangular enclosure defined in~\eqref {eq:lwc-joint-union}, which constitutes our final prediction set. For comparison, the larger dashed rectangle shows the corresponding projection of the more conservative prediction set $\hat {C}^\mathrm {gwc}(\mathbf {X}^{n+1})$ from Section~\ref {sec:method-gwc}.\relax }{figure.caption.2}{}}
+\newlabel{eq:rectangle-explicit}{{21}{14}{}{equation.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Illustration of the construction of transductively standardized conformal prediction sets using the method outlined in~\eqref  {eq:lwc-joint-union}, with the data-driven partition $\mathcal  {P}_{n,d}$ of the outcome space defined in~\eqref  {eq:rectangle-explicit}, in a toy example with a two-dimensional outcome variable. The gray grid lines indicate the partition $\mathcal  {P}_{n,d}$ in the residual space, as determined by the order statistics $E^{(k)}_j$ of the calibration residuals. The shaded rectangles represent local prediction sets $\hat  {C}^\mathrm  {lwc}(\mathbf  {X}^{n+1}; \mathcal  {R})$ corresponding to different hypothesized rectangles $\mathcal  {R} \in \mathcal  {P}_{n,d}$. The solid rectangle shows the projection, in residual space, of their rectangular enclosure defined in~\eqref  {eq:lwc-joint-union}, which constitutes our final prediction set. For comparison, the larger dashed rectangle shows the corresponding projection of the more conservative prediction set $\hat  {C}^\mathrm  {gwc}(\mathbf  {X}^{n+1})$ from Section~\ref {sec:method-gwc}.}}{14}{figure.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:global-to-local}{{2}{14}{Illustration of the construction of transductively standardized conformal prediction sets using the method outlined in~\eqref {eq:lwc-joint-union}, with the data-driven partition $\mathcal {P}_{n,d}$ of the outcome space defined in~\eqref {eq:rectangle-explicit}, in a toy example with a two-dimensional outcome variable. The gray grid lines indicate the partition $\mathcal {P}_{n,d}$ in the residual space, as determined by the order statistics $E^{(k)}_j$ of the calibration residuals. The shaded rectangles represent local prediction sets $\hat {C}^\mathrm {lwc}(\mathbf {X}^{n+1}; \mathcal {R})$ corresponding to different hypothesized rectangles $\mathcal {R} \in \mathcal {P}_{n,d}$. The solid rectangle shows the projection, in residual space, of their rectangular enclosure defined in~\eqref {eq:lwc-joint-union}, which constitutes our final prediction set. For comparison, the larger dashed rectangle shows the corresponding projection of the more conservative prediction set $\hat {C}^\mathrm {gwc}(\mathbf {X}^{n+1})$ from Section~\ref {sec:method-gwc}}{figure.caption.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Step 2: Characterization of the Local Prediction Sets}{15}{subsubsection.3.4.3}\protected@file@percent }
-\newlabel{eq:lwc-residual-transformation}{{22}{15}{Step 2: Characterization of the Local Prediction Sets}{equation.3.22}{}}
-\newlabel{eq:lwc-transformation-bound}{{23}{15}{Step 2: Characterization of the Local Prediction Sets}{equation.3.23}{}}
-\newlabel{lem:lwc-rescaling}{{7}{15}{Step 2: Characterization of the Local Prediction Sets}{theorem.7}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Construction of local prediction sets under working hypothesis $\mathbf  {Y}^{n+1} \in \mathcal  {Y}^h$\relax }}{16}{algorithm.1}\protected@file@percent }
-\newlabel{alg:local-bound}{{1}{16}{Construction of local prediction sets under working hypothesis $\mathbf {Y}^{n+1} \in \mathcal {Y}^h$\relax }{algorithm.1}{}}
+\newlabel{eq:lwc-residual-transformation}{{22}{15}{}{equation.22}{}}
+\newlabel{eq:lwc-transformation-bound}{{23}{15}{}{equation.23}{}}
+\newlabel{lem:lwc-rescaling}{{7}{15}{}{lemma.7}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Construction of local prediction sets under working hypothesis $\mathbf  {Y}^{n+1} \in \mathcal  {Y}^h$}}{16}{algorithm.1}\protected@file@percent }
+\newlabel{alg:local-bound}{{1}{16}{Construction of local prediction sets under working hypothesis $\mathbf {Y}^{n+1} \in \mathcal {Y}^h$}{algorithm.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}Computational Shortcut for Rectangular Enclosure}{16}{subsubsection.3.4.4}\protected@file@percent }
-\newlabel{eq:rect-wise-bounds}{{24}{17}{Computational Shortcut for Rectangular Enclosure}{equation.3.24}{}}
-\newlabel{lem:reduction-search}{{8}{17}{Computational Shortcut for Rectangular Enclosure}{theorem.8}{}}
-\newlabel{eq:tscp-shortcut}{{26}{18}{Computational Shortcut for Rectangular Enclosure}{equation.3.26}{}}
-\newlabel{thm:TSCP-coverage}{{9}{18}{Computational Shortcut for Rectangular Enclosure}{theorem.9}{}}
+\newlabel{eq:rect-wise-bounds}{{24}{16}{}{equation.24}{}}
+\newlabel{lem:reduction-search}{{8}{17}{}{lemma.8}{}}
+\newlabel{eq:tscp-shortcut}{{26}{17}{}{equation.26}{}}
+\newlabel{thm:TSCP-coverage}{{9}{17}{}{theorem.9}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Transductively Standardized Conformal Prediction (TSCP)}}{18}{algorithm.2}\protected@file@percent }
+\newlabel{alg:shortcut}{{2}{18}{Transductively Standardized Conformal Prediction (TSCP)}{algorithm.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Numerical Experiments}{18}{section.4}\protected@file@percent }
+\newlabel{sec:numerical-experiments}{{4}{18}{}{section.4}{}}
+\newlabel{sec:experiments}{{4}{18}{}{section.4}{}}
+\citation{sampson2024conformal}
+\citation{messoudi2021copula}
 \citation{sampson2024conformal}
 \citation{tumu2024templates}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Transductively Standardized Conformal Prediction (TSCP)\relax }}{19}{algorithm.2}\protected@file@percent }
-\newlabel{alg:shortcut}{{2}{19}{Transductively Standardized Conformal Prediction (TSCP)\relax }{algorithm.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Numerical Experiments}{19}{section.4}\protected@file@percent }
-\newlabel{sec:numerical-experiments}{{4}{19}{Computational Shortcut for Rectangular Enclosure}{section.4}{}}
-\newlabel{sec:experiments}{{4}{19}{Computational Shortcut for Rectangular Enclosure}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Methods and Evaluation Metrics}{19}{subsection.4.1}\protected@file@percent }
-\newlabel{sec:experiment-methods}{{4.1}{19}{Methods and Evaluation Metrics}{subsection.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Absolute-Residual Experiments}{20}{subsection.4.2}\protected@file@percent }
-\newlabel{sec:absolute-residual-experiments}{{4.2}{20}{Absolute-Residual Experiments}{subsection.4.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{Independent noise and coordinate heterogeneity.}{20}{subsection.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Heterogeneous and dependent noise.}{20}{subsection.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Absolute-residual experiment with $d=10$, heterogeneous Gaussian scales $(10,9,\ldots  ,1)$, and equicorrelation $\rho =0.6$. Curves report averages over 200 repetitions; the dashed line marks the target joint coverage. Runtime excludes the common model fit.\relax }}{21}{figure.caption.3}\protected@file@percent }
-\newlabel{fig:body-abs-overview}{{3}{21}{Absolute-residual experiment with $d=10$, heterogeneous Gaussian scales $(10,9,\ldots ,1)$, and equicorrelation $\rho =0.6$. Curves report averages over 200 repetitions; the dashed line marks the target joint coverage. Runtime excludes the common model fit.\relax }{figure.caption.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Coordinate-wise mean full interval lengths for the absolute-residual experiment with $d=10$, $n=100$, heterogeneous Gaussian scales $(10,9,\ldots  ,1)$, and equicorrelation $\rho =0.6$. Residual-space half-widths are multiplied by two to report full outcome intervals. Results average 200 independent repetitions.\relax }}{21}{figure.caption.4}\protected@file@percent }
-\newlabel{fig:body-abs-coordinate-bars}{{4}{21}{Coordinate-wise mean full interval lengths for the absolute-residual experiment with $d=10$, $n=100$, heterogeneous Gaussian scales $(10,9,\ldots ,1)$, and equicorrelation $\rho =0.6$. Residual-space half-widths are multiplied by two to report full outcome intervals. Results average 200 independent repetitions.\relax }{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{Partial heteroskedasticity.}{21}{figure.caption.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Performance when only the first five of ten outcomes are heteroskedastic in $X_1$. The shaded coordinates in the right panel are the heteroskedastic ones; full interval lengths are shown for $n=100$. Results are averaged over 200 independent repetitions.\relax }}{22}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:body-partial-hetero}{{5}{22}{Performance when only the first five of ten outcomes are heteroskedastic in $X_1$. The shaded coordinates in the right panel are the heteroskedastic ones; full interval lengths are shown for $n=100$. Results are averaged over 200 independent repetitions.\relax }{figure.caption.5}{}}
+\newlabel{sec:experiment-methods}{{4.1}{19}{}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Absolute-Residual Experiments}{19}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:absolute-residual-experiments}{{4.2}{19}{}{subsection.4.2}{}}
+\newlabel{eq:data-generator}{{27}{19}{}{equation.27}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Independent Gaussian Noise}{20}{subsubsection.4.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Absolute-residual experiment with $d=10$, heterogeneous Gaussian scales $(10,9,\ldots  ,1)$. The target coverage level is $90\%$. TSCP attains near-nominal coverage while producing the smallest prediction sets on average. Results are averaged over 200 independent repetitions. }}{20}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:gaussian-heter}{{3}{20}{Absolute-residual experiment with $d=10$, heterogeneous Gaussian scales $(10,9,\ldots ,1)$. The target coverage level is $90\%$. TSCP attains near-nominal coverage while producing the smallest prediction sets on average. Results are averaged over 200 independent repetitions}{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Heterogeneous and dependent noise}{20}{subsubsection.4.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Absolute-residual experiment with $d=10$, homogeneous Gaussian scales $(1,1,\ldots  ,1)$. The target coverage level is $90\%$. TSCP attains near-nominal coverage and is competitive, while Unscaled Max is the most efficient in this homogeneous setting. Results are averaged over 200 independent repetitions.}}{21}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:gaussian-homo}{{4}{21}{Absolute-residual experiment with $d=10$, homogeneous Gaussian scales $(1,1,\ldots ,1)$. The target coverage level is $90\%$. TSCP attains near-nominal coverage and is competitive, while Unscaled Max is the most efficient in this homogeneous setting. Results are averaged over 200 independent repetitions}{figure.caption.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Absolute-residual experiment with $d=10$, heterogeneous Gaussian scales $(10,9,\ldots  ,1)$, and equicorrelation $\rho =0.6$. The target coverage level is $90\%$. TSCP attains near-nominal coverage while producing the smallest prediction sets on average. Results are averaged over 200 independent repetitions.}}{21}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:body-abs-overview}{{5}{21}{Absolute-residual experiment with $d=10$, heterogeneous Gaussian scales $(10,9,\ldots ,1)$, and equicorrelation $\rho =0.6$. The target coverage level is $90\%$. TSCP attains near-nominal coverage while producing the smallest prediction sets on average. Results are averaged over 200 independent repetitions}{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Partial heteroskedasticity}{21}{subsubsection.4.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Coordinate-wise mean full interval lengths for the absolute-residual experiment with $d=10$, $n=100$, heterogeneous Gaussian scales $(10,9,\ldots  ,1)$, and equicorrelation $\rho =0.6$. Residual-space half-widths are multiplied by two to report full outcome intervals. Results average 200 independent repetitions.}}{22}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:body-abs-coordinate-bars}{{6}{22}{Coordinate-wise mean full interval lengths for the absolute-residual experiment with $d=10$, $n=100$, heterogeneous Gaussian scales $(10,9,\ldots ,1)$, and equicorrelation $\rho =0.6$. Residual-space half-widths are multiplied by two to report full outcome intervals. Results average 200 independent repetitions}{figure.caption.6}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Quantile-Regression Scores and CQHR}{22}{subsection.4.3}\protected@file@percent }
-\newlabel{sec:cqr-experiments}{{4.3}{22}{Quantile-Regression Scores and CQHR}{subsection.4.3}{}}
+\newlabel{sec:cqr-experiments}{{4.3}{22}{}{subsection.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Performance when only the first five of ten outcomes are heteroskedastic in $X_1$. The shaded coordinates in the right panel are the heteroskedastic ones; full interval lengths are shown for $n=100$. The target coverage level is $90\%$. TSCP consistently attains near-nominal coverage while producing the smallest prediction sets on average. Results are averaged over 200 independent repetitions.}}{23}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:body-partial-hetero}{{7}{23}{Performance when only the first five of ten outcomes are heteroskedastic in $X_1$. The shaded coordinates in the right panel are the heteroskedastic ones; full interval lengths are shown for $n=100$. The target coverage level is $90\%$. TSCP consistently attains near-nominal coverage while producing the smallest prediction sets on average. Results are averaged over 200 independent repetitions}{figure.caption.7}{}}
 \citation{grigorios_tsoumakas_eleftherios_spyromitros-xioufis_william_groves_ioannis_vlahavas_2022}
 \citation{scm1d}
 \citation{scm20d}
 \citation{stock_portfolio_performance_390}
 \citation{cortez2008student}
 \citation{tsanas2012energy}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces CQR experiment with $d=3$ and base-interval miscoverage $0.5$. TSCP uses capped nonnegative scores, Unscaled Max and Emp. Copula use raw signed scores, and CQHR uses its native quantile-hyperrectangle construction. Results are averaged over 30 independent repetitions.\relax }}{23}{figure.caption.6}\protected@file@percent }
-\newlabel{fig:body-cqr}{{6}{23}{CQR experiment with $d=3$ and base-interval miscoverage $0.5$. TSCP uses capped nonnegative scores, Unscaled Max and Emp. Copula use raw signed scores, and CQHR uses its native quantile-hyperrectangle construction. Results are averaged over 30 independent repetitions.\relax }{figure.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Coordinate-wise mean full outcome-space lengths for the CQR experiment with $d=3$, $n=100$, base-interval miscoverage $0.5$, and final target coverage $0.9$. TSCP uses capped scores, Unscaled Max and Emp. Copula use raw signed scores, and CQHR uses its native construction. Results average 30 independent repetitions.\relax }}{24}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:body-cqr-coordinate-bars}{{7}{24}{Coordinate-wise mean full outcome-space lengths for the CQR experiment with $d=3$, $n=100$, base-interval miscoverage $0.5$, and final target coverage $0.9$. TSCP uses capped scores, Unscaled Max and Emp. Copula use raw signed scores, and CQHR uses its native construction. Results average 30 independent repetitions.\relax }{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Real Data and Wall-Clock Runtime}{24}{subsection.4.4}\protected@file@percent }
-\newlabel{sec:real-data-experiments}{{4.4}{24}{Real Data and Wall-Clock Runtime}{subsection.4.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{Coordinate-wise interpretation.}{24}{figure.caption.9}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Performance on real datasets, averaged over 200 random splits. One standard deviation is reported in parentheses. Bold volume denotes the smallest average volume among the methods with empirical coverage at or above the target, up to Monte Carlo variation. The calibration sizes are 15, 384, 490, 448, 38, and 32 in the order shown.\relax }}{25}{table.caption.8}\protected@file@percent }
-\newlabel{tab:real-data}{{1}{25}{Performance on real datasets, averaged over 200 random splits. One standard deviation is reported in parentheses. Bold volume denotes the smallest average volume among the methods with empirical coverage at or above the target, up to Monte Carlo variation. The calibration sizes are 15, 384, 490, 448, 38, and 32 in the order shown.\relax }{table.caption.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Coordinate Adaptation and Search Complexity}{25}{subsection.4.5}\protected@file@percent }
-\newlabel{sec:real-data-diagnostics}{{4.5}{25}{Coordinate Adaptation and Search Complexity}{subsection.4.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Average wall-clock time for conformal region construction on the six real datasets. The vertical axis is logarithmic and reports milliseconds. All methods use the same fitted regression model in each split; model fitting and residual computation are excluded.\relax }}{26}{figure.caption.9}\protected@file@percent }
-\newlabel{fig:body-real-runtime}{{8}{26}{Average wall-clock time for conformal region construction on the six real datasets. The vertical axis is logarithmic and reports milliseconds. All methods use the same fitted regression model in each split; model fitting and residual computation are excluded.\relax }{figure.caption.9}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Anecdotal illustration of conformal prediction sets of rectangular shape for two test points from the \emph  {energy} dataset. In this case, the prediction sets can be reported as pairs of joint prediction intervals for the two outcome dimensions. Volumes are computed in residual space. Intervals that fail to cover the corresponding true outcomes are highlighted in \leavevmode {\color  {red}red}; smallest interval that covers the ground truth is highlighted in \textbf  {bold}. This example is included for illustration only: the coverage guarantees of conformal prediction hold on average, not for individual test points.\relax }}{26}{table.caption.10}\protected@file@percent }
-\newlabel{tab:toy}{{2}{26}{Anecdotal illustration of conformal prediction sets of rectangular shape for two test points from the \emph {energy} dataset. In this case, the prediction sets can be reported as pairs of joint prediction intervals for the two outcome dimensions. Volumes are computed in residual space. Intervals that fail to cover the corresponding true outcomes are highlighted in \textcolor {red}{red}; smallest interval that covers the ground truth is highlighted in \textbf {bold}. This example is included for illustration only: the coverage guarantees of conformal prediction hold on average, not for individual test points.\relax }{table.caption.10}{}}
-\@writefile{toc}{\contentsline {paragraph}{Coordinate-wise interval lengths.}{26}{subsection.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Search regimes and construction cost.}{27}{figure.caption.11}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Coordinate-wise full interval lengths on all six real datasets, normalized within each split by the corresponding Unscaled Max length and then averaged over 200 splits. The dashed line marks a ratio of one. Point CHR is infinite on \texttt  {stock}. These width comparisons should be read with the matching joint coverage in Table~\ref  {tab:real-diagnostic-coverage} and the marginal coverage in Figure~\ref  {fig:app-real-marginal-coverage}, not as an unconditional ranking of calibrated performance.\relax }}{28}{figure.caption.11}\protected@file@percent }
-\newlabel{fig:body-real-coordinate-bars}{{9}{28}{Coordinate-wise full interval lengths on all six real datasets, normalized within each split by the corresponding Unscaled Max length and then averaged over 200 splits. The dashed line marks a ratio of one. Point CHR is infinite on \texttt {stock}. These width comparisons should be read with the matching joint coverage in Table~\ref {tab:real-diagnostic-coverage} and the marginal coverage in Figure~\ref {fig:app-real-marginal-coverage}, not as an unconditional ranking of calibrated performance.\relax }{figure.caption.11}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Executed TSCP search regimes at target coverage $0.9$ on the six real datasets. Each split-count denominator is 200. The coordinate denominator is $d$ times the number of non-fallback splits. Conditional times summarize the full TSCP call, not just the backward loop; a dash denotes an unobserved regime. $n$ is the calibration size.\relax }}{29}{table.caption.12}\protected@file@percent }
-\newlabel{tab:real-search-diagnostics}{{3}{29}{Executed TSCP search regimes at target coverage $0.9$ on the six real datasets. Each split-count denominator is 200. The coordinate denominator is $d$ times the number of non-fallback splits. Conditional times summarize the full TSCP call, not just the backward loop; a dash denotes an unobserved regime. $n$ is the calibration size.\relax }{table.caption.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces TSCP search work and construction time for 200 splits per real dataset at target coverage $0.9$. Left: candidate cells inspected per coordinate, averaged over non-fallback runs. Counts include cells rejected by intersection checks. Right: whole-call construction times conditional on the observed regime, using the timing convention in Table~\ref  {tab:real-search-diagnostics}. Unobserved regimes have no bars.\relax }}{29}{figure.caption.13}\protected@file@percent }
-\newlabel{fig:body-real-search-diagnostics}{{10}{29}{TSCP search work and construction time for 200 splits per real dataset at target coverage $0.9$. Left: candidate cells inspected per coordinate, averaged over non-fallback runs. Counts include cells rejected by intersection checks. Right: whole-call construction times conditional on the observed regime, using the timing convention in Table~\ref {tab:real-search-diagnostics}. Unobserved regimes have no bars.\relax }{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces CQR experiment with $d=3$ and base-interval miscoverage $0.5$. TSCP uses capped nonnegative scores, Unscaled Max and Emp. Copula use raw signed scores, and CQHR uses its native quantile-hyperrectangle construction. Results are averaged over 30 independent repetitions.}}{24}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:body-cqr}{{8}{24}{CQR experiment with $d=3$ and base-interval miscoverage $0.5$. TSCP uses capped nonnegative scores, Unscaled Max and Emp. Copula use raw signed scores, and CQHR uses its native quantile-hyperrectangle construction. Results are averaged over 30 independent repetitions}{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Coordinate-wise mean full outcome-space lengths for the CQR experiment with $d=3$, $n=100$, base-interval miscoverage $0.5$, and final target coverage $0.9$. TSCP uses capped scores, Unscaled Max and Emp. Copula use raw signed scores, and CQHR uses its native construction. Results average 30 independent repetitions.}}{24}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:body-cqr-coordinate-bars}{{9}{24}{Coordinate-wise mean full outcome-space lengths for the CQR experiment with $d=3$, $n=100$, base-interval miscoverage $0.5$, and final target coverage $0.9$. TSCP uses capped scores, Unscaled Max and Emp. Copula use raw signed scores, and CQHR uses its native construction. Results average 30 independent repetitions}{figure.caption.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Performance on real datasets, averaged over 200 random splits. One standard deviation is reported in parentheses. Bold volume denotes the smallest average volume among the methods with empirical coverage at or above the target, up to Monte Carlo variation. The calibration sizes are 15, 384, 490, 448, 38, and 32 in the order shown.}}{25}{table.caption.10}\protected@file@percent }
+\newlabel{tab:real-data}{{1}{25}{Performance on real datasets, averaged over 200 random splits. One standard deviation is reported in parentheses. Bold volume denotes the smallest average volume among the methods with empirical coverage at or above the target, up to Monte Carlo variation. The calibration sizes are 15, 384, 490, 448, 38, and 32 in the order shown}{table.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Real Data and Wall-Clock Runtime}{25}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:real-data-experiments}{{4.4}{25}{}{subsection.4.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Average wall-clock time for conformal region construction on the six real datasets. The vertical axis is logarithmic and reports milliseconds. All methods use the same fitted regression model in each split; model fitting and residual computation are excluded.}}{26}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:body-real-runtime}{{10}{26}{Average wall-clock time for conformal region construction on the six real datasets. The vertical axis is logarithmic and reports milliseconds. All methods use the same fitted regression model in each split; model fitting and residual computation are excluded}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {paragraph}{Coordinate-wise interpretation.}{26}{figure.caption.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Coordinate Adaptation and Search Complexity}{26}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:real-data-diagnostics}{{4.5}{26}{}{subsection.4.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Anecdotal illustration of conformal prediction sets of rectangular shape for two test points from the \emph  {energy} dataset. In this case, the prediction sets can be reported as pairs of joint prediction intervals for the two outcome dimensions. Volumes are computed in residual space. Intervals that fail to cover the corresponding true outcomes are highlighted in \textcolor {red}{red}; smallest interval that covers the ground truth is highlighted in \textbf  {bold}. This example is included for illustration only: the coverage guarantees of conformal prediction hold on average, not for individual test points.}}{27}{table.caption.12}\protected@file@percent }
+\newlabel{tab:toy}{{2}{27}{Anecdotal illustration of conformal prediction sets of rectangular shape for two test points from the \emph {energy} dataset. In this case, the prediction sets can be reported as pairs of joint prediction intervals for the two outcome dimensions. Volumes are computed in residual space. Intervals that fail to cover the corresponding true outcomes are highlighted in \textcolor {red}{red}; smallest interval that covers the ground truth is highlighted in \textbf {bold}. This example is included for illustration only: the coverage guarantees of conformal prediction hold on average, not for individual test points}{table.caption.12}{}}
+\@writefile{toc}{\contentsline {paragraph}{Coordinate-wise interval lengths.}{27}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Search regimes and construction cost.}{27}{figure.caption.13}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Coordinate-wise full interval lengths on all six real datasets, normalized within each split by the corresponding Unscaled Max length and then averaged over 200 splits. The dashed line marks a ratio of one. Point CHR is infinite on \texttt  {stock}. These width comparisons should be read with the matching joint coverage in Table~\ref {tab:real-diagnostic-coverage} and the marginal coverage in Figure~\ref {fig:app-real-marginal-coverage}, not as an unconditional ranking of calibrated performance.}}{28}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:body-real-coordinate-bars}{{11}{28}{Coordinate-wise full interval lengths on all six real datasets, normalized within each split by the corresponding Unscaled Max length and then averaged over 200 splits. The dashed line marks a ratio of one. Point CHR is infinite on \texttt {stock}. These width comparisons should be read with the matching joint coverage in Table~\ref {tab:real-diagnostic-coverage} and the marginal coverage in Figure~\ref {fig:app-real-marginal-coverage}, not as an unconditional ranking of calibrated performance}{figure.caption.13}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Executed TSCP search regimes at target coverage $0.9$ on the six real datasets. Each split-count denominator is 200. The coordinate denominator is $d$ times the number of non-fallback splits. Conditional times summarize the full TSCP call, not just the backward loop; a dash denotes an unobserved regime. $n$ is the calibration size.}}{29}{table.caption.14}\protected@file@percent }
+\newlabel{tab:real-search-diagnostics}{{3}{29}{Executed TSCP search regimes at target coverage $0.9$ on the six real datasets. Each split-count denominator is 200. The coordinate denominator is $d$ times the number of non-fallback splits. Conditional times summarize the full TSCP call, not just the backward loop; a dash denotes an unobserved regime. $n$ is the calibration size}{table.caption.14}{}}
 \citation{braun2025multivariate}
 \bibdata{biblio}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces TSCP search work and construction time for 200 splits per real dataset at target coverage $0.9$. Left: candidate cells inspected per coordinate, averaged over non-fallback runs. Counts include cells rejected by intersection checks. Right: whole-call construction times conditional on the observed regime, using the timing convention in Table~\ref {tab:real-search-diagnostics}. Unobserved regimes have no bars.}}{30}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:body-real-search-diagnostics}{{12}{30}{TSCP search work and construction time for 200 splits per real dataset at target coverage $0.9$. Left: candidate cells inspected per coordinate, averaged over non-fallback runs. Counts include cells rejected by intersection checks. Right: whole-call construction times conditional on the observed regime, using the timing convention in Table~\ref {tab:real-search-diagnostics}. Unobserved regimes have no bars}{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion and Future Work}{30}{section.5}\protected@file@percent }
+\newlabel{sec:discussion}{{5}{30}{}{section.5}{}}
 \bibcite{abad2022approximating}{{1}{2022}{{Abad et~al.}}{{Abad, Bhatt, Weller, and Cherubin}}}
 \bibcite{angelopoulos2023conformal}{{2}{2023}{{Angelopoulos and Bates}}{{}}}
 \bibcite{angelopoulos2025theoreticalfoundationsconformalprediction}{{3}{2024}{{Angelopoulos et~al.}}{{Angelopoulos, Barber, and Bates}}}
 \bibcite{baheri2025multiscale}{{4}{2025}{{Baheri and Amiri~Shahbazi}}{{}}}
 \bibcite{braun2025minimum}{{5}{2025{a}}{{Braun et~al.}}{{Braun, Aolaritei, Jordan, and Bach}}}
 \bibcite{braun2025multivariate}{{6}{2025{b}}{{Braun et~al.}}{{Braun, Berta, Jordan, and Bach}}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion and Future Work}{30}{section.5}\protected@file@percent }
-\newlabel{sec:discussion}{{5}{30}{Computational Shortcut for Rectangular Enclosure}{section.5}{}}
 \bibcite{colombo2024normalizing}{{7}{2024}{{Colombo}}{{}}}
 \bibcite{scm1d}{{8}{2019{a}}{{Contributors}}{{}}}
 \bibcite{scm20d}{{9}{2019{b}}{{Contributors}}{{}}}
@@ -218,7 +210,7 @@
 \bibcite{zhang2024posterior}{{44}{2024}{{Zhang and Cand{\`e}s}}{{}}}
 \bibcite{zhou2024conformal}{{45}{2024}{{Zhou and Sesia}}{{}}}
 \@input{supplementary.aux}
-\newlabel{LastPage}{{}{70}{}{page.70}{}}
-\xdef\lastpage@lastpage{70}
-\xdef\lastpage@lastpageHy{70}
-\gdef \@abspage@last{70}
+\newlabel{LastPage}{{B.2}{68}{Software Availability}{page.68}{}}
+\gdef\lastpage@lastpage{68}
+\gdef\lastpage@lastpageHy{68}
+\gdef \@abspage@last{68}

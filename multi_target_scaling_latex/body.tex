@@ -22,7 +22,6 @@ By contrast, we aim to achieve valid coverage with joint prediction intervals th
 Left: univariate approaches can produce marginal prediction intervals for each output separately, which do not guarantee joint coverage. 
 Center: a Bonferroni correction can easily restore valid joint coverage, at the cost of being overly conservative. 
 Right: our goal is to efficiently construct hyper-rectangular prediction sets that are easy to interpret and retain valid coverage; doing so involves technical challenges.}
-    \label{fig:joint-prediction}
 \end{figure}
 
 A second class of existing methods reduce multivariate residuals to scalar-valued non-conformity scores, for example by applying an $\ell_2$ or $\ell_\infty$ norm, then apply a univariate conformal prediction method to these scalar scores, and finally map the resulting prediction interval back into the original output space by inverting the dimension-reduction transformation; e.g., see Algorithm~\ref{alg:unscaled} in Appendix~\ref{app:algorithms}. While computationally efficient and in principle able to produce hyper-rectangular prediction sets (e.g., using the $\ell_\infty$-norm), these approaches are dominated by the noisiest dimension, often leading to prediction sets that are unnecessarily wide along low-uncertainty directions.
@@ -595,6 +594,7 @@ Algorithm~\ref{alg:local-bound} summarizes this construction.
 
 \subsubsection{Computational Shortcut for Rectangular Enclosure}
 
+{\color{blue}
 While the characterization provided above makes it easy to compute $\hat{C}^{\mathrm{lwc}}(\mathbf{X}^{n+1};\mathcal{Y}^h)$ for any specific index $h \in [n+1]^d$, the problem remains that the intended construction of $\hat{C}^{\mathrm{lwc}}_{\mathcal{P}}(\mathbf{X}^{n+1})$ in~\eqref{eq:lwc-joint-union} involves an {\em exponential} number of such local prediction sets. 
 
 Therefore, to obtain a practical method, we must now develop a shortcut that avoids full enumeration of all $\hat{C}^{\mathrm{lwc}}(\mathbf{X}^{n+1};\mathcal{Y}^h)$.
@@ -620,7 +620,7 @@ Then the rectangular enclosure of all local prediction sets in~\eqref{eq:lwc-joi
 &=: \hat{C}^\mathrm{lwc}_{\mathcal{P}_{n,d}}(\mathbf{X}^{n+1}).
 \end{aligned}
 \end{equation}
-Notably, this rectangular enclosure is typically very tight in practice, because the union of the local prediction sets constructed using our designated partition $\mathcal{P}_{n,d}$ is itself very close to being a rectangle when the sample size is large enough.
+Notably, this rectangular enclosure is typically very tight in practice, because the union of the local prediction sets constructed using our designated partition $\mathcal{P}_{n,d}$ is itself very close to being a rectangle when the sample size is large enough.}
 
 The last remaining step to make our method practical is finding an efficient algorithm for computing the boundaries $\mathcal{L}_j$ for all $j \in [d]$, without requiring enumeration of all local prediction sets. 
 Such a shortcut is made possible by the following result, which simplifies the definition of $\mathcal{L}_j$ from a maximum over $(n+1)^d$ distinct values to a maximum over an explicit, narrowed-down list of only $n+1$ relevant candidates.
@@ -635,7 +635,7 @@ Let $\mathrm{Row}_j(h^*)$ be a subset of $[n+1]^d$ containing exactly $n+1$ indi
 \begin{lemma}
 If $\mathcal{Y}^{h^*} \neq \emptyset$, then for any $j \in [d]$, then $\mathcal{L}_j := \max_{\substack{h \in [n+1]^d}}B^h_j$ can be equivalently written as:
     \begin{align*}
-    \mathcal{L}_j= \max_{h \in \mathrm{Row}_j(h^*)} B^h_j = B^{h^{[j]}}_j > 0,
+    \mathcal{L}_j= \max_{h \in \mathrm{Row}_j(h^*)} B^h_j = B^{h^{[j]}}_j,
       \quad
       \text{where }h^{[j]} := \operatorname*{argmax}_{h \in \mathrm{Row}_j(h^*)} B^h_j.
     \end{align*}
