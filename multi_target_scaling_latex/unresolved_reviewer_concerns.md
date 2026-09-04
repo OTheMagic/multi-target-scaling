@@ -1,6 +1,8 @@
 # Reviewer Audit and Author Actions
 
-This audit compares the supplied revised LaTeX sources, the integrated experiments, the original arXiv v1 PDF, and the two reviewer reports. It is not a certification of every proof. Non-experimental manuscript prose remains unchanged. At the author's subsequent request, Figures 1 and 2 have now been annotated to address R2.m1 and R2.m3; their previous PDFs and drawing sources are preserved in `../reviewer_update/pre_schematic_labels`.
+This audit compares the revised LaTeX sources, the integrated experiments, the original arXiv v1 PDF, and the two reviewer reports. It is not a certification of every proof. The author's latest non-experimental edits have been preserved and the affected audit entries updated on September 4, 2026. No non-experimental prose was rewritten during the experiment editing. At the author's request, Figures 1 and 2 have been annotated to address R2.m1 and R2.m3; their previous PDFs and drawing sources are preserved in `../reviewer_update/pre_schematic_labels`.
+
+The publication-style editorial pass consolidates every experimental study into `experiments_body.tex` and `experiments_appendix.tex`, organized by scientific topic. Revision history is confined to the cover, response, and project documentation. Experimental data, settings, and figure/table assets are unchanged by this pass; `publication_edit_audit.json` records the preservation checks.
 
 The follow-up diagnostic study has now completed 200 new splits of each of the six real datasets. It closes the three previously missing empirical items below; it does not resolve the separate theoretical and editorial issues.
 
@@ -8,7 +10,7 @@ The follow-up diagnostic study has now completed 200 new splits of each of the s
 
 | Point | Status | Evidence or remaining action |
 |---|---|---|
-| R1.C1: methodological intuition/enclosure | Partial | Revised Sections 2--3 and retained local-union comparison; correct the conditional-coverage inference below. |
+| R1.C1: methodological intuition/enclosure | Partial | Revised Sections 2--3, local-union comparison, and corrected local pointwise implication; finish the common-event justification for the final piecewise proof. |
 | R1.C2: assumptions and negative residuals | Partial | Explicit heavy-tail caveats and CQR studies; reconcile ties, zero scales, and implementation with Assumption 1. |
 | R1.C3: main-text runtime evidence | Addressed | New synthetic runtime panel and six-dataset wall-clock figure. |
 | R1.C4: contamination/outliers | Addressed | Exchangeable contamination stress test; efficiency inflation is disclosed. |
@@ -23,32 +25,31 @@ The follow-up diagnostic study has now completed 200 new splits of each of the s
 | R2.M6: partial heteroskedasticity | Addressed | Main-text experiment with five of ten affected coordinates. |
 | R2.M7: CQR transformation and constant shift | Partial | Capped and shifted studies and a sufficient shift bound are explained; theoretical/implementation qualifications remain. |
 | R2.m1: marginal labels in Figure 1 | Addressed | Right panel now shows 92% for Y1 and 93% for Y2, alongside 90% joint coverage; percentages are explicitly illustrative. |
-| R2.m2: meaning of uniformly tight | Open | Ambiguous claim remains in Sections 2.4 and 2.5. |
+| R2.m2: meaning of uniformly tight | Partial | Replaced by balanced coordinatewise coverage in Sections 2.4 and 2.5; equal moments alone still do not justify coverage balance. |
 | R2.m3: boundary labels in Figure 2 | Addressed | Blue axis ticks and labels identify the solid enclosure's residual thresholds, mathcal L_1 and mathcal L_2. |
 | R2.m4: main-text runtime plots | Addressed | Main synthetic and real-data runtime plots; old runtime plots also retained. |
 | R2.m5: infinite Point CHR volume | Addressed | Allocation explanation and finite-sample quantile caveat now accompany the comparison. |
 | R2.m6: vector/scalar typography | Partial | Many vectors are now bold; multi-indices and some scalar coordinates remain inconsistent. |
 
-Total: **13 addressed, 5 partially addressed, 2 open**. The editor's overall completion and manuscript-wide color-marking requests remain partial until the open items are resolved and the final submission is audited.
+Total: **13 addressed, 6 partially addressed, 1 open**. The editor's overall completion and manuscript-wide color-marking requests remain partial until the open items are resolved and the final submission is audited.
 
 ## Highest-Priority Scientific Checks
 
-### 1. Conditional coverage inferred from a marginal guarantee
+### 1. Local conditional-coverage inference: corrected by the author
 
-- Location: `body.tex:470`, Section 3.4.1, immediately after the local-containment display.
-- The revised paragraph claims coverage at least `1-alpha` conditional on the working hypothesis that the outcome belongs to a region. Marginal oracle coverage and containment on that event do not, by themselves, imply that conditional guarantee.
-- Suggested direction: express the argument as a pointwise implication of the oracle acceptance event on the cell containing the test outcome, then aggregate over the partition to obtain the intended marginal result. Do not infer cell-conditional or covariate-conditional coverage without additional assumptions.
-- Related response: R1.C1. This statement was not present in this form in the original v1 paragraph and needs review before the revision is submitted.
+- Location: Section 3.4.1, immediately after `eq:lwc-local-containment`.
+- The latest author edit replaces the conditional `1-alpha` claim with a pointwise implication when oracle acceptance and membership in the working region hold simultaneously. The previous objection to this sentence is therefore closed.
+- Related response: R1.C1 remains partial because the final piecewise proof still needs a shared-event justification; see item 3. No cell-conditional or covariate-conditional guarantee is inferred.
 
 ### 2. Contradictory endpoint condition in the search-reduction lemma
 
-- Location: `body.tex:645`, Section 3.4.4, Lemma `lem:reduction-search`.
+- Location: Section 3.4.4, Lemma `lem:reduction-search`, sentence immediately after the maximization display.
 - The statement first says that the maximizing value `B_j` is positive, then says it is zero for every index greater than **or equal to** the maximizer, including that same maximizer.
 - Suggested direction: verify whether the intended relation is strictly greater, and check ties, the choice of maximizer, and the matching proof before changing it. This appears to be inherited from the old draft, not introduced by the experiment integration.
 
 ### 3. Piecewise coverage proof needs a shared event argument
 
-- Location: `body.tex:669`, proof of Theorem `thm:TSCP-coverage`.
+- Location: proof of Theorem `thm:TSCP-coverage`.
 - Selecting between two data-dependent procedures does not inherit their marginal coverage merely because each procedure separately has a lower bound. The intended construction may admit a common oracle-acceptance/containment argument, but that argument should be explicit for both branches.
 - Suggested direction: verify and state the common pointwise event inclusion. This is a proof-exposition issue to check, not a claim here that the implemented procedure is invalid.
 
@@ -83,17 +84,17 @@ Total: **13 addressed, 5 partially addressed, 2 open**. The editor's overall com
 
 ### 7. Reconcile capped CQR, ties, and fixed shifts
 
-- Related points: R1.C2 and R2.M7; `body.tex:149` through the standing assumption at `body.tex:164`.
+- Related points: R1.C2 and R2.M7; Section 2.3 and Assumption `eq:assumption-scores`.
 - The supplied revision recognizes ties and suggests coordinate jitter. The saved TSCP code adds a reproducible perturbation to scalar upper-bound scores, which is not the same operation and does not remove coordinate zeros or handle all zero empirical scales.
 - The integrated experiments explicitly say that the capped study does not meet pairwise distinctness verbatim. Either justify the exact implemented convention, modify it with a corresponding analysis and rerun if needed, or retain the empirical qualification.
 - The main score is `max(S_j,0)`, not `abs(S_j)`. Its region expands the fitted interval and cannot shrink an already conservative interval.
 - The appendix uses fixed shifts 100, 300, and 1000, with inversion by subtracting the shift. Its near-invariance is an observed property of this design, not a general theorem for the local approximation.
-- A uniform fitted-width bound `w_j(x) <= M` gives the sufficient shift `C >= M/2`. An observed calibration minimum alone does not guarantee nonnegativity for future inputs. Clarify the sign/magnitude of the shift and avoid an unqualified invariance assertion in Section 2.3.
+- A uniform fitted-width bound `w_j(x) <= M` gives the sufficient shift `C >= M/2`. An observed calibration minimum alone does not guarantee nonnegativity for future inputs. The latest author edit removes the unqualified shift-invariance assertion from Section 2.3; that wording objection is closed. The appendix retains the fixed-shift study with explicit qualifications.
 
 ### 8. Define or weaken the tightness/balance claim
 
-- Related point: R2.m2; `body.tex:227` and `body.tex:271`.
-- Equal first and second moments do not imply equal standardized tail shapes or equal marginal coverage. Define whether tightness means width, volume, oracle approximation, or coverage.
+- Related point: R2.m2; Sections 2.4 and 2.5.
+- The latest author edit replaces "uniformly tight" with "balanced coordinatewise coverage", clarifying the intended quantity. Equal first and second moments, however, do not imply equal standardized tail shapes or equal marginal coverage. The substantive justification remains incomplete.
 - Suggested wording: coordinate-adaptive intervals that reduce inefficiency due to heterogeneous residual location/scale. Stronger balance or asymptotic claims require their own conditions and proof.
 
 ### 9. Schematic figure labels: addressed
@@ -119,9 +120,11 @@ Total: **13 addressed, 5 partially addressed, 2 open**. The editor's overall com
 ## Verified Preservation and Integration
 
 - `main.tex`, `abstract.tex`, and `jmlr2e.sty` are unchanged from the supplied folder.
-- Sections 1--3, Discussion/Software/Acknowledgments, and the algorithm/proof portions of the supplement are unchanged as source text.
+- The author's subsequent edits to Sections 2--3 are preserved in `../reviewer_update/pre_publication_experiments/author_body.tex`. Discussion/Software/Acknowledgments and the algorithm/proof portions of the supplement remain unchanged from the supplied source. The validator distinguishes author edits from this editorial pass rather than reverting them to the initial snapshot.
+- The missing `fig:joint-prediction` label was restored with the author's permission. This is the only body-source change made during the publication edit; the current text is otherwise identical to the latest author snapshot.
 - All 95 original active labels, 10 original graphic inclusions, and seven original table labels are retained. Of the 26 original figure-directory files, 22 are unchanged; the two schematic PDFs and their two drawing sources are intentionally updated for R2.m1/R2.m3. Their pre-edit copies are preserved, and the source audit checks that only the annotation blocks were added.
 - All 19 new PDFs (15 earlier figures plus four real-data diagnostic figures) are copied without alteration. New supporting CSV files are in `experiment_data`, with the follow-up records in `experiment_data/real_diagnostics`.
 - Passive branch instrumentation passed 63 regression tests. A full replay verified all 1,200 split-index partitions, coordinate metrics, branch counts, and exact equality with the pre-instrumentation TSCP rectangles. No zero empirical-scale coordinate or fitting warning occurred in these reruns; this does not resolve general tie/degeneracy assumptions.
-- `integration_audit.json` records the structural checks. `reviewer_update/pre_integration_latex` outside this folder preserves the complete supplied folder for comparison.
+- `integration_audit.json` records structural checks; `publication_edit_audit.json` checks all 61 pre-edit experimental labels, 27 graphic inclusions, nine table inputs, the inline numerical table, and 114 figure/data file hashes against the pre-publication snapshot. `reviewer_update/pre_integration_latex` outside this folder preserves the complete supplied folder for comparison.
 - A separate compilation wrapper handles Unicode punctuation and appendix hyperlink destinations under Tectonic; it changes neither the manuscript's scientific text nor printed numbering.
+- September 4 verification: both preservation audits passed, as did the normal and source-only Tectonic builds. The manuscript has 70 pages, the response 12, and the cover one. All 136 labels and all citations resolve; no experiment-section overflow warnings remain. All pages were rendered for layout review.

@@ -1,0 +1,99 @@
+\documentclass[tikz]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,shapes.misc}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=0.85, every node/.style={font=\small}]
+  %----- Styles -----
+  \tikzset{
+    axis/.style={->, thick},
+    gwc/.style={dashed, very thick},
+    gridline/.style={gray!40},
+    rhfill/.style={fill=black!15, opacity=0.5},
+    rhborder/.style={black!50, thick},
+    lwcfill/.style={fill=black!30, opacity=0.55},
+    point/.style={circle, fill=black, inner sep=1.2pt},
+    legendbox/.style={draw=black!50, rounded corners=2pt, fill=white, line width=0.3pt},
+    rect/.style={black!100, very thick},
+  }
+
+  %----- Axes -----
+  \draw[axis] (0,0) -- (9,0) node[below right] {$E_1$};
+  \draw[axis] (0,0) -- (0,6.8) node[above left]  {$E_2$};
+
+  %----- Global GWC rectangle (W_1^gwc, W_2^gwc) -----
+  \def\Wone{6.6}
+  \def\Wtwo{4.7}
+  \draw[gwc] (0,0) rectangle (\Wone,\Wtwo);
+
+  %----- Partition grid (order statistics) -----
+  % vertical grid lines (order stats of E1)
+  \foreach \x/\lab in {1.6/$E^{(1)}_1$, 3/$E^{(2)}_1$, 4/$E^{(3)}_1$} {
+    \draw[gridline] (\x,0) -- (\x,6.3);
+    \node[gray!60] at (\x,-0.35) {\lab};
+  }
+  % horizontal grid lines (order stats of E2)
+  \foreach \y/\lab in {0.9/$E^{(1)}_2$, 1.8/$E^{(2)}_2$, 2.7/$E^{(3)}_2$} {
+    \draw[gridline] (0,\y) -- (8.2,\y);
+    \node[gray!60,rotate=90] at (-0.35,\y) {\lab};
+  }
+  \node[gray!60] at (0,-0.35) {$0$};
+
+  %----- (Optional) visually frame one R_h cell (border only) -----
+  \def\xL{4} \def\xR{5.5} \def\yB{1.8} \def\yT{2.7}
+  %----- A few example LWC subregions E^{lwc,h} (asymmetric slivers inside their R_h) -----
+  % Example 1 inside R_(3,3)
+  \fill[lwcfill] (\xL,\yB) -- (\xR-0.25,\yB) -- (\xR-0.25,\yT) -- (\xL,\yT) -- cycle;
+  \fill[lwcfill] (\xL,\yB-0.9) -- (\xR-0.5,\yB-0.9) -- (\xR-0.5,\yT-0.9) -- (\xL,\yT-0.9) -- cycle;
+  \fill[lwcfill] (\xL,0) -- (\xR-0.5,0) -- (\xR-0.5,\yT-1.8) -- (\xL,\yT-1.8) -- cycle;
+
+  % Example 2 inside R_(5,2): [4.8,6.0] x [0.9,1.8]
+  \def\xLtwo{0} \def\xRtwo{4} \def\yBtwo{0} \def\yTtwo{2.7}
+  \fill[lwcfill] (\xLtwo,\yBtwo) -- (\xRtwo,\yBtwo) -- (\xRtwo,\yTtwo) -- (\xLtwo,\yTtwo) -- cycle;
+
+  % Example 3 inside R_(2,5): [1.2,2.4] x [3.6,4.2]
+  \def\xLthr{0} \def\xRthr{1.6} \def\yBthr{2.7} \def\yTthr{3.2}
+  \fill[lwcfill] (\xLthr,\yBthr) rectangle (\xRthr,\yTthr+0.2);
+  \fill[lwcfill] (\xLthr+1.6,\yBthr) rectangle (\xRthr+1.2,\yTthr+0.2);
+  \fill[lwcfill] (\xLthr+3,\yBthr) rectangle (\xRthr+2.4,\yTthr+0.4);
+  \fill[lwcfill] (\xLthr+4,\yBthr) rectangle (\xRthr+3.4,\yTthr+0.4);
+
+\def\vone{5.25}
+  \def\vtwo{3.6}
+  \draw[rect] (0,0) rectangle (\vone,\vtwo);  
+
+% BEGIN SCHEMATIC ANNOTATION R2m3
+  \draw[blue, thick] (\vone,-0.12) -- (\vone,0.12);
+  \node[below=3pt, text=blue, font=\normalsize] at (\vone,-0.12) {$\mathcal{L}_1$};
+  \draw[blue, thick] (-0.12,\vtwo) -- (0.12,\vtwo);
+  \node[left=3pt, text=blue, font=\normalsize] at (-0.12,\vtwo) {$\mathcal{L}_2$};
+% END SCHEMATIC ANNOTATION R2m3
+
+  %----- Candidate test residual point E^{n+1} -----
+  %\fill[black] ($( \xL+0.55, \yB+0.55 )$) circle (1.2pt) node[above right] {$E^{n+1}$};
+
+  %----- (Optional) Enclosing rectangle for the shortcut (dash-dot); uncomment in shortcut section -----
+  %\draw[dash dot, ultra thick] (0,0) rectangle (5.6,4.0);
+  %\node[anchor=south west] at (0.15,4.0) {enclosing shortcut rectangle};
+
+  %----- Compact legend -----
+  \begin{scope}[shift={(10.0,4.0)}]
+    \node[legendbox, align=left, inner sep=4pt] (L) {
+      \begin{tikzpicture}[baseline=(current bounding box.center)]
+        \draw[gwc] (0,0) -- (0.8,0); \node[right] at (1.05,0) {$\hat{C}^{\mathrm{gwc}}(X^{n+1})$};
+        \fill[lwcfill] (0,-0.9) rectangle +(0.8,0.18); \node[right] at (1.05,-0.81) {$\hat{C}^{\mathrm{lwc}}(X^{n+1}, \mathcal{R})$};
+        \draw[rect] (0,-1.5) -- (0.8,-1.5); \node[right] at (1.05,-1.5) {$\hat{C}^\mathrm{lwc}(X^{n+1})$};
+      \end{tikzpicture}
+    };
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

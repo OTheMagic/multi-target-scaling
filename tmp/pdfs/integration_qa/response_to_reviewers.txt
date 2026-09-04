@@ -17,10 +17,11 @@ fallbacks. The original two-point energy illustration remains in the body.
 • Supplementary experiments. Dependence, heterogeneity, target-level, small-sample,
 heavy-tail, contamination, base-quantile, constant-shift, and shape-template analyses appear
 in Appendix C.
-• Preservation of earlier evidence. All historical Gaussian plots, distribution tables,
-oracle/local-union comparisons, dimension-scaling timings, heavy-tail plots, and the orig-
-inal real-data table are retained in Appendix D. Their original resampling protocol is
-distinguished from the new fresh-draw experiments.
+• Integration of earlier evidence. All original Gaussian plots, distribution tables,
+oracle/local-union comparisons, dimension-scaling timings, heavy-tail plots, and the original
+real-data table are incorporated by topic in Appendix C. Sampling protocols are speciﬁed
+in Appendix C.1; no experimental values or assets were changed during this narrative
+reorganization.
 • Scope and uncertainty . The experimental text separates observed coverage from the as-
 sumptions of the theorems, retains actual means below target, and reports pointwise Monte
 Carlo uncertainty without treating one repetition-level standard deviation as a conﬁdence
@@ -30,7 +31,7 @@ joint exchangeability, simultaneous versus marginal coverage, vector notation, t
 terized population oracle, and the link-function/local-hypothesis framework. These passages
 were reviewed but not edited during integration. At the author’s subsequent request, Figures
 1 and 2 now include the requested schematic coverage and residual-boundary labels.
-Reviewer audit: 13 addressed, 5 partially addressed, and 2 open. The separate unresolved_
+Reviewer audit: 13 addressed, 6 partially addressed, and 1 open. The separate unresolved_
 reviewer_concerns.md lists remaining actions and other source-level issues requiring author re-
 view.
 1
@@ -45,13 +46,15 @@ Reviewer was more positive about the methodology and empirical assessment but ex
 digesting elements of the manuscript, suggesting areas for presentational improvement. I would therefore like
 to invite a resubmission which addresses the two Reviewers’ feedback in full, together with a point-by-point
 response to the Reviewers’ reports.
-Response. We thank the Editor for the opportunity to revise. The integrated manuscript now
-includes the requested coordinate-length plots, CQHR and shape-template comparisons, partial
-heteroskedasticity, contamination stress tests, and main-text runtime evidence. Every previously
-included experiment is retained: older comparisons are organized in Appendix D, while the original
-two-point energy example remains in the body.
+Response. We thank the Editor for the opportunity to revise. The manuscript now includes the
+requested coordinate-length plots, CQHR and shape-template comparisons, partial heteroskedas-
+ticity, contamination stress tests, and main-text runtime evidence. Every previously included ex-
+periment is incorporated into the scientiﬁc narrative: supplementary comparisons are organized by
+topic in Appendix C, while the original two-point energy example remains in the body. Revision-
+history explanations are conﬁned to this response and the separate cover summary, rather than the
+experimental account.
 This letter distinguishes completed work from remaining actions. Of the twenty reviewer points,
-thirteen are addressed, ﬁve partly addressed, and two open. The previously missing real-data co-
+thirteen are addressed, six partly addressed, and one open. The previously missing real-data co-
 ordinate and search-branch diagnostics have now been measured in 200 new splits of each dataset,
 and the two requested schematic-label updates are complete. We do not claim that the revi-
 sion is submission-ready until the non-experimental corrections listed below and in unresolved_
@@ -84,15 +87,17 @@ the population-standardized and transductive procedures. In Section 3.1, the lin
 a scalar score threshold into coordinate-wise bounds; their monotonicity then permits replacing
 the unknown oracle threshold by an observable conservative bound. Section 3.4 motivates local
 working hypotheses and separates partitioning, local bounding, and rectangular enclosure.
-The enclosure sacriﬁces some geometric detail for interpretability and tractability. It is not an
-unrestricted minimum-volume solution. The original comparison with the unenclosed local union
-is retained in Appendix D.5, particularly Figure S14; these low-dimensional results are relevant evi-
+The enclosure sacriﬁces some geometric detail for interpretability and tractability. It is not an un-
+restricted minimum-volume solution. The original comparison with the unenclosed local union is
+retained in Appendix C.10, particularly Figure S13; these low-dimensional results are relevant evi-
 dence about enclosure tightness. The new coordinate-length plots instead describe informativeness
 of the ﬁnal rectangle and do not isolate enclosure loss.
-Author completion required. Section 3.4.1 currently infers conditional coverage given a working hypoth-
-esis from a marginal oracle guarantee. That does not follow from the stated containment alone. Correct
-this using the pointwise oracle-acceptance argument, and review the related large-sample tightness language.
-The exposition has improved, but this point cannot be marked fully resolved while that claim remains.
+Section 3.4.1 now states the pointwise implication: the local construction contains the outcome
+when both oracle acceptance and membership in the working region hold. This replaces the unsup-
+ported conditional-coverage inference.
+Author completion required. Complete the corresponding common-event argument for both branches
+of Theorem 9, and review the remaining balance/tightness language. The local implication is now explicit,
+but the ﬁnal piecewise proof still needs this justiﬁcation.
 R1.C2. Assumptions, inﬁnite-variance experiments, and negative
 residuals
 Partially addressed
@@ -108,14 +113,14 @@ updated Section 2.3 explicitly states nonnegativity, ﬁnite mean, ﬁnite posit
 sure pairwise distinctness in Assumption 1. The ﬁnal coverage theorem, Theorem 9, still invokes
 that assumption; no extension to arbitrary inﬁnite-variance or tied residuals has been established
 in this revision.
-The integrated heavy-tail experiment in Appendix C.5 identiﬁes t1.5 and t2 as outside that assump-
-tion, with t3 as the ﬁnite-variance comparison. Historical heavy-tail results remain in Appendix D.6,
-with their interpretation likewise qualiﬁed. At n = 30, TSCP’s mean normalized volumes are about
-1. 59 × 1020 for t1.5 and 5. 92 × 1013 for t3: near-nominal empirical coverage does not imply robust
-eﬃciency.
+The integrated heavy-tail experiment in Appendix C.6 identiﬁes t1.5 and t2 as outside that as-
+sumption, with t3 as the ﬁnite-variance comparison. Historical heavy-tail results remain in Ap-
+pendix C.6.2, with their interpretation likewise qualiﬁed. At n = 30 , TSCP’s mean normalized
 3
 
 PAGE 4
+volumes are about 1. 59 × 1020 for t1.5 and 5. 92 × 1013 for t3: near-nominal empirical coverage does
+not imply robust eﬃciency.
 Signed residuals are studied through capped CQR in the body and constant shifts in the supple-
 ment. The experimental text acknowledges that capping creates ties and does not satisfy pairwise
 distinctness verbatim.
@@ -145,7 +150,7 @@ to rf2 as an example where inﬂuential observations can substantially enlarge t
 appreciated, but it also suggests that the current standardization scheme may be brittle in some realistic
 settings. I would have liked either a stronger empirical stress test on contamination/outliers or a small
 robust variant, even if only heuristic.
-Response. We added the stronger stress test in Appendix C.6, shown in Figure S6. With d = 10,
+Response. We added the stronger stress test in Appendix C.7, shown in Figure S9. With d = 10,
 n = 100 , and 200 repetitions, each observation’s Gaussian noise vector is multiplied by 10 with
 probability ε ∈ { 0, 0. 01, 0. 05, 0. 10}. The same mixture generates training, calibration, and test
 observations. This tests exchangeable contamination, not adversarial calibration-only corruption
@@ -165,9 +170,9 @@ R1.Q1. F ormal assumptions versus inﬁnite-variance experiments Addressed
 Can the authors clarify more explicitly the gap between the formal assumptions used in the validity results
 and the heavy-tailed experiments where variance may be inﬁnite?
 Response. The integrated experiments make the distinction explicit. Assumption 1 imposes ﬁnite
-variance and is still invoked by Theorem 9. Thus t1.5 and t2 in Appendix C.5 are empirical stress
+variance and is still invoked by Theorem 9. Thus t1.5 and t2 in Appendix C.6 are empirical stress
 tests outside that theorem, not extensions of it. The same qualiﬁcation applies to the historical
-results in Appendix D.6.
+results in Appendix C.6.2.
 Although a generic exchangeability-based rank argument does not itself require population mo-
 ments, this alone does not remove assumptions from the full TSCP construction. No moment-
 relaxation theorem is inferred from the simulations.
@@ -189,7 +194,7 @@ The unobserved backward regime has no estimable conditional runtime at the main 
 entry is a dash, not zero. Zero events in 200 splits give a pointwise one-sided 95% upper bound
 of about 1. 49% on a dataset’s split-event probability; this is not a simultaneous guarantee or an
 analysis treating coordinates as independent.
-To exercise the exceptional branches, Appendix C.10 reuses the same residuals at α =
+To exercise the exceptional branches, Appendix C.12 reuses the same residuals at α =
 0. 3, 0. 5, 0. 7, 0. 9. On energy at α = 0 . 5, 3 splits use backward search, 140 fall back, and 57
 use only binary search. Mean whole-call times conditional on these regimes are 0. 295, 0. 121, and
 0. 268 ms. At α = 0 . 7 and 0. 9, backward search occurs in 10 of 200 energy splits. Each observed
@@ -211,7 +216,7 @@ compared with 0. 8973 and 3. 43× 104 for Unscaled Max. Their mean full lengths 
 and (33. 3, 33. 8, 29. 0) (Figure 7). The gain is width allocation, not shortening every interval.
 Across displayed sizes, TSCP coverage ranges from about 0. 899 to 0. 922. At n = 50, the mean 0. 8991
 has repetition-level SD 0. 0457 and is retained without adjustment. Base-width and shift sensitivities
-in Appendix C.7 make clear that the observed gains are design-dependent, not universal.
+in Appendix C.8 make clear that the observed gains are design-dependent, not universal.
 6
 
 PAGE 7
@@ -252,7 +257,7 @@ explicitly marked rather than truncated or excluded from the averages.
 On energy, TSCP’s mean full lengths are (2. 72, 9. 85) versus (7. 77, 7. 77) for Unscaled Max, with
 joint coverages 0. 923 and 0. 917. This is reallocation, not uniform shortening. On student, all
 TSCP length ratios exceed one, (1. 01, 1. 08, 1. 18), so the unfavorable comparison remains visible.
-Figure S10 and Table S4 report the matching coordinate-wise and joint coverages. For example,
+Figure S16 and Table S10 report the matching coordinate-wise and joint coverages. For example,
 TSCP’s stock marginals range from 0. 972 to 0. 999 while joint coverage is 0. 956. The supporting
 data contain all 40,800 split–method–coordinate records, across-split SDs, and pointwise Monte
 Carlo intervals. These quantify randomized-split variation conditional on each ﬁxed dataset, not
@@ -273,7 +278,7 @@ between local and global output rectangles is not used as a proxy. Zero observed
 impossibility: the pointwise one-sided 95% upper bound on a ﬁxed dataset’s split-event probability
 is approximately 1. 49%. This does not pool dependent coordinates or provide a simultaneous bound
 across datasets.
-The computational stress sweep in Appendix C.10 and Figure S11 shows that fallback is observable
+The computational stress sweep in Appendix C.12 and Figure S17 shows that fallback is observable
 at more extreme targets. At α = 0 . 9, the counts are 139, 185, 180, 186, 190, and 200 out of 200,
 respectively, in the dataset order above. This supports the restricted empirical observation at the
 main target, not a universal claim that the condition always holds. Fallback remains distinct from
@@ -291,20 +296,20 @@ is 0. 8936 (SD 0. 0318) and mean volume 1. 29 × 108 (SD 3. 79 × 108), versus c
 0. 0374) and volume 2. 91 × 104 for TSCP.
 Small empirical coverage diﬀerences are not treated as violations of a theoretical guarantee. The
 highly variable CQHR volumes are speciﬁc to the ﬁtted models and width ratios, not evidence
-of universal inferiority. The coordinate plot and base-miscoverage sweep in Figure S7 provide
+of universal inferiority. The coordinate plot and base-miscoverage sweep in Figure S10 provide
 additional context.
 R2.M5. Missing convex shape-template baseline and related work Partially addressed
 The numerical studies and lit review also fail to compare TSCP with any of the approaches from Multi-Modal
 Conformal Prediction Regions with Simple Structures by Optimizing Convex Shape Templates (Tumu et al.
 2024), which can be used to form convex (including hyper-rectangular) prediction regions.
-Response. The requested family is now compared in Appendix C.8 and Figure S9. The im-
-plementation uses public conformal-region-designer components: KDE with 20 grid locations per
-dimension, mean-shift clustering, and rectangular templates. Calibration residuals are split equally
+Response. The requested family is now compared in Appendix C.9 and Figure S12. The
+implementation uses public conformal-region-designer components: KDE with 20 grid locations
+per dimension, mean-shift clustering, and rectangular templates. Calibration residuals are split
 8
 
 PAGE 9
-between template learning and conformalization. Score-consistent inﬂation and a 0. 05 aspect-ratio
-ﬂoor are disclosed; this is not an undisclosed unmodiﬁed-package comparison.
+equally between template learning and conformalization. Score-consistent inﬂation and a 0. 05
+aspect-ratio ﬂoor are disclosed; this is not an undisclosed unmodiﬁed-package comparison.
 The two-dimensional Gaussian setting uses scales (2, 1), calibration sizes 30, 50, 100, 200, and 100
 repetitions. At n = 100, template coverage is about 0. 904, normalized volume 10. 07, and construc-
 tion time 98. 7 ms, compared with 0. 906, 8. 04, and 0. 80 ms for TSCP. Restriction to low dimension
@@ -353,7 +358,7 @@ example from the old Section 2.5 has been removed in the supplied general set-va
 9
 
 PAGE 10
-Shifted-score experiment. Appendix C.7 and Figure S8 use Sj + C, apply TSCP, and subtract
+Shifted-score experiment. Appendix C.8 and Figure S11 use Sj +C, apply TSCP, and subtract
 C from its coordinate adjustment. With C = 100 , 300, 1000, d = 3 , n = 100 , and 30 repetitions,
 coverage is approximately 0. 9077 and mean volume 2. 95 × 104. Within each trial and tested
 constant, recorded coordinate lengths equal shifted TSCP-GWC’s. Across constants, the largest
@@ -364,11 +369,11 @@ wj(x) ≤ M permits C ≥ M/ 2. It must be valid on the relevant input domain an
 calibration/test responses, for example justiﬁed from the trained model and a domain bound. An
 observed calibration minimum alone is insuﬃcient for future inputs. The ﬁxed-constant sweep is
 not a validated general selector.
-Author completion required. Section 2.3 still describes the shift as preserving the resulting prediction
-sets without qualifying the practical local approximation. Its tie-breaking discussion also does not resolve
-the saved implementation’s coordinate ties and zero-scale cases. Reconcile these claims with the actual
-construction before treating this point as fully addressed. The experimental discussion already states the
-limitations.
+Section 2.3 now describes truncation at zero and no longer makes the unqualiﬁed ﬁxed-shift invari-
+ance claim. The ﬁxed-shift experiment and its qualiﬁed interpretation remain in the appendix.
+Author completion required. The tie-breaking discussion still does not resolve the saved implementation’s
+coordinate ties and zero-scale cases. Reconcile the exact convention with the standing assumption before
+treating this point as fully addressed. The experimental discussion already states the limitations.
 Minor Comments
 R2.m1. Marginal coverage labels in Figure 1 Addressed
 In Figure 1 it would be a nice addition to include the marginal coverage rates for the rightmost image. Making
@@ -382,7 +387,7 @@ The ﬁgure now states that its coverage percentages are illustrative; they are 
 the experiments or claims that the method equalizes marginal coverage. The new labels and this
 clariﬁcation are blue to identify the revision. Both the editable TikZ source and the PDF used by
 the manuscript have been updated.
-R2.m2. Meaning of “uniformly tight” in the population oracle Open
+R2.m2. Meaning of “uniformly tight” in the population oracle Partially addressed
 In section 2.5 when discussing the oracle prediction set your second claim is: “it tends to be uniformly tight
 across all output dimensions, because it operates with residuals whose components are all on the same scale” .
 Does tight here refer to the marginal coverage, or something else? If it is the coverage, would the error
@@ -392,14 +397,16 @@ tail shapes. The intended beneﬁt is coordinate-adaptive width, not a distribut
 or minimum-volume guarantee. Identical standardized marginal distributions give identical cover-
 age at a ﬁxed common cutoﬀ; a random data-dependent cutoﬀ needs additional symmetry or an
 appropriate asymptotic argument.
-Section 2.5 still uses uniformly tight with the same rationale, and related language remains in
-Section 2.4.
 10
 
 PAGE 11
-Author completion required. Deﬁne or replace the term: specify whether it means width, volume,
-oracle approximation, or marginal coverage. Retain a balance claim only with the requisite assumptions and
-justiﬁcation. The new bar plots illustrate width allocation, not equal marginal coverage.
+Sections 2.4 and 2.5 now replace uniformly tight with balanced coordinatewise coverage, making
+the intended interpretation more explicit. The same-scale rationale, however, does not by itself
+establish that stronger coverage-balance claim.
+Author completion required. Qualify balanced coordinatewise coverage as a motivation or state the
+requisite distributional assumptions and justiﬁcation. A narrower statement about reducing ineﬃciency
+from heterogeneous residual location and scale is supported without claiming equal marginal coverage. The
+bar plots illustrate width allocation, not a coverage-balance theorem.
 R2.m3. Labeling the boundaries in Figure 2 Addressed
 In section 3.4.4, after you introduce Lj, you discuss what L1 and L2 are with respect to Figure 2. Adding
 L1 and L2 to the margins (or with a dashed line across the plot) would be a helpful visualization.
@@ -417,8 +424,8 @@ that computational cost comparisons can be found in the appendix, or (better) in
 main text.
 Response. We followed the suggestion to place runtime evidence in the body. Figure 3 includes
 construction time, and Figure 8 compares all six real datasets in milliseconds on a logarithmic axis.
-Additional timings are in Appendix C.2 and Appendix C.8.
-The old approximation and dimension-scaling runtime studies are retained in Appendix D.5; no
+Additional timings are in Appendix C.3 and Appendix C.9.
+The old approximation and dimension-scaling runtime studies are retained in Appendix C.10; no
 prior runtime ﬁgure was deleted. Captions specify that common model ﬁtting and residual com-
 putation are excluded. The text neither claims that TSCP beats every simpler baseline nor that
 empirical timings improve its worst-case complexity.
@@ -435,13 +442,13 @@ too small for a ﬁnite 0. 9 conformal quantile.
 With m ﬁnal-stage observations, the rank is ⌈(1 − α)(m + 1)⌉; if it exceeds m, the augmented +∞
 is selected. At α = 0. 1, a ﬁnite rank needs at least m = 9. A practitioner would allocate more data
 to that stage, at a cost elsewhere.
-Appendix C.4 and Figure S4 separately report the fraction of inﬁnite regions: Point CHR is in-
-ﬁnite throughout the displayed n = 10 experiment and ﬁnite throughout the displayed n ≥ 20
-experiments. This remains a common-allocation comparison, not a separately retuned Point CHR
-benchmark. Both the original real-data table and its new presentation are retained.
 11
 
 PAGE 12
+Appendix C.5 and Figure S6 separately report the fraction of inﬁnite regions: Point CHR is in-
+ﬁnite throughout the displayed n = 10 experiment and ﬁnite throughout the displayed n ≥ 20
+experiments. This remains a common-allocation comparison, not a separately retuned Point CHR
+benchmark. Both the original real-data table and its new presentation are retained.
 R2.m6. V ector and scalar notation Partially addressed
 Readability would be improved if vectors were bolded while scalars were not.
 Response. The supplied revision substantially improves vector/scalar typography in the setup,

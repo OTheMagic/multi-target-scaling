@@ -49,7 +49,15 @@ before_supp = read(BEFORE / "supplementary.tex")
 current_supp = read(CURRENT / "supplementary.tex")
 start = r"\section{Numerical Experiments}"
 end = r"\section{Discussion and Future Work}"
-assert before_body.split(start)[0] == current_body.split(r"\input{experiments_body}")[0]
+author_snapshot = ROOT / "reviewer_update/pre_publication_experiments/author_body.tex"
+author_body = read(author_snapshot)
+figure_label = "    " + r"\label{fig:joint-prediction}" + "\n"
+# The author revised Sections 2--3 after integration. Preserve that newer text;
+# the missing Figure 1 label is the only permitted technical restoration.
+assert current_body in (author_body, author_body.replace(
+    "doing so involves technical challenges.}\n",
+    "doing so involves technical challenges.}\n" + figure_label,
+)), "Body differs from the reviewed author snapshot beyond the Figure 1 label"
 assert before_body[before_body.index(end):] == current_body[current_body.index(end):]
 assert before_supp.split(r"\section{Additional Numerical Results}")[0] == current_supp.split(
     r"\input{experiments_appendix}"
@@ -129,14 +137,19 @@ response = read(CURRENT / "response_to_reviewers.tex")
 points = re.findall(r"\\point\{([^}]+)\}\{([^}]+)\}", response)
 assert len(points) == 22, points
 statuses = Counter(status for heading, status in points if heading.startswith("R"))
-assert statuses == {"Addressed": 13, "Partially addressed": 5, "Open": 2}, statuses
+assert statuses == {"Addressed": 13, "Partially addressed": 6, "Open": 1}, statuses
 response_refs = set(re.findall(r"\\(?:mssec|msapp|msfig|mstab)\{([^}]+)\}", response))
 response_refs.update(re.findall(r"\\ref\*?\{M-([^}]+)\}", response))
 response_refs.discard("#1")
 assert response_refs <= set(labels), response_refs - set(labels)
 
 report = {
-    "protected_nonexperimental_sections_unchanged": True,
+    "nonexperimental_prose_preserved_from_latest_author_snapshot": True,
+    "latest_author_snapshot": str(author_snapshot.relative_to(ROOT)),
+    "latest_author_snapshot_sha256": digest(author_snapshot),
+    "author_nonexperimental_revisions_since_integration": True,
+    "figure_1_label_restored": figure_label in current_body and figure_label not in author_body,
+    "discussion_and_supplement_algorithms_proofs_unchanged": True,
     "protected_main_abstract_style_unchanged": True,
     "original_labels_preserved": len(original_labels),
     "total_unique_labels": len(label_counts),

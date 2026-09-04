@@ -1,8 +1,13 @@
 {
-  "protected_nonexperimental_sections_unchanged": true,
+  "nonexperimental_prose_preserved_from_latest_author_snapshot": true,
+  "latest_author_snapshot": "reviewer_update\\pre_publication_experiments\\author_body.tex",
+  "latest_author_snapshot_sha256": "2c9d9f9bbd7846b6c04e72954ec9a39cc9be33a2fe0a98224cc551edb47a014e",
+  "author_nonexperimental_revisions_since_integration": true,
+  "figure_1_label_restored": true,
+  "discussion_and_supplement_algorithms_proofs_unchanged": true,
   "protected_main_abstract_style_unchanged": true,
   "original_labels_preserved": 95,
-  "total_unique_labels": 135,
+  "total_unique_labels": 136,
   "original_graphic_inclusions_preserved": 10,
   "new_figures_copied_unchanged": 19,
   "original_figure_files_unchanged": 22,
@@ -29,9 +34,9 @@
   "unresolved_citations": [],
   "response_blocks": 22,
   "reviewer_point_statuses": {
-    "Partially addressed": 5,
+    "Partially addressed": 6,
     "Addressed": 13,
-    "Open": 2
+    "Open": 1
   },
   "unresolved_response_manuscript_references": [],
   "scope": "Static integration audit; compilation and visual QA are checked separately."

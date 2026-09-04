@@ -1,0 +1,35 @@
+{
+  "dataset": "stock",
+  "rows": 315,
+  "features": 6,
+  "outputs": 6,
+  "target_names": [
+    "Annual Return",
+    "Excess Return",
+    "Systematic Risk",
+    "Total Risk",
+    "Abs. Win Rate",
+    "Rel. Win Rate"
+  ],
+  "feature_hash": "f5f7426c036610b85391b02e64424fd707b8714710b31b6850720c57d27b77b3",
+  "target_hash": "5a550a21b92ce12406d6b7d4e4e7e1f0e64b7af8404d4bafb2dcd794f5b7d16b",
+  "model_params": {
+    "alpha": 0.0001,
+    "copy_X": true,
+    "fit_intercept": true,
+    "max_iter": 1000,
+    "random_state": null,
+    "selection": "cyclic",
+    "tol": 0.0001,
+    "warm_start": false
+  },
+  "package_versions": {
+    "numpy": "2.5.2",
+    "pandas": "2.3.3",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.0",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.1",
+    "ucimlrepo": "0.0.7"
+  }
+}

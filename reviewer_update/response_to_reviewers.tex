@@ -51,11 +51,12 @@ The original two-point energy illustration remains in the body.
 \item \textbf{Supplementary experiments.} Dependence, heterogeneity, target-level,
 small-sample, heavy-tail, contamination, base-quantile, constant-shift, and
 shape-template analyses appear in \msapp{app:additional-experiments}.
-\item \textbf{Preservation of earlier evidence.} All historical Gaussian plots,
+\item \textbf{Integration of earlier evidence.} All original Gaussian plots,
 distribution tables, oracle/local-union comparisons, dimension-scaling timings,
-heavy-tail plots, and the original real-data table are retained in
-\msapp{app:legacy-experiments}. Their original resampling protocol is
-distinguished from the new fresh-draw experiments.
+heavy-tail plots, and the original real-data table are incorporated by topic in
+\msapp{app:additional-experiments}. Sampling protocols are specified in
+\msapp{app:experimental-protocols}; no experimental values or assets were
+changed during this narrative reorganization.
 \item \textbf{Scope and uncertainty.} The experimental text separates observed
 coverage from the assumptions of the theorems, retains actual means below
 target, and reports pointwise Monte Carlo uncertainty without treating one
@@ -67,7 +68,7 @@ link-function/local-hypothesis framework. These passages were reviewed but
 not edited during integration. At the author's subsequent request, Figures 1
 and 2 now include the requested schematic coverage and residual-boundary labels.
 \end{itemize}
-\textbf{Reviewer audit:} 13 addressed, 5 partially addressed, and 2 open.
+\textbf{Reviewer audit:} 13 addressed, 6 partially addressed, and 1 open.
 The separate \path{unresolved_reviewer_concerns.md} lists remaining
 actions and other source-level issues requiring author review.
 
@@ -85,9 +86,9 @@ improvement. I would therefore like to invite a resubmission which
 addresses the two Reviewers' feedback in full, together with a
 point-by-point response to the Reviewers' reports.}
 \label{response:E1}
-We thank the Editor for the opportunity to revise. The integrated manuscript now includes the requested coordinate-length plots, CQHR and shape-template comparisons, partial heteroskedasticity, contamination stress tests, and main-text runtime evidence. Every previously included experiment is retained: older comparisons are organized in \msapp{app:legacy-experiments}, while the original two-point energy example remains in the body.
+We thank the Editor for the opportunity to revise. The manuscript now includes the requested coordinate-length plots, CQHR and shape-template comparisons, partial heteroskedasticity, contamination stress tests, and main-text runtime evidence. Every previously included experiment is incorporated into the scientific narrative: supplementary comparisons are organized by topic in \msapp{app:additional-experiments}, while the original two-point energy example remains in the body. Revision-history explanations are confined to this response and the separate cover summary, rather than the experimental account.
 
-This letter distinguishes completed work from remaining actions. Of the twenty reviewer points, thirteen are addressed, five partly addressed, and two open. The previously missing real-data coordinate and search-branch diagnostics have now been measured in 200 new splits of each dataset, and the two requested schematic-label updates are complete. We do not claim that the revision is submission-ready until the non-experimental corrections listed below and in \path{unresolved_reviewer_concerns.md} have been considered.
+This letter distinguishes completed work from remaining actions. Of the twenty reviewer points, thirteen are addressed, six partly addressed, and one open. The previously missing real-data coordinate and search-branch diagnostics have now been measured in 200 new splits of each dataset, and the two requested schematic-label updates are complete. We do not claim that the revision is submission-ready until the non-experimental corrections listed below and in \path{unresolved_reviewer_concerns.md} have been considered.
 
 \point{E2. Highlighting modified manuscript sections}{Partially addressed}{For the convenience of the Reviewers, I kindly request that modified
 sections of the manuscript are indicated using a different colour font.}
@@ -111,7 +112,9 @@ We appreciate the request for a clearer conceptual progression. The supplied rev
 
 The enclosure sacrifices some geometric detail for interpretability and tractability. It is not an unrestricted minimum-volume solution. The original comparison with the unenclosed local union is retained in \msapp{app:ours_simulation}, particularly \msfig{fig:approximation1}; these low-dimensional results are relevant evidence about enclosure tightness. The new coordinate-length plots instead describe informativeness of the final rectangle and do not isolate enclosure loss.
 
-\action{Section 3.4.1 currently infers conditional coverage given a working hypothesis from a marginal oracle guarantee. That does not follow from the stated containment alone. Correct this using the pointwise oracle-acceptance argument, and review the related large-sample tightness language. The exposition has improved, but this point cannot be marked fully resolved while that claim remains.}
+Section 3.4.1 now states the pointwise implication: the local construction contains the outcome when both oracle acceptance and membership in the working region hold. This replaces the unsupported conditional-coverage inference.
+
+\action{Complete the corresponding common-event argument for both branches of Theorem~\ref*{M-thm:TSCP-coverage}, and review the remaining balance/tightness language. The local implication is now explicit, but the final piecewise proof still needs this justification.}
 
 \point{R1.C2. Assumptions, infinite-variance experiments, and negative residuals}{Partially addressed}{More discussion of the assumptions and how they relate to the experiments
 are needed. The theory assumes nonnegative residuals with finite first
@@ -300,7 +303,9 @@ Capping avoids treating an observation deep inside the base interval as a large 
 \paragraph{Selecting a shift.}
 For ordered base widths $w_j(x)$, $S_j(x,\boldsymbol y)\geq-w_j(x)/2$. A known uniform bound $w_j(x)\leq M$ permits $C\geq M/2$. It must be valid on the relevant input domain and independent of calibration/test responses, for example justified from the trained model and a domain bound. An observed calibration minimum alone is insufficient for future inputs. The fixed-constant sweep is not a validated general selector.
 
-\action{Section 2.3 still describes the shift as preserving the resulting prediction sets without qualifying the practical local approximation. Its tie-breaking discussion also does not resolve the saved implementation's coordinate ties and zero-scale cases. Reconcile these claims with the actual construction before treating this point as fully addressed. The experimental discussion already states the limitations.}
+Section 2.3 now describes truncation at zero and no longer makes the unqualified fixed-shift invariance claim. The fixed-shift experiment and its qualified interpretation remain in the appendix.
+
+\action{The tie-breaking discussion still does not resolve the saved implementation's coordinate ties and zero-scale cases. Reconcile the exact convention with the standing assumption before treating this point as fully addressed. The experimental discussion already states the limitations.}
 
 \Needspace{11\baselineskip}
 \subsection*{Minor Comments}
@@ -314,7 +319,7 @@ We added distinct marginal coverage labels to the rightmost panel of \msfig{fig:
 
 The figure now states that its coverage percentages are illustrative; they are not estimates from the experiments or claims that the method equalizes marginal coverage. The new labels and this clarification are blue to identify the revision. Both the editable TikZ source and the PDF used by the manuscript have been updated.
 
-\point{R2.m2. Meaning of ``uniformly tight'' in the population oracle}{Open}{In section 2.5 when discussing the oracle prediction set your
+\point{R2.m2. Meaning of ``uniformly tight'' in the population oracle}{Partially addressed}{In section 2.5 when discussing the oracle prediction set your
 second claim is: ``it tends to be uniformly tight across all
 output dimensions, because it operates with residuals whose
 components are all on the same scale''. Does tight here refer
@@ -324,9 +329,9 @@ same for this to be true?}
 \label{response:R2.m2}
 Matching means and variances does not imply equal marginal coverage or equal tail shapes. The intended benefit is coordinate-adaptive width, not a distribution-free balance or minimum-volume guarantee. Identical standardized marginal distributions give identical coverage at a fixed common cutoff; a random data-dependent cutoff needs additional symmetry or an appropriate asymptotic argument.
 
-Section 2.5 still uses \emph{uniformly tight} with the same rationale, and related language remains in Section 2.4.
+Sections 2.4 and 2.5 now replace \emph{uniformly tight} with \emph{balanced coordinatewise coverage}, making the intended interpretation more explicit. The same-scale rationale, however, does not by itself establish that stronger coverage-balance claim.
 
-\action{Define or replace the term: specify whether it means width, volume, oracle approximation, or marginal coverage. Retain a balance claim only with the requisite assumptions and justification. The new bar plots illustrate width allocation, not equal marginal coverage.}
+\action{Qualify balanced coordinatewise coverage as a motivation or state the requisite distributional assumptions and justification. A narrower statement about reducing inefficiency from heterogeneous residual location and scale is supported without claiming equal marginal coverage. The bar plots illustrate width allocation, not a coverage-balance theorem.}
 
 \point{R2.m3. Labeling the boundaries in Figure 2}{Addressed}{In section 3.4.4, after you introduce $L_j$, you discuss what
 $L_1$ and $L_2$ are with respect to Figure 2. Adding $L_1$ and
