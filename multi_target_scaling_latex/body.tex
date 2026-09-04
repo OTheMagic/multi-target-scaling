@@ -22,7 +22,6 @@ By contrast, we aim to achieve valid coverage with joint prediction intervals th
 Left: univariate approaches can produce marginal prediction intervals for each output separately, which do not guarantee joint coverage. 
 Center: a Bonferroni correction can easily restore valid joint coverage, at the cost of being overly conservative. 
 Right: our goal is to efficiently construct hyper-rectangular prediction sets that are easy to interpret and retain valid coverage; doing so involves technical challenges.}
-    \label{fig:joint-prediction}
 \end{figure}
 
 A second class of existing methods reduce multivariate residuals to scalar-valued non-conformity scores, for example by applying an $\ell_2$ or $\ell_\infty$ norm, then apply a univariate conformal prediction method to these scalar scores, and finally map the resulting prediction interval back into the original output space by inverting the dimension-reduction transformation; e.g., see Algorithm~\ref{alg:unscaled} in Appendix~\ref{app:algorithms}. While computationally efficient and in principle able to produce hyper-rectangular prediction sets (e.g., using the $\ell_\infty$-norm), these approaches are dominated by the noisiest dimension, often leading to prediction sets that are unnecessarily wide along low-uncertainty directions.
@@ -73,7 +72,7 @@ $\{v_1,\ldots,v_m,+\infty\}$.
 
 \subsection{Setup and Data Assumptions}
 
-{\color{blue}We consider a multi-output (multivariate) regression setting where the
+{\color{blue} We consider a multi-output (multivariate) regression setting where the
 goal is to predict a vector
 $\mathbf{Y}=(Y_1,\ldots,Y_d)$ of $d$ real-valued outputs given input
 features $\mathbf{X}\in\mathcal{X}$.
@@ -84,7 +83,6 @@ calibration data $\mathcal D_{\mathrm{cal}}=\{(\mathbf{X}^i,\mathbf{Y}^i)\}_{i=1
 and the test covariate $\mathbf{X}^{n+1}$, while the corresponding outcome
 $\mathbf{Y}^{n+1}$ remains unobserved.
 Using all of the observed data, the task is to construct a reasonably tight prediction set $\hat{C}(\mathbf{X}^{n+1}) \subset \mathbb{R}^d$ that contains the unknown output $\mathbf{Y}^{n+1}$ with high probability, guaranteeing \emph{marginal coverage}:
-}
 
 \begin{equation}
 \mathbb{P}\!\left[ \mathbf{Y}^{n+1} \in \hat{C}(\mathbf{X}^{n+1}) \right] \ge 1 - \alpha,
@@ -92,7 +90,7 @@ Using all of the observed data, the task is to construct a reasonably tight pred
 \end{equation}
 where $\alpha \in (0,1)$ is the user-specified miscoverage level.  
 Note that both $\mathbf{Y}^{n+1}$ and $\hat{C}(\mathbf{X}^{n+1})$ are random in~\eqref{eq:joint-coverage}, as they depend on the new test point as well as on the calibration data $\mathcal{D}_{\mathrm{cal}}$.  
-The term "marginal coverage" reflects that the guarantee in~\eqref{eq:joint-coverage} holds on average over the joint randomness of both calibration sample and the test point. Stronger notion of coverage, such as conditional coverage on which the probability in~\eqref{eq:joint-coverage} is conditioned on some fixed values or ranges of the test point, are generally unattainable in finite samples without much more restrictive assumptions \citep{foygel2021limits}. There are some techniques to approximate the conditional coverage \citep{Romano2020With,gibbs2025conformal} that may be possible to combine with our approach and could be an interesting direction for future work, but it is beyond the scope of this paper.
+The term "marginal coverage" reflects that the guarantee in~\eqref{eq:joint-coverage} holds on average over the joint randomness of both calibration sample and the test point. Stronger notion of coverage, such as conditional coverage on which the probability in~\eqref{eq:joint-coverage} is conditioned on some fixed values or ranges of the test point, are generally unattainable in finite samples without much more restrictive assumptions \citep{foygel2021limits}. There are some techniques to approximate the conditional coverage \citep{Romano2020With,gibbs2025conformal} that may be possible to combine with our approach and could be an interesting direction for future work, but it is beyond the scope of this paper.}
 
 For interpretability, we aim to enforce the prediction sets to be \emph{hyper-rectangular}, or Cartesian product of univariate prediction  intervals:
 \begin{equation} \label{eq:rectangle}
@@ -115,7 +113,6 @@ requirement stated in~\eqref{eq:joint-coverage} is equivalent to
 \]
 Thus, although the coverage guarantee is marginal over the calibration and test
 data, it is simultaneous across all $d$ output coordinates.
-}
 
 
 \subsection{Coordinate-Wise Generalized Residuals} \label{sec:residuals}
@@ -146,7 +143,7 @@ $i\in[n]$. We reserve
 $\mathbf{E}^{n+1}=\mathbf E(\mathbf X^{n+1},\mathbf Y^{n+1})$ for the
 unobserved residual vector of the test point.
 
-For the types of residuals with possibly negative coordinates, such as the quantile-based residuals reviewed above, there are at least two simple ways to adapt them to this assumption. If the residuals are bounded below by a fixed constant almost surely, non-negativity can be enforced by adding such constant to all calibration and test residuals---a transformation that can then be easily inverted to keep the resulting prediction sets invariant. If no such bound exists, negative residuals can instead be truncated at zero, at the cost of potentially more conservative conformal prediction sets \citep{romano2019conformalized}.
+Throughout this paper, we would like to assume that the residuals are non-negative. For the types of residuals with possibly negative coordinates, such as the quantile-based residuals reviewed above, we can always make them positive by truncating at zero, with the cost of potentially more conservative conformal prediction sets \citep{romano2019conformalized}.
 
 We also impose two additional regularity conditions. First, each residual
 coordinate is assumed to have finite mean and finite, strictly positive
@@ -174,9 +171,8 @@ E_j^i\neq E_j^k
 \text{ for all }1\leq i<k\leq n+1
 \right)=1.
 \]
-
 \end{assumption}
-
+}
 
 
 \subsection{Conformal Calibration with Marginal Coverage}\label{sec:calibration}
@@ -205,7 +201,7 @@ Then, the prediction set is constructed as:
     \label{eq:joint-prediction-scalar}
 \end{equation}
 If $\Phi$ is, in addition, an invertible map, then we can recover the form of~\eqref{eq:joint-prediction} from~\eqref{eq:joint-prediction-scalar} by setting $W_j = \Phi^{-1}_j\left(\hat{Q}_{1-\alpha}(S^1,\ldots,S^n)\right)$. We focus on the case where $\Phi$ is invertible in this paper, but the coverage guarantee is generally valid for other type of $\Phi$ as demonstrated in the following theorem.
-}
+
 \begin{theorem}[Generalized Marginal Coverage] \label{thm:fixed-transformation-coverage}
 Assume $(\mathbf{E}^1,\ldots,\mathbf{E}^{n+1})$ are exchangeable, with $\mathbf{E}^i = \mathbf E(\mathbf X^i, \mathbf Y^i)$ for all $i \in [n+1]$.
 Let $\Phi:\R^d_+ \to \R$ be any \emph{fixed} function, independent of the data.
@@ -219,12 +215,12 @@ distinct, Theorem~\ref{thm:fixed-transformation-coverage} guarantees the predict
 A limitation of Theorem~\ref{thm:fixed-transformation-coverage}, however, is that it cannot tell us whether the coverage is equally tight across different outcome dimensions.
 In fact, depending on the data distribution, the fitted model, and the choice of $\Phi$, it could happen that $\hat{C}(\mathbf{X}^{n+1})$ achieves the desired marginal coverage while being much wider than necessary along certain directions, thereby providing uncertainty estimates that are potentially much less informative than ideal.
 Moreover, depending on $\Phi$, the prediction set $\hat{C}(\mathbf{X}^{n+1})$ may have a difficult-to-interpret shape.
-
+}
 {\color{brown}Several recent works propose residual transformations based on $\ell_p$-norms, i.e., $\Phi(\cdot) = \|\cdot\|_p$ for different $1\leq p \leq \infty$ \citep{johnstone2022exact}. Although conceptually and computationally simple, these can be heavily affected by the noisiest output dimension. A single high-variance dimension may dominate the scalar score and inflate the resulting prediction set uniformly across all coordinates. 
 To obtain tighter prediction sets, recent works have proposed learning a suitable transformation of the residuals prior to applying a norm-based dimension reduction, for example by using optimal transport \citep{thurin2025otcp, klein2025multivariate}.
 However, these approaches require additional training data as well as expensive computations, and they typically lead to prediction sets with irregular shapes.}
 
-In this paper, we propose a conceptually simpler solution that consists of {\em standardizing} the residuals prior to reducing their dimension by taking the maximum across coordinates, similar to the $\ell_\infty$ norm. This leads to rectangular prediction sets that are uniformly tight across all output dimensions, without requiring additional training data or expensive computations.
+In this paper, we propose a conceptually simpler solution that consists of {\em standardizing} the residuals prior to reducing their dimension by taking the maximum across coordinates, similar to the $\ell_\infty$ norm. This leads to rectangular prediction sets with balanced coordinatewise coverage across all output dimensions, without requiring additional training data or expensive computations.
 Despite the apparent simplicity of this idea, however, achieving all desiderata while maintaining guaranteed finite-sample coverage involves significant technical challenges, which we overcome as gradually explained below.
 
 
@@ -235,6 +231,7 @@ To motivate our method, we first consider an oracle construction that has access
 Although unavailable in practice, this
 construction illustrates how coordinate-wise standardization can mitigate heterogeneity in residual scales while preserving validity and rectangular interpretability.
 
+{\color{blue}
 Consider prediction sets of the form in~\eqref{eq:joint-prediction-scalar}, obtained by transforming the vector-valued residuals $\mathbf{E}^i$'s using $\Phi : \mathbb{R}^{d}_+ \to \mathbb{R}$:
 \begin{equation}
 \Phi(\mathbf t; \boldsymbol \beta, \boldsymbol \theta)
@@ -242,7 +239,6 @@ Consider prediction sets of the form in~\eqref{eq:joint-prediction-scalar}, obta
 \label{eq:residual-transformation}
 \end{equation}
 where $\boldsymbol \beta = (\beta_1, \ldots, \beta_d)^\top$ and $\boldsymbol \theta = (\theta_1, \ldots, \theta_d)^\top$ are vectors of location and scale parameters, respectively. 
-{\color{blue}
 This transformation is invertible, with coordinate-wise inverse $\Phi^{-1}_j (c; \boldsymbol \beta, \boldsymbol \theta) = c \cdot \theta_j + \beta_j$ for any $c \in \mathbb{R}$. 
 Given these two parameters,  we define the $1-\alpha$ level prediction set of $\mathbf{X}^{n+1}$ by
 \begin{equation}\label{eq:set-valued-map}
@@ -268,7 +264,7 @@ To address the possible heterogeneity in scale and variability across different 
 Then by replacing $(\boldsymbol \beta, \boldsymbol \theta)$ in~\eqref{eq:set-valued-map} with the population parameters $(\boldsymbol\mu^*, \boldsymbol\sigma^*)$, we obtain a population-standardized oracle prediction set $C(\mathbf{X}^{n+1}; \boldsymbol\mu^*, \boldsymbol\sigma^*)$. 
 }
 
-Although practically unfeasible, this oracle prediction set $C(\mathbf{X}^{n+1}; \boldsymbol\mu^*, \boldsymbol\sigma^*)$ satisfies all four of our desiderata: (i) it guarantees finite-sample marginal coverage, as per Theorem~\ref{thm:fixed-transformation-coverage}; (ii) it tends to be uniformly tight across all output dimensions, because it operates with residuals whose components are all on the same scale; (iii) it is fast to compute, at least for standard choices of the residual function $\mathbf E$; (iv) it is an easy-to-interpret hyper-rectangle, at least for standard choices of $\mathbf E$.
+Although practically unfeasible, this oracle prediction set $C(\mathbf{X}^{n+1}; \boldsymbol\mu^*, \boldsymbol\sigma^*)$ satisfies all four of our desiderata: (i) it guarantees finite-sample marginal coverage, as per Theorem~\ref{thm:fixed-transformation-coverage}; (ii) it tends to have balanced coordinatewise coverage across all output dimensions, because it operates with residuals whose components are all on the same scale; (iii) it is fast to compute, at least for standard choices of the residual function $\mathbf E$; (iv) it is an easy-to-interpret hyper-rectangle, at least for standard choices of $\mathbf E$.
 
 In the following, we will describe practical approximations of these oracle prediction sets, starting from intuitive but not fully satisfactory solutions before presenting our method.
 
@@ -295,6 +291,7 @@ According to Theorem \ref{thm:fixed-transformation-coverage}, prediction sets of
 This latter requirement, which is strictly weaker than independence, is the foundation of the method developed in this section.
 We begin by showing how this conditional-exchangeability condition naturally leads to a different \emph{transductive} oracle, which is much more closely aligned with the practical method introduced below.
 
+{\color{blue}
 Consider an imaginary oracle that knows the unordered values in $\{\mathbf{E}^1,\ldots,\mathbf{E}^{n+1}\}$. We can estimate the population location and scale parameters $(\boldsymbol \mu^*, \boldsymbol\sigma^*)$ defined in~\eqref{eq:oracle-mean-std} as follows:
 \begin{equation} \label{eq:transductive-oracle-mean-std}
 \begin{aligned}
@@ -311,7 +308,6 @@ Since these statistics are \emph{symmetric} in all $n+1$ data points and thus in
 Of course, this oracle is still impractical because both $\Phi^\mathrm{oracle}$ and $\hat{Q}^{\mathrm{oracle}}_{1-\alpha}:= \hat{Q}_{1-\alpha}(S^1_{\mathrm{oracle}},\ldots,S^n_{\mathrm{oracle}})$ depend on the unknown test outcome $\mathbf{Y}^{n+1}$ through $\mathbf{E}^{n+1}$. 
 
 We will now translate this oracle into a practical method producing a (slightly) larger prediction set that depends only on the observed data. 
-{\color{blue}
 First, we will find suitable {\em monotonically nondecreasing} {\em link functions} $\omega_1, \ldots, \omega_d : \mathbb{R} \to \mathbb{R}_+$ satisfying 
 \begin{equation}
 S_{\mathrm{oracle}}^{n+1} \le c 
@@ -337,7 +333,7 @@ The last remaining step is to replace $\hat{Q}^{\mathrm{oracle}}_{1-\alpha}$ wit
 hence inheriting the coverage lower bound from Theorem~\ref{thm:fixed-transformation-coverage}.}
 Technical difficulties, which we address below, arise when one tries to keep this approximation tight and computationally efficient.
 
-
+{\color{blue}
 \subsection{Explicit Form of the Link Functions}
 The link functions $\omega_1, \ldots, \omega_d$ defined implicitly in~\eqref{eq:key-ineq} can be derived by solving the inequalities in~\eqref{eq:key-ineq} for ${E}^{n+1}_j$ in terms of $c$, through the observed statistics $\hat{\mu}^\mathrm{obs}_j$ and $\hat{\sigma}^\mathrm{obs}_j$ defined as
 \begin{equation} \label{eq:plug-in-mean-std}
@@ -347,7 +343,7 @@ The link functions $\omega_1, \ldots, \omega_d$ defined implicitly in~\eqref{eq:
 && \forall j \in [d].
 \end{aligned}
 \end{equation}
-The explicit form of $\omega_j(c)$ is given in the following lemma.
+The explicit form of $\omega_j(c)$ is given in the following lemma.}
 
 \begin{lemma}\label{lem:solution-key-ineq}
 Under Assumption~\ref{eq:assumption-scores}, suitable link functions $\omega_1, \ldots ,\omega_d$ satisfying~\eqref{eq:key-ineq} are:
@@ -466,8 +462,8 @@ that satisfies
 \begin{align} \label{eq:lwc-local-containment}
   \mathbf{Y}^{n+1} \in \mathcal{R} \implies \mathcal{R} \supseteq \hat{C}^\mathrm{lwc} (\mathbf{X}^{n+1}; \mathcal{R}) \supseteq \hat{C}(\mathbf{X}^{n+1}; \hat{Q}^{\mathrm{oracle}}_{1-\alpha}) \cap \mathcal{R}.
 \end{align}
-It is worth noting that the containment chain on the right is generally not guaranteed if $\mathbf{Y}^{n+1} \notin \mathcal{R}$. Then Theorem~\ref{thm:fixed-transformation-coverage} and the dual relation~\eqref{eq:oracle-dual} implies that $\hat{C}^\mathrm{lwc} (\mathbf{X}^{n+1}; \mathcal{R})$
-is guaranteed to cover the unknown test outcome $\mathbf{Y}^{n+1}$ with probability at least $1-\alpha$, conditional on the working hypothesis $\mathbf{Y}^{n+1} \in \mathcal{R}$. 
+It is worth noting that the containment chain on the right is generally not guaranteed if $\mathbf{Y}^{n+1} \notin \mathcal{R}$. Then the dual relation~\eqref{eq:oracle-dual} implies that $\hat{C}^\mathrm{lwc} (\mathbf{X}^{n+1}; \mathcal{R})$
+is guaranteed to cover the unknown test outcome $\mathbf{Y}^{n+1}$ whenever $\mathbf Y^{n+1} \in C^\mathrm{oracle}(\mathbf{X}^{n+1})$ and $\mathbf{Y}^{n+1} \in \mathcal{R}$ hold simultaneously. 
 
 Of course, we do not have the extra information on which fixed region $\mathcal{R}$ contains $\mathbf{Y}^{n+1}$ in practice, but if we can find a sufficiently rich collection of regions $\mathcal{P}$ such that $\mathbf{Y}^{n+1}$ belongs to one of these regions with high probability, we can obtain a valid prediction set by aggregating the local prediction sets $\hat{C}^\mathrm{lwc}(\mathbf{X}^{n+1}; \mathcal{R})$ over all $\mathcal{R} \in \mathcal{P}$. Furthermore, to ensure interpretability, we report a relatively tight rectangular set that bounds the union of all localized prediction sets, rather than the union itself.
 
