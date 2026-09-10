@@ -1,0 +1,37 @@
+# Local experiment data. Source, settings, LaTeX inputs and figures stay in Git.
+/data/
+
+# Disposable local outputs. Existing tracked files require index cleanup once.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+deletable/
+
+# Machine-local dependencies and compiler/runtime caches.
+/tmp/
+tmp/diagnostic_packages/
+tmp/tectonic-cache/
+tmp/tectonic-0.17.0/
+tmp/tectonic-0.17.0.zip
+tmp/mpl/
+tmp/mpl-diagnostics/
+
+# Regenerable QA images and temporary compile trees.
+tmp/pdfs/
+tmp/real-diagnostics-compile-check/
+reviewer_update/qa_renders/
+envelope_method/qa/*.png
+
+# Editor and operating-system scratch.
+.DS_Store
+Thumbs.db
+*.swp
+
+# LaTeX compilation side products (retain source, bibliography and final PDFs).
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+*.toc

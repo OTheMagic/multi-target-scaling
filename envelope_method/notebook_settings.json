@@ -1,0 +1,845 @@
+[
+  {
+    "id": "e373d0aaa3d0582f",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 20,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.8
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "08f839ba6a22d1ea",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.8
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "61f8eb01d84b9ce9",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.8
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "934e8b0ae96e3d1e",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.8
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "200d36a63f6a1f21",
+    "config": {
+      "kind": "cqr",
+      "d": 4,
+      "n_cal": 20,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.8
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "aea1987c8f3f4550",
+    "config": {
+      "kind": "cqr",
+      "d": 4,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.8
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "a9241983c960e7e1",
+    "config": {
+      "kind": "cqr",
+      "d": 4,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.8
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "1ee588be4e365124",
+    "config": {
+      "kind": "cqr",
+      "d": 4,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.8
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "b29fe3a20a383e6c",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1,
+        2
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.8
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: quantile probes"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "a22ec809a6777341",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.8
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: quantile probes"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "ba873459937c95e9",
+    "config": {
+      "kind": "absolute",
+      "d": 4,
+      "n_cal": 30,
+      "alpha": 0.2,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 6,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "smoke_test_coordinate_lengths.ipynb"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "686fa458729fc0ea",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.5,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "smoke_test_dependent_noise.ipynb"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ab2bc8d0c58dac55",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 20,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.5,
+      "quantile_params": {
+        "n_estimators": 100,
+        "max_depth": 5,
+        "learning_rate": 0.08,
+        "min_samples_leaf": 5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "smoke_test_cqhr.ipynb"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "f7527d7d8d6b95da",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1,
+        5,
+        10
+      ],
+      "n_features": 6,
+      "n_train": 1600,
+      "n_test": 400,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.9,
+      "quantile_params": {
+        "n_estimators": 50,
+        "max_depth": 2,
+        "learning_rate": 0.08,
+        "min_samples_leaf": 5
+      }
+    },
+    "trials": 100,
+    "sources": [
+      "smoke_test_cqr.ipynb"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      },
+      {
+        "name": "shifted",
+        "shift": 20.0
+      }
+    ]
+  },
+  {
+    "id": "783592e873de7398",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 20,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "4517d8aac3372329",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "e6d4dd3797e99b49",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "6148e6adc624582c",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "f76843c357b0bc41",
+    "config": {
+      "kind": "cqr",
+      "d": 4,
+      "n_cal": 20,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "a79ccba3ef5e641e",
+    "config": {
+      "kind": "cqr",
+      "d": 4,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "f2b175d70e3eccce",
+    "config": {
+      "kind": "cqr",
+      "d": 4,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "046859dfdfb1ec94",
+    "config": {
+      "kind": "cqr",
+      "d": 4,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: exploratory quantile sweep",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "679747124bb82d5d",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1,
+        2
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: quantile probes",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "3c3bedb541888294",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 10,
+    "sources": [
+      "exps.ipynb: quantile probes",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "c90f0fcc46997140",
+    "config": {
+      "kind": "cqr",
+      "d": 2,
+      "n_cal": 20,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 800,
+      "n_test": 200,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1,
+      "quantile_params": {
+        "n_estimators": 100,
+        "max_depth": 5,
+        "learning_rate": 0.08,
+        "min_samples_leaf": 5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "smoke_test_cqhr.ipynb",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "8527e223b376ca56",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1,
+        5,
+        10
+      ],
+      "n_features": 6,
+      "n_train": 1600,
+      "n_test": 400,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1,
+      "quantile_params": {
+        "n_estimators": 50,
+        "max_depth": 2,
+        "learning_rate": 0.08,
+        "min_samples_leaf": 5
+      }
+    },
+    "trials": 100,
+    "sources": [
+      "smoke_test_cqr.ipynb",
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      },
+      {
+        "name": "shifted",
+        "shift": 20.0
+      }
+    ]
+  }
+]

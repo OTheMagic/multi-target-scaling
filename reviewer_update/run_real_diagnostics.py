@@ -42,7 +42,9 @@ DATASETS = ["stock", "rf2", "scm1d", "scm20d", "energy", "student"]
 METHODS = ["Empirical_copula", "Unscaled", "Point_CHR", "TSCP_R"]
 EXPECTED_SHAPES = {"stock": (15, 6), "rf2": (384, 8), "scm1d": (490, 16),
                    "scm20d": (448, 16), "energy": (38, 2), "student": (32, 3)}
-OUT = ROOT / "reviewer_update/real_diagnostics"
+from utility.project_paths import data_path
+
+OUT = data_path("reviewer_update/real_diagnostics")
 CACHE = OUT / "cache"
 TABLES = OUT / "data"
 ALPHA = 0.1

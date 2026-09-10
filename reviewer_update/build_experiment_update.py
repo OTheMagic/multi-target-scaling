@@ -22,8 +22,11 @@ import types
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from utility.project_paths import data_path
+
 OUT_DIR = ROOT / "reviewer_update"
-DATA_DIR = OUT_DIR / "data"
+DATA_DIR = data_path("reviewer_update/data")
 FIGURE_DIR = OUT_DIR / "figures"
 os.environ.setdefault("MPLCONFIGDIR", str(ROOT / "tmp" / "mpl"))
 
@@ -34,8 +37,6 @@ from matplotlib.patches import Rectangle as MplRectangle
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-
-sys.path.insert(0, str(ROOT))
 
 from utility.data_generator import (
     make_multitarget_regression,
@@ -309,10 +310,8 @@ def _abs_experiment(**kwargs):
         "noise_type": "Gaussian",
         "trials": NEW_TRIALS,
         "methods": METHODS,
-        "n_train_pool": ABS_N_TRAIN + ABS_N_TEST,
         "n_features": 10,
         "n_informative": 10,
-        "redraw_train_test": True,
         "n_train": ABS_N_TRAIN,
         "n_test": ABS_N_TEST,
         "output_dir": None,
@@ -333,10 +332,8 @@ def _cqr_experiment(**kwargs):
         "base_interval_alpha": 0.5,
         "quantile_model_params": CQR_MODEL_PARAMS,
         "quantile_n_jobs": 3,
-        "n_train_pool": CQR_N_TRAIN + CQR_N_TEST,
         "n_features": 10,
         "n_informative": 10,
-        "redraw_train_test": True,
         "n_train": CQR_N_TRAIN,
         "n_test": CQR_N_TEST,
         "output_dir": None,
@@ -668,10 +665,8 @@ def ensure_shape_template_standard() -> dict[str, pd.DataFrame]:
         noises_list=[np.array([2.0, 1.0])],
         trials=SHAPE_TRIALS,
         methods=["TSCP_R", "Point_CHR", "Unscaled"],
-        n_train_pool=CQR_N_TRAIN + CQR_N_TEST,
         n_features=10,
         n_informative=10,
-        redraw_train_test=True,
         n_train=CQR_N_TRAIN,
         n_test=CQR_N_TEST,
         output_dir=None,
@@ -1103,7 +1098,7 @@ def figure_body_real_runtime() -> Path:
     }
     frames = []
     for order, dataset in enumerate(datasets):
-        frame = pd.read_csv(ROOT / "real_exps" / f"{dataset}.csv")
+        frame = pd.read_csv(data_path("real_exps", f"{dataset}.csv"))
         frame = frame[frame["Methods"].isin(method_map)].copy()
         frame["method"] = frame["Methods"].map(method_map)
         frame["dataset"] = dataset

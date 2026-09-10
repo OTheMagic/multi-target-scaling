@@ -1,0 +1,103 @@
+[
+  {
+    "id": "5415b912e421c470",
+    "config": {
+      "kind": "absolute",
+      "d": 50,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        50,
+        49,
+        48,
+        47,
+        46,
+        45,
+        44,
+        43,
+        42,
+        41,
+        40,
+        39,
+        38,
+        37,
+        36,
+        35,
+        34,
+        33,
+        32,
+        31,
+        30,
+        29,
+        28,
+        27,
+        26,
+        25,
+        24,
+        23,
+        22,
+        21,
+        20,
+        19,
+        18,
+        17,
+        16,
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 30,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace_30sample.csv"
+    ],
+    "transforms": [],
+    "provenance": "The d=50 setting exists in Naive/Population_oracle/TSCP_GWC/TSCP_S archived tables, but not in the old shortcut table."
+  },
+  {
+    "id": "3d3354a844bc2064",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 12,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 2,
+      "n_train": 80,
+      "n_test": 20,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.4,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 3,
+    "sources": [
+      "reviewer_exps/absolute_residual/_smoke/smoke_abs_res_trial.csv"
+    ],
+    "transforms": [],
+    "provenance": "Fresh smoke replication: archived table preserves d=2, n_cal=12, alpha=.1, correlation=.4, and one trial, but not training size or features. Explicit replacement uses 80 train / 20 test, two features, three fresh trials; it is not an exact replay."
+  }
+]

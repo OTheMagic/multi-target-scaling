@@ -22,7 +22,10 @@ import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "reviewer_update" / "data"
+sys.path.insert(0, str(ROOT))
+from utility.project_paths import data_path
+
+DATA_DIR = data_path("reviewer_update/data")
 TARGET = 0.9
 
 
@@ -70,7 +73,7 @@ def _summary_rows(
 
 
 def build_summary_audit() -> pd.DataFrame:
-    update_dir = ROOT / "reviewer_update" / "data"
+    update_dir = DATA_DIR
     rows: list[dict] = []
     rows += _summary_rows(
         update_dir / "dependent_gaussian_summary.csv",
@@ -137,7 +140,7 @@ def build_summary_audit() -> pd.DataFrame:
     )
 
     for dataset in ["stock", "rf2", "scm1d", "scm20d", "energy", "student"]:
-        path = ROOT / "real_exps" / f"{dataset}.csv"
+        path = data_path("real_exps", f"{dataset}.csv")
         frame = pd.read_csv(path)
         row = frame[frame["Methods"].eq("Standardized (Shortcut)")].iloc[0]
         rows.append(

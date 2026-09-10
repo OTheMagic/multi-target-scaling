@@ -1,0 +1,301 @@
+\newtheorem{mtproposition}{Proposition}
+\newtheorem{mttheorem}{Theorem}
+
+\section{The original link function, including signed residuals}
+Condition on a predictor fitted independently of the calibration and test data.
+Let $\mathbf E^1,\ldots,\mathbf E^{n+1}\in\mathbb R^d$ be exchangeable
+coordinatewise residual vectors, with the first $n$ observed. Write $N=n+1$,
+$r=\lceil N(1-\alpha)\rceil$, and
+\[
+ Q_\alpha(v_1,\ldots,v_n)=v_{(r)}\quad(r\le n),
+ \qquad Q_\alpha(v_1,\ldots,v_n)=+\infty\quad(r=N).
+\]
+Throughout, acceptance uses weak inequalities. Ties are permitted. Define
+the calibration statistics $m_j=n^{-1}\sum_i E^i_j$ and
+$s_j^2=n^{-1}\sum_i(E^i_j-m_j)^2$, initially with every $s_j>0$.
+The original paper \cite{fan2025} augments these observations with a candidate residual
+$z_j$ and uses
+\begin{equation}\label{mt:augmented}
+ \mu_j(z)=\frac{nm_j+z}{N},\qquad
+ \sigma_j(z)=\sqrt{s_j^2+\frac{(z-m_j)^2}{N}},\qquad
+ F_j(t,z)=\frac{t-\mu_j(z)}{\sigma_j(z)}.
+\end{equation}
+Here $s_j^2$ has divisor $n$, whereas the augmented sample variance has
+divisor $N-1=n$. The distinction determines the constants below.
+The candidate's self-score and scalarized calibration score are
+\begin{equation}\label{mt:self}
+ g_j(e)=F_j(e,e)=
+ \frac{n(e-m_j)/N}{\sqrt{s_j^2+(e-m_j)^2/N}},\qquad
+ \Phi_{\mathbf z}(\mathbf t)=\max_jF_j(t_j,z_j).
+\end{equation}
+
+The original nonnegative link has a positive middle branch
+$m_j+Ns_j|c|/\sqrt{n^2-Nc^2}$, a negative middle branch
+$\max\{0,m_j-Ns_j|c|/\sqrt{n^2-Nc^2}\}$, and outer values zero and
+$+\infty$ at $c\le-n/\sqrt N$ and $c\ge n/\sqrt N$.
+Its algebra already supports signed residuals: remove the truncation at zero,
+preserve the sign of the middle root, and represent an empty lower branch by
+$-\infty$. The resulting exact inverse is
+\begin{equation}\label{mt:link}
+ \omega_j(c)=\begin{cases}
+ -\infty,&c\le -T,\\[2pt]
+ m_j+\displaystyle\frac{Ns_jc}{\sqrt{n^2-Nc^2}},&-T<c<T,\\[5pt]
+ +\infty,&c\ge T,
+ \end{cases}\qquad T=\frac n{\sqrt N}.
+\end{equation}
+Indeed, $g_j'(e)=(n/N)s_j^2\{s_j^2+(e-m_j)^2/N\}^{-3/2}>0$,
+its range is $(-T,T)$, and solving $g_j(e)=c$ requires
+$\operatorname{sign}(e-m_j)=\operatorname{sign}(c)$. Hence, for finite $e$,
+\begin{equation}\label{mt:inverse}
+ g_j(e)\le c\quad\Longleftrightarrow\quad e\le\omega_j(c).
+\end{equation}
+For nonnegative scores one intersects this sublevel with $[0,\infty)$;
+for signed scores one uses the appropriate attainable domain. Clamping a
+negative endpoint to zero would turn an empty sublevel into a singleton, so
+the unclamped form is useful even for a precise treatment of nonnegative ties.
+
+At test input $x$, suppose $E_j(x,y_j)$ takes values in
+$D_j(x)=[a_j(x),\infty)\cap\mathbb R$, allowing $a_j=-\infty$.
+For absolute residuals, $E_j=|y_j-\hat f_j(x)|$ and $a_j=0$.
+For signed CQR residuals \cite{romano2019}, with ordered fitted quantiles,
+\begin{align}\label{mt:cqr}
+ E_j(x,y_j)&=\max\{\hat q_j^-(x)-y_j,\ y_j-\hat q_j^+(x)\}
+             =|y_j-\hat m_j(x)|-h_j(x),\notag\\
+ \hat m_j(x)&=\tfrac12(\hat q_j^-+\hat q_j^+),\qquad
+ h_j(x)=\tfrac12(\hat q_j^+-\hat q_j^-),\qquad a_j(x)=-h_j(x).
+\end{align}
+Thus a threshold $L_j$ gives $[\hat q_j^- - L_j,\hat q_j^+ + L_j]$;
+negative thresholds shrink the fitted interval. The domain lower bound is
+known from the fitted interval at $x$, and is not a minimum estimated from
+the calibration scores. Those scores, observed at other inputs, may lie below
+$a_j(x)$. The link is therefore not the obstacle to signed residuals; the
+nonnegative scale separation in the old shortcut is.
+
+\section{Review: GWC, full LWC, and the old shortcut}
+\paragraph{Full conformal reference and GWC.}
+For a candidate $\mathbf e=\mathbf E(x,y)$ define
+\[
+ q(\mathbf e)=Q_\alpha\bigl(\Phi_{\mathbf e}(\mathbf E^1),\ldots,
+                                  \Phi_{\mathbf e}(\mathbf E^n)\bigr),\qquad
+ C_{\rm full}(x)=\{y:\max_jg_j(e_j)\le q(\mathbf e)\}.
+\]
+This candidate-dependent set is the reference we enclose, and need not be
+rectangular. For an interval $I$ put
+$\psi_{j,I}(t)=\sup_{z\in I}F_j(t,z)$. GWC uses
+\begin{equation}\label{mt:gwc}
+ \Phi_G(\mathbf t)=\max_j\psi_{j,D_j(x)}(t_j),\quad
+ q_G=Q_\alpha\bigl(\Phi_G(\mathbf E^i):i\le n\bigr),\quad
+ U_j=\omega_j(q_G),\quad G_j=D_j(x)\cap(-\infty,U_j].
+\end{equation}
+Every candidate in $D(x)=\prod_jD_j(x)$ has $q(\mathbf e)\le q_G$;
+hence $C_{\rm full}(x)\subseteq\{y:\mathbf E(x,y)\in G\}$, where
+$G=\prod_jG_j$. This reviews the original GWC when $D_j=[0,\infty)$
+and extends the same construction to signed scores.
+
+\paragraph{The original full LWC.}
+For nonnegative residuals, partition each $G_j=[0,U_j]$ at its interior
+calibration residuals. We use closed cells
+$I_{j,k}=[\eta_{j,k-1},\eta_{j,k}]\cap\mathbb R$ so shared boundary points
+are retained. A full cell is $\mathcal I_{\mathbf h}=\prod_jI_{j,h_j}$;
+there are at most $(n+1)^d$ such cells. The original paper uses
+\begin{equation}\label{mt:separated}
+ c_j=\inf_{z\in G_j}\frac{\mu_j(z)}{\sigma_j(z)},\qquad
+ r_j(k)=\inf_{z\in I_{j,k}}\sigma_j(z),\qquad
+ \Phi^{\rm sep}_{\mathbf h}(\mathbf t)
+       =\max_j\left\{\frac{t_j}{r_j(h_j)}-c_j\right\},\quad\mathbf t\ge0.
+\end{equation}
+Its cell quantile $q^{\rm sep}_{\mathbf h}=Q_\alpha(
+\Phi^{\rm sep}_{\mathbf h}(\mathbf E^i):i\le n)$ produces the local region
+\[
+ R^{\rm sep}_{\mathbf h}=
+ \mathcal I_{\mathbf h}\cap\prod_j(-\infty,\omega_j(q^{\rm sep}_{\mathbf h})].
+\]
+Full LWC enumerates these regions, takes their union, and reports its
+coordinatewise upper enclosure within $G$. This is a local bound on the
+unknown candidate, followed by a rectangular enclosure; it is not full
+conformal prediction itself.
+
+For clarity, an \emph{exact coupled} full-cell alternative would replace
+$\Phi^{\rm sep}_{\mathbf h}$ by
+$\Phi^{\rm exact}_{\mathbf h}(\mathbf t)=
+\max_j\psi_{j,I_{j,h_j}}(t_j)$.
+It retains the whole ratio under each supremum and is no larger than the
+separated cell score for nonnegative $\mathbf t$. It is a sharper conceptual
+reference, not the separated full LWC defined in the original paper.
+Neither full-cell construction is run in the meeting experiments.
+
+\paragraph{The old row shortcut.}
+The paper avoids enumerating all cells by varying one coordinate at a time,
+holding the others in a cell containing the empirical mean. If GWC clips that
+cell, the relevant point is $p_\ell=\operatorname{proj}_{G_\ell}(m_\ell)$,
+with $\bar s_\ell=\sigma_\ell(p_\ell)$, the minimum scale on $G_\ell$.
+The row score for coordinate $j$ and cell $k$ is
+\begin{equation}\label{mt:oldrow}
+ \Phi^{\rm old}_{j,k}(\mathbf t)=
+ \max\left\{\frac{t_j}{r_j(k)}-c_j,
+             \max_{\ell\ne j}\left(\frac{t_\ell}{\bar s_\ell}-c_\ell\right)
+      \right\}.
+\end{equation}
+Its quantile, inverse link, and intersection with $I_{j,k}$ determine a
+candidate upper endpoint; maximizing over $k$ gives $L_j^{\rm old}$.
+The manuscript's row reduction applies under its mean-cell condition, and
+the implemented shortcut falls back to GWC if this cell is unavailable.
+The old shortcut here means this separated row construction with compatible
+weak boundary conventions. Its key restriction is $t_\ell\ge0$:
+$t_\ell/\sigma_\ell(z)\le t_\ell/\inf\sigma_\ell$ reverses for negative
+$t_\ell$. Simply changing the inverse link cannot repair that inequality.
+
+\section{The envelope construction}
+\paragraph{An exact, inexpensive coordinate bound.}
+Unlike scale separation, $\psi_{j,I}(t)$ is valid for either sign of $t$.
+Suppressing $j$ and writing $I=[\ell,u]\cap\mathbb R$, differentiation gives
+\begin{equation}\label{mt:derivative}
+ \frac{\partial F(t,z)}{\partial z}
+ =-\frac{s^2+(t-m)(z-m)}{N\{s^2+(z-m)^2/N\}^{3/2}}.
+\end{equation}
+For $t>m$, the sole stationary maximum is
+$z^*(t)=m-s^2/(t-m)$, with value
+$\sqrt{(t-m)^2/s^2+1/N}$. For $t<m$ the stationary point is a minimum,
+and for $t=m$ the function is decreasing. Therefore
+\begin{equation}\label{mt:supremum}
+ \psi_{j,I}(t)=\max\left\{
+ F_j(t,\ell),F_j(t,u),
+ \left.\sqrt{(t-m_j)^2/s_j^2+1/N}\ \right|\ t>m_j,\ z^*(t)\in I
+ \right\}.
+\end{equation}
+The last entry is omitted if inadmissible. Infinite endpoints use
+$F_j(t,-\infty)=1/\sqrt N$ and $F_j(t,+\infty)=-1/\sqrt N$.
+This formula computes all GWC and envelope scores without numerical optimization.
+
+\paragraph{One coordinate cell, with the others bounded globally.}
+Build GWC using \eqref{mt:gwc}, now with either residual domain. Subdivide
+each nonempty $G_j$ at its distinct interior calibration values, retaining
+singletons when necessary. For each $j$, precompute
+\begin{align}\label{mt:surface}
+ H_j(\mathbf t)&=\max_{\ell\ne j}\psi_{\ell,G_\ell}(t_\ell),\notag\\
+ \overline\Phi_{j,k}(\mathbf t)
+  &=\max\{\psi_{j,I_{j,k}}(t_j),H_j(\mathbf t)\}
+   =\sup_{\substack{z_j\in I_{j,k}\\z_\ell\in G_\ell,\ \ell\ne j}}
+      \Phi_{\mathbf z}(\mathbf t),\notag\\
+ \overline q_{j,k}&=Q_\alpha\bigl(\overline\Phi_{j,k}(\mathbf E^i):i\le n\bigr).
+\end{align}
+For $d=1$, set $H_1=-\infty$. Thus the envelope keeps one coordinate local
+and lets all other candidate coordinates range over GWC. It retains the
+coupled location--scale ratio while replacing exponential full-cell
+enumeration by coordinate searches. Define
+\begin{align}\label{mt:pieces}
+ A_{j,k}&=I_{j,k}\cap(-\infty,\omega_j(\overline q_{j,k})],\qquad
+ L_j=\max_k B_{j,k},\notag\\
+ B_{j,k}&=\begin{cases}
+ \min\{\eta_{j,k},\omega_j(\overline q_{j,k})\},&A_{j,k}\ne\varnothing,\\
+ -\infty,&A_{j,k}=\varnothing,
+ \end{cases}
+\end{align}
+The final region is
+$C_{\rm env}(x)=\{y:E_j(x,y_j)\in D_j(x),\ E_j(x,y_j)\le L_j\ \forall j\}$.
+It is empty if any coordinate has no accepted piece. It can fill gaps between
+pieces, and generally differs from both full conformal and full-cell LWC.
+For ordinary absolute or CQR residuals, its outcome sublevels are intervals,
+so the final region is a box.
+
+\paragraph{Search and cost.}
+With the calibration coordinates sorted, scan cells from right to left and
+stop at the first nonempty piece. This is exact: every earlier cell ends at
+or below the surviving cell's left endpoint, and therefore cannot give a
+larger $B_{j,k}$. No unproved monotonicity of acceptance is required.
+All off-coordinate values $H_j(\mathbf E^i)$ can be precomputed in $O(nd)$
+using prefix and suffix maxima. Each inspected cell then costs $O(n)$ with
+order-statistic selection. Total worst-case cost is
+$O(dn\log n+dn^2)$, and actual search cost is $O(n\sum_j M_j)$ when
+$M_j$ cells are inspected. This establishes tractability, not uniform runtime
+dominance. Calibration statistics can be reused; input-dependent CQR widths
+may require different domain calculations at different test inputs.
+
+\section{Validity and uniform improvement: separate proofs}
+\begin{mtproposition}[Finite-sample validity]\label{mt:validity}
+For every realized positive-scale calibration sample and test input,
+$C_{\rm full}(x)\subseteq C_{\rm env}(x)\subseteq C_{\rm GWC}(x)$.
+Under exchangeability, $\Pr\{Y^{n+1}\in C_{\rm env}(X^{n+1})\}\ge1-\alpha$.
+\end{mtproposition}
+\begin{proof}
+At the true test residual, the augmented means and scales are symmetric
+functions of all $N$ observations. Applying the same standardized maximum
+to all observations gives exchangeable scalar scores. The conformal rank
+argument, including weak acceptance for ties, gives coverage at least
+$r/N\ge1-\alpha$ for $C_{\rm full}$.
+
+For an accepted candidate $\mathbf e$, GWC containment gives $\mathbf e\in G$.
+Choose for each $j$ a covering cell $I_{j,k}$ containing $e_j$.
+Every calibration score obeys
+$\Phi_{\mathbf e}(\mathbf E^i)\le\overline\Phi_{j,k}(\mathbf E^i)$.
+Coordinatewise ordering of a score vector preserves ordering of its $r$th
+order statistic; hence $q(\mathbf e)\le\overline q_{j,k}$.
+Full acceptance and the increasing link imply
+$e_j\le\omega_j(\overline q_{j,k})$, so $e_j\in A_{j,k}$ and $e_j\le L_j$.
+This holds for every coordinate without a Bonferroni adjustment.
+Finally, every piece lies in $G_j$, giving $L_j\le U_j$.
+\end{proof}
+
+\begin{mttheorem}[Uniform weak improvement over the old shortcut]\label{mt:dominance}
+Use the same nonnegative residuals, calibration sample, $\alpha$, GWC domain,
+and closed cells for both methods, with $s_j>0$. Then
+\[
+ C_{\rm env}(x)\subseteq C_{\rm old}(x).
+\]
+For nonempty regions this means $L_j\le L_j^{\rm old}$ in every coordinate,
+and therefore weakly smaller outcome intervals and volume. Envelope coverage
+remains at least $1-\alpha$.
+\end{mttheorem}
+\begin{proof}
+For $t_j\ge0$ and $z\in I_{j,k}$,
+\[
+ F_j(t_j,z)=\frac{t_j}{\sigma_j(z)}-\frac{\mu_j(z)}{\sigma_j(z)}
+ \le\frac{t_j}{r_j(k)}-c_j.
+\]
+For an off-coordinate $\ell$, the same inequality on $G_\ell$ gives
+$\psi_{\ell,G_\ell}(t_\ell)\le t_\ell/\bar s_\ell-c_\ell$.
+Consequently $\overline\Phi_{j,k}(\mathbf E^i)\le
+\Phi^{\rm old}_{j,k}(\mathbf E^i)$ for every $i,j,k$.
+Quantile monotonicity and \eqref{mt:inverse} imply that every envelope piece
+is contained in the corresponding old piece. Taking upper endpoints and
+then maxima proves the result. If the old shortcut falls back to GWC,
+Proposition~\ref{mt:validity} gives containment directly.
+\end{proof}
+
+The separation bound can be strict because the smallest scale and smallest
+location--scale ratio occur at different candidate values. For a concrete
+one-dimensional example, take calibration residuals $(1,2,3)$ and
+$\alpha=1/2$. Then $m=2$, $s^2=2/3$, $r=2$, and GWC ends at
+$U=2+2/\sqrt{21}$. On $[2,U]$, the envelope's median score is zero,
+so $L^{\rm env}=2$; the separated median is
+$\sqrt6-\sqrt{27/20}$, whose link exceeds $U$, so $L^{\rm old}=U$.
+The absolute-residual interval is strictly shorter. Equality is also
+possible, for example when $r=N$ and both methods return the whole domain.
+The theorem does not assert strict improvement on every sample, higher
+coverage than a superset, or dominance over exact coupled full-cell LWC.
+
+\paragraph{Scope of the signed comparison.}
+Capping $E$ at zero loses negative values; shifting by a width that changes
+with $x$ changes relative residuals across observations. The preceding theorem
+does not compare those representations. A fixed coordinatewise shift has
+additional structure: if a training-only constant $b_j$ satisfies
+$E_j(x,y)\ge-b_j$ everywhere, then
+$F_j^{\rm shift}(t+b_j,z+b_j)=F_j(t,z)$ and
+$\omega_j^{\rm shift}(c)=\omega_j(c)+b_j$.
+The signed attainable domain translates into a subset of $[0,\infty)$.
+Taking suprema on that smaller domain and applying the same proof shows that
+the signed envelope is contained in the old constant-shifted region, under
+matching exact boundary rules. No analogous containment is claimed against
+capping or input-dependent width shifts; their practical comparison is empirical.
+
+\paragraph{Boundary and implementation conventions.}
+If $r=N$, return the whole attainable domain. If any observed $s_j=0$, the
+experiments use a common whole-domain fallback; the displayed dominance proof
+concerns positive scales. A valid full-conformal reference on degenerate
+samples uses augmented scale $1$ when that entire augmented coordinate is
+constant; this symmetric rule and the whole-domain fallback preserve coverage.
+Closed cells retain singleton endpoints. Mathematical inequalities refer to
+exact arithmetic with these conventions; the old executable's numerical
+jitter and finite-precision outputs are checked separately. All coverage
+statements average over calibration and test data, rather than asserting
+coverage conditional on a particular input or calibration sample.

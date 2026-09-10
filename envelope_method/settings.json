@@ -1,0 +1,6151 @@
+[
+  {
+    "id": "898faf279901d34c",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "53f83ed6b5d3df7a",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "5966a2bbf52d4905",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "1b3d0761e2c65529",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "8d441ace2414ce13",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "117125efaf4e9e4a",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 1000,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "c675a2f311ed1346",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "8b54266e1753ceb0",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "aa06302f21148403",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "3cdb5988bc81b54a",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "7f238136cc462b22",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "008218558ef528cc",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 1000,
+      "alpha": 0.1,
+      "noise_type": "Cauchy",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ff7e4cf9c72bbf13",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gamma",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gamma\\tscp_r_gamma.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "2bf67b2af12faa4f",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gamma",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gamma\\tscp_r_gamma.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "938b71880914d823",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gamma",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gamma\\tscp_r_gamma.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "e080eba94ba3420e",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gamma",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gamma\\tscp_r_gamma.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "17b0dfbfe5157558",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gamma",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gamma\\tscp_r_gamma.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "e0b24d936f7b8e3a",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gamma",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gamma\\tscp_r_gamma.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "8c87761e164d4cd3",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gamma",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gamma\\tscp_r_gamma.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ebd6c8ab5ffb0696",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gamma",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gamma\\tscp_r_gamma.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "7bf45a517e6e80f8",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gamma",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gamma\\tscp_r_gamma.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "cdad94cb73d7dbac",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gamma",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gamma\\tscp_r_gamma.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "c7ab3684ea5e6952",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "fc41a93cd92742a0",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "742c89e20c86c7f0",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "e699775642d132bb",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "c11c4d61391712fb",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b682c56d570d4fc4",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "7b72e544a1684a77",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "54bff25c4b5f8976",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "3043a9c01bdf5430",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "3f24bbb092a6548e",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "7014a1e7e401dbcc",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_unit_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "c131bc26e404b839",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_unit_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "187f67f0389b1c17",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_unit_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "d0de72594d6bde4f",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_unit_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "2c57d009d65a59bf",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_unit_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "089d250dfd930525",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_unit_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b8741e3c31c43a32",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_unit_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "52be93013ba6fc36",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_unit_gaussian.csv",
+      "reviewer_exps\\absolute_residual\\heterogeneity_sweep_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "da11d5e891bb15da",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_unit_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ff833dc7a337ed28",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\gaussian\\tscp_r_unit_gaussian.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "4e11385a5254cc2a",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace.csv",
+      "syn_exps\\laplace\\tscp_r_laplace_30sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "28275fa5c9e50afb",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "c68e637a93a76f6f",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "4076ab921805e50a",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "47bde060b9939225",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "336c0699d8acb5d9",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace.csv",
+      "syn_exps\\laplace\\tscp_r_laplace_30sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "bfb0aa69f3fa55a6",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "c48cdf095d54f4f8",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "659361edd67b47b9",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "f9a7e70628c18069",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "e99fd35d52f8ec7b",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 10,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 10,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace_10sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "6c3983b11c567ce5",
+    "config": {
+      "kind": "absolute",
+      "d": 3,
+      "n_cal": 10,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 10,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace_10sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b585714188896178",
+    "config": {
+      "kind": "absolute",
+      "d": 4,
+      "n_cal": 10,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 10,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace_10sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "8889452789b32cef",
+    "config": {
+      "kind": "absolute",
+      "d": 5,
+      "n_cal": 10,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 10,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace_10sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "f540630a66d49c54",
+    "config": {
+      "kind": "absolute",
+      "d": 6,
+      "n_cal": 10,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 10,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace_10sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "716f65960d11b69c",
+    "config": {
+      "kind": "absolute",
+      "d": 3,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 30,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace_30sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "066cc3656c82fc7c",
+    "config": {
+      "kind": "absolute",
+      "d": 4,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 30,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace_30sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "c95860972d574424",
+    "config": {
+      "kind": "absolute",
+      "d": 5,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 30,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace_30sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ca3857868423270d",
+    "config": {
+      "kind": "absolute",
+      "d": 20,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        20,
+        19,
+        18,
+        17,
+        16,
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 30,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace_30sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "878075e078fd0866",
+    "config": {
+      "kind": "absolute",
+      "d": 30,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Laplace",
+      "noise_levels": [
+        30,
+        29,
+        28,
+        27,
+        26,
+        25,
+        24,
+        23,
+        22,
+        21,
+        20,
+        19,
+        18,
+        17,
+        16,
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 30,
+    "sources": [
+      "syn_exps\\laplace\\tscp_r_laplace_30sample.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ae5799e85666f892",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Mixed",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\mixed\\tscp_r_mixed.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "d3000264cb61a0f6",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Mixed",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\mixed\\tscp_r_mixed.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "886a9cfb8e55806b",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Mixed",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\mixed\\tscp_r_mixed.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "a143c8f2c10622b6",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Mixed",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\mixed\\tscp_r_mixed.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "02654f7544e0b55b",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Mixed",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\mixed\\tscp_r_mixed.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "139172f0f353f58a",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Mixed",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\mixed\\tscp_r_mixed.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "382484961998da39",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Mixed",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\mixed\\tscp_r_mixed.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "98edfda1f95cd191",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Mixed",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\mixed\\tscp_r_mixed.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "bf191a2c58f7bafb",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Mixed",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\mixed\\tscp_r_mixed.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "067044987bbdd665",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Mixed",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\mixed\\tscp_r_mixed.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "68629c3382377452",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 1.5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "c011e610e6dd42a4",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 2.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b0b90b9ac9f7cde9",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 3.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "425c0b902f8ee037",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 10.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "9e0e0843a489d22c",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 30.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "9b96811d1eab79fe",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 100.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ff58809b8b3e95c9",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 1.5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "131aa7b53a2a60c1",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 2.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "9a486de0bf74418d",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 3.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "96af6b0f5182ec04",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 10.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "a1801d419e65e648",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 30.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b0c5c77ff616e56c",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 100.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "92c5ff720401d003",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 1.5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "03c93ff4a0a731e3",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 2.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b3ad77b36a7f47a2",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 3.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "dacc6d36269aa265",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 10.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "5c13f11f6e703f50",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 30.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "596dc7e3eaaa46cc",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 100.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "479e8557793279ec",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 1.5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "eadacd9e788dea0f",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 2.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "0fdb2103ef5c3c25",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 3.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "125df6c1299b7a7a",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 10.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "61d4b30241101336",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 30.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "6b80ac242b8ff262",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 100.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "syn_exps\\t\\tscp_r_t.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "4fa819d1e265e012",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.05,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\alpha_sensitivity_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "f351aaad2c92423a",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\alpha_sensitivity_trial.csv",
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "555f3d11439c0fd3",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.2,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\alpha_sensitivity_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "3b03ed6f47fccf41",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv",
+      "reviewer_exps\\absolute_residual\\small_calibration_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ea6ad50df2f23051",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.3,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "d79154848910a1f5",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "34f29fdf675f6c46",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.9,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "64242769c7577482",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv",
+      "reviewer_exps\\absolute_residual\\small_calibration_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "163cefbee257c5e1",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.3,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "2b8d5f88c3701053",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "d6526006d04061b4",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.9,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "131108560420b102",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv",
+      "reviewer_exps\\absolute_residual\\small_calibration_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "e4e25cbf2c7206c6",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.3,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "e95c499b5ed65f54",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.9,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "5879c5dffa9466f7",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "286621d7f96fa012",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.3,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "7a4b60f4482017f2",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ad69ada210c0f034",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.9,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "1df9d08d006b3ec0",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "47023132baf291ef",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.3,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "8b952a52e3e951f7",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "d2d8b9deba13c074",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.9,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "f6f5f00f46624d90",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2.0,
+        1.851749424574581,
+        1.7144879657061458,
+        1.5874010519681994,
+        1.4697344922755988,
+        1.360790000174377,
+        1.2599210498948732,
+        1.1665290395761165,
+        1.080059738892306,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\heterogeneity_sweep_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "38465b484ba0c135",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        5.0,
+        4.1812551547518675,
+        3.496578933827813,
+        2.9240177382128665,
+        2.4452128480976887,
+        2.0448117651147912,
+        1.7099759466766973,
+        1.4299691483087287,
+        1.1958131745004021,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\heterogeneity_sweep_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "3af05032c595a9d7",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10.0,
+        7.742636826811269,
+        5.99484250318941,
+        4.641588833612779,
+        3.5938136638046276,
+        2.7825594022071245,
+        2.154434690031884,
+        1.6681005372000592,
+        1.291549665014884,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\heterogeneity_sweep_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "d6299b059bdd7008",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        20.0,
+        14.337423288737734,
+        10.27808532802195,
+        7.368062997280774,
+        5.281951900505003,
+        3.7864790094146468,
+        2.7144176165949068,
+        1.945887717576388,
+        1.3949507939624208,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\heterogeneity_sweep_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "244e53e26832d3da",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 10,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\small_calibration_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b547102870232900",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 20,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 6400,
+      "n_test": 1600,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_exps\\absolute_residual\\small_calibration_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "64fe748eadaee93f",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.3
+    },
+    "trials": 100,
+    "sources": [
+      "reviewer_exps\\cqr\\capped_base_alpha_sweep_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "3f67600c90a404a8",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.5
+    },
+    "trials": 100,
+    "sources": [
+      "reviewer_exps\\cqr\\capped_base_alpha_sweep_trial.csv",
+      "reviewer_exps\\cqr\\capped_sample_size_check_trial.csv",
+      "reviewer_exps\\cqr\\shifted_sensitivity_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      },
+      {
+        "name": "shifted",
+        "shift": 100.0
+      },
+      {
+        "name": "shifted",
+        "shift": 300.0
+      },
+      {
+        "name": "shifted",
+        "shift": 1000.0
+      }
+    ]
+  },
+  {
+    "id": "3950e70bdd00a3c5",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.7
+    },
+    "trials": 100,
+    "sources": [
+      "reviewer_exps\\cqr\\capped_base_alpha_sweep_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "65d93b0249f064be",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.9
+    },
+    "trials": 100,
+    "sources": [
+      "reviewer_exps\\cqr\\capped_base_alpha_sweep_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "4e113c187ebdadf2",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.5
+    },
+    "trials": 100,
+    "sources": [
+      "reviewer_exps\\cqr\\capped_sample_size_check_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "f8e690ded42e5af5",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.5
+    },
+    "trials": 100,
+    "sources": [
+      "reviewer_exps\\cqr\\capped_sample_size_check_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "995665f168ac9bf9",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 200,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.5
+    },
+    "trials": 100,
+    "sources": [
+      "reviewer_exps\\cqr\\capped_sample_size_check_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "edab386b7c1db952",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.05,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\alpha_sensitivity_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "619cf9d39985247a",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\alpha_sensitivity_trial.csv",
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "36495667b73626b1",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.2,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\alpha_sensitivity_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ce58cb1d05e133ac",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "contamination_fraction": 0.0,
+        "contamination_multiplier": 10.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\contamination_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "d9a64e430c639f07",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "contamination_fraction": 0.01,
+        "contamination_multiplier": 10.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\contamination_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "c86c501f006d2b90",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "contamination_fraction": 0.05,
+        "contamination_multiplier": 10.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\contamination_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "1b5dae3499baaf54",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "contamination_fraction": 0.1,
+        "contamination_multiplier": 10.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\contamination_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ef72df201e316a43",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.3
+    },
+    "trials": 30,
+    "sources": [
+      "reviewer_update\\data\\cqr_base_alpha_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "a860b4ca8ceb3408",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.5
+    },
+    "trials": 30,
+    "sources": [
+      "reviewer_update\\data\\cqr_base_alpha_trial.csv",
+      "reviewer_update\\data\\cqr_sample_size_trial.csv",
+      "reviewer_update\\data\\cqr_shift_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      },
+      {
+        "name": "shifted",
+        "shift": 100.0
+      },
+      {
+        "name": "shifted",
+        "shift": 300.0
+      },
+      {
+        "name": "shifted",
+        "shift": 1000.0
+      }
+    ]
+  },
+  {
+    "id": "fee95965187727fd",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.7
+    },
+    "trials": 30,
+    "sources": [
+      "reviewer_update\\data\\cqr_base_alpha_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "4bdeb48d23efcc5d",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.9
+    },
+    "trials": 30,
+    "sources": [
+      "reviewer_update\\data\\cqr_base_alpha_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "5f474269f3ec6318",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.5
+    },
+    "trials": 30,
+    "sources": [
+      "reviewer_update\\data\\cqr_sample_size_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "c297b54bd9cb34ed",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.5
+    },
+    "trials": 30,
+    "sources": [
+      "reviewer_update\\data\\cqr_sample_size_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "e020dda90c999189",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 200,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.5
+    },
+    "trials": 30,
+    "sources": [
+      "reviewer_update\\data\\cqr_sample_size_trial.csv"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "32c1d010a6e2b1b7",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "cd7f2e9ea784cef6",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.3,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "f4a5ec9302c38c8e",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "12f6df5ed0cbf9f1",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.9,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "531a1c8417a38fd3",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "aeba469712883769",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.3,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "5061d053dee84b8b",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b9bbb39d50bc6d3f",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.9,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b64f01e2be0135df",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "4990f83671588ead",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.3,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "9e3849efe4e2d4c2",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.9,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "724dc17252863a3b",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "18b478527752dc69",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.3,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b8209472b686ed1d",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "0f673c91315ad987",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.9,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "18eaa827c2c39c4c",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.0,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "cae258f653ffcb40",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.3,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "0cd587ac15230a3d",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.6,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "50ac0b352be4aa67",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "correlation": 0.9,
+        "correlation_structure": "equicorrelated"
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\dependent_gaussian_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "2de59f88339a4504",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 1.5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\heavy_tail_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ccb901fa786b999a",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 2.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\heavy_tail_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "45c8c2bc743f6372",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 3.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\heavy_tail_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "8c18c31879d5f852",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 1.5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\heavy_tail_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ef3910ccf31ce8fd",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 2.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\heavy_tail_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "ee5dff295f8147f9",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "t",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "df": 3.0
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\heavy_tail_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "45eaa881eb8c2209",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\heterogeneity_sweep_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "20f29f9d3c240799",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2.0,
+        1.851749424574581,
+        1.7144879657061458,
+        1.5874010519681994,
+        1.4697344922755988,
+        1.360790000174377,
+        1.2599210498948732,
+        1.1665290395761165,
+        1.080059738892306,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\heterogeneity_sweep_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "9b40adacea0e77c0",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        5.0,
+        4.1812551547518675,
+        3.496578933827813,
+        2.9240177382128665,
+        2.4452128480976887,
+        2.0448117651147912,
+        1.7099759466766973,
+        1.4299691483087287,
+        1.1958131745004021,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\heterogeneity_sweep_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "84d53983e368be01",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10.0,
+        7.742636826811269,
+        5.99484250318941,
+        4.641588833612779,
+        3.5938136638046276,
+        2.7825594022071245,
+        2.154434690031884,
+        1.6681005372000592,
+        1.291549665014884,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\heterogeneity_sweep_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "da2a40fa18b278c6",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        20.0,
+        14.337423288737734,
+        10.27808532802195,
+        7.368062997280774,
+        5.281951900505003,
+        3.7864790094146468,
+        2.7144176165949068,
+        1.945887717576388,
+        1.3949507939624208,
+        1.0
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\heterogeneity_sweep_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "380c9d403d142300",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "heteroskedastic_fraction": 0.5,
+        "heteroskedastic_strength": 1.5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\partial_heteroskedasticity_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b437ebc4419604b2",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "heteroskedastic_fraction": 0.5,
+        "heteroskedastic_strength": 1.5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\partial_heteroskedasticity_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "387f8c372dea3532",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "heteroskedastic_fraction": 0.5,
+        "heteroskedastic_strength": 1.5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\partial_heteroskedasticity_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b6f7b1a50b75a9cd",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 300,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "heteroskedastic_fraction": 0.5,
+        "heteroskedastic_strength": 1.5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\partial_heteroskedasticity_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "74d35887601b9113",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 500,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {
+        "heteroskedastic_fraction": 0.5,
+        "heteroskedastic_strength": 1.5
+      }
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\partial_heteroskedasticity_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "25c5c7e6e87a0981",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 100,
+    "sources": [
+      "reviewer_update\\data\\shape_template_standard_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "b0c7d01322f7625d",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 100,
+    "sources": [
+      "reviewer_update\\data\\shape_template_standard_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "962c86db91c9d73f",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 100,
+    "sources": [
+      "reviewer_update\\data\\shape_template_standard_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "433e3887268f726d",
+    "config": {
+      "kind": "absolute",
+      "d": 2,
+      "n_cal": 200,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 100,
+    "sources": [
+      "reviewer_update\\data\\shape_template_standard_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "d87f81a8c98e88c4",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 10,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\small_calibration_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "200d70a07cc79df8",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 20,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\small_calibration_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "7d81a51e343d1fe5",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\small_calibration_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "98849d48594e6f7b",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\small_calibration_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "32a6b9d9d00f98f1",
+    "config": {
+      "kind": "absolute",
+      "d": 10,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 7200,
+      "n_test": 800,
+      "redraw": true,
+      "generator_kwargs": {}
+    },
+    "trials": 200,
+    "sources": [
+      "reviewer_update\\data\\small_calibration_stress_trial.csv"
+    ],
+    "transforms": []
+  },
+  {
+    "id": "1e011016d30adf10",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 100,
+    "sources": [
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "d62d892adec04062",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 100,
+    "sources": [
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "928d1456b39f8c8f",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 100,
+    "sources": [
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "04a924ad4b07dcaf",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 200,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 5,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 100,
+    "sources": [
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "4d743aa44fbecf01",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 100,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 30,
+    "sources": [
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "16c55eaf72bdbfc2",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 30,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 30,
+    "sources": [
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "96fd6cffe17799df",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 50,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 30,
+    "sources": [
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  },
+  {
+    "id": "29459e963d9c82d9",
+    "config": {
+      "kind": "cqr",
+      "d": 3,
+      "n_cal": 200,
+      "alpha": 0.1,
+      "noise_type": "Gaussian",
+      "noise_levels": [
+        3,
+        2,
+        1
+      ],
+      "n_features": 10,
+      "n_train": 2400,
+      "n_test": 600,
+      "redraw": true,
+      "generator_kwargs": {},
+      "base_alpha": 0.1
+    },
+    "trials": 30,
+    "sources": [
+      "requested_base_alpha_0.1"
+    ],
+    "transforms": [
+      {
+        "name": "capped",
+        "shift": 0.0
+      }
+    ]
+  }
+]

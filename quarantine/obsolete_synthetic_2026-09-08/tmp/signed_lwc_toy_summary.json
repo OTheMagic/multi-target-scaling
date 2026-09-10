@@ -1,0 +1,89 @@
+{
+  "setup": {
+    "n": 60,
+    "alpha": 0.1,
+    "target_coverage": 0.9,
+    "plot_seed": 6,
+    "lower_residual_bounds": [
+      -1.0,
+      -1.0
+    ],
+    "inside_probability_per_coordinate": 0.98,
+    "base_joint_coverage": 0.9603999999999999
+  },
+  "plot_split": {
+    "mean": [
+      -0.40084342923646854,
+      -0.4554527432664543
+    ],
+    "std": [
+      0.26311904173326073,
+      0.22689930478195133
+    ],
+    "q_gwc": 1.3000065969932149,
+    "capped_tscp_upper_raw": [
+      8.425168548931161e-12,
+      1.0647266488611473e-12
+    ],
+    "signed_gwc_upper": [
+      -0.04799717819999327,
+      -0.1511776572532716
+    ],
+    "signed_envelope_upper": [
+      -0.06044998390049733,
+      -0.1511776572532716
+    ],
+    "exact_lwc_bbox_upper": [
+      -0.06044998390049733,
+      -0.1511776572532716
+    ],
+    "areas": {
+      "base_or_capped_no_shrink": 1.0,
+      "capped_tscp_for_plot": 1.00000000000949,
+      "signed_gwc": 0.808081265501778,
+      "signed_envelope": 0.7975110457933063,
+      "exact_lwc_bbox": 0.7975110457933063
+    },
+    "fixed_split_coverages_over_test_draws": {
+      "base_or_capped_no_shrink": 0.96004,
+      "signed_gwc": 0.88446,
+      "signed_envelope": 0.88024,
+      "exact_lwc_union": 0.878415
+    },
+    "n_exact_lwc_rectangles": 3420,
+    "checks": {
+      "exact_bbox_contained_in_envelope": true,
+      "envelope_contained_in_gwc": true
+    }
+  },
+  "marginal_mc": {
+    "B": 500,
+    "test_draws_per_split": 2500,
+    "gwc_cov_mean_se": [
+      0.9103568,
+      0.00164093256011748
+    ],
+    "env_cov_mean_se": [
+      0.9028312,
+      0.0017157004485569025
+    ],
+    "base_cov_mean_se": [
+      0.9602704,
+      0.00016964801377308914
+    ],
+    "gwc_area_mean_se": [
+      0.8751768921216193,
+      0.005158605825349758
+    ],
+    "env_area_mean_se": [
+      0.8606637210514028,
+      0.004910301583604764
+    ],
+    "base_area_mean_se": [
+      1.0,
+      0.0
+    ],
+    "env_both_negative_fraction": 0.738,
+    "gwc_any_positive_env_both_negative_fraction": 0.002
+  }
+}

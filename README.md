@@ -1,33 +1,60 @@
-# Interpretable Multivariate Conformal Prediction with Fast Transductive Standardization
+# Interpretable Multivariate Conformal Prediction
 
-This repository contains all codes and data needed to reproduce code in paper:
+Research by Yunjie Fan and Matteo Sesia on simple coordinate standardization for simultaneous, interpretable rectangular prediction regions, without an additional calibration split for residual shape estimation.
 
->  "Interpretable Multivariate Conformal Prediction with Fast Transductive Standardization"  
->  Yunjie Fan, Matteo Sesia 
->  [arXiv preprint](https://arxiv.org/abs/2512.15383)
+[Original preprint](https://arxiv.org/abs/2512.15383). The working tree also contains newer signed-envelope development and fresh experiments that are not yet fully integrated into the main JMLR draft.
 
-## Abstract
+## Read the project
 
-We propose a conformal prediction method for constructing tight simultaneous prediction intervals for multiple, potentially related, numerical outputs given a single input. This method can be combined with any multi-target regression model and guarantees finite-sample coverage. It is computationally efficient and yields informative prediction intervals even with limited data. The core idea is a novel \emph{coordinate-wise} standardization procedure that makes residuals across output dimensions directly comparable, estimating suitable scaling parameters using the calibration data themselves. This does not require modeling of cross-output dependence nor auxiliary sample splitting. Implementing this idea requires overcoming technical challenges associated with transductive or full conformal prediction. Experiments on simulated and real data demonstrate this method can produce tighter prediction intervals than existing baselines while maintaining valid simultaneous coverage.
+- [Current envelope/shortcut meeting report and complete report folder](envelope_method/meeting_report/README.md)
+- [Project map](docs/PROJECT_MAP.md)
+- [Data layout, figure sources and GitHub sharing](docs/DATA_LAYOUT.md)
+- [Author's working paper goal](docs/WORKING_PAPER_GOAL.md)
+- [Proposed paper experiments and missing evidence](docs/PAPER_EXPERIMENT_PLAN.md)
+- [Experiment retention register](docs/EXPERIMENT_RETENTION.md)
+- [Archive storage and reproduction](docs/ARCHIVE_STORAGE_GUIDE.md)
+- [Storage measurements and decisions](docs/STORAGE_DECISIONS.md), [archive cleanup](docs/ARCHIVE_CLEANUP_REPORT.md), and [earlier cache/duplicate cleanup](docs/CLEANUP_REPORT.md)
+- [Earlier full folder and publication audit](output/project_audit_2026-09-09/PROJECT_REVIEW.md)
 
-## Required Packages
+## Main folders
 
-- `numpy` 
-- `scipy` 
-- `scikit-learn` 
-- `pandas` 
-- `ucimlrepo` 
+| Folder | Contents |
+|---|---|
+| `utility/` | Envelope, original TSCP variants, Point CHR, CQHR and other baselines; data/model/evaluation helpers |
+| `multi_target_scaling_latex/` | Main JMLR manuscript, mathematical supplement, figures and reviewer response |
+| `envelope_method/` | Current derivation, experiment drivers, settings, result documentation, reports and figures |
+| `data/` | All numerical experiment outputs, raw datasets, fitted residual caches and generated audit records; excluded from Git |
+| `syn_exps/`, `reviewer_exps/`, `real_exps/` | Navigation/figure interfaces; their numerical files are under the matching `data/` paths |
+| `reviewer_update/` | Reviewer study code, publication builders, figures and reference source snapshots |
+| `output/` | Portable reports and the dated project audit |
+| `docs/` | Current navigation, paper plan, retention decisions and cleanup records |
+| `quarantine/` | Historical source/figure context; numerical evidence is under `data/quarantine/` |
+| `tmp/` | Local dependencies/compiler and scratch outputs; contains active runtime inputs |
 
-## Reproducibility Instructions
+## Current evidence
 
-The `utility` package contains the following scripts:
-- `rectangle.py`: a script that defines the general use of hyper-rectangles;
-- `res_rescaled.py`: a script that contains implementation of our **TSCP** described in the paper, including TSCP-GWC and TSCP-LWC; 
-- `data_splitting.py`: a script that contains implementation of Naive, TSCP-S, Pop. Oracle, and Point CHR;
-- `unscaled.py`: a script that contains implementation of Bonferroni and Unscaled Max;
-- `copula.py`: a script that contains implementation of Emp. Copula;
+The main fresh synthetic corpus has 225 configurations and 35,463 fitted trials, plus 1,730 fitted toys and a separate 2,400-trial report study. Eight real cohorts have 200 random splits each. Repeated views and comparator sidecars reuse the same fits and are not independent additional experiments. The prepared ten-output CQR study has six completed pilots; its formal sweep remains unrun.
 
-- `data_generator.py`: a script that contains the data generator used in the experiments described in the paper;
-- `exps.py`: a script that contains implementation (including how to generate or load the data) of all of our simulated and real data experiments described in the paper.
+Start at the [results map](envelope_method/results/README.md), [method results](envelope_method/RESULTS.md), [signed/comparator follow-up](envelope_method/FOLLOWUP_AUDIT.md), and [corrected real comparison](envelope_method/results/REAL_COMPARISON.md). For current real-data numbers use `data/envelope_method/results/real_comparison_audited.csv`; generic historical summaries may contain older Point CHR values.
 
-The `real_exps` folder and `syn_exps` folder contain all of our results and figure summaries of simulated and real experiments. 
+Current source/CSV updates have not automatically rebuilt the manuscript's figures and quantitative prose. See [sampling provenance](multi_target_scaling_latex/sampling_provenance.md).
+
+## Run and reproduce
+
+Shared scientific dependencies include NumPy, SciPy, pandas, scikit-learn and ucimlrepo. Plotting, notebooks and verification add dependencies described by each workflow; the project does not yet have one unified portable environment.
+
+- [Fresh envelope experiments and commands](envelope_method/README.md)
+- [Controlled report suite](envelope_method/report_revision/README.md)
+- [Real-coordinate and search diagnostics](reviewer_update/real_diagnostics/README.md)
+- [Ten-output CQR notebook and requirements](envelope_method/cqr10/README.md)
+- [Manuscript integration/build instructions](multi_target_scaling_latex/README_INTEGRATION.md)
+
+Every formal synthetic trial generates fresh observations and refits; methods within a trial share data and predictions. Full-cell LWC remains manual-only in `envelope_method/full_lwc_manual.ipynb`, disabled by default. No experiment run is triggered by reading these documents or by the cleanup.
+
+New main-runner trials default to **scores** storage for absolute residuals and **compact** storage for CQR. Choose `--storage full` explicitly when raw observations are needed, and use `--out` for a separate run destination. Existing richer archives are preserved on resume; missing scores/full data are reported rather than silently redrawn. See the [storage guide](docs/ARCHIVE_STORAGE_GUIDE.md) for commands, provenance checks and tier-specific reproduction.
+
+## Cleanup policy
+
+All configurations, trial measurements, summaries, comparator results, source code, figures and useful exploratory controls are retained. The absolute/CQR storage migration keeps **1,319 full trial archives (796,388,868 bytes)** and retains all non-X/y members in scores archives for the other existing trials. The author removed the staged `deletable/` originals before the September 10 data reorganization; those rollback copies are no longer locally available.
+
+The [archive cleanup report](docs/ARCHIVE_CLEANUP_REPORT.md) records the earlier storage reduction. All retained numerical files now live under `data/`, with the same experiment identities and file contents. Code, settings, LaTeX inputs and figures remain outside that ignored folder. See [data layout](docs/DATA_LAYOUT.md) for locations and [reorganization verification](docs/DATA_REORGANIZATION.md) for checks.

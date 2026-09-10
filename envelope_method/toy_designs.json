@@ -1,0 +1,72 @@
+[
+  {
+    "name": "2d_homoskedastic_independent",
+    "d": 2,
+    "scale_kind": "constant",
+    "base_scales": [
+      1.0,
+      1.0
+    ],
+    "rho": 0.0,
+    "seed": 2026090401
+  },
+  {
+    "name": "2d_constant_heterogeneous",
+    "d": 2,
+    "scale_kind": "constant",
+    "base_scales": [
+      1.0,
+      3.0
+    ],
+    "rho": 0.0,
+    "seed": 2026090402
+  },
+  {
+    "name": "2d_lognormal_independent_scales",
+    "d": 2,
+    "scale_kind": "lognormal_independent",
+    "base_scales": [
+      1.0,
+      3.0
+    ],
+    "scale_sd": 0.75,
+    "rho": 0.0,
+    "seed": 2026090403
+  },
+  {
+    "name": "2d_lognormal_common_scale",
+    "d": 2,
+    "scale_kind": "lognormal_common",
+    "base_scales": [
+      1.0,
+      3.0
+    ],
+    "scale_sd": 0.75,
+    "rho": 0.0,
+    "seed": 2026090404
+  },
+  {
+    "name": "3d_constant_heterogeneous",
+    "d": 3,
+    "scale_kind": "constant",
+    "base_scales": [
+      1.0,
+      2.0,
+      4.0
+    ],
+    "rho": 0.0,
+    "seed": 2026090405
+  },
+  {
+    "name": "3d_correlated_homoskedastic",
+    "d": 3,
+    "scale_kind": "constant",
+    "base_scales": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rho": 0.75,
+    "seed": 2026090406
+  }
+]

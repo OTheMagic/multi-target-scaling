@@ -1,0 +1,7 @@
+numpy==2.5.2
+pandas==2.3.3
+scipy==1.18.1
+matplotlib==3.11.1
+threadpoolctl==3.6.0
+pdfplumber==0.11.9
+Pillow==12.3.0

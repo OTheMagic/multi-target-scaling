@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT))
 
 from reviewer_update import build_experiment_update as style
 from reviewer_update import build_real_diagnostics as real
+from utility.project_paths import data_path
 import matplotlib.pyplot as plt
 from matplotlib.ticker import NullLocator
 import numpy as np
@@ -42,7 +43,7 @@ SPECS = [
 def load_source(folder, suffix, methods, dimension=None):
     pieces, sources = [], []
     for method in methods:
-        path = ROOT / "syn_exps" / folder / f"{method.lower()}_{suffix}.csv"
+        path = data_path("syn_exps", folder, f"{method.lower()}_{suffix}.csv")
         frame = pd.read_csv(path).drop(columns=["Unnamed: 0"], errors="ignore")
         if dimension is not None:
             frame = frame.loc[frame.n_dim.eq(dimension)].copy()
@@ -123,7 +124,7 @@ def dimension_scaling():
 
 
 def real_figures_only():
-    directory = LATEX / "experiment_data/real_diagnostics"
+    directory = data_path("multi_target_scaling_latex/experiment_data/real_diagnostics")
     cs = pd.read_csv(directory / "real_coordinate_summary.csv")
     js = pd.read_csv(directory / "real_joint_summary.csv")
     bs = pd.read_csv(directory / "real_search_alpha_summary.csv")
@@ -141,7 +142,9 @@ def main():
               "figures": RECORDS,
               "shared_style": "reviewer_update/build_experiment_update.py",
               "restyled_real_figures": real.FIGURE_NAMES}
-    (LATEX / "figure_style_audit.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    audit_path = data_path("multi_target_scaling_latex/figure_style_audit.json")
+    audit_path.parent.mkdir(parents=True, exist_ok=True)
+    audit_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

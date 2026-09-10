@@ -4,13 +4,18 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from utility.project_paths import data_path, resolve_artifact
+from reviewer_update.artifact_paths import iter_artifact_files
+
 LATEX = ROOT / "multi_target_scaling_latex"
 BEFORE = ROOT / "reviewer_update/pre_figure_unification"
 
 def read(path):
-    return path.read_text(encoding="utf-8-sig")
+    return resolve_artifact(path).read_text(encoding="utf-8-sig")
 
 def active(text):
     return re.sub(r"(?<!\\)%[^\n]*", "", text)
@@ -33,12 +38,11 @@ assert Counter(re.findall(data_inputs, old)) == Counter(re.findall(data_inputs, 
 tables = r"\\begin\{tabular\}.*?\\end\{tabular\}"
 assert re.findall(tables, old, re.DOTALL) == re.findall(tables, current, re.DOTALL)
 restyled = {f"figures/{name}.pdf" for name in style_audit["restyled_real_figures"]}
-assets = [path for folder in ["figures", "experiment_data"]
-          for path in (BEFORE / folder).rglob("*") if path.is_file()]
-for path in assets:
-    relative = path.relative_to(BEFORE)
+assets = [(Path(folder) / relative, path) for folder in ["figures", "experiment_data"]
+          for relative, path in iter_artifact_files(BEFORE / folder)]
+for relative, path in assets:
     if relative.as_posix() not in restyled:
-        assert path.read_bytes() == (LATEX / relative).read_bytes(), relative
+        assert path.read_bytes() == resolve_artifact(LATEX / relative).read_bytes(), relative
 assert (BEFORE / "supplementary.tex").read_bytes() == (LATEX / "supplementary.tex").read_bytes()
 author_body = read(BEFORE / "body.tex")
 restored_body = author_body.replace("doing so involves technical challenges.}\n",
@@ -46,7 +50,7 @@ restored_body = author_body.replace("doing so involves technical challenges.}\n"
 assert read(LATEX / "body.tex") in (author_body, restored_body)
 for item in style_audit["figures"]:
     for source in item["sources"]:
-        assert hashlib.sha256((ROOT / source["path"]).read_bytes()).hexdigest() == source["sha256"]
+        assert hashlib.sha256(resolve_artifact(source["path"]).read_bytes()).hexdigest() == source["sha256"]
 assert r"\input{experiments_legacy}" not in current
 visible = re.sub(r"\\(?:label|ref|eqref)\{[^}]+\}", "", current)
 for phrase in ["legacy", "retained original", "by the reviewers", "historical", "new reruns",
@@ -67,5 +71,7 @@ report = {
     "revision_log_framing_removed": True,
     "scope": "Narrative and plot-style edit; numerical source files and tables unchanged. Sampling provenance requires a separate audit.",
 }
-(LATEX / "publication_edit_audit.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+audit_path = data_path("multi_target_scaling_latex/publication_edit_audit.json")
+audit_path.parent.mkdir(parents=True, exist_ok=True)
+audit_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 print(json.dumps(report, indent=2))

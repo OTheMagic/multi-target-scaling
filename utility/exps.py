@@ -36,6 +36,8 @@ from utility.data_splitting import data_splitting_standardized_prediction, data_
 from utility.copula import EmpiricalCopula, empirical_copula_prediction, inverse_ecdf_transform
 from utility.cqhr import cqhr_adjustments
 from utility.conformal_utils import add_jitter, conformal_quantile
+from utility.envelope import EnvelopeCalibration, envelope_prediction
+from utility.project_paths import data_path
 
 
 METHOD_ALIASES = {
@@ -118,7 +120,9 @@ def _function_choice(scores, alpha, method, mu=None, std=None):
     method = _normalize_method_name(method)
 
     # Standardized methods
-    if method == "TSCP_LWC":
+    if method == "Envelope":
+        return envelope_prediction(scores=scores, alpha=alpha)
+    elif method == "TSCP_LWC":
         return standardized_prediction(scores=scores, alpha=alpha, short_cut=False)
     elif method == "TSCP_R":
         return standardized_prediction(scores=scores, alpha=alpha, short_cut=True)
@@ -905,13 +909,10 @@ def run_abs_res_synthetic_experiment(
     method: Optional[str] = None,
     log_scale: bool = False,
     model_factory: Optional[Callable[[], Any]] = None,
-    n_train_pool: int = 8000,
     n_features: int = 10,
     n_informative: int = 10,
-    test_size: float = 0.2,
-    redraw_train_test: bool = False,
-    n_train: Optional[int] = None,
-    n_test: Optional[int] = None,
+    n_train: int = 7200,
+    n_test: int = 800,
     oracle_n_samples: int = 100000,
     oracle_seed_offset: int = 3,
     data_generator: Callable[..., Any] = make_multitarget_regression,
@@ -956,23 +957,14 @@ def run_abs_res_synthetic_experiment(
     model_factory : callable, optional
         Function returning a fresh sklearn-style model. Defaults to
         `LinearRegression`.
-    n_train_pool : int, default=8000
-        Number of samples in the generated train/test pool.
     n_features : int, default=10
-        Number of features in the synthetic regression problem.
+        Number of predictor features.
     n_informative : int, default=10
-        Number of informative features used for calibration/oracle generation.
-    test_size : float, default=0.2
-        Test split fraction for the generated train/test pool.
-    redraw_train_test : bool, default=False
-        If True, generate fresh independent training and test observations in
-        every Monte Carlo repetition instead of repeatedly splitting one pool.
-    n_train : int, optional
-        Number of fresh training observations when `redraw_train_test=True`.
-        Defaults to `n_train_pool - ceil(test_size * n_train_pool)`.
-    n_test : int, optional
-        Number of fresh test observations when `redraw_train_test=True`.
-        Defaults to `ceil(test_size * n_train_pool)`.
+        Number of informative predictor features.
+    n_train : int, default=7200
+        Fresh training observations generated and fitted in every trial.
+    n_test : int, default=800
+        Fresh independent test observations generated in every trial.
     oracle_n_samples : int, default=100000
         Number of oracle samples for `Population_oracle`.
     oracle_seed_offset : int, default=3
@@ -1004,31 +996,18 @@ def run_abs_res_synthetic_experiment(
 
     if trials <= 0:
         raise ValueError("trials must be positive.")
-    if redraw_train_test:
-        default_n_test = int(np.ceil(test_size * n_train_pool))
-        n_test = default_n_test if n_test is None else int(n_test)
-        n_train = (
-            n_train_pool - default_n_test if n_train is None else int(n_train)
-        )
-        if n_train <= 0 or n_test <= 0:
-            raise ValueError("n_train and n_test must be positive.")
+    n_train, n_test = int(n_train), int(n_test)
+    if n_train <= 0 or n_test <= 0:
+        raise ValueError("n_train and n_test must be positive.")
     if model_factory is None:
         model_factory = LinearRegression
     generator_kwargs = dict(generator_kwargs or {})
     metadata = _recordable_metadata(generator_kwargs)
-    protocol_n_test = (
-        n_test
-        if redraw_train_test
-        else int(np.ceil(test_size * n_train_pool))
-    )
-    protocol_n_train = (
-        n_train if redraw_train_test else n_train_pool - protocol_n_test
-    )
     metadata.update(
         {
-            "redraw_train_test": redraw_train_test,
-            "n_train": protocol_n_train,
-            "n_test": protocol_n_test,
+            "redraw_train_test": True,
+            "n_train": n_train,
+            "n_test": n_test,
         }
     )
 
@@ -1039,8 +1018,9 @@ def run_abs_res_synthetic_experiment(
     for index_dim, dim in enumerate(dim_list):
         noise_list = _get_noise_list(dim=dim, index_dim=index_dim, noises_list=noises_list)
 
-        X, y, coef_true = data_generator(
-            n_samples=n_train_pool,
+        # Retain only the DGP coefficients; no observations are reused.
+        _, _, coef_true = data_generator(
+            n_samples=n_train + n_test,
             n_features=n_features,
             n_informative=n_informative,
             n_targets=dim,
@@ -1054,31 +1034,22 @@ def run_abs_res_synthetic_experiment(
             for trial in range(trials):
                 seed = _stable_hash(dim, sample, trial)
 
-                if redraw_train_test:
-                    X_trial, y_trial = data_generator(
-                        n_samples=n_train + n_test,
-                        n_features=n_features,
-                        n_informative=n_informative,
-                        n_targets=dim,
-                        noise_type=noise_type,
-                        noise_list=noise_list,
-                        random_state=_stable_hash(dim, sample, trial, "train_test"),
-                        coef=coef_true,
-                        **generator_kwargs,
-                    )
-                    X_train, X_test = X_trial[:n_train], X_trial[n_train:]
-                    y_train, y_test = y_trial[:n_train], y_trial[n_train:]
-                    calibration_seed = _stable_hash(
-                        dim, sample, trial, "calibration"
-                    )
-                else:
-                    X_train, X_test, y_train, y_test = train_test_split(
-                        X,
-                        y,
-                        test_size=test_size,
-                        random_state=seed + 42,
-                    )
-                    calibration_seed = seed
+                X_trial, y_trial = data_generator(
+                    n_samples=n_train + n_test,
+                    n_features=n_features,
+                    n_informative=n_informative,
+                    n_targets=dim,
+                    noise_type=noise_type,
+                    noise_list=noise_list,
+                    random_state=_stable_hash(dim, sample, trial, "train_test"),
+                    coef=coef_true,
+                    **generator_kwargs,
+                )
+                X_train, X_test = X_trial[:n_train], X_trial[n_train:]
+                y_train, y_test = y_trial[:n_train], y_trial[n_train:]
+                calibration_seed = _stable_hash(
+                    dim, sample, trial, "calibration"
+                )
 
                 model = model_factory()
                 model.fit(X_train, y_train)
@@ -1111,8 +1082,6 @@ def run_abs_res_synthetic_experiment(
                             _stable_hash(
                                 dim, sample, trial, "oracle", oracle_seed_offset
                             )
-                            if redraw_train_test
-                            else seed + oracle_seed_offset
                         ),
                         coef=coef_true,
                         **generator_kwargs,
@@ -1187,13 +1156,11 @@ def run_abs_res_synthetic_experiment(
         "noise_type": noise_type,
         "trials": trials,
         "log_scale": log_scale,
-        "n_train_pool": n_train_pool,
         "n_features": n_features,
         "n_informative": n_informative,
-        "test_size": test_size,
-        "redraw_train_test": redraw_train_test,
-        "n_train": protocol_n_train,
-        "n_test": protocol_n_test,
+        "redraw_train_test": True,
+        "n_train": n_train,
+        "n_test": n_test,
         "oracle_n_samples": oracle_n_samples,
         "oracle_seed_offset": oracle_seed_offset,
         "data_generator": getattr(data_generator, "__name__", str(data_generator)),
@@ -1275,13 +1242,10 @@ def run_cqr_synthetic_experiment(
     quantile_model_params: Optional[Dict[str, Any]] = None,
     quantile_n_jobs: int = 1,
     log_scale: bool = False,
-    n_train_pool: int = 8000,
     n_features: int = 10,
     n_informative: int = 10,
-    test_size: float = 0.2,
-    redraw_train_test: bool = False,
-    n_train: Optional[int] = None,
-    n_test: Optional[int] = None,
+    n_train: int = 2400,
+    n_test: int = 600,
     oracle_n_samples: int = 100000,
     oracle_seed_offset: int = 3,
     data_generator: Callable[..., Any] = make_multitarget_regression,
@@ -1298,7 +1262,7 @@ def run_cqr_synthetic_experiment(
         S_ij = max{ q_lower_j(X_i) - Y_ij,
                     Y_ij - q_upper_j(X_i) }.
 
-    Since TSCP-style methods require nonnegative scores, this runner supports:
+    For comparing the nonnegative shortcut with signed baselines, this runner supports:
     - `score_transform="raw"`: use signed CQR scores directly for methods that
       can work with negative adjustments;
     - `score_transform="capped"`: use max(S_ij, 0);
@@ -1323,7 +1287,7 @@ def run_cqr_synthetic_experiment(
     score_region_methods = [method_name for method_name in methods if method_name != "CQHR"]
     use_cqhr = "CQHR" in methods
     if raw_score_methods is None:
-        raw_score_methods = ["Unscaled", "Empirical_copula"]
+        raw_score_methods = ["Unscaled", "Empirical_copula", "Envelope"]
     raw_score_methods = {
         _normalize_method_name(method_name)
         for method_name in raw_score_methods
@@ -1338,30 +1302,16 @@ def run_cqr_synthetic_experiment(
         raise ValueError("trials must be positive.")
     if quantile_n_jobs == 0:
         raise ValueError("quantile_n_jobs cannot be zero.")
-    if redraw_train_test:
-        default_n_test = int(np.ceil(test_size * n_train_pool))
-        n_test = default_n_test if n_test is None else int(n_test)
-        n_train = (
-            n_train_pool - default_n_test if n_train is None else int(n_train)
-        )
-        if n_train <= 0 or n_test <= 0:
-            raise ValueError("n_train and n_test must be positive.")
-
+    n_train, n_test = int(n_train), int(n_test)
+    if n_train <= 0 or n_test <= 0:
+        raise ValueError("n_train and n_test must be positive.")
     generator_kwargs = dict(generator_kwargs or {})
     metadata = _recordable_metadata(generator_kwargs)
-    protocol_n_test = (
-        n_test
-        if redraw_train_test
-        else int(np.ceil(test_size * n_train_pool))
-    )
-    protocol_n_train = (
-        n_train if redraw_train_test else n_train_pool - protocol_n_test
-    )
     metadata.update(
         {
-            "redraw_train_test": redraw_train_test,
-            "n_train": protocol_n_train,
-            "n_test": protocol_n_test,
+            "redraw_train_test": True,
+            "n_train": n_train,
+            "n_test": n_test,
         }
     )
     records = []
@@ -1371,8 +1321,9 @@ def run_cqr_synthetic_experiment(
     for index_dim, dim in enumerate(dim_list):
         noise_list = _get_noise_list(dim=dim, index_dim=index_dim, noises_list=noises_list)
 
-        X, y, coef_true = data_generator(
-            n_samples=n_train_pool,
+        # Retain only the DGP coefficients; no observations are reused.
+        _, _, coef_true = data_generator(
+            n_samples=n_train + n_test,
             n_features=n_features,
             n_informative=n_informative,
             n_targets=dim,
@@ -1386,31 +1337,22 @@ def run_cqr_synthetic_experiment(
             for trial in range(trials):
                 seed = _stable_hash(dim, sample, trial)
 
-                if redraw_train_test:
-                    X_trial, y_trial = data_generator(
-                        n_samples=n_train + n_test,
-                        n_features=n_features,
-                        n_informative=n_informative,
-                        n_targets=dim,
-                        noise_type=noise_type,
-                        noise_list=noise_list,
-                        random_state=_stable_hash(dim, sample, trial, "train_test"),
-                        coef=coef_true,
-                        **generator_kwargs,
-                    )
-                    X_train, X_test = X_trial[:n_train], X_trial[n_train:]
-                    y_train, y_test = y_trial[:n_train], y_trial[n_train:]
-                    calibration_seed = _stable_hash(
-                        dim, sample, trial, "calibration"
-                    )
-                else:
-                    X_train, X_test, y_train, y_test = train_test_split(
-                        X,
-                        y,
-                        test_size=test_size,
-                        random_state=seed + 42,
-                    )
-                    calibration_seed = seed
+                X_trial, y_trial = data_generator(
+                    n_samples=n_train + n_test,
+                    n_features=n_features,
+                    n_informative=n_informative,
+                    n_targets=dim,
+                    noise_type=noise_type,
+                    noise_list=noise_list,
+                    random_state=_stable_hash(dim, sample, trial, "train_test"),
+                    coef=coef_true,
+                    **generator_kwargs,
+                )
+                X_train, X_test = X_trial[:n_train], X_trial[n_train:]
+                y_train, y_test = y_trial[:n_train], y_trial[n_train:]
+                calibration_seed = _stable_hash(
+                    dim, sample, trial, "calibration"
+                )
 
                 X_cal, y_cal = data_generator(
                     n_samples=sample,
@@ -1438,8 +1380,6 @@ def run_cqr_synthetic_experiment(
                             _stable_hash(
                                 dim, sample, trial, "oracle", oracle_seed_offset
                             )
-                            if redraw_train_test
-                            else seed + oracle_seed_offset
                         ),
                         coef=coef_true,
                         **generator_kwargs,
@@ -1565,7 +1505,15 @@ def run_cqr_synthetic_experiment(
                                     "std": np.std(oracle_scores, axis=0, ddof=1),
                                 }
 
-                            if transform == "raw":
+                            if transform == "raw" and method_name == "Envelope":
+                                start = time.perf_counter()
+                                calibrated = EnvelopeCalibration(scores_cal, alpha)
+                                adjustments = np.array([
+                                    calibrated.predict(-length / 2).upper
+                                    for length in base_lengths_test
+                                ])
+                                runtime = time.perf_counter() - start
+                            elif transform == "raw":
                                 adjustments, runtime = _fit_raw_cqr_baseline_adjustments(
                                     method=method_name,
                                     raw_scores_cal=scores_cal,
@@ -1598,6 +1546,7 @@ def run_cqr_synthetic_experiment(
                                 trial_volume = _safe_log10(trial_volume)
 
                             average_coordinate_lengths = np.mean(adjusted_lengths, axis=0)
+                            average_adjustments = np.broadcast_to(adjustments, base_lengths_test.shape).mean(axis=0)
                             max_average_length = np.max(average_coordinate_lengths)
 
                             record = {
@@ -1637,7 +1586,7 @@ def run_cqr_synthetic_experiment(
                                     "shift_constant": current_shift_constant,
                                     "coordinate": coordinate,
                                     "coordinate_base_length": base_coordinate_lengths[coordinate - 1],
-                                    "coordinate_adjustment": adjustments[coordinate - 1],
+                                    "coordinate_adjustment": average_adjustments[coordinate - 1],
                                     "coordinate_length": coordinate_length,
                                     **metadata,
                                 })
@@ -1672,13 +1621,11 @@ def run_cqr_synthetic_experiment(
         "base_interval_alpha": base_interval_alpha,
         "trials": trials,
         "log_scale": log_scale,
-        "n_train_pool": n_train_pool,
         "n_features": n_features,
         "n_informative": n_informative,
-        "test_size": test_size,
-        "redraw_train_test": redraw_train_test,
-        "n_train": protocol_n_train,
-        "n_test": protocol_n_test,
+        "redraw_train_test": True,
+        "n_train": n_train,
+        "n_test": n_test,
         "oracle_n_samples": oracle_n_samples,
         "oracle_seed_offset": oracle_seed_offset,
         "data_generator": getattr(data_generator, "__name__", str(data_generator)),
@@ -1799,19 +1746,19 @@ def _load_real_experiment_data(data: str):
         return X, y, MultiTaskLasso(alpha=0.0001)
 
     if data == "rf1":
-        X, y = _load_arff_dataset("real_exps/data/rf1.arff", n_features=64)
+        X, y = _load_arff_dataset(data_path("real_exps/data/rf1.arff"), n_features=64)
         return X, y, _random_forest_model()
 
     if data == "rf2":
-        X, y = _load_arff_dataset("real_exps/data/rf2.arff", n_features=576)
+        X, y = _load_arff_dataset(data_path("real_exps/data/rf2.arff"), n_features=576)
         return X, y, _random_forest_model()
 
     if data == "scm1d":
-        X, y = _load_arff_dataset("real_exps/data/scm1d.arff", n_features=280)
+        X, y = _load_arff_dataset(data_path("real_exps/data/scm1d.arff"), n_features=280)
         return X, y, _random_forest_model()
 
     if data == "scm20d":
-        X, y = _load_arff_dataset("real_exps/data/scm20d.arff", n_features=61)
+        X, y = _load_arff_dataset(data_path("real_exps/data/scm20d.arff"), n_features=61)
         return X, y, _random_forest_model()
 
     if data == "student":

@@ -4,16 +4,21 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import sys
 
 from pypdf import PdfReader
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from utility.project_paths import data_path, resolve_artifact
+from reviewer_update.artifact_paths import iter_artifact_files
+
 CURRENT = ROOT / "multi_target_scaling_latex"
 BEFORE = ROOT / "reviewer_update/pre_final_editorial"
 
 
 def read(path):
-    return path.read_text(encoding="utf-8-sig")
+    return resolve_artifact(path).read_text(encoding="utf-8-sig")
 
 
 def active(text):
@@ -31,7 +36,7 @@ def expand(root, relative, seen=None):
 
 
 def digest(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return hashlib.sha256(resolve_artifact(path).read_bytes()).hexdigest()
 
 
 def labels(text):
@@ -55,11 +60,10 @@ def validate():
     tables = re.findall(r"\\begin\{tabular\}.*?\\end\{tabular\}", current, re.S)
     assert [t.replace("Emp. copula", "Emp. Copula") for t in before_tables] == tables
 
-    assets = [p for folder in ("figures", "experiment_data")
-              for p in (BEFORE / folder).rglob("*") if p.is_file()]
-    for source in assets:
-        relative = source.relative_to(BEFORE)
-        destination = CURRENT / relative
+    assets = [(Path(folder) / relative, path) for folder in ("figures", "experiment_data")
+              for relative, path in iter_artifact_files(BEFORE / folder)]
+    for relative, source in assets:
+        destination = resolve_artifact(CURRENT / relative)
         assert destination.is_file(), relative
         if relative.as_posix() == "figures/toy_real.tex":
             assert read(source).replace("Emp. copula", "Emp. Copula") == read(destination)
@@ -100,7 +104,7 @@ def validate():
     assert len({Path(f).name for f in experimental} - added) == 8
     for study in studies:
         assert study["location"] in label_counts
-        assert all((ROOT / source).is_file() for source in study["data"]), study["id"]
+        assert all(resolve_artifact(source).is_file() for source in study["data"]), study["id"]
         assert study["id"] in read(CURRENT / "revision_cover.tex"), study["id"]
 
     tagged = []
@@ -142,7 +146,9 @@ def validate():
         "author_check_tags": tagged, "documents": documents,
         "scientific_submission_readiness": "Not certified; author decisions remain open.",
     }
-    (CURRENT / "final_editorial_audit.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    audit_path = data_path("multi_target_scaling_latex/final_editorial_audit.json")
+    audit_path.parent.mkdir(parents=True, exist_ok=True)
+    audit_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({k: v for k, v in report.items() if k != "author_check_tags"}, indent=2))
 
 

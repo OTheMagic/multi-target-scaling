@@ -1,0 +1,2123 @@
+{
+  "version": 1,
+  "created_date": "2026-09-09",
+  "default_mode": "scores",
+  "scope": [
+    "absolute",
+    "cqr"
+  ],
+  "results_root": "envelope_method/results",
+  "drop_members": [
+    "X_train",
+    "y_train",
+    "X_cal",
+    "y_cal",
+    "X_test",
+    "y_test"
+  ],
+  "preserve_all_other_npz_members": true,
+  "preserve_all_trial_json_and_csv": true,
+  "preserve_scores_for_all_trials": true,
+  "keep_full": [
+    {
+      "kind": "absolute",
+      "config_id": "898faf279901d34c",
+      "trials": "all",
+      "reason": "Complete d=2, n_cal=30 Cauchy heavy-tail cohort: retain all trials for sensitivity and generator audit; not a claim that configured noise_levels are applied."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "53f83ed6b5d3df7a",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "5966a2bbf52d4905",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "1b3d0761e2c65529",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "8d441ace2414ce13",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "117125efaf4e9e4a",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "c675a2f311ed1346",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "8b54266e1753ceb0",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "aa06302f21148403",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "3cdb5988bc81b54a",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "7f238136cc462b22",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "008218558ef528cc",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ff7e4cf9c72bbf13",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "2bf67b2af12faa4f",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "938b71880914d823",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "e080eba94ba3420e",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "17b0dfbfe5157558",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "e0b24d936f7b8e3a",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "8c87761e164d4cd3",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ebd6c8ab5ffb0696",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "7bf45a517e6e80f8",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "cdad94cb73d7dbac",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "c7ab3684ea5e6952",
+      "trials": "all",
+      "reason": "Complete clean Gaussian absolute-score benchmark: d=2, n_cal=30; retains every trial independently of performance."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "fc41a93cd92742a0",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "742c89e20c86c7f0",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "e699775642d132bb",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "c11c4d61391712fb",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b682c56d570d4fc4",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "7b72e544a1684a77",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "54bff25c4b5f8976",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "3043a9c01bdf5430",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "3f24bbb092a6548e",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "7014a1e7e401dbcc",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "c131bc26e404b839",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "187f67f0389b1c17",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "d0de72594d6bde4f",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "2c57d009d65a59bf",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "089d250dfd930525",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b8741e3c31c43a32",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "52be93013ba6fc36",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "da11d5e891bb15da",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ff833dc7a337ed28",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "4e11385a5254cc2a",
+      "trials": "all",
+      "reason": "Complete d=2, n_cal=30 Laplace cohort: non-Gaussian comparison and primary inputs for saved paired exact/full-LWC illustrations."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "28275fa5c9e50afb",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "c68e637a93a76f6f",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "4076ab921805e50a",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "47bde060b9939225",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "336c0699d8acb5d9",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "bfb0aa69f3fa55a6",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "c48cdf095d54f4f8",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "659361edd67b47b9",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "f9a7e70628c18069",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "e99fd35d52f8ec7b",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "6c3983b11c567ce5",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b585714188896178",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "8889452789b32cef",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "f540630a66d49c54",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "716f65960d11b69c",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "066cc3656c82fc7c",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "c95860972d574424",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ca3857868423270d",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "878075e078fd0866",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ae5799e85666f892",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "d3000264cb61a0f6",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "886a9cfb8e55806b",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "a143c8f2c10622b6",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "02654f7544e0b55b",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "139172f0f353f58a",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "382484961998da39",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "98edfda1f95cd191",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "bf191a2c58f7bafb",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "067044987bbdd665",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "68629c3382377452",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "c011e610e6dd42a4",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b0b90b9ac9f7cde9",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "425c0b902f8ee037",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "9e0e0843a489d22c",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "9b96811d1eab79fe",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ff58809b8b3e95c9",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "131aa7b53a2a60c1",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "9a486de0bf74418d",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "96af6b0f5182ec04",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "a1801d419e65e648",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b0c5c77ff616e56c",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "92c5ff720401d003",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "03c93ff4a0a731e3",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b3ad77b36a7f47a2",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "dacc6d36269aa265",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "5c13f11f6e703f50",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "596dc7e3eaaa46cc",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "479e8557793279ec",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "eadacd9e788dea0f",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "0fdb2103ef5c3c25",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "125df6c1299b7a7a",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "61d4b30241101336",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "6b80ac242b8ff262",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "4fa819d1e265e012",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "f351aaad2c92423a",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "555f3d11439c0fd3",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "3b03ed6f47fccf41",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ea6ad50df2f23051",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "d79154848910a1f5",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "34f29fdf675f6c46",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "64242769c7577482",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "163cefbee257c5e1",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "2b8d5f88c3701053",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "d6526006d04061b4",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "131108560420b102",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "e4e25cbf2c7206c6",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "e95c499b5ed65f54",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "5879c5dffa9466f7",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "286621d7f96fa012",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "7a4b60f4482017f2",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ad69ada210c0f034",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "1df9d08d006b3ec0",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "47023132baf291ef",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "8b952a52e3e951f7",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "d2d8b9deba13c074",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "f6f5f00f46624d90",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "38465b484ba0c135",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "3af05032c595a9d7",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "d6299b059bdd7008",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "244e53e26832d3da",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b547102870232900",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "64fe748eadaee93f",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "3f67600c90a404a8",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "3950e70bdd00a3c5",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "65d93b0249f064be",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "4e113c187ebdadf2",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "f8e690ded42e5af5",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "995665f168ac9bf9",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "edab386b7c1db952",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "619cf9d39985247a",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "36495667b73626b1",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ce58cb1d05e133ac",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "d9a64e430c639f07",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "c86c501f006d2b90",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "1b5dae3499baaf54",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "ef72df201e316a43",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "a860b4ca8ceb3408",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "fee95965187727fd",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "4bdeb48d23efcc5d",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "5f474269f3ec6318",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "c297b54bd9cb34ed",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "e020dda90c999189",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "32c1d010a6e2b1b7",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "cd7f2e9ea784cef6",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "f4a5ec9302c38c8e",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "12f6df5ed0cbf9f1",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "531a1c8417a38fd3",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "aeba469712883769",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "5061d053dee84b8b",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b9bbb39d50bc6d3f",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b64f01e2be0135df",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "4990f83671588ead",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "9e3849efe4e2d4c2",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "724dc17252863a3b",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "18b478527752dc69",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b8209472b686ed1d",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "0f673c91315ad987",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "18eaa827c2c39c4c",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "cae258f653ffcb40",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "0cd587ac15230a3d",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "50ac0b352be4aa67",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "2de59f88339a4504",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ccb901fa786b999a",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "45c8c2bc743f6372",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "8c18c31879d5f852",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ef3910ccf31ce8fd",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ee5dff295f8147f9",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "45eaa881eb8c2209",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "20f29f9d3c240799",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "9b40adacea0e77c0",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "84d53983e368be01",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "da2a40fa18b278c6",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "380c9d403d142300",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b437ebc4419604b2",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "387f8c372dea3532",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b6f7b1a50b75a9cd",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "74d35887601b9113",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "25c5c7e6e87a0981",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "b0c7d01322f7625d",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "962c86db91c9d73f",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "433e3887268f726d",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "d87f81a8c98e88c4",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "200d70a07cc79df8",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "7d81a51e343d1fe5",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "98849d48594e6f7b",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "32a6b9d9d00f98f1",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "1e011016d30adf10",
+      "trials": "all",
+      "reason": "Complete primary signed/CQR sample-size sweep, Gaussian d=3, base_alpha=target_alpha=0.1, n_cal=100."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "d62d892adec04062",
+      "trials": "all",
+      "reason": "Complete primary signed/CQR sample-size sweep, Gaussian d=3, base_alpha=target_alpha=0.1, n_cal=30."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "928d1456b39f8c8f",
+      "trials": "all",
+      "reason": "Complete primary signed/CQR sample-size sweep, Gaussian d=3, base_alpha=target_alpha=0.1, n_cal=50."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "04a924ad4b07dcaf",
+      "trials": "all",
+      "reason": "Complete primary signed/CQR sample-size sweep, Gaussian d=3, base_alpha=target_alpha=0.1, n_cal=200."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "4d743aa44fbecf01",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "16c55eaf72bdbfc2",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "96fd6cffe17799df",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "29459e963d9c82d9",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "e373d0aaa3d0582f",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "08f839ba6a22d1ea",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "61f8eb01d84b9ce9",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "934e8b0ae96e3d1e",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "200d36a63f6a1f21",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "aea1987c8f3f4550",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "a9241983c960e7e1",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "1ee588be4e365124",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "b29fe3a20a383e6c",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "a22ec809a6777341",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "ba873459937c95e9",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "686fa458729fc0ea",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "ab2bc8d0c58dac55",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "f7527d7d8d6b95da",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "783592e873de7398",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "4517d8aac3372329",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "e6d4dd3797e99b49",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "6148e6adc624582c",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "f76843c357b0bc41",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "a79ccba3ef5e641e",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "f2b175d70e3eccce",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "046859dfdfb1ec94",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "679747124bb82d5d",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "3c3bedb541888294",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "c90f0fcc46997140",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "8527e223b376ca56",
+      "trials": "all",
+      "reason": "Entire 100-trial signed-demonstration cohort, including existing sign_witnesses.json trial 66 at test index 0; retain the full cohort, not just the retrospectively identified witness."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "5415b912e421c470",
+      "trials": [
+        0
+      ],
+      "reason": "Fixed trial 0 retained for every remaining configuration, selected by index only; preserves a raw-input/model audit example without conditioning on outcomes."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "3d3354a844bc2064",
+      "trials": "all",
+      "reason": "All three explicitly documented small-sample smoke replications, d=2, n_cal=12; preserves this compact fresh-fit example in full."
+    }
+  ],
+  "selection_rule": "Retain all trials in nine named coherent cohorts; retain trial 0 in every other current settings-map configuration. No performance-based selection. Retain the full existing signed-witness cohort, not only the selected witness.",
+  "out_of_scope_keep_unchanged": [
+    "envelope_method/results/toys",
+    "envelope_method/results/real",
+    "envelope_method/results/extra_real",
+    "envelope_method/results/real_outlier_screen",
+    "envelope_method/results/rf2_diagnosis",
+    "envelope_method/results/rf2_remaining",
+    "envelope_method/results/rf2_remove_one",
+    "envelope_method/results/rf2_standardized_outlier_control",
+    "envelope_method/cqr10",
+    "envelope_method/report_revision",
+    "envelope_method/results/auxiliary",
+    "envelope_method/results/cqr_baselines",
+    "envelope_method/results/toy_baselines",
+    "envelope_method/results/full_lwc_scaling"
+  ],
+  "source_settings": [
+    {
+      "path": "envelope_method\\settings.json",
+      "sha256": "f31f63df6f4af4d9089d618da2f6a9285d36c6af676833383524774454205f67"
+    },
+    {
+      "path": "envelope_method\\notebook_settings.json",
+      "sha256": "ee66ba17a59a042a4b8eba784f6a7faf9afaa22844dc54848b4589ca4842f447"
+    },
+    {
+      "path": "envelope_method\\repair_settings.json",
+      "sha256": "a53e5487d66b6ffb860dde7acf3e58c85eb07800751ea992a83f18b511950c31"
+    }
+  ],
+  "known_demonstration": {
+    "path": "envelope_method/results/cqr/8527e223b376ca56/trial_066.npz",
+    "test_index": 0,
+    "source": "envelope_method/sign_witnesses.json",
+    "retention": "Entire 100-trial cohort retained; the witness was previously found retrospectively and is not a representative performance sample."
+  },
+  "required_migration_guards": [
+    "Keep all scores, bound vectors, CQR base lengths and any existing coefficients or other NPZ members; remove only the six listed X/y members for non-exceptions.",
+    "Retain compact per-trial JSON and CSV metrics for all trials and all current configurations.",
+    "Record original archive SHA-256, compact archive SHA-256, removed member names/shapes/dtypes/hashes, and new archive format/mode in a migration manifest.",
+    "Validate equality of every retained member before replacing a non-exception archive.",
+    "Update readers, resume checks and audits to distinguish full from scores archives; old version-2 raw-shape/whole-file-hash audit is not valid unchanged.",
+    "Keep generator code and environment provenance; do not interpret retained residuals or trial 0 as verification of the intended DGP for every historical trial."
+  ],
+  "summary": {
+    "configurations_in_scope": 225,
+    "full_cohorts": 9,
+    "other_configs_with_trial_0": 216,
+    "full_npz_count": 1319,
+    "full_npz_count_by_kind": {
+      "absolute": 778,
+      "cqr": 541
+    },
+    "full_npz_bytes": 796388868,
+    "full_npz_bytes_by_kind": {
+      "absolute": 675248746,
+      "cqr": 121140122
+    },
+    "full_npz_GiB": 0.7416949309408665
+  },
+  "full_cohort_details": [
+    {
+      "kind": "absolute",
+      "config_id": "898faf279901d34c",
+      "trials": 200,
+      "full_npz_bytes": 153896321,
+      "config": {
+        "kind": "absolute",
+        "d": 2,
+        "n_cal": 30,
+        "alpha": 0.1,
+        "noise_type": "Cauchy",
+        "noise_levels": [
+          2,
+          1
+        ],
+        "n_features": 10,
+        "n_train": 6400,
+        "n_test": 1600,
+        "redraw": true,
+        "generator_kwargs": {}
+      },
+      "sources": [
+        "syn_exps\\cauchy\\tscp_r_cauchy.csv"
+      ],
+      "reason": "Complete d=2, n_cal=30 Cauchy heavy-tail cohort: retain all trials for sensitivity and generator audit; not a claim that configured noise_levels are applied."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "c7ab3684ea5e6952",
+      "trials": 200,
+      "full_npz_bytes": 153843437,
+      "config": {
+        "kind": "absolute",
+        "d": 2,
+        "n_cal": 30,
+        "alpha": 0.1,
+        "noise_type": "Gaussian",
+        "noise_levels": [
+          2,
+          1
+        ],
+        "n_features": 10,
+        "n_train": 6400,
+        "n_test": 1600,
+        "redraw": true,
+        "generator_kwargs": {}
+      },
+      "sources": [
+        "syn_exps\\gaussian\\tscp_r_gaussian.csv"
+      ],
+      "reason": "Complete clean Gaussian absolute-score benchmark: d=2, n_cal=30; retains every trial independently of performance."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "4e11385a5254cc2a",
+      "trials": 200,
+      "full_npz_bytes": 153878041,
+      "config": {
+        "kind": "absolute",
+        "d": 2,
+        "n_cal": 30,
+        "alpha": 0.1,
+        "noise_type": "Laplace",
+        "noise_levels": [
+          2,
+          1
+        ],
+        "n_features": 10,
+        "n_train": 6400,
+        "n_test": 1600,
+        "redraw": true,
+        "generator_kwargs": {}
+      },
+      "sources": [
+        "syn_exps\\laplace\\tscp_r_laplace.csv",
+        "syn_exps\\laplace\\tscp_r_laplace_30sample.csv"
+      ],
+      "reason": "Complete d=2, n_cal=30 Laplace cohort: non-Gaussian comparison and primary inputs for saved paired exact/full-LWC illustrations."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "1e011016d30adf10",
+      "trials": 100,
+      "full_npz_bytes": 23929577,
+      "config": {
+        "kind": "cqr",
+        "d": 3,
+        "n_cal": 100,
+        "alpha": 0.1,
+        "noise_type": "Gaussian",
+        "noise_levels": [
+          3,
+          2,
+          1
+        ],
+        "n_features": 5,
+        "n_train": 2400,
+        "n_test": 600,
+        "redraw": true,
+        "generator_kwargs": {},
+        "base_alpha": 0.1
+      },
+      "sources": [
+        "requested_base_alpha_0.1"
+      ],
+      "reason": "Complete primary signed/CQR sample-size sweep, Gaussian d=3, base_alpha=target_alpha=0.1, n_cal=100."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "d62d892adec04062",
+      "trials": 100,
+      "full_npz_bytes": 23219131,
+      "config": {
+        "kind": "cqr",
+        "d": 3,
+        "n_cal": 30,
+        "alpha": 0.1,
+        "noise_type": "Gaussian",
+        "noise_levels": [
+          3,
+          2,
+          1
+        ],
+        "n_features": 5,
+        "n_train": 2400,
+        "n_test": 600,
+        "redraw": true,
+        "generator_kwargs": {},
+        "base_alpha": 0.1
+      },
+      "sources": [
+        "requested_base_alpha_0.1"
+      ],
+      "reason": "Complete primary signed/CQR sample-size sweep, Gaussian d=3, base_alpha=target_alpha=0.1, n_cal=30."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "928d1456b39f8c8f",
+      "trials": 100,
+      "full_npz_bytes": 23394803,
+      "config": {
+        "kind": "cqr",
+        "d": 3,
+        "n_cal": 50,
+        "alpha": 0.1,
+        "noise_type": "Gaussian",
+        "noise_levels": [
+          3,
+          2,
+          1
+        ],
+        "n_features": 5,
+        "n_train": 2400,
+        "n_test": 600,
+        "redraw": true,
+        "generator_kwargs": {},
+        "base_alpha": 0.1
+      },
+      "sources": [
+        "requested_base_alpha_0.1"
+      ],
+      "reason": "Complete primary signed/CQR sample-size sweep, Gaussian d=3, base_alpha=target_alpha=0.1, n_cal=50."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "04a924ad4b07dcaf",
+      "trials": 100,
+      "full_npz_bytes": 25008904,
+      "config": {
+        "kind": "cqr",
+        "d": 3,
+        "n_cal": 200,
+        "alpha": 0.1,
+        "noise_type": "Gaussian",
+        "noise_levels": [
+          3,
+          2,
+          1
+        ],
+        "n_features": 5,
+        "n_train": 2400,
+        "n_test": 600,
+        "redraw": true,
+        "generator_kwargs": {},
+        "base_alpha": 0.1
+      },
+      "sources": [
+        "requested_base_alpha_0.1"
+      ],
+      "reason": "Complete primary signed/CQR sample-size sweep, Gaussian d=3, base_alpha=target_alpha=0.1, n_cal=200."
+    },
+    {
+      "kind": "cqr",
+      "config_id": "8527e223b376ca56",
+      "trials": 100,
+      "full_npz_bytes": 17133617,
+      "config": {
+        "kind": "cqr",
+        "d": 3,
+        "n_cal": 30,
+        "alpha": 0.1,
+        "noise_type": "Gaussian",
+        "noise_levels": [
+          1,
+          5,
+          10
+        ],
+        "n_features": 6,
+        "n_train": 1600,
+        "n_test": 400,
+        "redraw": true,
+        "generator_kwargs": {},
+        "base_alpha": 0.1,
+        "quantile_params": {
+          "n_estimators": 50,
+          "max_depth": 2,
+          "learning_rate": 0.08,
+          "min_samples_leaf": 5
+        }
+      },
+      "sources": [
+        "smoke_test_cqr.ipynb",
+        "requested_base_alpha_0.1"
+      ],
+      "reason": "Entire 100-trial signed-demonstration cohort, including existing sign_witnesses.json trial 66 at test index 0; retain the full cohort, not just the retrospectively identified witness."
+    },
+    {
+      "kind": "absolute",
+      "config_id": "3d3354a844bc2064",
+      "trials": 3,
+      "full_npz_bytes": 22867,
+      "config": {
+        "kind": "absolute",
+        "d": 2,
+        "n_cal": 12,
+        "alpha": 0.1,
+        "noise_type": "Gaussian",
+        "noise_levels": [
+          2,
+          1
+        ],
+        "n_features": 2,
+        "n_train": 80,
+        "n_test": 20,
+        "redraw": true,
+        "generator_kwargs": {
+          "correlation": 0.4,
+          "correlation_structure": "equicorrelated"
+        }
+      },
+      "sources": [
+        "reviewer_exps/absolute_residual/_smoke/smoke_abs_res_trial.csv"
+      ],
+      "reason": "All three explicitly documented small-sample smoke replications, d=2, n_cal=12; preserves this compact fresh-fit example in full."
+    }
+  ]
+}

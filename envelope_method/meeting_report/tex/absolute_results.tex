@@ -1,0 +1,85 @@
+\section{Absolute residuals: controlled paired comparisons}
+\label{sec:absolute}
+
+\paragraph{Data generation and fitted prediction rule.}
+Each trial independently draws 800 training observations, $n$ calibration
+observations, and 1,200 test observations. Let $X\sim N(0,I_3)$,
+$g(X)=\mathbf 1\{X_1>0\}$, and, for $j=1,\ldots,d$,
+\begin{equation}\label{eq:toy-model}
+ Y_j=X^\top\beta_j+(1+0.8g(X))\tau_j\varepsilon_j,
+ \quad \beta_{kj}=\tfrac12\sin\{(k-1)d+j\},\quad
+ \tau_j=0.6\,4^{(j-1)/(d-1)}.
+\end{equation}
+The four noise laws have zero mean and unit variance: independent Gaussian;
+Gaussian with equicorrelation $0.8$; independent Laplace with scale
+$1/\sqrt2$; and independent standardized lognormal,
+$\varepsilon_j=(e^{0.8Z_j}-e^{0.32})/
+\sqrt{(e^{0.64}-1)e^{0.64}}$ with $Z_j\sim N(0,1)$.
+An OLS model with intercept is fitted on training observations only. Both
+methods use the same absolute residuals
+$E_j(x,y_j)=|y_j-\widehat f_j(x)|$, calibration data, and test observations.
+Thus any difference in this section comes from calibration, not refitting
+or changing the residual definition. A threshold vector $L$ gives
+$\prod_j[\widehat f_j(x)-L_j,\widehat f_j(x)+L_j]$ with volume
+$2^d\prod_jL_j$.
+
+\paragraph{Scope and uncertainty.}
+The calibration-size study uses $d=6$, $\alpha=0.1$, $n\in\{30,80,200\}$,
+four noise laws, and 120 independent fitted trials per setting (1,440 total).
+The target study keeps $d=6,n=80$ and uses Gaussian and Laplace noise at
+$\alpha\in\{0.05,0.1,0.2,0.3\}$; the $0.1$ results are the same trials as
+in the first study. There are 2,160 distinct absolute-score trials overall.
+These are retained independent fitted trials from the earlier report, with
+both methods rerun from the saved scores for this revision; they are not
+new independent replications of that evidence.
+
+Joint coverage is the fraction of test observations inside all coordinate
+intervals. Size comparisons average the \emph{within-trial} volume ratio
+$V_{\rm env}/V_{\rm old}$, not a ratio of pooled means. Error bars are
+pointwise 95\% Student-$t$ Monte Carlo intervals across the 120 trial values.
+Test observations within one fitted trial are not treated as independent
+replications for these error bars. All absolute regions here are finite.
+The old implementation retains its original deterministic $10^{-10}$ score
+jitter; the mathematical theorem uses closed cells without jitter. The
+reported numerical checks use a relative endpoint tolerance of $10^{-8}$.
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=\linewidth]{absolute_n.pdf}
+\caption{Calibration-size comparison on identical absolute residuals.
+Top: joint coverage, with target $0.9$ dashed. Bottom: paired volume ratios;
+faint points are individual fitted trials, diamonds are means, and bars are
+95\% Monte Carlo intervals. Each setting has 120 trials, $d=6$.}
+\label{fig:absolute-n}
+\end{figure}
+
+\input{tex/absolute_numbers}
+
+\begin{figure}[tbp]
+\centering\includegraphics[width=0.88\linewidth]{absolute_alpha.pdf}
+\caption{Miscoverage sensitivity at $n=80,d=6$, 120 fitted trials per point.
+Top: coverage minus $1-\alpha$ (zero is nominal). Bottom: paired volume ratio.
+Error bars describe Monte Carlo uncertainty, not a simultaneous coverage test.}
+\label{fig:absolute-alpha}
+\end{figure}
+
+\paragraph{What the regions look like.}
+Figure~\ref{fig:absolute-region} uses a separately generated two-dimensional
+Laplace trial, $n=30$, $\alpha=0.1$, seed 2026990918 and test input 0, fixed
+before viewing the geometry. The displayed axes subtract the fitted center
+and divide by the known DGP scales $\tau_j$, solely for visualization.
+The enlargement near the upper-right corner makes a modest boundary change
+visible while the main axes preserve its true size. The area ratio is
+$0.9750$: a 2.50\% reduction. Gray shading evaluates the full-conformal
+acceptance rule on a $301\times301$ grid; every accepted grid point is
+inside the envelope. This grid is an illustration, not an exact set-area
+calculation or a coverage experiment. Full LWC is reviewed mathematically;
+the report does not run its exponential full-cell enumeration.
+
+\begin{figure}[H]
+\centering\includegraphics[width=\linewidth]{absolute_region.pdf}
+\caption{One fixed-input absolute-residual region. Orange dashed: old
+shortcut; teal: envelope; gray: full-conformal grid acceptance. Both axes
+use the same coordinate normalization for every method. The right panel shows the
+upper-right corner without changing the scale of the main plot.}
+\label{fig:absolute-region}
+\end{figure}

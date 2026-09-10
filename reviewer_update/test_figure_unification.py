@@ -12,6 +12,7 @@ import pandas as pd
 from pypdf import PdfReader
 from reviewer_update import build_experiment_update as style
 from reviewer_update import build_real_diagnostics as real
+from utility.project_paths import resolve_artifact
 
 LATEX = ROOT / "multi_target_scaling_latex"
 
@@ -19,11 +20,11 @@ LATEX = ROOT / "multi_target_scaling_latex"
 class FigureUnificationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.audit = json.loads((LATEX / "figure_style_audit.json").read_text())
+        cls.audit = json.loads(resolve_artifact(LATEX / "figure_style_audit.json").read_text())
 
     def test_saved_plot_values_match_csvs(self):
         for figure in self.audit["figures"]:
-            sources = {Path(item["path"]).name: pd.read_csv(ROOT / item["path"])
+            sources = {Path(item["path"]).name: pd.read_csv(resolve_artifact(item["path"]))
                        for item in figure["sources"]}
             for row in figure["plotted_rows"]:
                 candidates = [frame for name, frame in sources.items()

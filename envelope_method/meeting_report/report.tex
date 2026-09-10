@@ -1,0 +1,63 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=1in,headheight=14pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs}
+\usepackage{graphicx,caption,float,placeins}
+\usepackage[hidelinks]{hyperref}
+\captionsetup{font=small,labelfont=bf,skip=6pt}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\setlength{\textfloatsep}{14pt}
+\setlength{\intextsep}{12pt}
+\renewcommand{\topfraction}{0.90}
+\renewcommand{\bottomfraction}{0.90}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+\emergencystretch=1.5em
+\graphicspath{{figures/}}
+\hypersetup{pdftitle={From the original link function to surface envelopes},pdfauthor={Research meeting report}}
+\title{From the Original Link Function to Surface Envelopes}
+\author{Research meeting report}
+\date{September 2026}
+\begin{document}
+\begin{center}
+{\Large\bfseries From the Original Link Function to Surface Envelopes\par}
+\vspace{0.7em}
+Research meeting report\qquad September 2026
+\end{center}
+\vspace{0.4em}
+\begin{abstract}
+We revisit the original transductive link function, its small extension to
+signed residuals, global worst-case calibration, and the full local worst-case
+construction. The surface envelope replaces separated location and scale
+bounds by an exact supremum of their ratio. We give its construction and prove
+that, on identical nonnegative residuals, it produces a weakly smaller valid
+rectangle than the original shortcut. Focused paired experiments examine
+calibration size, miscoverage, and prediction-set geometry. A separate signed
+quantile-residual comparison gives the old method capped and two valid shifted
+representations, including a width-dependent shift that preserves all score
+information. All displayed data, code, figures, and source files accompany
+this report in one folder.
+\end{abstract}
+
+\input{tex/theory}
+\input{tex/absolute_results}
+\input{tex/signed_results}
+\FloatBarrier
+\begin{thebibliography}{9}
+\bibitem{fan2025} Yunjie Fan and Matteo Sesia.
+Interpretable Multivariate Conformal Prediction with Fast Transductive
+Standardization. arXiv:2512.15383, 2025.
+\url{https://arxiv.org/abs/2512.15383}.
+The notation and the full LWC review follow the working manuscript supplied
+with this project; source snapshots are included in \texttt{sources/}.
+
+\bibitem{romano2019} Yaniv Romano, Evan Patterson, and Emmanuel J. Cand\`es.
+Conformalized Quantile Regression. \emph{Advances in Neural Information
+Processing Systems}, 32, 2019.
+\url{https://proceedings.neurips.cc/paper/2019/hash/5103c3584b063c431bd1268e9b5e76fb-Abstract.html}.
+\end{thebibliography}
+\end{document}

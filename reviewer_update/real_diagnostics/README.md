@@ -55,6 +55,15 @@ calibration/test residual matrices. The fit phase resumes existing splits.
 Do not reuse that cache for changed models, datasets, or split definitions;
 use a separately named output directory for a different study.
 
+Numerical files live under `data/reviewer_update/real_diagnostics/`: fitted
+residuals and prepared datasets in `cache/`, CSV records and summaries in
+`data/`, and `run_manifest.json` and `verification.json` at the top level.
+The source scripts remain in `reviewer_update/`. These data files are local
+and excluded from GitHub; place the retained data archive at these paths to
+rebuild the existing figures without rerunning experiments. Historical paths
+inside saved provenance records are retained and resolved to the relocated
+files by `utility.project_paths.resolve_artifact`.
+
 Model fits are parallelized across splits. Each estimator and transformer uses
 one job, without changing its statistical hyperparameters. The timing phase
 runs serially after fitting has finished, with native thread pools limited to
@@ -98,8 +107,12 @@ fixture and fallback cases. `validate_real_diagnostics.py` then checks all
 stored indices, coordinate metrics, timing denominators, and event counts.
 
 Four vector PDF figures are written to `reviewer_update/figures` and copied to
-the manuscript's `figures` folder. CSV summaries, trial records, generated
-tables, and the run manifest are copied to
-`multi_target_scaling_latex/experiment_data/real_diagnostics`. The raw fit cache
-is not needed to compile the manuscript. The final verification report is
-`verification.json` beside this README.
+the manuscript's `figures` folder. CSV summaries, trial records, and the run
+manifest are copied to
+`data/multi_target_scaling_latex/experiment_data/real_diagnostics`.
+Generated LaTeX tables remain in `reviewer_update/real_diagnostics/data` and
+are copied to `multi_target_scaling_latex/experiment_data/real_diagnostics`,
+so manuscript compilation uses the retained document assets. The raw fit
+cache and numerical CSVs are not needed to compile the manuscript. The final
+verification report is
+`data/reviewer_update/real_diagnostics/verification.json`.

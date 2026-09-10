@@ -5,17 +5,21 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import sys
 
 from pypdf import PdfReader
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from utility.project_paths import data_path, resolve_artifact
+
 CURRENT = ROOT / "multi_target_scaling_latex"
 BEFORE = ROOT / "reviewer_update/pre_integration_latex"
 
 
 def read(path):
-    return path.read_text(encoding="utf-8")
+    return resolve_artifact(path).read_text(encoding="utf-8")
 
 
 def active(text):
@@ -173,5 +177,7 @@ report = {
     "unresolved_response_manuscript_references": [],
     "scope": "Static integration audit; compilation and visual QA are checked separately.",
 }
-(CURRENT / "integration_audit.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+audit_path = data_path("multi_target_scaling_latex/integration_audit.json")
+audit_path.parent.mkdir(parents=True, exist_ok=True)
+audit_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 print(json.dumps(report, indent=2))

@@ -20,12 +20,14 @@ import pandas as pd
 from scipy.stats import beta
 
 from reviewer_update.run_real_diagnostics import DATASETS, METHODS, OUT, TABLES
+from utility.project_paths import data_path
 from reviewer_update.build_experiment_update import (
     COLORS as DISPLAY_COLORS, MARKERS, METHOD_LABELS, _style_axis,
 )
 
 FIGURES = ROOT / "reviewer_update/figures"
 LATEX = ROOT / "multi_target_scaling_latex"
+LATEX_TABLES = ROOT / "reviewer_update/real_diagnostics/data"
 LABELS = {method: METHOD_LABELS[method] for method in METHODS}
 COLORS = {method: DISPLAY_COLORS[LABELS[method]] for method in METHODS}
 DATA_COLORS = ["#4E79A7", "#E15759", "#59A14F", "#7B61A8", "#B07A26", "#3E9A9A"]
@@ -241,6 +243,7 @@ def search_figures(bs):
 
 
 def write_latex_tables(js, bs):
+    LATEX_TABLES.mkdir(parents=True, exist_ok=True)
     main = bs.loc[np.isclose(bs.alpha, 0.1)].set_index("dataset").loc[DATASETS]
     lines = [r"\begin{tabular}{lrrrrrrr}", r"\toprule",
         r"Dataset & $n$ & \shortstack{Backward\\splits} & \shortstack{Backward\\coordinates} & \shortstack{Fallback\\splits} & \shortstack{Binary only\\(ms)} & \shortstack{Any backward\\(ms)} & \shortstack{Fallback\\(ms)} \\", r"\midrule"]
@@ -255,7 +258,7 @@ def write_latex_tables(js, bs):
             cells.append(f"{value:.3f}" if np.isfinite(value) else "--")
         lines.append(" & ".join(cells) + r" \\")
     lines.extend([r"\bottomrule", r"\end{tabular}"])
-    (TABLES / "real_search_table.tex").write_text("\n".join(lines) + "\n")
+    (LATEX_TABLES / "real_search_table.tex").write_text("\n".join(lines) + "\n")
     lines = [r"\begin{tabular}{lrrrr}", r"\toprule",
              r"Dataset & Emp.\ Copula & Unscaled Max & Point CHR & TSCP \\", r"\midrule"]
     for name in DATASETS:
@@ -265,7 +268,7 @@ def write_latex_tables(js, bs):
             cells.append(f"${row.joint_coverage_mean:.3f}\\,({row.joint_coverage_sd:.3f})$")
         lines.append(" & ".join(cells) + r" \\")
     lines.extend([r"\bottomrule", r"\end{tabular}"])
-    (TABLES / "real_joint_table.tex").write_text("\n".join(lines) + "\n")
+    (LATEX_TABLES / "real_joint_table.tex").write_text("\n".join(lines) + "\n")
 
 
 def main():
@@ -274,17 +277,21 @@ def main():
     marginal_coverage(cs, js)
     search_figures(bs)
     write_latex_tables(js, bs)
-    destination = LATEX / "experiment_data/real_diagnostics"
+    destination = data_path("multi_target_scaling_latex/experiment_data/real_diagnostics")
     destination.mkdir(parents=True, exist_ok=True)
     for path in TABLES.iterdir():
-        if path.suffix not in {".csv", ".tex"}:
+        if path.suffix != ".csv":
             continue
         shutil.copy2(path, destination / path.name)
     shutil.copy2(OUT / "run_manifest.json", destination / "run_manifest.json")
+    document_tables = LATEX / "experiment_data/real_diagnostics"
+    document_tables.mkdir(parents=True, exist_ok=True)
+    for path in LATEX_TABLES.glob("*.tex"):
+        shutil.copy2(path, document_tables / path.name)
     print("JOINT COVERAGE\n", js.to_string(index=False))
     print("SEARCH AT ALPHA 0.1\n", bs.loc[np.isclose(bs.alpha, 0.1)].to_string(index=False))
     print("TSCP COORDINATES\n", cs.loc[cs.method == "TSCP_R"].to_string(index=False))
-    print("Generated four PDF figures and copied all diagnostic CSV files into the manuscript folder.")
+    print("Generated four PDF figures and LaTeX tables; diagnostic CSVs are under data/.")
 
 
 if __name__ == "__main__":
