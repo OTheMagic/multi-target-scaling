@@ -1,16 +1,23 @@
 import math
+from fractions import Fraction
 from typing import Optional
 
 import numpy as np
 
 
 def conformal_rank(n_samples: int, alpha: float) -> int:
-    """Return the 1-based split-conformal order statistic rank."""
+    """Return ceil((n_samples + 1) * (1 - alpha)) using exact arithmetic.
+
+    Interpret alpha through its decimal string representation, so 0.72 means
+    exactly 18/25. Fraction inputs preserve an explicitly supplied rational
+    probability. No decimal truncation or integer-boundary tolerance is used.
+    """
     if n_samples <= 0:
         raise ValueError("n_samples must be positive.")
     if not 0 < alpha < 1:
         raise ValueError("alpha must be in (0, 1).")
-    return math.ceil((1 - alpha) * (n_samples + 1))
+    alpha_exact = Fraction(str(alpha))
+    return math.ceil((1 - alpha_exact) * (n_samples + 1))
 
 
 def conformal_quantile(values, alpha: float, axis: Optional[int] = None):
@@ -19,6 +26,10 @@ def conformal_quantile(values, alpha: float, axis: Optional[int] = None):
 
     This uses np.partition instead of fully sorting the input. It is equivalent
     for the selected order statistic and is faster in repeated experiments.
+    Equal scores retain their original value; this numeric-only helper does
+    not implement randomized acceptance. The extracted methods use
+    tie_breaking.conformal_quantile_pair for scalar calibration. Envelope
+    also uses this numeric helper for its conservative search-pruning bound.
     """
     values = np.asarray(values)
     if axis is None:

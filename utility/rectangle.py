@@ -15,7 +15,7 @@ class Rectangle:
         Upper (maximum) corner of the rectangle in each dimension.
     """
 
-    def __init__(self, upper, lower=None):
+    def __init__(self, upper, lower=None, *, upper_closed=True, allow_empty=False):
         """
         Initialize a new Rectangle instance.
 
@@ -23,8 +23,14 @@ class Rectangle:
         ----------
         upper : array-like
             Upper bounds in each dimension.
-        lower : array-like, optional
-            Lower bounds in each dimension. Defaults to the origin (zeros).
+        lower : float or array-like, optional
+            Closed lower bounds, scalar or shape (d,). Defaults to zeros;
+            negative infinity represents an unbounded lower face.
+        upper_closed : bool or array-like, optional
+            Whether each upper boundary is included. Lower boundaries are closed.
+        allow_empty : bool, optional
+            Preserve bounds with lower > upper as an empty region instead of
+            raising. Defaults to False for existing callers.
         """
         self.upper = np.array(upper, dtype=float)
 
@@ -32,15 +38,29 @@ class Rectangle:
             self.lower = np.zeros(len(self.upper))
         else:
             self.lower = np.array(lower, dtype=float)
-            if len(self.lower) != len(self.upper):
+            if self.lower.ndim == 0:
+                self.lower = np.full(self.upper.shape, self.lower.item())
+            elif self.lower.shape != self.upper.shape:
                 raise ValueError("Unmatched dimension")
+        if np.any(np.isnan(self.lower)) or np.any(np.isposinf(self.lower)):
+            raise ValueError("Lower bounds must be finite or negative infinity")
 
-        if (self.lower > self.upper).any():
+        if not allow_empty and (self.lower > self.upper).any():
             raise ValueError("Each dimension of 'lower' must be less than corresponding dimension of 'upper'.")
+        self.upper_closed = np.broadcast_to(
+            np.asarray(upper_closed, dtype=bool), self.upper.shape
+        ).copy()
+
+    @property
+    def empty(self):
+        """Whether the bounds describe no points, including open singletons."""
+        return bool(np.any(self.lower > self.upper) or np.any(
+            (self.lower == self.upper) & ~self.upper_closed
+        ))
 
     def update_upper(self, new_upper, index=None):
         """
-        Update the upper bound(s) of the rectangle.
+        Update the upper bound(s), preserving the existing boundary closure.
 
         Parameters
         ----------
@@ -78,7 +98,7 @@ class Rectangle:
 
     def info(self):
         """
-        Get the lower and upper corners of the rectangle.
+        Get numeric corners only; use membership methods to honor open boundaries.
 
         Returns
         -------
@@ -107,7 +127,7 @@ class Rectangle:
         np.ndarray
             Lengths along each dimension.
         """
-        return self.upper - self.lower
+        return np.zeros_like(self.upper) if self.empty else self.upper - self.lower
 
     def volume(self):
         """
@@ -118,7 +138,10 @@ class Rectangle:
         float
             The product of lengths in all dimensions.
         """
-        return np.prod(self.length_along_dimensions())
+        lengths = self.length_along_dimensions()
+        if self.empty or np.any(lengths == 0):
+            return 0.0
+        return np.prod(lengths)
 
     def intersects(self, other):
         """
@@ -134,7 +157,7 @@ class Rectangle:
         bool
             True if the rectangles intersect in all dimensions.
         """
-        return np.all(self.lower <= other.upper) and np.all(self.upper >= other.lower)
+        return self.intersection(other) is not None
 
     def intersection(self, other):
         """
@@ -152,11 +175,18 @@ class Rectangle:
         """
         new_lower = np.maximum(self.lower, other.lower)
         new_upper = np.minimum(self.upper, other.upper)
+        new_closed = np.where(
+            self.upper < other.upper, self.upper_closed,
+            np.where(other.upper < self.upper, other.upper_closed,
+                     self.upper_closed & other.upper_closed),
+        )
 
-        if np.any(new_lower > new_upper):
+        if self.empty or other.empty or np.any(new_lower > new_upper) or np.any(
+            (new_lower == new_upper) & ~new_closed
+        ):
             return None
 
-        return Rectangle(new_upper, new_lower)
+        return Rectangle(new_upper, new_lower, upper_closed=new_closed)
 
     def same_as(self, other):
         """
@@ -169,14 +199,15 @@ class Rectangle:
         Returns
         -------
         bool
-            True if lower and upper bounds match within tolerance.
+            True if numeric bounds match within tolerance and closure matches.
         """
         if self.lower.shape != other.lower.shape:
             return False
 
         same_lower = np.all(np.isclose(self.lower, other.lower, rtol=0, atol=1e-8))
         same_upper = np.all(np.isclose(self.upper, other.upper, rtol=0, atol=1e-8))
-        return same_lower and same_upper
+        return (same_lower and same_upper and self.empty == other.empty
+                and np.array_equal(self.upper_closed, other.upper_closed))
 
     def contains(self, point):
         """
@@ -195,7 +226,8 @@ class Rectangle:
         if point.shape != self.lower.shape:
             raise ValueError("Point dimensionality must match the rectangle dimensionality.")
 
-        return bool(np.all(point >= self.lower) and np.all(point <= self.upper))
+        upper_ok = (point < self.upper) | ((point == self.upper) & self.upper_closed)
+        return bool(not self.empty and np.all(point >= self.lower) and np.all(upper_ok))
 
     def contain_points(self, points):
         """
@@ -211,14 +243,15 @@ class Rectangle:
         np.ndarray
             Boolean array indicating point inclusion.
         """
+        points = np.asarray(points, dtype=float)
         if points.ndim != 2:
             raise ValueError("Input 'points' must be a 2D array.")
         if points.shape[1] != self.lower.size:
             raise ValueError(f"Each point must have dimensionality {self.lower.size}, but got {points.shape[1]}.")
 
         cond_lower = (points >= self.lower)
-        cond_upper = (points <= self.upper)
-        inside = np.all(cond_lower & cond_upper, axis=1)
+        cond_upper = (points < self.upper) | ((points == self.upper) & self.upper_closed)
+        inside = np.all(cond_lower & cond_upper, axis=1) & ~np.bool_(self.empty)
 
         return inside
 
