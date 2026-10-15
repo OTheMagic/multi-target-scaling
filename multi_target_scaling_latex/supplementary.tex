@@ -15,6 +15,168 @@
     \Large \textbf{Appendix: Algorithms, Proofs, and Numerical Results}
 \end{center}
 
+\section{A Full-Cell Construction and Its Relation to the Envelope}\label{app:full-cell-envelope}
+
+{\color{blue}
+This appendix develops a full-cell construction that explains the coordinate-wise envelope in Section~\ref{sec:practical-tscp}. We first combine local prediction sets over a rectangular cover and show that their union preserves the oracle coverage event. We then describe its tightest coordinate-wise upper enclosure and prove that the practical envelope encloses this union. This establishes the mathematical relationship between the two constructions; the practical method can be computed using the coordinate-wise steps in the main text.
+
+We retain Assumption~\ref{eq:assumption-scores} and $n\geq2$. Recall that $\hat Q^{\mathcal R}_{1-\alpha}$ is the pseudo-upper bound obtained by taking the supremum of each standardized calibration score over a candidate residual region $\mathcal R$ and then taking the conformal quantile. On the event $\mathbf E^{n+1}\in\mathcal R$, it satisfies $\hat Q^{\mathcal R}_{1-\alpha}\geq\hat Q^{\mathrm{oracle}}_{1-\alpha}$, and the corresponding pseudo prediction set is
+\[
+\hat C(\mathbf X^{n+1};\hat Q^{\mathcal R}_{1-\alpha})
+=\left\{\mathbf y\in\R^d:
+E_j(\mathbf X^{n+1},y_j)\leq\omega_j(\hat Q^{\mathcal R}_{1-\alpha})
+\text{ for all }j\in[d]\right\}.
+\]
+
+\subsection{Combining Local Prediction Sets}\label{app:local-union}
+
+A natural way to make the global prediction set less conservative is to cover residual space with smaller hyper-rectangles. Let $\mathcal P$ be a finite collection of nonempty hyper-rectangles such that $\R^d=\bigcup_{\mathcal R\in\mathcal P}\mathcal R$. We allow neighboring regions to share their boundaries; this retains all boundary points, as in the grid used by the practical construction. For each $\mathcal R\in\mathcal P$, we can repeat the construction of the pseudo prediction set defined in~\eqref{eq:pseudo-prediction-set} and combine these sets to obtain a prediction set that preserves the oracle coverage event:
+\begin{equation}\label{eq:local-prediction-set}
+\hat C^{\mathcal P}(\mathbf X^{n+1})
+=\bigcup_{\mathcal R\in\mathcal P}
+\left(
+\hat C(\mathbf X^{n+1};\hat Q^{\mathcal R}_{1-\alpha})
+\cap
+\left\{\mathbf y\in\R^d:
+\mathbf E(\mathbf X^{n+1},\mathbf y)\in\mathcal R\right\}
+\right).
+\end{equation}
+The intersection inside the union restricts each pseudo prediction set to candidate outcomes whose residuals lie in the corresponding region. There is no need to consider candidate outcomes $\mathbf y$ for which $\mathbf E(\mathbf X^{n+1},\mathbf y)\notin\mathcal R$ within that region, because we already operate under the hypothesis that $\mathbf E^{n+1}\in\mathcal R$. This refinement preserves the guarantee, as demonstrated in the following lemma.
+
+\begin{lemma}\label{lem:local-cover-coverage}
+Let $\mathcal P$ be a finite, possibly data-dependent cover of $\R^d$ by nonempty hyper-rectangles. Under Assumption~\ref{eq:assumption-scores}, with $n\geq2$, the prediction set in~\eqref{eq:local-prediction-set} satisfies
+\[
+\mathbf Y^{n+1}\in\hat C(\mathbf X^{n+1};\hat Q^{\mathrm{oracle}}_{1-\alpha})
+\implies
+\mathbf Y^{n+1}\in\hat C^{\mathcal P}(\mathbf X^{n+1}).
+\]
+The same result holds if $\R^d$ is replaced by any possibly data-dependent subset $K\subseteq\R^d$ such that
+\[
+\mathbf Y^{n+1}\in\hat C(\mathbf X^{n+1};\hat Q^{\mathrm{oracle}}_{1-\alpha})
+\implies
+\mathbf E^{n+1}\in K
+\quad\text{almost surely}.
+\]
+\end{lemma}
+
+\begin{proof}
+On the oracle coverage event, the true residual vector belongs to at least one region $\mathcal R\in\mathcal P$. Lemma~\ref{lemma:pseudo-guarantee} then places $\mathbf Y^{n+1}$ in the corresponding term of the union in~\eqref{eq:local-prediction-set}. The argument does not require the regions to be disjoint or independent of the data.
+\end{proof}
+
+The second part of this lemma outlines an additional way to control the volume of the resulting prediction set. If such a subset $K$ exists and $\mathcal P$ covers $K$, then
+\[
+\hat C^{\mathcal P}(\mathbf X^{n+1})
+\subseteq
+\left\{\mathbf y\in\R^d:
+\mathbf E(\mathbf X^{n+1},\mathbf y)\in K\right\}
+\]
+by a simple set-inclusion argument. For the practical construction, recall from~\eqref{eq:practical-global-region} that
+\[
+\begin{aligned}
+D&=\bigtimes_{j=1}^d D_j,
+\qquad D_j=[a_j,+\infty)\cap\R,\\
+U_j&=\omega_j(\hat Q^D_{1-\alpha}),
+\qquad K=\bigtimes_{j=1}^d\bigl(D_j\cap(-\infty,U_j]\bigr).
+\end{aligned}
+\]
+The domains $D_j$ contain every residual value attainable at the test input. Thus $\mathbf E^{n+1}\in D$ automatically and $\hat Q^D_{1-\alpha}\geq\hat Q^{\mathrm{oracle}}_{1-\alpha}$. Monotonicity of the link functions then implies that the oracle coverage event places $\mathbf E^{n+1}$ in $K$, as required by Lemma~\ref{lem:local-cover-coverage}. Moreover,
+\[
+\left\{\mathbf y\in\R^d:
+\mathbf E(\mathbf X^{n+1},\mathbf y)\in K\right\}
+=\hat C(\mathbf X^{n+1};\hat Q^D_{1-\alpha}).
+\]
+Since $D\subseteq\R^d$, monotonicity of the supremum and the empirical quantile also gives $\hat Q^D_{1-\alpha}\leq\hat Q^{\R^d}_{1-\alpha}$. Restricting the global calculation to the known residual domains therefore cannot enlarge the global prediction set.
+
+When the grid in Section~\ref{sec:practical-grid} is constructed, each nonempty $K_j$ is covered by the closed intervals $I_j^h=[\eta_j^{h-1},\eta_j^h]\cap\R$, for $h\in[N_j]$. Their interior endpoints are the distinct calibration order statistics strictly inside $K_j$, and singleton $K_j$ are retained as single intervals. The full cells and their cover are
+\[
+\mathcal E^{\mathbf h}=\bigtimes_{j=1}^d I_j^{h_j},
+\qquad
+\mathcal P_{n,d}
+=\left\{\mathcal E^{\mathbf h}:
+\mathbf h\in\bigtimes_{j=1}^d[N_j]\right\}.
+\]
+There are at most $(n+1)^d$ cells. Their interiors are disjoint, but neighboring cells share their boundaries, so the union in~\eqref{eq:local-prediction-set} is an ordinary union rather than a disjoint union. Lemma~\ref{lem:local-cover-coverage} applies to this data-driven cover of $K$.
+
+\subsection{The Residual Image and Its Upper-Bound Enclosure}\label{app:union-enclosure}
+
+The prediction set in~\eqref{eq:local-prediction-set} is not necessarily a hyper-rectangle, even for standard choices such as absolute and quantile residuals, due to the intersections and union in its construction.
+
+To keep the interpretability of the prediction set, we can enclose its residual image using coordinate-wise upper bounds. Specifically, let
+\[
+\mathcal E^{\mathcal P}
+:=\left\{\mathbf E(\mathbf X^{n+1},\mathbf y):
+\mathbf y\in\hat C^{\mathcal P}(\mathbf X^{n+1})\right\},
+\qquad
+W_j^{\mathcal P}:=\sup_{\mathbf z\in\mathcal E^{\mathcal P}}z_j,
+\]
+with the convention $\sup\varnothing=-\infty$. These thresholds give the \emph{tightest} enclosure among regions defined solely by coordinate-wise upper bounds. In particular,
+\[
+\hat C^{\mathcal P}(\mathbf X^{n+1})
+\subseteq
+\left\{\mathbf y\in\R^d:
+E_j(\mathbf X^{n+1},y_j)\leq W_j^{\mathcal P}
+\text{ for all }j\in[d]\right\}.
+\]
+Each upper bound is the supremum of the corresponding coordinate over the residual image, so any enclosure defined solely by coordinate-wise upper bounds must use thresholds at least as large. For absolute and quantile residuals, this upper-bound enclosure gives a hyper-rectangle in outcome space whenever it is nonempty. Computing these thresholds directly, however, may require checking all combinations of coordinate intervals.
+
+The practical construction instead uses the computable upper bounds $\overline W_j^{\mathcal P_{n,d}}$ in~\eqref{eq:envelope-upper-endpoints}. Its envelope bounds one coordinate locally while allowing the others to range over their global regions $K_j$. This avoids enumerating all full cells, but it can give a larger set than the tightest upper-bound enclosure of $\mathcal E^{\mathcal P_{n,d}}$. In particular, the coordinate-wise accepted pieces need not verify that a residual vector belongs to a jointly accepted full cell.
+
+\subsection{Containment in the Practical Envelope}\label{app:union-envelope-containment}
+
+For every full cell $\mathcal E^{\mathbf h}$ and coordinate $j$, the inclusions
+\[
+\mathcal E^{\mathbf h}\subseteq\mathcal R_j^{h_j}\subseteq K\subseteq D
+\]
+imply, by monotonicity of the supremum and the empirical quantile, that
+\begin{equation}\label{eq:envelope-quantile-order}
+\hat Q^{\mathcal E^{\mathbf h}}_{1-\alpha}
+\leq\hat Q^{\mathcal R_j^{h_j}}_{1-\alpha}
+\leq\hat Q^D_{1-\alpha}.
+\end{equation}
+This is the key connection between the coordinate-wise envelope and the full-cell construction. It gives an upper bound for each relevant cell quantile without enumerating all combinations of the other coordinates.
+
+\begin{lemma}\label{lem:full-cell-envelope-enclosure}
+Under Assumption~\ref{eq:assumption-scores}, with $n\geq2$, the construction above satisfies
+\[
+\hat C^{\mathcal P_{n,d}}(\mathbf X^{n+1})
+\subseteq\hat C_{\mathrm{TSCP}}(\mathbf X^{n+1})
+\subseteq\hat C(\mathbf X^{n+1};\hat Q^D_{1-\alpha})
+\]
+whenever the grid is constructed. In particular,
+\[
+W_j^{\mathcal P_{n,d}}
+\leq\overline W_j^{\mathcal P_{n,d}}\leq U_j,
+\qquad j\in[d].
+\]
+\end{lemma}
+
+\begin{proof}
+Take $\mathbf y\in\hat C^{\mathcal P_{n,d}}(\mathbf X^{n+1})$ and write $\mathbf e=\mathbf E(\mathbf X^{n+1},\mathbf y)$. For at least one full cell $\mathcal E^{\mathbf h}$, we have $\mathbf e\in\mathcal E^{\mathbf h}$ and $e_j\leq\omega_j(\hat Q^{\mathcal E^{\mathbf h}}_{1-\alpha})$ for every $j$. By~\eqref{eq:envelope-quantile-order} and monotonicity of the link functions,
+\[
+e_j\in I_j^{h_j},
+\qquad
+e_j\leq\omega_j(\hat Q^{\mathcal R_j^{h_j}}_{1-\alpha}).
+\]
+Thus $e_j\in A_j^{h_j}$ and $e_j\leq B_j^{h_j}\leq\overline W_j^{\mathcal P_{n,d}}$ for every $j$. This proves the first inclusion and, on taking suprema over the residual image, the bound $W_j^{\mathcal P_{n,d}}\leq\overline W_j^{\mathcal P_{n,d}}$. Since every accepted piece lies in $K_j$, its upper endpoint is at most $U_j$, proving the remaining bounds and the second inclusion.
+
+Lemma~\ref{lem:local-cover-coverage} now shows that the final set preserves the oracle coverage event. If $K$ is empty, that event cannot occur, while the case $r=n+1$ returns the entire outcome space. The oracle coverage guarantee from Section~\ref{sec:method-oracle} therefore gives the marginal coverage in Theorem~\ref{thm:tscp-envelope-coverage} in all cases.
+\end{proof}
+
+Figure~\ref{fig:global-to-local} illustrates the full-cell construction and its tight upper-bound enclosure in a two-dimensional toy example. The envelope in Section~\ref{sec:practical-envelope} gives a computable enclosure that need not coincide with this tight enclosure.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/partition.pdf}
+\caption{Illustration of the local prediction set in~\eqref{eq:local-prediction-set}, using the residual-space cover $\mathcal P_{n,d}$ in~\eqref{eq:rectangle-explicit}, in a toy example with a two-dimensional outcome variable.
+The gray grid lines are determined by the calibration order statistics.
+The shaded regions represent the intersections of each cell $\mathcal R\in\mathcal P_{n,d}$ with its local residual-space region $\{\mathbf z\in\R^d:z_j\leq\omega_j(\hat Q^{\mathcal R}_{1-\alpha})\text{ for all }j\in[d]\}$.
+For standard residuals with exact domains $D_j$, the solid boundary indicates the tight upper bounds $W_j^{\mathcal P_{n,d}}$ of this union. The larger dashed boundary shows the global region $K$.
+The practical envelope thresholds $\overline W_j^{\mathcal P_{n,d}}$ need not coincide with the tight bounds shown here.}
+  \label{fig:global-to-local}
+\end{figure}
+
+}
+
 \section{Additional Algorithmic Details} \label{app:algorithms}
 
 \subsection{Implementation of Alternative Methods}
@@ -280,42 +442,35 @@ Moreover, it is also a standard result that, if $S^1,\ldots,S^{n+1}$ are almost 
 \end{proof}
 
 \begin{proof}[of Lemma~\ref{lem:solution-key-ineq}]
-From Assumption~\ref{eq:assumption-scores}, we know that $E^1_j,\dots, E^{n+1}_j$ are almost surely distinct for every $j \in [d]$ and $0<\hat{\sigma}^{\mathrm{oracle}}_j < \infty$ almost surely for all $j \in [d]$, which also ensures $S_{\mathrm{oracle}}^{n+1}$ is well-defined.
+From Assumption~\ref{eq:assumption-scores}, we know that for all $j \in [d]$, $E^1_j,\dots, E^{n+1}_j$ are almost surely distinct hence $0<\hat{\sigma}^{\mathrm{oracle}}_j < \infty$ almost surely. This ensures $S_{\mathrm{oracle}}^{n+1}$ is well-defined.
 To prove this lemma, fix any $c \in \R$ and note that
 \begin{align*}
     &S_{\mathrm{oracle}}^{n+1} \leq c \\
     &\iff E^{n+1}_j \leq c\,\hat{\sigma}^{\mathrm{oracle}}_j + \hat{\mu}^{\mathrm{oracle}}_j, \quad \forall j \in [d]\\
     &\iff {E^{n+1}_j - c\sqrt{\frac{1}{n}\sum^{n+1}_{i=1}\left(E^i_j -\frac{1}{n+1}\sum^{n+1}_{i=1}E^i_j \right)^2} - \frac{1}{n+1}\sum^{n+1}_{i=1}E^i_j} \leq 0, \quad \forall j \in [d]\\
     &\iff {\frac{n}{n+1}\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right) - c\sqrt{\frac{1}{n}\sum^{n+1}_{i=1}\left(E^i_j -\frac{1}{n+1}\sum^{n+1}_{i=1}E^i_j \right)^2}} \leq 0, \quad \forall j \in [d]\\
-    &\iff \underbrace{\frac{n}{n+1}\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right) - c\sqrt{\frac{1}{n+1}\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right)^2+(\hat{\sigma}^\mathrm{obs}_j)^2}}_{=: g_j(\mathbf{E}^{n+1})} \leq 0, \quad \forall j \in [d]
+    &\iff {\frac{n}{n+1}\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right) - c\sqrt{\frac{1}{n+1}\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right)^2+(\hat{\sigma}^\mathrm{obs}_j)^2}}\leq 0, \quad \forall j \in [d]\\
+    &\iff {\frac{n}{n+1}\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right) \leq c\sqrt{\frac{1}{n+1}\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right)^2+(\hat{\sigma}^\mathrm{obs}_j)^2}}, \quad \forall j \in [d]
 \end{align*}
-where the last implication follows from Lemma~\ref{lem:1}.
-Everything except $\mathbf{E}^{n+1}$ here is observed, so we can solve this inequality for $\mathbf{E}^{n+1}$ coordinate-wise.
-
-Fix any $j\in [d]$. It follows from the above that
-\begin{align}
-    g_j(\mathbf{E}^{n+1}) \leq 0 \iff \frac{n}{n+1}\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right) \leq c\sqrt{\frac{1}{n+1}\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right)^2+(\hat{\sigma}^\mathrm{obs}_j)^2}.
-    \label{eq:coordinte-wise-key-ineq}
-\end{align}
+where the second to last implication follows from Lemma~\ref{lem:1}.
+Everything except $\mathbf{E}^{n+1}$ here is observed, so we can solve this inequality for $\mathbf{E}^{n+1}$ coordinate-wise. Fix any $j\in [d]$.
 The solution of this inequality in $E^{n+1}_j$ depends on the range of $c$. There are two cases:
 \begin{enumerate}
-\item if $c \geq 0$, then~\eqref{eq:coordinte-wise-key-ineq} holds if and only if \emph{either} $0\leq E^{n+1}_j < \hat{\mu}^\mathrm{obs}_j$ \emph{or} $E^{n+1}_j \geq \hat{\mu}^\mathrm{obs}_j$ and
+\item if $c \geq 0$, then this inequality holds if and only if \emph{either} $E^{n+1}_j < \hat{\mu}^\mathrm{obs}_j$ \emph{or} $E^{n+1}_j \geq \hat{\mu}^\mathrm{obs}_j$ and
     \[
     \left(\frac{n}{n+1}\right)^2\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right)^2 \leq c^2\left(\frac{1}{n+1}(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j)^2 + (\hat{\sigma}^\mathrm{obs}_j)^2\right).
     \]
-\item if $c < 0$, then~\eqref{eq:coordinte-wise-key-ineq} holds if and only if $E^{n+1}_j <  \hat{\mu}^\mathrm{obs}_j$ \emph{and}
+\item if $c < 0$, then this inequality holds if and only if $E^{n+1}_j <  \hat{\mu}^\mathrm{obs}_j$ \emph{and}
     \begin{align*}
         \left(\frac{n}{n+1}\right)^2\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right)^2 \geq c^2\left(\tfrac{1}{n+1}\left(E^{n+1}_j-\hat{\mu}^\mathrm{obs}_j\right)^2 + (\hat{\sigma}^\mathrm{obs}_j)^2\right).
     \end{align*}
   \end{enumerate}
   The solution in both cases relies on solving a quadratic equality in the form $h(x) = 0$, where:
 \[
-h(x):=\left(\frac{n}{n+1}\right)^2\left(x-\hat{\mu}^\mathrm{obs}_j\right)^2 - c^2\tfrac{1}{n+1}\left(x-\hat{\mu}^\mathrm{obs}_j\right)^2 - c^2(\hat{\sigma}^\mathrm{obs}_j)^2 = 0.
+h(x):=\left(\frac{n}{n+1}\right)^2\left(x-\hat{\mu}^\mathrm{obs}_j\right)^2 - \tfrac{c^2}{n+1}\left(x-\hat{\mu}^\mathrm{obs}_j\right)^2 - c^2(\hat{\sigma}^\mathrm{obs}_j)^2 = 0.
 \]
 This equation can be written in the standard quadratic form
-\[
-h(x)= Ax^2+Bx +K = 0,
-\]
+$h(x)= Ax^2+Bx +K = 0$,
 where
 \begin{align*}
  A & = \left(\frac{n}{n+1}\right)^2 - \frac{c^2}{n+1}, \\
@@ -325,35 +480,34 @@ where
 The solution set is:
 \[h(x) = 0 \iff x=
 \begin{cases}
-    \hat{\mu}^\mathrm{obs}_j \pm \hat{\sigma}^\mathrm{obs}_j|c|\sqrt{\tfrac{(n+1)^2}{n^2-(n+1)c^2}}, & c^2 < \tfrac{n^2}{n+1},\\
+    \hat{\mu}^\mathrm{obs}_j + \hat{\sigma}^\mathrm{obs}_j*c\sqrt{\tfrac{(n+1)^2}{n^2-(n+1)c^2}}, & c^2 < \tfrac{n^2}{n+1},\\
     \hat{\mu}^\mathrm{obs}_j, & c^2 = \tfrac{n^2}{n+1} \text{ and } \hat{\sigma}^\mathrm{obs}_j = 0,\\
     \text{no real solution}, &\text{otherwise}.
 \end{cases}
 \]
 We first note that the event $\hat{\sigma}^\mathrm{obs}_j = 0$ occurs if and only if $E^1_j=\ldots=E^n_j$, which has probability zero by Assumption~\ref{eq:assumption-scores}. For the rest, we note that $c^2 < \tfrac{n^2}{n+1}$ implies $A>0$, so $h(x) = Ax^2+Bx +K$ is convex for all $x \geq 0$.
-Analyzing the sign of $h(x)$ in the two cases shows that~\eqref{eq:coordinte-wise-key-ineq} holds almost surely if and only if
+Analyzing the sign of $h(x)$ in the two cases shows that $h(E^{n+1}_j) \leq 0$ holds almost surely if and only if
 \begin{align*}
     &\begin{cases}
     \hat{\mu}^\mathrm{obs}_j \leq E^{n+1}_j \leq \hat{\mu}^\mathrm{obs}_j+\hat{\sigma}^\mathrm{obs}_j|c|\sqrt{\tfrac{(n+1)^2}{n^2-(n+1)c^2}}, & c \geq 0,\, c^2 < \tfrac{n^2}{n+1}, \\[0.5em]
     E^{n+1}_j < \infty , & c \geq 0,\, c^2 \geq \tfrac{n^2}{n+1}, \\[0.5em]
-    0 \leq E^{n+1}_j < \hat{\mu}^\mathrm{obs}_j, & c \geq 0, \\[0.5em]
-    0\leq E^{n+1}_j \leq \hat{\mu}^\mathrm{obs}_j-\hat{\sigma}^\mathrm{obs}_j|c|\sqrt{\tfrac{(n+1)^2}{n^2-(n+1)c^2}}, & c < 0,\, c^2 < \tfrac{n^2}{n+1}, \\[0.5em]
+    E^{n+1}_j < \hat{\mu}^\mathrm{obs}_j, & c \geq 0, \\[0.5em]
+    E^{n+1}_j \leq \hat{\mu}^\mathrm{obs}_j-\hat{\sigma}^\mathrm{obs}_j|c|\sqrt{\tfrac{(n+1)^2}{n^2-(n+1)c^2}}, & c < 0,\, c^2 < \tfrac{n^2}{n+1}, \\[0.5em]
     \text{no solution}, & c < 0,\, c^2 \geq \tfrac{n^2}{n+1}.
     \end{cases}\\
     &\iff \begin{cases}
-    0 \leq E^{n+1}_j \leq \hat{\mu}^\mathrm{obs}_j+\hat{\sigma}^\mathrm{obs}_j|c|\sqrt{\tfrac{(n+1)^2}{n^2-(n+1)c^2}}, & 0\leq c < \tfrac{n}{\sqrt{n+1}}, \\[0.5em]
-    0\leq E^{n+1}_j < \infty , & c\geq\tfrac{n}{\sqrt{n+1}}, \\[0.5em]
-    0\leq E^{n+1}_j \leq \max\left\{0, \hat{\mu}^\mathrm{obs}_j-\hat{\sigma}^\mathrm{obs}_j|c|\sqrt{\tfrac{(n+1)^2}{n^2-(n+1)c^2}}\right\}, & -\tfrac{n}{\sqrt{n+1}} < c<0, \\[0.5em]
+    E^{n+1}_j \leq \hat{\mu}^\mathrm{obs}_j+\hat{\sigma}^\mathrm{obs}_j*c\sqrt{\tfrac{(n+1)^2}{n^2-(n+1)c^2}}, & -\tfrac{n}{\sqrt{n+1}}\leq c < \tfrac{n}{\sqrt{n+1}}, \\[0.5em]
+    E^{n+1}_j < \infty , & c\geq\tfrac{n}{\sqrt{n+1}}, \\[0.5em]
     \text{no solution}, & c \leq - \tfrac{n}{\sqrt{n+1}}.
     \end{cases}
 \end{align*}
 
-Interpreting the ``no-solution'' case as $E^{n+1}_j = 0$, we obtain precisely the expression for $\omega_j(c)$ given in the statement of the lemma. This notation adjustment is harmless because both $E^{n+1}_j = 0$ and $S^{n+1}_{\mathrm{oracle}} \leq -n/\sqrt{n+1}$ are probability-zero events by our Assumption~\ref{eq:assumption-scores} and Lemma~\ref{lem:3}, respectively.
+Interpreting the ``no-solution'' case as $E^{n+1}_j < - \infty$, we obtain precisely the expression for $\omega_j(c)$ given in the statement of the lemma. This notation adjustment is harmless because both $E^{n+1}_j < -\infty$ is a probability-zero event.
 The monotonicity of $\omega_j(c)$ follows immediately from the construction.
 \end{proof}
 
 \begin{proof}[of Lemma~\ref{lem:finite-prediction-guarantee}]
-From Assumption~\ref{eq:assumption-scores}, $E^1_j,\dots, E^{n+1}_j$ are almost surely distinct for every $j \in [d]$ and $0<\hat{\sigma}^{\mathrm{oracle}}_j < \infty$ almost surely for all $j \in [d]$. This ensures $S_{\mathrm{oracle}}^i$ is well-defined for all $i \in [n+1]$. Moreover, we know from Lemma~\ref{lem:3} that
+From Assumption~\ref{eq:assumption-scores}, $E^1_j,\dots, E^{n+1}_j$ are almost surely distinct for every $j \in [d]$ hence $0<\hat{\sigma}^{\mathrm{oracle}}_j < \infty$ almost surely for all $j \in [d]$. This ensures $S_{\mathrm{oracle}}^i$ is well-defined for all $i \in [n+1]$. Also because of the distinctness assumption, we know from Lemma~\ref{lem:3} that
 \[
 \left|\frac{E^i_j - \hat{\mu}^{\mathrm{oracle}}_j}{\hat{\sigma}^{\mathrm{oracle}}_j}\right| < \frac{n}{\sqrt{n+1}},
 \]
@@ -361,7 +515,7 @@ almost surely for all $i \in [n+1]$. Aggregating this inequality for all $j \in 
 \begin{align*}
     |S_{\mathrm{oracle}}^i| = \left|\max_{1\leq j\leq d}\frac{E^i_j - \hat{\mu}^{\mathrm{oracle}}_j}{\hat{\sigma}^{\mathrm{oracle}}_j}\right|\leq \max_{1\leq j\leq d}\left|\frac{E^i_j - \hat{\mu}^{\mathrm{oracle}}_j}{\hat{\sigma}^{\mathrm{oracle}}_j}\right|< \max_{1\leq j\leq d}\frac{n}{\sqrt{n+1}}=\frac{n}{\sqrt{n+1}},
 \end{align*}
-almost surely for all $i \in [n+1]$. Recall that the quantile $\hat{Q}^{\mathrm{oracle}}_{1-\alpha}$ is defined as
+almost surely for all $i \in [n+1]$. Now, recall that the oracle quantile $\hat{Q}^{\mathrm{oracle}}_{1-\alpha}$ is defined as
 \[
 \hat{Q}^{\mathrm{oracle}}_{1-\alpha}:= \lceil(1-\alpha)(n+1)\rceil\text{th smallest value in } \{S_{\mathrm{oracle}}^1,\dots, S_{\mathrm{oracle}}^n, +\infty\},
 \]
@@ -392,23 +546,23 @@ so $\hat{Q}^{\mathrm{oracle}}_{1-\alpha} < n/\sqrt{n+1}$ almost surely if $n \ge
 % This completes the proof.
 % \end{proof}
 
-\begin{proof}[of Lemma~\ref{lem:gwc-rescaling}]
+\begin{proof}[of Lemma~\ref{lem:pseudo-transformation}]
 Fix any $j\in [d]$ and let
 \[
 g(t_j, z_j) := \frac{t_j - \hat{\mu}_{j}(z_j)}{\hat{\sigma}_{j}(z_j)}.
 \]
-Finding the supremum of this $g$ over $z_j \geq 0$ is a simple univariate optimization problem. Expanding $g$ in full, we get
-\[
-g(t_j, z_j) = \frac{t_j - \hat{\mu}_{j}(z_j)}{\hat{\sigma}_{j}(z_j)} = \frac{t_j-\frac{1}{n+1}(z_j+n\hat{\mu}^\mathrm{obs}_j)}{\sqrt{\frac{1}{n+1}(z_j-\hat{\mu}^\mathrm{obs}_j)^2+(\hat{\sigma}^\mathrm{obs}_j)^2}},
-\]
-where the last equality follows from Lemma~\ref{lem:1}.
+Finding the supremum of this $g$ over $z_j\in \mathcal (l_j, u_j)$ is a simple univariate optimization problem. Expanding $g$ in full, we get
+\begin{equation}\label{eq:coordinate-wise-transformation}
+    g(t_j, z_j) = \frac{t_j - \hat{\mu}_{j}(z_j)}{\hat{\sigma}_{j}(z_j)} = \frac{t_j-\frac{1}{n+1}(z_j+n\hat{\mu}^\mathrm{obs}_j)}{\sqrt{\frac{1}{n+1}(z_j-\hat{\mu}^\mathrm{obs}_j)^2+(\hat{\sigma}^\mathrm{obs}_j)^2}},
+\end{equation}
+where the last equality follows from Lemma~\ref{lem:1}. 
 Differentiating $g$ with respect to $z_j$ yields
 \[
 g_{z_j}(t_j, z_j) = 
-\frac{\begin{gathered}
--\tfrac{1}{n+1}\sqrt{\frac{1}{n+1}(z_j-\hat{\mu}^\mathrm{obs}_j)^2+(\hat{\sigma}^\mathrm{obs}_j)^2}\\
-- \big(t_j - \tfrac{1}{n+1}(z_j+n\hat{\mu}^\mathrm{obs}_j)\big)\tfrac{\tfrac{1}{n+1}(z_j-\hat{\mu}^\mathrm{obs}_j)}{\sqrt{\frac{1}{n+1}(z_j-\hat{\mu}^\mathrm{obs}_j)^2+(\hat{\sigma}^\mathrm{obs}_j)^2}}
-\end{gathered}}
+\frac{
+-\tfrac{1}{n+1}\sqrt{\frac{1}{n+1}(z_j-\hat{\mu}^\mathrm{obs}_j)^2+(\hat{\sigma}^\mathrm{obs}_j)^2}
+- \tfrac{\big(t_j - \tfrac{1}{n+1}(z_j+n\hat{\mu}^\mathrm{obs}_j)\big)\tfrac{1}{n+1}(z_j-\hat{\mu}^\mathrm{obs}_j)}{\sqrt{\frac{1}{n+1}(z_j-\hat{\mu}^\mathrm{obs}_j)^2+(\hat{\sigma}^\mathrm{obs}_j)^2}}
+}
 {\frac{1}{n+1}(z_j-\hat{\mu}^\mathrm{obs}_j)^2+(\hat{\sigma}^\mathrm{obs}_j)^2}.
 \]
 Solving $g_{z_j}(t_j,z^*_j)=0$ with respect to $z^*_j$ gives:
@@ -417,27 +571,52 @@ Solving $g_{z_j}(t_j,z^*_j)=0$ with respect to $z^*_j$ gives:
 \quad\Longrightarrow\quad
 z^\ast_j = \hat{\mu}^\mathrm{obs}_j - \frac{(\hat{\sigma}^\mathrm{obs}_j)^2}{t_j-\hat{\mu}^\mathrm{obs}_j}.
 \]
-There are three cases here for any fixed $t_j\geq 0$:
+There are three cases here for any fixed $t_j \in \R$:
 \begin{itemize}
-    \item Case 1: if $g(t_j, z^\ast_j)$ is indeed the global maximum and $z^\ast_j > 0$, then we can just take
+    \item Case 1: if $t_j > \hat{\mu}^\mathrm{obs}_j$, then $g(t_j, z^\ast_j)$ is indeed the global maximum with
     \[
-    \sup_{z_j \geq 0} g(t_j, z_j) = g(t_j, z^\ast_j).
+    \sup_{z_j \in (l_j, u_j)} g(t_j, z_j) = g(t_j, z^\ast_j) = \sqrt{\frac{(t_j-\hat{\mu}^\mathrm{obs}_j)^2}{(\hat{\sigma}^\mathrm{obs}_j)^2}+\frac{1}{n+1}}.
     \]
-    \item Case 2: if $g(t_j, z^\ast_j)$ is not the global maximum or $z^\ast_j < 0$, then the supremum must occur at either $z_j = 0$ or $z_j \rightarrow \infty$ due to the fact that $g_{z_j}$ has only one critical point. Hence,
+    \item Case 2: if $t_j > \hat{\mu}^\mathrm{obs}_j$, then $g(t_j, z^\ast_j)$ is  the global minimum, then the supremum must occur at one of the endpoints due to the fact that $g_{z_j}$ has only one critical point. Hence,
     \[
-    \sup_{z_j \geq 0} g(t_j, z_j) = \max\left\{g(t_j, 0), \lim_{z_j\to\infty} g(t_j,z_j)\right\} = \max\left\{g(t_j, 0), -\frac{1}{\sqrt{n+1}}\right\} .
+    \sup_{z_j \in (l_j, u_j)} g(t_j, z_j) = \max\left\{\lim_{z_j \rightarrow l_j}g(t_j,z_j), \quad \lim_{z_j \rightarrow u_j}g(t_j,z_j)\right\}.
     \]
-    \item Case 3: if $t_j = \hat{\mu}^\mathrm{obs}_j$, then the same derivation shows that the numerator of $g_{z_j}$ reduces to $-\tfrac{1}{n+1}(\hat{\sigma}^\mathrm{obs}_j)^2 < 0$. This implies that $g$ is monotonically decreasing and thus we take
+    \item Case 3: if $t_j = \hat{\mu}^\mathrm{obs}_j$, then the numerator of $g_{z_j}$ reduces to $-\tfrac{1}{n+1}(\hat{\sigma}^\mathrm{obs}_j)^2 < 0$ while its denominator stays strictly positive. This implies that $g$ is monotonically decreasing thus we take
     \[
-    \sup_{z_j \geq 0} g(\hat{\mu}^\mathrm{obs}_j, z_j) = g(\hat{\mu}^\mathrm{obs}_j, 0).
+    \sup_{z_j \in (l_j, u_j)} g(\hat{\mu}^\mathrm{obs}_j, z_j) = \lim_{z_j \rightarrow l_j} g(\hat{\mu}^\mathrm{obs}_j, z_j).
     \]
 \end{itemize}
 
 Collecting all candidates, we obtain the closed form:
 \[
-\sup_{z_j \geq 0} g(t_j, z_j)
-=\max\left\{g\left(t_j, 0\right), g\left(t_j, z^*_j\mathbb{I}\left\{z^*_j \geq 0\right\}\right), -\frac{1}{\sqrt{n+1}}\right\}.
+\sup_{z_j \in (l_j, u_j)} g(t_j, z_j)
+=\max\left\{\lim_{z_j \rightarrow l_j}g(t_j,z_j), \sqrt{\frac{(t_j-\hat{\mu}^\mathrm{obs}_j)^2}{(\hat{\sigma}^\mathrm{obs}_j)^2}+\frac{1}{n+1}}, \lim_{z_j \rightarrow u_j}g(t_j,z_j)\right\}.
 \]
+The fact that for any $t_j$ fixed,
+\[
+\lim_{z_j \rightarrow -\infty}g(t_j,z_j) = \frac{1}{\sqrt{n+1}}, \quad \lim_{z_j \rightarrow +\infty}g(t_j,z_j) = -\frac{1}{\sqrt{n+1}}
+\]
+is just standard calculus by knowing~\eqref{eq:coordinate-wise-transformation}.
+\end{proof}
+
+\begin{proof}[of Lemma~\ref{lem:regional-finite-bounds}]
+For every $i\in[n]$ and $j\in[d]$, coordinatewise distinctness and $n\geq3$ give
+\[
+\frac{(E_j^i-\hat\mu_j^{\mathrm{obs}})^2}
+{(\hat\sigma_j^{\mathrm{obs}})^2}<n-1.
+\]
+Equality in the usual non-strict bound would require all other $n-1$ calibration residuals in that coordinate to be equal. By~\eqref{eq:practical-location-scale} and the Cauchy--Schwarz inequality, for every $z\in\R$,
+\[
+\left|\frac{E_j^i-\hat\mu_j(z)}{\hat\sigma_j(z)}\right|
+\leq
+\sqrt{
+\frac{(E_j^i-\hat\mu_j^{\mathrm{obs}})^2}
+{(\hat\sigma_j^{\mathrm{obs}})^2}
++\frac1{n+1}}
+<T.
+\]
+The bound is uniform in $z$, so all calibration scores $S^i_{\mathcal R}$ lie strictly between $-T$ and $T$, simultaneously for every nonempty $\mathcal R$. The sample-size condition also ensures that
+$\lceil(1-\alpha)(n+1)\rceil\leq n$, so the quantile selects one of these scores.
 \end{proof}
 
 

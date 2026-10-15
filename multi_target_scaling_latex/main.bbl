@@ -1,4 +1,4 @@
-\begin{thebibliography}{45}
+\begin{thebibliography}{46}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -172,6 +172,14 @@ M.~Sadinle, J.~Lei, and L.~Wasserman.
 M.~Sampson and K.-S. Chan.
 \newblock Conformal multi-target hyperrectangles.
 \newblock \emph{Statistical Analysis and Data Mining: The ASA Data Science Journal}, 17\penalty0 (1):\penalty0 3--21, 2024.
+
+\bibitem[Sesia and Candès(2020)]{Sesia_2020}
+M.~Sesia and E.~J. Candès.
+\newblock A comparison of some conformal quantile regression methods.
+\newblock \emph{Stat}, 9\penalty0 (1), Jan. 2020.
+\newblock ISSN 2049-1573.
+\newblock \doi{10.1002/sta4.261}.
+\newblock URL \url{http://dx.doi.org/10.1002/sta4.261}.
 
 \bibitem[Sesia and Romano(2021)]{sesia2021conformal}
 M.~Sesia and Y.~Romano.
